@@ -14,6 +14,15 @@
 		9E3837F02A0A447F003569D9 /* chatty_palTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837EF2A0A447F003569D9 /* chatty_palTests.swift */; };
 		9E3837FA2A0A447F003569D9 /* chatty_palUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837F92A0A447F003569D9 /* chatty_palUITests.swift */; };
 		9E3837FC2A0A447F003569D9 /* chatty_palUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837FB2A0A447F003569D9 /* chatty_palUITestsLaunchTests.swift */; };
+		9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3838082A0A45E0003569D9 /* ChatView.swift */; };
+		9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949C42F606FED009EEF9A /* ChatMessage.swift */; };
+		9EB949D12F6073A5009EEF9A /* SpeechController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949C52F606FFC009EEF9A /* SpeechController.swift */; };
+		9EB949D22F6073B0009EEF9A /* AudioPlaybackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949C72F60700E009EEF9A /* AudioPlaybackDelegate.swift */; };
+		9EB949D32F6073C0009EEF9A /* PollySpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949C62F607009009EEF9A /* PollySpeechService.swift */; };
+		9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949C82F607021009EEF9A /* BotService.swift */; };
+		9EB949D52F6073D6009EEF9A /* TeacherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949C92F607034009EEF9A /* TeacherService.swift */; };
+		9EB949D62F6073F8009EEF9A /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949CA2F60704D009EEF9A /* TranslationService.swift */; };
+		9EB949D72F607404009EEF9A /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949CB2F607062009EEF9A /* MessageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,15 @@
 		9E3837F52A0A447F003569D9 /* chatty-palUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "chatty-palUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E3837F92A0A447F003569D9 /* chatty_palUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatty_palUITests.swift; sourceTree = "<group>"; };
 		9E3837FB2A0A447F003569D9 /* chatty_palUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatty_palUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9E3838082A0A45E0003569D9 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		9EB949C42F606FED009EEF9A /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		9EB949C52F606FFC009EEF9A /* SpeechController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechController.swift; sourceTree = "<group>"; };
+		9EB949C62F607009009EEF9A /* PollySpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollySpeechService.swift; sourceTree = "<group>"; };
+		9EB949C72F60700E009EEF9A /* AudioPlaybackDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlaybackDelegate.swift; sourceTree = "<group>"; };
+		9EB949C82F607021009EEF9A /* BotService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotService.swift; sourceTree = "<group>"; };
+		9EB949C92F607034009EEF9A /* TeacherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeacherService.swift; sourceTree = "<group>"; };
+		9EB949CA2F60704D009EEF9A /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
+		9EB949CB2F607062009EEF9A /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +116,15 @@
 				9E3837E02A0A447E003569D9 /* ContentView.swift */,
 				9E3837E22A0A447F003569D9 /* Assets.xcassets */,
 				9E3837E42A0A447F003569D9 /* Preview Content */,
+				9E3838082A0A45E0003569D9 /* ChatView.swift */,
+				9EB949C42F606FED009EEF9A /* ChatMessage.swift */,
+				9EB949C52F606FFC009EEF9A /* SpeechController.swift */,
+				9EB949C62F607009009EEF9A /* PollySpeechService.swift */,
+				9EB949C72F60700E009EEF9A /* AudioPlaybackDelegate.swift */,
+				9EB949C82F607021009EEF9A /* BotService.swift */,
+				9EB949C92F607034009EEF9A /* TeacherService.swift */,
+				9EB949CA2F60704D009EEF9A /* TranslationService.swift */,
+				9EB949CB2F607062009EEF9A /* MessageView.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -257,8 +284,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EB949D52F6073D6009EEF9A /* TeacherService.swift in Sources */,
+				9EB949D62F6073F8009EEF9A /* TranslationService.swift in Sources */,
 				9E3837E12A0A447E003569D9 /* ContentView.swift in Sources */,
+				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
+				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
+				9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */,
+				9EB949D72F607404009EEF9A /* MessageView.swift in Sources */,
 				9E3837DF2A0A447E003569D9 /* chatty_palApp.swift in Sources */,
+				9EB949D32F6073C0009EEF9A /* PollySpeechService.swift in Sources */,
+				9EB949D22F6073B0009EEF9A /* AudioPlaybackDelegate.swift in Sources */,
+				9EB949D12F6073A5009EEF9A /* SpeechController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +455,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"chatty-pal/Preview Content\"";
 				DEVELOPMENT_TEAM = G5RD7F6C65;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "chatty-pal/Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone will be user to record data.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We will use the speech Recognition for the chat. ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -448,7 +487,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"chatty-pal/Preview Content\"";
 				DEVELOPMENT_TEAM = G5RD7F6C65;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "chatty-pal/Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone will be user to record data.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We will use the speech Recognition for the chat. ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
