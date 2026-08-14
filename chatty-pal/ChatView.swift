@@ -47,10 +47,6 @@ struct ChatView: View {
         LanguageConfig.all[langCode] ?? LanguageConfig.default
     }
 
-    private var chatStorageKey: String {
-        "chat.messages.\(langCode).\(level)"
-    }
-
     private var pollyService: PollySpeechService { PollySpeechService() }
     private var botService: BotService { BotService() }
     private var teacherService: TeacherService { TeacherService() }
@@ -686,29 +682,11 @@ struct ChatView: View {
     }
 
     private func loadChatMessages(code: String, level: String) {
-        guard let data = UserDefaults.standard.data(forKey: chatStorageKey(code: code, level: level)) else {
-            messages = []
-            return
-        }
-        do {
-            messages = try JSONDecoder().decode([ChatMessage].self, from: data)
-        } catch {
-            messages = []
-        }
+        messages = LocalChatStore(languageCode: code, level: level).load()
     }
 
     private func saveCurrentChatMessages() {
-        guard !messages.isEmpty else {
-            UserDefaults.standard.removeObject(forKey: chatStorageKey)
-            return
-        }
-        if let data = try? JSONEncoder().encode(messages) {
-            UserDefaults.standard.set(data, forKey: chatStorageKey)
-        }
-    }
-
-    private func chatStorageKey(code: String, level: String) -> String {
-        "chat.messages.\(code).\(level)"
+        LocalChatStore(languageCode: langCode, level: level).save(messages)
     }
 
     private func fetchSuggestion(for botMessage: String) async {

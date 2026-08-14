@@ -25,6 +25,8 @@
 		9EB949D72F607404009EEF9A /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB949CB2F607062009EEF9A /* MessageView.swift */; };
 		AA0000000000000000000002 /* TranscriptTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000001 /* TranscriptTracker.swift */; };
 		AA0000000000000000000004 /* TranscriptTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000003 /* TranscriptTrackerTests.swift */; };
+		AA0000000000000000000006 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000005 /* ChatStore.swift */; };
+		AA0000000000000000000008 /* LocalChatStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000007 /* LocalChatStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		9EB949CB2F607062009EEF9A /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000001 /* TranscriptTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptTracker.swift; sourceTree = "<group>"; };
 		AA0000000000000000000003 /* TranscriptTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptTrackerTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000005 /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
+		AA0000000000000000000007 /* LocalChatStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalChatStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,7 @@
 				9EB949CA2F60704D009EEF9A /* TranslationService.swift */,
 				9EB949CB2F607062009EEF9A /* MessageView.swift */,
 				AA0000000000000000000001 /* TranscriptTracker.swift */,
+				AA0000000000000000000005 /* ChatStore.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 			children = (
 				9E3837EF2A0A447F003569D9 /* chatty_palTests.swift */,
 				AA0000000000000000000003 /* TranscriptTrackerTests.swift */,
+				AA0000000000000000000007 /* LocalChatStoreTests.swift */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -294,6 +300,7 @@
 				9EB949D62F6073F8009EEF9A /* TranslationService.swift in Sources */,
 				9E3837E12A0A447E003569D9 /* ContentView.swift in Sources */,
 				AA0000000000000000000002 /* TranscriptTracker.swift in Sources */,
+				AA0000000000000000000006 /* ChatStore.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
 				9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */,
@@ -311,6 +318,7 @@
 			files = (
 				9E3837F02A0A447F003569D9 /* chatty_palTests.swift in Sources */,
 				AA0000000000000000000004 /* TranscriptTrackerTests.swift in Sources */,
+				AA0000000000000000000008 /* LocalChatStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
