@@ -32,6 +32,7 @@
 		AA000000000000000000000E /* ChatEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000D /* ChatEngineTests.swift */; };
 		AA0000000000000000000010 /* HomeworkChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000F /* HomeworkChatStore.swift */; };
 		AA0000000000000000000012 /* HomeworkChatStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000011 /* HomeworkChatStoreTests.swift */; };
+		AA0000000000000000000014 /* ChatInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000013 /* ChatInputBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		AA000000000000000000000D /* ChatEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEngineTests.swift; sourceTree = "<group>"; };
 		AA000000000000000000000F /* HomeworkChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkChatStore.swift; sourceTree = "<group>"; };
 		AA0000000000000000000011 /* HomeworkChatStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkChatStoreTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000013 /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				AA0000000000000000000009 /* ChatEngine.swift */,
 				AA000000000000000000000B /* ChatEngineDependencies.swift */,
 				AA000000000000000000000F /* HomeworkChatStore.swift */,
+				AA0000000000000000000013 /* ChatInputBar.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				AA000000000000000000000A /* ChatEngine.swift in Sources */,
 				AA000000000000000000000C /* ChatEngineDependencies.swift in Sources */,
 				AA0000000000000000000010 /* HomeworkChatStore.swift in Sources */,
+				AA0000000000000000000014 /* ChatInputBar.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
 				9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */,

@@ -10,11 +10,9 @@ import SwiftUI
 import WebKit
 
 struct ChatView: View {
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var messageText: String = ""
     @State private var isLoginPresented: Bool = false
     @State private var isPulsing: Bool = false
-    @State private var inputHeight: CGFloat = 44
     @State private var isMenuPresented: Bool = false
     @State private var isSettingsPresented: Bool = false
     @State private var availableChatLanguages: [UserProfileLanguage] = []
@@ -27,8 +25,6 @@ struct ChatView: View {
     @AppStorage("authUsername") private var authUsername: String = ""
     @AppStorage("authEmail") private var authEmail: String = ""
     @AppStorage("authRole") private var authRole: String = ""
-
-    private let inputMaxHeight: CGFloat = 140
 
     init() {
         let code = UserDefaults.standard.string(forKey: "langCode") ?? "de"
@@ -51,47 +47,18 @@ struct ChatView: View {
                 VStack(spacing: 16) {
                     headerView
 
-                    ScrollViewReader { proxy in
-                        ScrollView(.vertical, showsIndicators: false) {
-                            LazyVStack(spacing: 12) {
-                                ForEach(engine.messages) { message in
-                                    MessageView(
-                                        message: message,
-                                        onTeacherTap: {
-                                            engine.speak(message.message)
-                                        },
-                                        onReplayTap: {
-                                            engine.speak(message.message)
-                                        },
-                                        onTranslateTap: {
-                                            Task {
-                                                await engine.translate(message.message)
-                                            }
-                                        },
-                                        onSuggestTap: {
-                                            Task {
-                                                await engine.suggest(for: message.message)
-                                            }
-                                        }
-                                    )
-                                    .id(message.id)
-                                }
-                            }
-                            .padding(.vertical, 8)
-                        }
-                        .onChange(of: engine.messages.count) { _ in
-                            withAnimation(.easeInOut(duration: 0.25)) {
-                                if let lastID = engine.messages.last?.id {
-                                    proxy.scrollTo(lastID, anchor: .bottom)
-                                }
-                            }
-                        }
-                        .onAppear {
-                            if let lastID = engine.messages.last?.id {
-                                proxy.scrollTo(lastID, anchor: .bottom)
-                            }
-                        }
-                    }
+                    ChatMessageList(
+                        messages: engine.messages,
+                        isGenerating: false,
+                        onSpeak: { engine.speak($0.message) },
+                        onTranslate: { message in
+                            Task { await engine.translate(message.message) }
+                        },
+                        onSuggest: { message in
+                            Task { await engine.suggest(for: message.message) }
+                        },
+                        topContent: { EmptyView() }
+                    )
 
                     if engine.isRecording {
                         Text(engine.transcriptText.isEmpty ? "Listening..." : engine.transcriptText)
@@ -228,84 +195,23 @@ struct ChatView: View {
     }
 
     private var inputBar: some View {
-        Group {
-            if horizontalSizeClass == .compact {
-                HStack {
-                    Spacer()
-                    Button(action: { engine.toggleRecording() }) {
-                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
-                            .font(.system(size: 34, weight: .semibold))
-                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
-                            .frame(width: 69, height: 69)
-                            .background(.thinMaterial, in: Circle())
-                            .overlay(
-                                Circle()
-                                    .stroke(ChattyTheme.softHairline, lineWidth: 1)
-                            )
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.red.opacity(0.35), lineWidth: 2)
-                                    .scaleEffect(isPulsing ? 1.35 : 0.9)
-                                    .opacity(isPulsing ? 0 : 0.35)
-                            )
-                    }
-                    .onAppear {
-                        if engine.isRecording {
-                            startPulse()
-                        }
-                    }
-                    .onChange(of: engine.isRecording) { recording in
-                        if recording {
-                            startPulse()
-                        } else {
-                            isPulsing = false
-                        }
-                    }
-                    Spacer()
-                }
-                .padding(.vertical, 6)
-                .modifier(GlassPanelModifier())
+        ChatInputBar(
+            text: $messageText,
+            isRecording: engine.isRecording,
+            isPulsing: isPulsing,
+            onToggleRecording: { engine.toggleRecording() },
+            onSend: sendMessage
+        )
+        .onAppear {
+            if engine.isRecording {
+                startPulse()
+            }
+        }
+        .onChange(of: engine.isRecording) { recording in
+            if recording {
+                startPulse()
             } else {
-                HStack(spacing: 8) {
-                    ZStack(alignment: .leading) {
-                        if messageText.isEmpty {
-                            Text("Type a message...")
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 8)
-                        }
-
-                        TextEditor(text: $messageText)
-                            .font(.body)
-                            .frame(minHeight: 44, maxHeight: min(inputHeight, inputMaxHeight))
-                            .background(
-                                InputHeightReader(text: messageText)
-                            )
-                            .onPreferenceChange(InputHeightKey.self) { height in
-                                inputHeight = max(44, height + 16)
-                            }
-                    }
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 6)
-
-                    Button(action: { engine.toggleRecording() }) {
-                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
-                            .font(.system(size: 28))
-                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
-                    }
-
-                    Button(action: sendMessage) {
-                        Image(systemName: "arrow.up.circle.fill")
-                            .font(.system(size: 28))
-                            .foregroundStyle(
-                                messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                                    ? Color.secondary
-                                    : Color.accentColor
-                            )
-                    }
-                    .disabled(messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
-                .modifier(GlassPanelModifier())
+                isPulsing = false
             }
         }
     }
@@ -403,21 +309,6 @@ struct ChatView: View {
 
 }
 
-private struct GlassPanelModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .padding(.vertical, 4)
-            .background(
-                .thinMaterial,
-                in: RoundedRectangle(cornerRadius: 22, style: .continuous)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .stroke(ChattyTheme.softHairline, lineWidth: 1)
-            )
-    }
-}
-
 private struct GlassButtonModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -432,30 +323,7 @@ private struct GlassButtonModifier: ViewModifier {
     }
 }
 
-private struct InputHeightKey: PreferenceKey {
-    static var defaultValue: CGFloat = 44
 
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-private struct InputHeightReader: View {
-    let text: String
-
-    var body: some View {
-        Text(text.isEmpty ? " " : text)
-            .font(.body)
-            .lineLimit(nil)
-            .padding(.vertical, 8)
-            .background(
-                GeometryReader { proxy in
-                    Color.clear.preference(key: InputHeightKey.self, value: proxy.size.height)
-                }
-            )
-            .opacity(0)
-    }
-}
 
 // MARK: - Google OAuth via WKWebView (Strapi /connect/google flow, same as web)
 
@@ -2161,7 +2029,6 @@ private struct HomeworkDetailView: View {
 private struct HomeworkChatView: View {
     let homework: HomeworkViewModel
     let jwt: String
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.dismiss) private var dismiss
 
     @State private var currentStatus: HomeworkStatus
@@ -2171,10 +2038,7 @@ private struct HomeworkChatView: View {
     @State private var isFinishing = false
     @State private var finishError: String?
     @State private var inputText = ""
-    @State private var inputHeight: CGFloat = 44
     @State private var isPulsing = false
-
-    private let inputMaxHeight: CGFloat = 140
 
     init(homework: HomeworkViewModel, jwt: String) {
         self.homework = homework
@@ -2213,47 +2077,24 @@ private struct HomeworkChatView: View {
                 if let startError { errorBanner(startError) }
                 if let finishError { errorBanner(finishError) }
 
-                ScrollViewReader { proxy in
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVStack(spacing: 12) {
-                            if currentStatus == .new {
-                                startCard
-                            } else if engine.messages.isEmpty {
-                                emptyState
-                            }
-
-                            ForEach(engine.messages) { message in
-                                MessageView(
-                                    message: message,
-                                    onTeacherTap: { engine.speak(message.message) },
-                                    onReplayTap: { engine.speak(message.message) },
-                                    onTranslateTap: { Task { await engine.translate(message.message) } },
-                                    onSuggestTap: { Task { await engine.suggest(for: message.message) } }
-                                )
-                                .id(message.id)
-                            }
-
-                            if engine.isGenerating {
-                                ProgressView("Thinking...")
-                                    .font(.footnote)
-                                    .padding(.vertical, 8)
-                            }
-                        }
-                        .padding(.vertical, 8)
-                    }
-                    .onChange(of: engine.messages.count) { _ in
-                        withAnimation(.easeInOut(duration: 0.25)) {
-                            if let lastID = engine.messages.last?.id {
-                                proxy.scrollTo(lastID, anchor: .bottom)
-                            }
+                ChatMessageList(
+                    messages: engine.messages,
+                    isGenerating: engine.isGenerating,
+                    onSpeak: { engine.speak($0.message) },
+                    onTranslate: { message in
+                        Task { await engine.translate(message.message) }
+                    },
+                    onSuggest: { message in
+                        Task { await engine.suggest(for: message.message) }
+                    },
+                    topContent: {
+                        if currentStatus == .new {
+                            startCard
+                        } else if engine.messages.isEmpty {
+                            emptyState
                         }
                     }
-                    .onAppear {
-                        if let lastID = engine.messages.last?.id {
-                            proxy.scrollTo(lastID, anchor: .bottom)
-                        }
-                    }
-                }
+                )
 
                 if engine.isRecording {
                     Text(engine.transcriptText.isEmpty ? "Listening..." : engine.transcriptText)
@@ -2397,68 +2238,16 @@ private struct HomeworkChatView: View {
     }
 
     private var inputBar: some View {
-        Group {
-            if horizontalSizeClass == .compact {
-                HStack {
-                    Spacer()
-                    Button(action: { engine.toggleRecording() }) {
-                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
-                            .font(.system(size: 34, weight: .semibold))
-                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
-                            .frame(width: 69, height: 69)
-                            .background(.thinMaterial, in: Circle())
-                            .overlay(Circle().stroke(ChattyTheme.softHairline, lineWidth: 1))
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.red.opacity(0.35), lineWidth: 2)
-                                    .scaleEffect(isPulsing ? 1.35 : 0.9)
-                                    .opacity(isPulsing ? 0 : 0.35)
-                            )
-                    }
-                    .onAppear { if engine.isRecording { startPulse() } }
-                    .onChange(of: engine.isRecording) { recording in
-                        if recording { startPulse() } else { isPulsing = false }
-                    }
-                    Spacer()
-                }
-                .padding(.vertical, 6)
-                .modifier(GlassPanelModifier())
-            } else {
-                HStack(spacing: 8) {
-                    ZStack(alignment: .leading) {
-                        if inputText.isEmpty {
-                            Text("Type a message...")
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 8)
-                        }
-
-                        TextEditor(text: $inputText)
-                            .font(.body)
-                            .frame(minHeight: 44, maxHeight: min(inputHeight, inputMaxHeight))
-                            .background(InputHeightReader(text: inputText))
-                            .onPreferenceChange(InputHeightKey.self) { height in
-                                inputHeight = max(44, height + 16)
-                            }
-                    }
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 6)
-
-                    Button(action: { engine.toggleRecording() }) {
-                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
-                            .font(.system(size: 28))
-                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
-                    }
-
-                    Button(action: sendInput) {
-                        Image(systemName: "arrow.up.circle.fill")
-                            .font(.system(size: 28))
-                            .foregroundStyle(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? Color.secondary : Color.accentColor)
-                    }
-                    .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
-                .modifier(GlassPanelModifier())
-            }
+        ChatInputBar(
+            text: $inputText,
+            isRecording: engine.isRecording,
+            isPulsing: isPulsing,
+            onToggleRecording: { engine.toggleRecording() },
+            onSend: sendInput
+        )
+        .onAppear { if engine.isRecording { startPulse() } }
+        .onChange(of: engine.isRecording) { recording in
+            if recording { startPulse() } else { isPulsing = false }
         }
     }
 
