@@ -97,6 +97,7 @@ struct BotService {
     private func request(for baseURL: URL, payload: BotRequest) throws -> URLRequest {
         var request = URLRequest(url: baseURL.appendingNextAPIPath("bot"))
         request.httpMethod = "POST"
+        request.timeoutInterval = 90
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("*/*", forHTTPHeaderField: "Accept")
         if let jwtCookie, !jwtCookie.isEmpty {

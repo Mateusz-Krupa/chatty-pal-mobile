@@ -26,6 +26,7 @@ struct TranslationService {
     func translate(message: String) async throws -> TranslationResponse {
         var request = URLRequest(url: baseURL.appendingNextAPIPath("translate"))
         request.httpMethod = "POST"
+        request.timeoutInterval = 30
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("*/*", forHTTPHeaderField: "Accept")
         if let jwtCookie, !jwtCookie.isEmpty {

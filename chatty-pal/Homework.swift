@@ -155,6 +155,7 @@ struct HomeworkService {
         let url = URL(string: "\(Self.backendURL.absoluteString)/homeworks?populate=*&user=me")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.timeoutInterval = 30
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
@@ -168,6 +169,7 @@ struct HomeworkService {
         let url = URL(string: "\(Self.backendURL.absoluteString)/homeworks/\(id)?populate=*")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.timeoutInterval = 30
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
@@ -181,6 +183,7 @@ struct HomeworkService {
         let url = URL(string: "\(Self.backendURL.absoluteString)/homeworks/\(id)")!
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
+        request.timeoutInterval = 30
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         var payload: [String: Any] = ["status": status.rawValue]

@@ -19,9 +19,10 @@ struct ChatView: View {
     @State private var navigationPath = NavigationPath()
     @State private var engine: ChatEngine
 
+    @State private var session: AuthSession
+
     @AppStorage("langCode") private var langCode: String = "de"
     @AppStorage("level") private var level: String = "B1"
-    @AppStorage("jwt") private var jwt: String = ""
     @AppStorage("authUsername") private var authUsername: String = ""
     @AppStorage("authEmail") private var authEmail: String = ""
     @AppStorage("authRole") private var authRole: String = ""
@@ -29,6 +30,7 @@ struct ChatView: View {
     init() {
         let code = UserDefaults.standard.string(forKey: "langCode") ?? "de"
         let lvl = UserDefaults.standard.string(forKey: "level") ?? "B1"
+        _session = State(initialValue: AuthSession())
         _engine = State(initialValue: ChatEngine(
             persona: .main(language: LanguageConfig.all[code] ?? LanguageConfig.default, level: lvl),
             store: LocalChatStore(languageCode: code, level: lvl),
@@ -36,7 +38,7 @@ struct ChatView: View {
         ))
     }
 
-    private var isLoggedIn: Bool { !jwt.isEmpty }
+    private var isLoggedIn: Bool { session.isAuthenticated }
     private var isTeacher: Bool { authRole == "Teacher" }
 
     var body: some View {
@@ -95,7 +97,7 @@ struct ChatView: View {
                         onNavigate: { engine.interrupt() },
                         onLogin: { isLoginPresented = true },
                         onLogout: {
-                            jwt = ""
+                            session.signOut()
                             authUsername = ""
                             authEmail = ""
                             authRole = ""
@@ -111,7 +113,7 @@ struct ChatView: View {
                 case .policy:
                     PolicyView()
                 case .homework:
-                    HomeworkListView(jwt: jwt)
+                    HomeworkListView(jwt: session.jwt)
                 case .learningMaterials:
                     LearningMaterialsHomeView { lesson in
                         startLearningPractice(lesson)
@@ -125,7 +127,7 @@ struct ChatView: View {
             LoginPanel(
                 onCancel: { isLoginPresented = false },
                 onSuccess: { token, name in
-                    jwt = token
+                    session.signIn(with: token)
                     authUsername = name
                     isLoginPresented = false
                     Task { await loadUserProfile(jwt: token) }
@@ -141,8 +143,8 @@ struct ChatView: View {
         }
         .onAppear {
             applyCurrentPersona()
-            if !jwt.isEmpty {
-                Task { await loadUserProfile(jwt: jwt) }
+            if session.isAuthenticated {
+                Task { await loadUserProfile(jwt: session.jwt) }
             }
         }
         .onChange(of: langCode) { _ in

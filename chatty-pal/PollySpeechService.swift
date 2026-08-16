@@ -19,6 +19,7 @@ struct PollySpeechService {
     func synthesizeSpeech(text: String, voiceId: String?) async throws -> Data {
         var request = URLRequest(url: baseURL.appendingNextAPIPath("synthesize-speech"))
         request.httpMethod = "POST"
+        request.timeoutInterval = 60
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("audio/mp3", forHTTPHeaderField: "Accept")
 

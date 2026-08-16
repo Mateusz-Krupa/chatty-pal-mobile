@@ -22,6 +22,7 @@ struct TeacherService {
     func fixText(message: String, language: String) async throws -> TeacherResponse {
         var request = URLRequest(url: baseURL.appendingNextAPIPath("fix-text"))
         request.httpMethod = "POST"
+        request.timeoutInterval = 30
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("*/*", forHTTPHeaderField: "Accept")
         if let jwtCookie, !jwtCookie.isEmpty {

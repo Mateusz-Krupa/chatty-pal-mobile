@@ -43,6 +43,7 @@
 		AA0000000000000000000026 /* LearningCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000023 /* LearningCatalog.swift */; };
 		AA0000000000000000000027 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000024 /* AuthService.swift */; };
 		AA0000000000000000000028 /* Homework.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000025 /* Homework.swift */; };
+		AA000000000000000000002A /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000029 /* AuthSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		AA0000000000000000000023 /* LearningCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningCatalog.swift; sourceTree = "<group>"; };
 		AA0000000000000000000024 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		AA0000000000000000000025 /* Homework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Homework.swift; sourceTree = "<group>"; };
+		AA0000000000000000000029 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 				AA0000000000000000000023 /* LearningCatalog.swift */,
 				AA0000000000000000000024 /* AuthService.swift */,
 				AA0000000000000000000025 /* Homework.swift */,
+				AA0000000000000000000029 /* AuthSession.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				AA0000000000000000000026 /* LearningCatalog.swift in Sources */,
 				AA0000000000000000000027 /* AuthService.swift in Sources */,
 				AA0000000000000000000028 /* Homework.swift in Sources */,
+				AA000000000000000000002A /* AuthSession.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
 				9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */,

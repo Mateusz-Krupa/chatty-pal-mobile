@@ -65,6 +65,7 @@ struct AuthService {
         let url = URL(string: "\(Self.backendURL.absoluteString)/users/me/?populate=role,user_info,language,teaching,languages")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        request.timeoutInterval = 30
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "Authorization")
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
@@ -75,6 +76,8 @@ struct AuthService {
     }
 
     private func send(_ request: URLRequest) async throws -> AuthResponse {
+        var request = request
+        request.timeoutInterval = 30
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
             let body = String(data: data, encoding: .utf8) ?? ""
