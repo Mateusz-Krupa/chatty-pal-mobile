@@ -2164,39 +2164,29 @@ private struct HomeworkChatView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.dismiss) private var dismiss
 
-    @State private var messages: [ChatMessage] = []
     @State private var currentStatus: HomeworkStatus
+    @State private var engine: ChatEngine
     @State private var isStarting = false
     @State private var startError: String?
-    @State private var isGenerating = false
     @State private var isFinishing = false
     @State private var finishError: String?
     @State private var inputText = ""
     @State private var inputHeight: CGFloat = 44
-    @State private var isRecording = false
     @State private var isPulsing = false
-    @State private var transcriptText = ""
-    @State private var lastSentTranscript = ""
-    @State private var lastSentTranscriptNormalized = ""
-    @State private var suppressSendUntil: Date?
-    @State private var silenceWorkItem: DispatchWorkItem?
-    @State private var speechController = SpeechController(localeIdentifier: "de-DE")
-    @State private var audioPlayer: AVAudioPlayer?
-    @State private var audioDelegate = AudioPlaybackDelegate()
-    @State private var isTTSEnabled = true
-    @State private var wasRecordingBeforeTTS = false
-    @State private var resumeAfterBotResponse = false
 
-    private let pollyService = PollySpeechService()
-    private let botService = BotService()
-    private let teacherService = TeacherService()
-    private let translationService = TranslationService()
     private let inputMaxHeight: CGFloat = 140
 
     init(homework: HomeworkViewModel, jwt: String) {
         self.homework = homework
         self.jwt = jwt
         _currentStatus = State(initialValue: homework.status)
+        let language = homework.languageCode.flatMap { LanguageConfig.all[$0] } ?? LanguageConfig.default
+        let lvl = homework.level ?? "B1"
+        _engine = State(initialValue: ChatEngine(
+            persona: .homework(language: language, level: lvl, prompt: homework.prompt ?? ""),
+            store: HomeworkChatStore(homeworkMessages: homework.messages),
+            dependencies: .live
+        ))
     }
 
     private var isReadOnly: Bool { currentStatus == .finished || currentStatus == .done }
@@ -2211,22 +2201,6 @@ private struct HomeworkChatView: View {
 
     private var practiceLevel: String {
         homework.level ?? "B1"
-    }
-
-    private var systemInstruction: String {
-        let l = practiceLanguage
-        let prompt = homework.prompt ?? ""
-        return """
-        As actor \(l.voice) a lively 25-year-old \(l.country) \(l.genderWord),
-        engage in supportive chat with user. Always remain positive. Respond as \(l.voice) would, apply active listening in conversation.
-        Unsure how to answer? Invent a response.
-        It is very important - to keep the level at \(practiceLevel) level as the readers are learning the language.
-        Embody \(l.voice) as if you're in a movie, respond only in \(l.language) and \(practiceLevel) language level.
-        You will be provided with context how you need to behave in this role.
-
-        YOUR ROLE IS =>
-        \(prompt)
-        """
     }
 
     var body: some View {
@@ -2244,22 +2218,22 @@ private struct HomeworkChatView: View {
                         LazyVStack(spacing: 12) {
                             if currentStatus == .new {
                                 startCard
-                            } else if messages.isEmpty {
+                            } else if engine.messages.isEmpty {
                                 emptyState
                             }
 
-                            ForEach(messages) { message in
+                            ForEach(engine.messages) { message in
                                 MessageView(
                                     message: message,
-                                    onTeacherTap: { Task { await speakResponse(message.message) } },
-                                    onReplayTap: { Task { await speakResponse(message.message) } },
-                                    onTranslateTap: { Task { await translateMessage(message.message) } },
-                                    onSuggestTap: { Task { await fetchSuggestion(for: message.message) } }
+                                    onTeacherTap: { engine.speak(message.message) },
+                                    onReplayTap: { engine.speak(message.message) },
+                                    onTranslateTap: { Task { await engine.translate(message.message) } },
+                                    onSuggestTap: { Task { await engine.suggest(for: message.message) } }
                                 )
                                 .id(message.id)
                             }
 
-                            if isGenerating {
+                            if engine.isGenerating {
                                 ProgressView("Thinking...")
                                     .font(.footnote)
                                     .padding(.vertical, 8)
@@ -2267,18 +2241,27 @@ private struct HomeworkChatView: View {
                         }
                         .padding(.vertical, 8)
                     }
-                    .onChange(of: messages.count) { _ in
+                    .onChange(of: engine.messages.count) { _ in
                         withAnimation(.easeInOut(duration: 0.25)) {
-                            if let lastID = messages.last?.id {
+                            if let lastID = engine.messages.last?.id {
                                 proxy.scrollTo(lastID, anchor: .bottom)
                             }
                         }
                     }
                     .onAppear {
-                        if let lastID = messages.last?.id {
+                        if let lastID = engine.messages.last?.id {
                             proxy.scrollTo(lastID, anchor: .bottom)
                         }
                     }
+                }
+
+                if engine.isRecording {
+                    Text(engine.transcriptText.isEmpty ? "Listening..." : engine.transcriptText)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(10)
+                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
 
                 if isActive { activeControls }
@@ -2290,18 +2273,16 @@ private struct HomeworkChatView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: toggleTTS) {
-                    Image(systemName: isTTSEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                Button(action: { engine.toggleTTS() }) {
+                    Image(systemName: engine.isTTSEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
                 }
             }
         }
         .onAppear {
-            speechController = SpeechController(localeIdentifier: practiceLanguage.speechLocale)
-            loadSavedMessages()
+            engine.isActive = isActive
         }
         .onDisappear {
-            stopSpeechWithoutSend()
-            audioPlayer?.stop()
+            engine.interrupt()
         }
     }
 
@@ -2411,7 +2392,7 @@ private struct HomeworkChatView: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(.green)
-            .disabled(isFinishing || isGenerating || messages.isEmpty)
+            .disabled(isFinishing || engine.isGenerating || engine.messages.isEmpty)
         }
     }
 
@@ -2420,10 +2401,10 @@ private struct HomeworkChatView: View {
             if horizontalSizeClass == .compact {
                 HStack {
                     Spacer()
-                    Button(action: toggleRecording) {
-                        Image(systemName: isRecording ? "waveform.circle.fill" : "mic.circle.fill")
+                    Button(action: { engine.toggleRecording() }) {
+                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
                             .font(.system(size: 34, weight: .semibold))
-                            .foregroundStyle(isRecording ? Color.red : Color.accentColor)
+                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
                             .frame(width: 69, height: 69)
                             .background(.thinMaterial, in: Circle())
                             .overlay(Circle().stroke(ChattyTheme.softHairline, lineWidth: 1))
@@ -2434,8 +2415,8 @@ private struct HomeworkChatView: View {
                                     .opacity(isPulsing ? 0 : 0.35)
                             )
                     }
-                    .onAppear { if isRecording { startPulse() } }
-                    .onChange(of: isRecording) { recording in
+                    .onAppear { if engine.isRecording { startPulse() } }
+                    .onChange(of: engine.isRecording) { recording in
                         if recording { startPulse() } else { isPulsing = false }
                     }
                     Spacer()
@@ -2463,10 +2444,10 @@ private struct HomeworkChatView: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 6)
 
-                    Button(action: toggleRecording) {
-                        Image(systemName: isRecording ? "waveform.circle.fill" : "mic.circle.fill")
+                    Button(action: { engine.toggleRecording() }) {
+                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
                             .font(.system(size: 28))
-                            .foregroundStyle(isRecording ? Color.red : Color.accentColor)
+                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
                     }
 
                     Button(action: sendInput) {
@@ -2479,28 +2460,6 @@ private struct HomeworkChatView: View {
                 .modifier(GlassPanelModifier())
             }
         }
-    }
-
-    private func loadSavedMessages() {
-        guard messages.isEmpty else { return }
-        var loaded: [ChatMessage] = []
-        for msg in homework.messages {
-            let role: ChatMessage.Role
-            switch msg.role {
-            case "user": role = .user
-            case "assistant": role = .assistant
-            case "system":
-                if msg.author == "Teacher" { role = .teacher } else { continue }
-            case "teacher": role = .teacher
-            case "translation": role = .translation
-            case "suggestion": role = .suggestion
-            default: continue
-            }
-            let content = msg.content ?? ""
-            if content.isEmpty { continue }
-            loaded.append(ChatMessage(role: role, message: content))
-        }
-        messages = loaded
     }
 
     private func errorBanner(_ text: String) -> some View {
@@ -2519,16 +2478,13 @@ private struct HomeworkChatView: View {
         Task {
             do {
                 try await HomeworkService().updateHomework(id: homework.id, jwt: jwt, status: .inProgress)
-                await MainActor.run {
-                    currentStatus = .inProgress
-                    isStarting = false
-                }
-                generateBotResponse(for: "lets start")
+                currentStatus = .inProgress
+                engine.isActive = true
+                isStarting = false
+                engine.sendText("lets start")
             } catch {
-                await MainActor.run {
-                    isStarting = false
-                    startError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-                }
+                isStarting = false
+                startError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
             }
         }
     }
@@ -2537,178 +2493,7 @@ private struct HomeworkChatView: View {
         let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
         inputText = ""
-        sendMessage(trimmed)
-    }
-
-    private func sendMessage(_ text: String) {
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, isActive else { return }
-
-        messages.append(ChatMessage(role: .user, message: trimmed))
-        if isRecording {
-            resumeAfterBotResponse = true
-            stopSpeechWithoutSend()
-        }
-        generateBotResponse(for: trimmed)
-        Task { await fetchTeacherFix(for: trimmed) }
-    }
-
-    private func generateBotResponse(for userMessage: String) {
-        isGenerating = true
-        Task {
-            do {
-                let payload = buildBotMessages()
-                let response = try await botService.sendMessage(
-                    instruction: systemInstruction,
-                    message: userMessage,
-                    messages: payload
-                )
-                await MainActor.run {
-                    isGenerating = false
-                    messages.append(ChatMessage(role: .assistant, message: response.message))
-                    Task { await speakResponse(response.message) }
-                }
-            } catch {
-                let msg = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-                await MainActor.run {
-                    isGenerating = false
-                    messages.append(ChatMessage(role: .assistant, message: "Error: \(msg)"))
-                    if resumeAfterBotResponse {
-                        resumeAfterBotResponse = false
-                        startSpeech()
-                    }
-                }
-            }
-        }
-    }
-
-    private func fetchTeacherFix(for userMessage: String) async {
-        do {
-            let response = try await teacherService.fixText(message: userMessage, language: practiceLanguage.language)
-            await MainActor.run {
-                messages.append(ChatMessage(role: .teacher, message: response.message))
-            }
-        } catch {
-            let msg = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            await MainActor.run {
-                messages.append(ChatMessage(role: .teacher, message: "Teacher error: \(msg)"))
-            }
-        }
-    }
-
-    private func translateMessage(_ text: String) async {
-        do {
-            let response = try await translationService.translate(message: text)
-            await MainActor.run {
-                messages.append(ChatMessage(role: .translation, message: response.message))
-            }
-        } catch {
-            let msg = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            await MainActor.run {
-                messages.append(ChatMessage(role: .translation, message: "Translation error: \(msg)"))
-            }
-        }
-    }
-
-    private func fetchSuggestion(for botMessage: String) async {
-        let prompt = """
-        The conversation partner just said: "\(botMessage)"
-        Suggest one short natural way to reply in \(practiceLanguage.language) at \(practiceLevel) CEFR level.
-        Only the reply, nothing else.
-        """
-        do {
-            let payload = buildBotMessages()
-            let response = try await botService.sendMessage(
-                instruction: systemInstruction,
-                message: prompt,
-                messages: payload
-            )
-            await MainActor.run {
-                messages.append(ChatMessage(role: .suggestion, message: response.message))
-            }
-        } catch {
-            let msg = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            await MainActor.run {
-                messages.append(ChatMessage(role: .suggestion, message: "Could not get suggestions: \(msg)"))
-            }
-        }
-    }
-
-    private func buildBotMessages() -> [BotMessage] {
-        let recent = messages.suffix(6)
-        var payload: [BotMessage] = []
-        payload.append(BotMessage(role: "system", content: systemInstruction))
-        for item in recent {
-            if item.role == .teacher || item.role == .translation || item.role == .suggestion {
-                continue
-            }
-            let roleString: String
-            switch item.role {
-            case .system: roleString = "system"
-            case .user: roleString = "user"
-            case .assistant: roleString = "assistant"
-            case .teacher: roleString = "assistant"
-            case .translation: roleString = "assistant"
-            case .suggestion: roleString = "assistant"
-            }
-            payload.append(BotMessage(role: roleString, content: item.message))
-        }
-        return payload
-    }
-
-    private func speakResponse(_ text: String) async {
-        guard isTTSEnabled else { return }
-        if isRecording {
-            wasRecordingBeforeTTS = true
-            stopSpeechWithoutSend()
-        } else {
-            wasRecordingBeforeTTS = false
-        }
-        do {
-            let audioData = try await pollyService.synthesizeSpeech(text: text, voiceId: practiceLanguage.voice)
-            await MainActor.run {
-                do {
-                    try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
-                    try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
-                    audioPlayer = try AVAudioPlayer(data: audioData)
-                    audioDelegate.onFinish = {
-                        if wasRecordingBeforeTTS || resumeAfterBotResponse {
-                            resumeAfterBotResponse = false
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                startSpeech()
-                            }
-                        }
-                    }
-                    audioPlayer?.delegate = audioDelegate
-                    audioPlayer?.prepareToPlay()
-                    audioPlayer?.play()
-                } catch {
-                    audioPlayer = nil
-                }
-            }
-        } catch {
-            if resumeAfterBotResponse {
-                await MainActor.run {
-                    resumeAfterBotResponse = false
-                    startSpeech()
-                }
-            }
-        }
-    }
-
-    private func toggleTTS() {
-        isTTSEnabled.toggle()
-        if !isTTSEnabled {
-            audioPlayer?.stop()
-        }
-    }
-
-    private func toggleRecording() {
-        if isRecording {
-            stopSpeechAndSend()
-        } else {
-            startSpeech()
-        }
+        engine.sendText(trimmed)
     }
 
     private func startPulse() {
@@ -2718,147 +2503,24 @@ private struct HomeworkChatView: View {
         }
     }
 
-    private func startSpeech() {
-        guard isActive else { return }
-        speechController.requestPermissions { granted in
-            guard granted else { return }
-            lastSentTranscript = ""
-            lastSentTranscriptNormalized = ""
-            transcriptText = ""
-            speechController.onTranscription = { text, isFinal in
-                DispatchQueue.main.async {
-                    transcriptText = text
-                    if isFinal {
-                        silenceWorkItem?.cancel()
-                        silenceWorkItem = nil
-                        sendTranscriptIfNeeded()
-                    } else {
-                        scheduleSilenceTimer()
-                    }
-                }
-            }
-            speechController.onError = { _ in
-                DispatchQueue.main.async {
-                    stopSpeechAndSend()
-                }
-            }
-            do {
-                try speechController.startRecording()
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    isRecording = true
-                }
-            } catch {
-                stopSpeechAndSend()
-            }
-        }
-    }
-
-    private func stopSpeechAndSend() {
-        silenceWorkItem?.cancel()
-        silenceWorkItem = nil
-        speechController.stopRecording()
-        withAnimation(.easeInOut(duration: 0.2)) {
-            isRecording = false
-        }
-        suppressSendUntil = Date().addingTimeInterval(0.6)
-        sendTranscriptIfNeeded()
-        lastSentTranscript = ""
-        lastSentTranscriptNormalized = ""
-        transcriptText = ""
-    }
-
-    private func stopSpeechWithoutSend() {
-        silenceWorkItem?.cancel()
-        silenceWorkItem = nil
-        speechController.stopRecording()
-        withAnimation(.easeInOut(duration: 0.2)) {
-            isRecording = false
-        }
-        transcriptText = ""
-        isPulsing = false
-    }
-
-    private func scheduleSilenceTimer() {
-        silenceWorkItem?.cancel()
-        let workItem = DispatchWorkItem {
-            DispatchQueue.main.async {
-                if isRecording {
-                    sendTranscriptIfNeeded()
-                }
-            }
-        }
-        silenceWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: workItem)
-    }
-
-    private func sendTranscriptIfNeeded() {
-        if let suppressSendUntil, Date() < suppressSendUntil {
-            return
-        }
-        let fullTranscript = transcriptText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !fullTranscript.isEmpty else { return }
-        guard normalizeTranscript(fullTranscript) != lastSentTranscriptNormalized else { return }
-
-        let delta = extractNewTranscript(from: fullTranscript)
-        guard !delta.isEmpty else { return }
-
-        sendMessage(delta)
-        lastSentTranscript = fullTranscript
-        lastSentTranscriptNormalized = normalizeTranscript(fullTranscript)
-    }
-
-    private func extractNewTranscript(from fullTranscript: String) -> String {
-        guard !lastSentTranscript.isEmpty else {
-            return fullTranscript.trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-
-        if fullTranscript.hasPrefix(lastSentTranscript) {
-            let index = fullTranscript.index(fullTranscript.startIndex, offsetBy: lastSentTranscript.count)
-            return String(fullTranscript[index...]).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-
-        return fullTranscript.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func normalizeTranscript(_ text: String) -> String {
-        let lowered = text.lowercased()
-        let collapsed = lowered.split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
-        return collapsed.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
     private func finishHomework() {
         guard isActive else { return }
-        stopSpeechWithoutSend()
+        engine.interrupt()
         isFinishing = true
         finishError = nil
-        let cleanedMessages = messages.map { msg -> HomeworkMessage in
-            let role: String
-            let author: String
-            switch msg.role {
-            case .user: role = "user"; author = "Me"
-            case .assistant: role = "assistant"; author = practiceLanguage.voice
-            case .teacher: role = "system"; author = "Teacher"
-            case .system: role = "system"; author = "SYSTEM"
-            case .translation: role = "translation"; author = "Translation"
-            case .suggestion: role = "suggestion"; author = "Help"
-            }
-            return HomeworkMessage(role: role, content: msg.message, author: author)
-        }
+        let cleanedMessages = HomeworkMessageMapper.toHomeworkMessages(engine.messages, voice: practiceLanguage.voice)
         Task {
             do {
                 try await HomeworkService().updateHomework(
                     id: homework.id, jwt: jwt, status: .finished, messages: cleanedMessages
                 )
-                await MainActor.run {
-                    currentStatus = .finished
-                    isFinishing = false
-                    dismiss()
-                }
+                currentStatus = .finished
+                engine.isActive = false
+                isFinishing = false
+                dismiss()
             } catch {
-                await MainActor.run {
-                    isFinishing = false
-                    finishError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-                }
+                isFinishing = false
+                finishError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
             }
         }
     }
