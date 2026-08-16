@@ -40,6 +40,9 @@
 		AA0000000000000000000020 /* LearningViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000019 /* LearningViews.swift */; };
 		AA0000000000000000000021 /* HomeworkViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000001A /* HomeworkViews.swift */; };
 		AA0000000000000000000022 /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000001B /* SettingsSheet.swift */; };
+		AA0000000000000000000026 /* LearningCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000023 /* LearningCatalog.swift */; };
+		AA0000000000000000000027 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000024 /* AuthService.swift */; };
+		AA0000000000000000000028 /* Homework.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000025 /* Homework.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +99,9 @@
 		AA0000000000000000000019 /* LearningViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViews.swift; sourceTree = "<group>"; };
 		AA000000000000000000001A /* HomeworkViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkViews.swift; sourceTree = "<group>"; };
 		AA000000000000000000001B /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
+		AA0000000000000000000023 /* LearningCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningCatalog.swift; sourceTree = "<group>"; };
+		AA0000000000000000000024 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		AA0000000000000000000025 /* Homework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Homework.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +178,9 @@
 				AA0000000000000000000019 /* LearningViews.swift */,
 				AA000000000000000000001A /* HomeworkViews.swift */,
 				AA000000000000000000001B /* SettingsSheet.swift */,
+				AA0000000000000000000023 /* LearningCatalog.swift */,
+				AA0000000000000000000024 /* AuthService.swift */,
+				AA0000000000000000000025 /* Homework.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -351,6 +360,9 @@
 				AA0000000000000000000020 /* LearningViews.swift in Sources */,
 				AA0000000000000000000021 /* HomeworkViews.swift in Sources */,
 				AA0000000000000000000022 /* SettingsSheet.swift in Sources */,
+				AA0000000000000000000026 /* LearningCatalog.swift in Sources */,
+				AA0000000000000000000027 /* AuthService.swift in Sources */,
+				AA0000000000000000000028 /* Homework.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
 				9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */,
