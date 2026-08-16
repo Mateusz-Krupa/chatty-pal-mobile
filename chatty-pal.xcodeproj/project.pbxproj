@@ -27,6 +27,9 @@
 		AA0000000000000000000004 /* TranscriptTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000003 /* TranscriptTrackerTests.swift */; };
 		AA0000000000000000000006 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000005 /* ChatStore.swift */; };
 		AA0000000000000000000008 /* LocalChatStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000007 /* LocalChatStoreTests.swift */; };
+		AA000000000000000000000A /* ChatEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000009 /* ChatEngine.swift */; };
+		AA000000000000000000000C /* ChatEngineDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000B /* ChatEngineDependencies.swift */; };
+		AA000000000000000000000E /* ChatEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000000D /* ChatEngineTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,9 @@
 		AA0000000000000000000003 /* TranscriptTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptTrackerTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000005 /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
 		AA0000000000000000000007 /* LocalChatStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalChatStoreTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000009 /* ChatEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEngine.swift; sourceTree = "<group>"; };
+		AA000000000000000000000B /* ChatEngineDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEngineDependencies.swift; sourceTree = "<group>"; };
+		AA000000000000000000000D /* ChatEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEngineTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +141,8 @@
 				9EB949CB2F607062009EEF9A /* MessageView.swift */,
 				AA0000000000000000000001 /* TranscriptTracker.swift */,
 				AA0000000000000000000005 /* ChatStore.swift */,
+				AA0000000000000000000009 /* ChatEngine.swift */,
+				AA000000000000000000000B /* ChatEngineDependencies.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -153,6 +161,7 @@
 				9E3837EF2A0A447F003569D9 /* chatty_palTests.swift */,
 				AA0000000000000000000003 /* TranscriptTrackerTests.swift */,
 				AA0000000000000000000007 /* LocalChatStoreTests.swift */,
+				AA000000000000000000000D /* ChatEngineTests.swift */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -301,6 +310,8 @@
 				9E3837E12A0A447E003569D9 /* ContentView.swift in Sources */,
 				AA0000000000000000000002 /* TranscriptTracker.swift in Sources */,
 				AA0000000000000000000006 /* ChatStore.swift in Sources */,
+				AA000000000000000000000A /* ChatEngine.swift in Sources */,
+				AA000000000000000000000C /* ChatEngineDependencies.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
 				9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */,
@@ -319,6 +330,7 @@
 				9E3837F02A0A447F003569D9 /* chatty_palTests.swift in Sources */,
 				AA0000000000000000000004 /* TranscriptTrackerTests.swift in Sources */,
 				AA0000000000000000000008 /* LocalChatStoreTests.swift in Sources */,
+				AA000000000000000000000E /* ChatEngineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

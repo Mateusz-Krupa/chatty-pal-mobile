@@ -12,26 +12,14 @@ import WebKit
 struct ChatView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var messageText: String = ""
-    @State private var messages: [ChatMessage] = []
     @State private var isLoginPresented: Bool = false
-    @State private var isRecording: Bool = false
     @State private var isPulsing: Bool = false
     @State private var inputHeight: CGFloat = 44
-    @State private var transcriptText: String = ""
-    @State private var lastSentTranscript: String = ""
-    @State private var lastSentTranscriptNormalized: String = ""
-    @State private var suppressSendUntil: Date?
-    @State private var silenceWorkItem: DispatchWorkItem?
-    @State private var speechController = SpeechController(localeIdentifier: "de-DE")
-    @State private var audioPlayer: AVAudioPlayer?
-    @State private var audioDelegate = AudioPlaybackDelegate()
-    @State private var isTTSEnabled: Bool = true
-    @State private var wasRecordingBeforeTTS: Bool = false
-    @State private var resumeAfterBotResponse: Bool = false
     @State private var isMenuPresented: Bool = false
     @State private var isSettingsPresented: Bool = false
     @State private var availableChatLanguages: [UserProfileLanguage] = []
     @State private var navigationPath = NavigationPath()
+    @State private var engine: ChatEngine
 
     @AppStorage("langCode") private var langCode: String = "de"
     @AppStorage("level") private var level: String = "B1"
@@ -40,35 +28,20 @@ struct ChatView: View {
     @AppStorage("authEmail") private var authEmail: String = ""
     @AppStorage("authRole") private var authRole: String = ""
 
-    private var isLoggedIn: Bool { !jwt.isEmpty }
-    private var isTeacher: Bool { authRole == "Teacher" }
-
-    private var selectedLanguage: Language {
-        LanguageConfig.all[langCode] ?? LanguageConfig.default
-    }
-
-    private var pollyService: PollySpeechService { PollySpeechService() }
-    private var botService: BotService { BotService() }
-    private var teacherService: TeacherService { TeacherService() }
-    private var translationService: TranslationService { TranslationService() }
     private let inputMaxHeight: CGFloat = 140
 
-    private var systemInstruction: String {
-        let l = selectedLanguage
-        return """
-        As actor \(l.voice) a lively 25-year-old \(l.country) \(l.genderWord),
-        engage in supportive chat with a friend. Always remain positive and funny. Respond as \(l.voice) would, you are expert in active listening.
-        Unsure how to answer? Invent a response; it'll help us shape the script later.
-        It is very important - to keep the level at \(level) level as the readers are learning the language.
-        Use some humor in your conversations and try to be as natural as possible.
-
-        NEXT use techniques like:
-        Mirroring, Using humour, Ask Follow-Up Questions, Avoid Monopolizing the Conversation, Balance Sharing and Receiving, but the most important.
-        Don't use emoticons.
-
-        Embody \(l.voice) as if you're in a movie, respond only in \(l.language) with \(level) CEFR level.
-        """
+    init() {
+        let code = UserDefaults.standard.string(forKey: "langCode") ?? "de"
+        let lvl = UserDefaults.standard.string(forKey: "level") ?? "B1"
+        _engine = State(initialValue: ChatEngine(
+            persona: .main(language: LanguageConfig.all[code] ?? LanguageConfig.default, level: lvl),
+            store: LocalChatStore(languageCode: code, level: lvl),
+            dependencies: .live
+        ))
     }
+
+    private var isLoggedIn: Bool { !jwt.isEmpty }
+    private var isTeacher: Bool { authRole == "Teacher" }
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -81,27 +54,23 @@ struct ChatView: View {
                     ScrollViewReader { proxy in
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack(spacing: 12) {
-                                ForEach(messages) { message in
+                                ForEach(engine.messages) { message in
                                     MessageView(
                                         message: message,
                                         onTeacherTap: {
-                                            Task {
-                                                await speakResponse(message.message)
-                                            }
+                                            engine.speak(message.message)
                                         },
                                         onReplayTap: {
-                                            Task {
-                                                await speakResponse(message.message)
-                                            }
+                                            engine.speak(message.message)
                                         },
                                         onTranslateTap: {
                                             Task {
-                                                await translateMessage(message.message)
+                                                await engine.translate(message.message)
                                             }
                                         },
                                         onSuggestTap: {
                                             Task {
-                                                await fetchSuggestion(for: message.message)
+                                                await engine.suggest(for: message.message)
                                             }
                                         }
                                     )
@@ -110,19 +79,27 @@ struct ChatView: View {
                             }
                             .padding(.vertical, 8)
                         }
-                        .onChange(of: messages.count) { _ in
-                            saveCurrentChatMessages()
+                        .onChange(of: engine.messages.count) { _ in
                             withAnimation(.easeInOut(duration: 0.25)) {
-                                if let lastID = messages.last?.id {
+                                if let lastID = engine.messages.last?.id {
                                     proxy.scrollTo(lastID, anchor: .bottom)
                                 }
                             }
                         }
                         .onAppear {
-                            if let lastID = messages.last?.id {
+                            if let lastID = engine.messages.last?.id {
                                 proxy.scrollTo(lastID, anchor: .bottom)
                             }
                         }
+                    }
+
+                    if engine.isRecording {
+                        Text(engine.transcriptText.isEmpty ? "Listening..." : engine.transcriptText)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(10)
+                            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
 
                     inputBar
@@ -141,14 +118,14 @@ struct ChatView: View {
                         currentLanguageCode: langCode,
                         currentLevel: level,
                         onChatSelect: { chat in
-                            stopActiveAudioForNavigation()
+                            engine.interrupt()
                             let nextCode = chat.code.flatMap { LanguageConfig.all[$0] != nil ? $0 : nil } ?? langCode
                             let nextLevel = chat.level.flatMap { LanguageConfig.levels.contains($0) ? $0 : nil } ?? level
                             langCode = nextCode
                             level = nextLevel
-                            loadChatMessages(code: nextCode, level: nextLevel)
+                            applyCurrentPersona()
                         },
-                        onNavigate: stopActiveAudioForNavigation,
+                        onNavigate: { engine.interrupt() },
                         onLogin: { isLoginPresented = true },
                         onLogout: {
                             jwt = ""
@@ -196,18 +173,16 @@ struct ChatView: View {
                 .presentationDragIndicator(.visible)
         }
         .onAppear {
-            speechController = SpeechController(localeIdentifier: selectedLanguage.speechLocale)
-            loadCurrentChatMessages()
+            applyCurrentPersona()
             if !jwt.isEmpty {
                 Task { await loadUserProfile(jwt: jwt) }
             }
         }
         .onChange(of: langCode) { _ in
-            speechController = SpeechController(localeIdentifier: selectedLanguage.speechLocale)
-            loadCurrentChatMessages()
+            applyCurrentPersona()
         }
         .onChange(of: level) { _ in
-            loadCurrentChatMessages()
+            applyCurrentPersona()
         }
     }
 
@@ -232,8 +207,8 @@ struct ChatView: View {
                 .buttonStyle(.bordered)
                 .modifier(GlassButtonModifier())
 
-                Button(action: toggleTTS) {
-                    Image(systemName: isTTSEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                Button(action: { engine.toggleTTS() }) {
+                    Image(systemName: engine.isTTSEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
                         .font(.system(size: 16, weight: .semibold))
                         .padding(10)
                 }
@@ -257,10 +232,10 @@ struct ChatView: View {
             if horizontalSizeClass == .compact {
                 HStack {
                     Spacer()
-                    Button(action: toggleRecording) {
-                        Image(systemName: isRecording ? "waveform.circle.fill" : "mic.circle.fill")
+                    Button(action: { engine.toggleRecording() }) {
+                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
                             .font(.system(size: 34, weight: .semibold))
-                            .foregroundStyle(isRecording ? Color.red : Color.accentColor)
+                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
                             .frame(width: 69, height: 69)
                             .background(.thinMaterial, in: Circle())
                             .overlay(
@@ -275,11 +250,11 @@ struct ChatView: View {
                             )
                     }
                     .onAppear {
-                        if isRecording {
+                        if engine.isRecording {
                             startPulse()
                         }
                     }
-                    .onChange(of: isRecording) { recording in
+                    .onChange(of: engine.isRecording) { recording in
                         if recording {
                             startPulse()
                         } else {
@@ -313,10 +288,10 @@ struct ChatView: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 6)
 
-                    Button(action: toggleRecording) {
-                        Image(systemName: isRecording ? "waveform.circle.fill" : "mic.circle.fill")
+                    Button(action: { engine.toggleRecording() }) {
+                        Image(systemName: engine.isRecording ? "waveform.circle.fill" : "mic.circle.fill")
                             .font(.system(size: 28))
-                            .foregroundStyle(isRecording ? Color.red : Color.accentColor)
+                            .foregroundStyle(engine.isRecording ? Color.red : Color.accentColor)
                     }
 
                     Button(action: sendMessage) {
@@ -354,21 +329,12 @@ struct ChatView: View {
         .ignoresSafeArea()
     }
 
-    private func generateResponse(to userMessage: String) {
-        Task {
-            await fetchBotResponse(for: userMessage)
-        }
-    }
-
     private func startLearningPractice(_ lesson: LearningLesson) {
-        if isRecording {
-            stopSpeechWithoutSend()
-        }
-        audioPlayer?.stop()
+        engine.interrupt()
         messageText = ""
         langCode = lesson.languageCode
         level = lesson.level
-        loadChatMessages(code: lesson.languageCode, level: lesson.level)
+        applyCurrentPersona()
         navigationPath = NavigationPath()
 
         let prompt = """
@@ -380,269 +346,27 @@ struct ChatView: View {
 
         Speak first as the conversation partner. Keep it short, natural, friendly, and only in \(lesson.languageName). Ask one simple question that helps the student begin the role play.
         """
-        generateResponse(to: prompt)
+        engine.sendText(prompt)
     }
 
     private func sendMessage() {
-        guard !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return
-        }
-
-        sendMessage(messageText)
+        let text = messageText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !text.isEmpty else { return }
+        messageText = ""
+        engine.sendText(text)
     }
 
-    private func toggleRecording() {
-        if isRecording {
-            stopSpeechAndSend()
-        } else {
-            startSpeech()
-        }
+    private func applyCurrentPersona() {
+        engine.reload(
+            persona: .main(language: LanguageConfig.all[langCode] ?? LanguageConfig.default, level: level),
+            store: LocalChatStore(languageCode: langCode, level: level)
+        )
     }
 
     private func startPulse() {
         isPulsing = false
         withAnimation(.easeOut(duration: 1.0).repeatForever(autoreverses: false)) {
             isPulsing = true
-        }
-    }
-
-    private func sendMessage(_ text: String) {
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
-
-        let message = ChatMessage(role: .user, message: trimmed)
-        messages.append(message)
-        messageText = ""
-        if isRecording {
-            resumeAfterBotResponse = true
-            stopSpeechWithoutSend()
-        }
-        generateResponse(to: message.message)
-        Task {
-            await fetchTeacherFix(for: message.message)
-        }
-    }
-
-    private func startSpeech() {
-        speechController.requestPermissions { granted in
-            guard granted else { return }
-            lastSentTranscript = ""
-            lastSentTranscriptNormalized = ""
-            transcriptText = ""
-            speechController.onTranscription = { text, isFinal in
-                DispatchQueue.main.async {
-                    transcriptText = text
-                    if isFinal {
-                        // SFSpeech is confident speech ended -> send now, don't wait for the timer.
-                        // This lets you pause/breathe mid-sentence without triggering a premature send.
-                        silenceWorkItem?.cancel()
-                        silenceWorkItem = nil
-                        sendTranscriptIfNeeded()
-                    } else {
-                        // Partial result -> reset the fallback timer in case isFinal never fires.
-                        scheduleSilenceTimer()
-                    }
-                }
-            }
-            speechController.onError = { _ in
-                DispatchQueue.main.async {
-                    stopSpeechAndSend()
-                }
-            }
-            do {
-                try speechController.startRecording()
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    isRecording = true
-                }
-            } catch {
-                stopSpeechAndSend()
-            }
-        }
-    }
-
-    private func stopSpeechAndSend() {
-        silenceWorkItem?.cancel()
-        silenceWorkItem = nil
-        speechController.stopRecording()
-        withAnimation(.easeInOut(duration: 0.2)) {
-            isRecording = false
-        }
-        suppressSendUntil = Date().addingTimeInterval(0.6)
-        sendTranscriptIfNeeded()
-        lastSentTranscript = ""
-        lastSentTranscriptNormalized = ""
-        transcriptText = ""
-    }
-
-    private func stopSpeechWithoutSend() {
-        silenceWorkItem?.cancel()
-        silenceWorkItem = nil
-        speechController.stopRecording()
-        withAnimation(.easeInOut(duration: 0.2)) {
-            isRecording = false
-        }
-        transcriptText = ""
-        isPulsing = false
-    }
-
-    private func stopActiveAudioForNavigation() {
-        resumeAfterBotResponse = false
-        wasRecordingBeforeTTS = false
-        audioPlayer?.stop()
-        audioPlayer = nil
-        if isRecording {
-            stopSpeechWithoutSend()
-        }
-    }
-
-    private func scheduleSilenceTimer() {
-        silenceWorkItem?.cancel()
-        let workItem = DispatchWorkItem {
-            DispatchQueue.main.async {
-                if isRecording {
-                    sendTranscriptIfNeeded()
-                }
-            }
-        }
-        silenceWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: workItem)
-    }
-
-    private func sendTranscriptIfNeeded() {
-        if let suppressSendUntil, Date() < suppressSendUntil {
-            return
-        }
-        let fullTranscript = transcriptText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !fullTranscript.isEmpty else { return }
-        guard normalizeTranscript(fullTranscript) != lastSentTranscriptNormalized else { return }
-
-        let delta = extractNewTranscript(from: fullTranscript)
-        guard !delta.isEmpty else { return }
-
-        sendMessage(delta)
-        lastSentTranscript = fullTranscript
-        lastSentTranscriptNormalized = normalizeTranscript(fullTranscript)
-    }
-
-    private func extractNewTranscript(from fullTranscript: String) -> String {
-        guard !lastSentTranscript.isEmpty else {
-            return fullTranscript.trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-
-        if fullTranscript.hasPrefix(lastSentTranscript) {
-            let index = fullTranscript.index(fullTranscript.startIndex, offsetBy: lastSentTranscript.count)
-            return String(fullTranscript[index...]).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-
-        return fullTranscript.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func normalizeTranscript(_ text: String) -> String {
-        let lowered = text.lowercased()
-        let collapsed = lowered.split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
-        return collapsed.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func speakResponse(_ text: String, voiceId: String? = nil) async {
-        guard isTTSEnabled else { return }
-        if isRecording {
-            wasRecordingBeforeTTS = true
-            stopSpeechWithoutSend()
-        } else {
-            wasRecordingBeforeTTS = false
-        }
-        do {
-            let resolvedVoice = voiceId ?? selectedLanguage.voice
-            let audioData = try await pollyService.synthesizeSpeech(text: text, voiceId: resolvedVoice)
-            DispatchQueue.main.async {
-                do {
-                    try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
-                    try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
-                    audioPlayer = try AVAudioPlayer(data: audioData)
-                    audioDelegate.onFinish = {
-                        if wasRecordingBeforeTTS || resumeAfterBotResponse {
-                            resumeAfterBotResponse = false
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                startSpeech()
-                            }
-                        }
-                    }
-                    audioPlayer?.delegate = audioDelegate
-                    audioPlayer?.prepareToPlay()
-                    audioPlayer?.play()
-                } catch {
-                    audioPlayer = nil
-                }
-            }
-        } catch {
-            // No-op for now; keep UI responsive if speech fails.
-        }
-    }
-
-    private func toggleTTS() {
-        isTTSEnabled.toggle()
-        if !isTTSEnabled {
-            audioPlayer?.stop()
-        }
-    }
-
-    private func fetchBotResponse(for userMessage: String) async {
-        do {
-            let payloadMessages = buildBotMessages()
-            let response = try await botService.sendMessage(
-                instruction: systemInstruction,
-                message: userMessage,
-                messages: payloadMessages
-            )
-            let botMessage = ChatMessage(role: .assistant, message: response.message)
-            DispatchQueue.main.async {
-                messages.append(botMessage)
-                Task {
-                    await speakResponse(response.message)
-                }
-            }
-        } catch {
-            let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            let botMessage = ChatMessage(role: .assistant, message: "Error: \(message)")
-            DispatchQueue.main.async {
-                messages.append(botMessage)
-            }
-            if resumeAfterBotResponse {
-                resumeAfterBotResponse = false
-                startSpeech()
-            }
-        }
-    }
-
-    private func fetchTeacherFix(for userMessage: String) async {
-        do {
-            let response = try await teacherService.fixText(message: userMessage, language: selectedLanguage.language)
-            let teacherMessage = ChatMessage(role: .teacher, message: response.message)
-            DispatchQueue.main.async {
-                messages.append(teacherMessage)
-            }
-        } catch {
-            let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            let teacherMessage = ChatMessage(role: .teacher, message: "Teacher error: \(message)")
-            DispatchQueue.main.async {
-                messages.append(teacherMessage)
-            }
-        }
-    }
-
-    private func translateMessage(_ text: String) async {
-        do {
-            let response = try await translationService.translate(message: text)
-            let translationMessage = ChatMessage(role: .translation, message: response.message)
-            DispatchQueue.main.async {
-                messages.append(translationMessage)
-            }
-        } catch {
-            let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            let translationMessage = ChatMessage(role: .translation, message: "Translation error: \(message)")
-            DispatchQueue.main.async {
-                messages.append(translationMessage)
-            }
         }
     }
 
@@ -667,82 +391,16 @@ struct ChatView: View {
                     langCode = code
                 }
                 if let lvl = profile.language?.level, !lvl.isEmpty,
-                   LanguageConfig.levels.contains(lvl) {
+                    LanguageConfig.levels.contains(lvl) {
                     level = lvl
                 }
-                loadCurrentChatMessages()
+                applyCurrentPersona()
             }
         } catch {
             // Non-fatal — keep local defaults if profile fetch fails
         }
     }
 
-    private func loadCurrentChatMessages() {
-        loadChatMessages(code: langCode, level: level)
-    }
-
-    private func loadChatMessages(code: String, level: String) {
-        messages = LocalChatStore(languageCode: code, level: level).load()
-    }
-
-    private func saveCurrentChatMessages() {
-        LocalChatStore(languageCode: langCode, level: level).save(messages)
-    }
-
-    private func fetchSuggestion(for botMessage: String) async {
-        let l = selectedLanguage
-        let prompt = """
-        The conversation partner just said: "\(botMessage)"
-        Suggest one short natural way to reply in \(l.language) at \(level) CEFR level.
-        Only the reply, nothing else.
-        """
-        do {
-            let payloadMessages = buildBotMessages()
-            let response = try await botService.sendMessage(
-                instruction: systemInstruction,
-                message: prompt,
-                messages: payloadMessages
-            )
-            let suggestionMessage = ChatMessage(role: .suggestion, message: response.message)
-            DispatchQueue.main.async {
-                messages.append(suggestionMessage)
-            }
-        } catch {
-            let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            let suggestionMessage = ChatMessage(role: .suggestion, message: "Could not get suggestions: \(message)")
-            DispatchQueue.main.async {
-                messages.append(suggestionMessage)
-            }
-        }
-    }
-
-    private func buildBotMessages() -> [BotMessage] {
-        let recent = messages.suffix(6)
-        var payload: [BotMessage] = []
-        payload.append(BotMessage(role: "system", content: systemInstruction))
-        for item in recent {
-            if item.role == .teacher || item.role == .translation || item.role == .suggestion {
-                continue
-            }
-            let roleString: String
-            switch item.role {
-            case .system:
-                roleString = "system"
-            case .user:
-                roleString = "user"
-            case .assistant:
-                roleString = "assistant"
-            case .teacher:
-                roleString = "assistant"
-            case .translation:
-                roleString = "assistant"
-            case .suggestion:
-                roleString = "assistant"
-            }
-            payload.append(BotMessage(role: roleString, content: item.message))
-        }
-        return payload
-    }
 }
 
 private struct GlassPanelModifier: ViewModifier {
