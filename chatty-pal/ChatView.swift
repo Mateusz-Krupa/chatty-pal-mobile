@@ -284,6 +284,7 @@ struct ChatView: View {
         do {
             let profile = try await AuthService().getMe(jwt: jwt)
             await MainActor.run {
+                authUsername = profile.username
                 authEmail = profile.email
                 authRole = profile.role?.name ?? ""
                 let profileChats = (profile.languages?.isEmpty == false)
@@ -305,7 +306,18 @@ struct ChatView: View {
                 applyCurrentPersona()
             }
         } catch {
-            // Non-fatal — keep local defaults if profile fetch fails
+            var isAuthFailure = false
+            if case .badRequest(let status, _)? = error as? AuthError {
+                isAuthFailure = status == 401 || status == 403
+            }
+            if isAuthFailure {
+                session.signOut()
+                authUsername = ""
+                authEmail = ""
+                authRole = ""
+                availableChatLanguages = []
+            }
+            // Other failures are non-fatal — keep local state
         }
     }
 
