@@ -46,12 +46,12 @@
 
 ## 5. Faza E: Sprechen (scenariusze Teil 1–4)
 
-- [ ] 5.1 Teil 1: Sich vorstellen (jest), Personen vorstellen
-- [ ] 5.2 Teil 2: Bild beschreiben (scenariusz z opisem obrazu w text)
-- [ ] 5.3 Teil 3: Situationen — telefon, Restaurant, Arzt, Einkaufen (4 scenariusze)
-- [ ] 5.4 Teil 4: Vorstellen/Einladung (krótka prezentacja + pytania egzaminatora)
-- [ ] 5.5 Każda jednostka speaking: speakingScenario (pełny prompt scenariusza) + Vokabeln do tematu
-- [ ] 5.6 Build + testy + commit "Exam A1 phase E: speaking scenarios Teil 1-4"
+- [x] 5.1 Teil 1: Sich vorstellen (jest), Personen vorstellen
+- [x] 5.2 Teil 2: Bild beschreiben (scenariusz z opisem obrazu w text)
+- [x] 5.3 Teil 3: Situationen — telefon, Restaurant, Arzt, Einkaufen (4 scenariusze)
+- [x] 5.4 Teil 4: Vorstellen/Einladung (krótka prezentacja + pytania egzaminatora)
+- [x] 5.5 Każda jednostka speaking: speakingScenario (pełny prompt scenariusza) + Vokabeln do tematu
+- [x] 5.6 Build + testy + commit "Exam A1 phase E: speaking scenarios Teil 1-4"
 
 ## 6. Faza F: Schreiben + korekta
 

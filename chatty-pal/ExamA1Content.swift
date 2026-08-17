@@ -1377,6 +1377,180 @@ private let speakingUnits: [ExamUnit] = [
         exercises: [],
         speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 1 (Personen). Ask the candidate to talk about their family and one friend, one step at a time: (1) Erzählen Sie etwas über Ihre Familie. Haben Sie Geschwister? (2) Was macht Ihr Bruder / Ihre Schwester? Wo wohnt er / sie? (3) Erzählen Sie etwas über Ihre Eltern. Wo wohnen sie? (4) Haben Sie gute Freunde? Was macht Ihr / Ihre beste Freund / Freundin? Give short follow-up questions (Was macht er/sie? Wie alt ist er/sie?) and brief encouraging feedback. If the candidate is stuck, offer a simple prompt like \"Ist er/sie verheiratet?\" After all questions, give two sentences of short, friendly feedback on the German.",
         writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-spr-bild",
+        section: .speaking,
+        title: "Ein Bild beschreiben",
+        subtitle: "Describe a picture — Teil 2",
+        text: "Das Bild zeigt eine Familie im Garten. Die Mutter sitzt auf einer Bank und liest ein Buch. Der Vater steht neben dem Tisch und macht ein Glas Orangensaft. Das Kind spielt mit dem Ball. Auf dem Tisch gibt es Brot, Käse und einen Kuchen. Das Wetter ist schön, die Sonne scheint.",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-spr-bild-1", german: "der Garten", english: "garden", example: "Wir sitzen im Garten.", exampleEnglish: "We are sitting in the garden."),
+            ExamVocabularyItem(id: "a1-spr-bild-2", german: "die Bank", english: "bench", example: "Er sitzt auf einer Bank.", exampleEnglish: "He is sitting on a bench."),
+            ExamVocabularyItem(id: "a1-spr-bild-3", german: "der Ball", english: "ball", example: "Das Kind spielt mit dem Ball.", exampleEnglish: "The child is playing with the ball."),
+            ExamVocabularyItem(id: "a1-spr-bild-4", german: "hinter / neben / vor", english: "behind / next to / in front of", example: "Der Baum ist hinter dem Haus.", exampleEnglish: "The tree is behind the house."),
+            ExamVocabularyItem(id: "a1-spr-bild-5", german: "die Sonne scheint", english: "the sun is shining", example: "Heute scheint die Sonne.", exampleEnglish: "The sun is shining today.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-spr-bild-p1", german: "Auf dem Bild sehe ich ...", english: "In the picture I can see ..."),
+            ExamPhrase(id: "a1-spr-bild-p2", german: "Er/sie sitzt auf einer Bank.", english: "He/she is sitting on a bench."),
+            ExamPhrase(id: "a1-spr-bild-p3", german: "Das Wetter ist schön.", english: "The weather is nice.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-spr-bild-d1", speaker: "Examiner", german: "Hier ist ein Bild. Was sehen Sie auf dem Bild?", english: "Here is a picture. What do you see in the picture?"),
+            ExamDialogueLine(id: "a1-spr-bild-d2", speaker: "You", german: "Auf dem Bild sehe ich eine Familie im Garten. Die Mutter sitzt auf einer Bank.", english: "In the picture I can see a family in the garden. The mother is sitting on a bench."),
+            ExamDialogueLine(id: "a1-spr-bild-d3", speaker: "Examiner", german: "Was macht das Kind? Und wie ist das Wetter?", english: "What is the child doing? And how is the weather?"),
+            ExamDialogueLine(id: "a1-spr-bild-d4", speaker: "You", german: "Das Kind spielt mit dem Ball. Das Wetter ist schön, die Sonne scheint.", english: "The child is playing with the ball. The weather is nice, the sun is shining.")
+        ],
+        exercises: [],
+        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 2 (Bild beschreiben). Show the candidate a picture of a family in a garden (describe: mother reading on a bench, father making juice at a table, child playing with a ball, bread/cheese/cake on the table, sunny weather). Ask: (1) Was sehen Sie auf dem Bild? (2) Wo sind die Personen? (3) Was macht jede Person? (4) Was gibt es auf dem Tisch? (5) Wie ist das Wetter? Accept short answers and gently expand: \"Sagen Sie das in einem ganzen Satz.\" If the candidate is stuck, offer word prompts: die Bank, der Ball, der Tisch, die Sonne. After the description, give two or three short, friendly feedback sentences.",
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-spr-telefon",
+        section: .speaking,
+        title: "Telefon: einen Termin machen",
+        subtitle: "Phone call to arrange an appointment — Teil 3",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-spr-telefon-1", german: "anrufen", english: "to call (phone)", example: "Ich rufe Sie morgen an.", exampleEnglish: "I will call you tomorrow."),
+            ExamVocabularyItem(id: "a1-spr-telefon-2", german: "der Termin (die Termine)", english: "appointment", example: "Ich brauche einen Termin.", exampleEnglish: "I need an appointment."),
+            ExamVocabularyItem(id: "a1-spr-telefon-3", german: "passt Ihnen ...?", english: "does ... suit you?", example: "Passt Ihnen Freitag?", exampleEnglish: "Does Friday suit you?"),
+            ExamVocabularyItem(id: "a1-spr-telefon-4", german: "die Durchsage", english: "voicemail, message", example: "Ich habe Ihre Durchsage bekommen.", exampleEnglish: "I got your voicemail.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-spr-telefon-p1", german: "Hallo, sprechen Sie mit Frau Müller?", english: "Hello, am I speaking with Ms. Müller?"),
+            ExamPhrase(id: "a1-spr-telefon-p2", german: "Ich rufe an, weil ich einen Termin brauche.", english: "I am calling because I need an appointment."),
+            ExamPhrase(id: "a1-spr-telefon-p3", german: "Wann passt es Ihnen?", english: "When does it suit you?"),
+            ExamPhrase(id: "a1-spr-telefon-p4", german: "Wiederholen Sie das bitte. / Wie heißt das?", english: "Please repeat that. / How do you say that?")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-spr-telefon-d1", speaker: "Examiner", german: "Hallo, sprechen Sie mit Frau Weber?", english: "Hello, am I speaking with Ms. Weber?"),
+            ExamDialogueLine(id: "a1-spr-telefon-d2", speaker: "You", german: "Ja, hier. Wie kann ich Ihnen helfen?", english: "Yes, this is she. How can I help you?"),
+            ExamDialogueLine(id: "a1-spr-telefon-d3", speaker: "Examiner", german: "Ich heiße Anna Schmidt. Ich brauche einen Termin beim Arzt. Wann passt es Ihnen?", english: "My name is Anna Schmidt. I need an appointment with the doctor. When does it suit you?"),
+            ExamDialogueLine(id: "a1-spr-telefon-d4", speaker: "You", german: "Morgen um 10 Uhr ist möglich. Einverstanden?", english: "Tomorrow at 10 o'clock is possible. Agreed?"),
+            ExamDialogueLine(id: "a1-spr-telefon-d5", speaker: "Examiner", german: "Ja, das passt. Bis morgen um 10 Uhr. Auf Wiederhören!", english: "Yes, that works. See you tomorrow at 10. Goodbye!"),
+            ExamDialogueLine(id: "a1-spr-telefon-d6", speaker: "You", german: "Danke, auf Wiederhören!", english: "Thank you, goodbye!")
+        ],
+        exercises: [],
+        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Telefon). Play the role of a caller who wants to make an appointment (at the doctor, hairdresser, or office). Start: \"Hallo, sprechen Sie mit ...?\" The candidate must: (1) greet and ask who is calling, (2) find out why the person calls, (3) propose a time and confirm the appointment, (4) end the call politely. If the candidate does not understand, they must ask \"Wiederholen Sie das bitte?\" or \"Wie heißt das?\" Keep sentences short. At the end, give two sentences of friendly feedback.",
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-spr-restaurant",
+        section: .speaking,
+        title: "Im Restaurant",
+        subtitle: "Order food and ask for the bill — Teil 3",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-spr-restaurant-1", german: "die Speisekarte", english: "menu", example: "Können Sie mir die Speisekarte geben?", exampleEnglish: "Can you give me the menu?"),
+            ExamVocabularyItem(id: "a1-spr-restaurant-2", german: "hätten gern", english: "would like", example: "Ich hätte gern ein Bier.", exampleEnglish: "I would like a beer."),
+            ExamVocabularyItem(id: "a1-spr-restaurant-3", german: "die Vorspeise", english: "starter", example: "Als Vorspeise nehme ich Suppe.", exampleEnglish: "For a starter I will have soup."),
+            ExamVocabularyItem(id: "a1-spr-restaurant-4", german: "die Rechnung", english: "bill", example: "Die Rechnung, bitte.", exampleEnglish: "The bill, please.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-spr-restaurant-p1", german: "Wir möchten gern bestellen.", english: "We would like to order."),
+            ExamPhrase(id: "a1-spr-restaurant-p2", german: "Empfehlen Sie etwas?", english: "Do you recommend anything?"),
+            ExamPhrase(id: "a1-spr-restaurant-p3", german: "Wie viel kostet das?", english: "How much does that cost?"),
+            ExamPhrase(id: "a1-spr-restaurant-p4", german: "Es hat mir sehr gut geschmeckt. Vielen Dank!", english: "It was very tasty. Thank you very much!")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-spr-restaurant-d1", speaker: "Examiner", german: "Guten Abend! Was möchten Sie trinken?", english: "Good evening! What would you like to drink?"),
+            ExamDialogueLine(id: "a1-spr-restaurant-d2", speaker: "You", german: "Ich hätte gern ein Mineralwasser, bitte. Und Sie?", english: "I would like a mineral water, please. And you?"),
+            ExamDialogueLine(id: "a1-spr-restaurant-d3", speaker: "Examiner", german: "Ich nehme ein Bier. Wir möchten gern bestellen: Sie Pasta, ich Schnitzel.", english: "I will have a beer. We would like to order: you pasta, I schnitzel."),
+            ExamDialogueLine(id: "a1-spr-restaurant-d4", speaker: "You", german: "Sehr gut. ... Die Rechnung, bitte. Wie viel ist es?", english: "Very good. ... The bill, please. How much is it?"),
+            ExamDialogueLine(id: "a1-spr-restaurant-d5", speaker: "Examiner", german: "Das macht zusammen 38,50 Euro.", english: "That comes to 38.50 euros in total."),
+            ExamDialogueLine(id: "a1-spr-restaurant-d6", speaker: "You", german: "Hier, bitte. Es hat mir sehr gut geschmeckt. Auf Wiedersehen!", english: "Here, please. It was very tasty. Goodbye!")
+        ],
+        exercises: [],
+        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Restaurant). Play the role of a waiter. The candidate is a guest. Lead the conversation step by step: (1) greet the guest and ask what they would like to drink, (2) ask about the order (Vorspeise, Hauptgericht), (3) serve the food and ask if it was tasty, (4) take the order for the bill and say the total. The candidate must order politely (Ich hätte gern ..., bitte) and pay. If stuck, offer prompts: die Speisekarte, die Suppe, die Rechnung. At the end, give two sentences of friendly feedback.",
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-spr-arzt",
+        section: .speaking,
+        title: "Beim Arzt",
+        subtitle: "At the doctor's surgery — Teil 3",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-spr-arzt-1", german: "der Kopf / der Zahn / der Magen", english: "the head / the tooth / the stomach", example: "Mein Kopf tut weh.", exampleEnglish: "My head hurts."),
+            ExamVocabularyItem(id: "a1-spr-arzt-2", german: "tun weh", english: "to hurt", example: "Mein Zahn tut sehr weh.", exampleEnglish: "My tooth hurts a lot."),
+            ExamVocabularyItem(id: "a1-spr-arzt-3", german: "das Fieber", english: "fever", example: "Ich habe Fieber, 39 Grad.", exampleEnglish: "I have a fever, 39 degrees."),
+            ExamVocabularyItem(id: "a1-spr-arzt-4", german: "das Rezept", english: "prescription", example: "Ich brauche ein Rezept.", exampleEnglish: "I need a prescription.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-spr-arzt-p1", german: "Was haben Sie?", english: "What is wrong? (formal)"),
+            ExamPhrase(id: "a1-spr-arzt-p2", german: "Seit wann haben Sie das?", english: "How long have you had that?"),
+            ExamPhrase(id: "a1-spr-arzt-p3", german: "Sie müssen viel Wasser trinken und im Bett bleiben.", english: "You must drink a lot of water and stay in bed."),
+            ExamPhrase(id: "a1-spr-arzt-p4", german: "Zweimal täglich eine Tablette einnehmen.", english: "Take one tablet twice a day.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-spr-arzt-d1", speaker: "Examiner", german: "Guten Tag. Was haben Sie?", english: "Hello. What is wrong?"),
+            ExamDialogueLine(id: "a1-spr-arzt-d2", speaker: "You", german: "Guten Tag, Herr Doktor. Mein Zahn tut sehr weh.", english: "Hello, Doctor. My tooth hurts a lot."),
+            ExamDialogueLine(id: "a1-spr-arzt-d3", speaker: "Examiner", german: "Seit wann? Haben Sie auch Fieber?", english: "How long? Do you also have a fever?"),
+            ExamDialogueLine(id: "a1-spr-arzt-d4", speaker: "You", german: "Seit zwei Tage. Nein, ich habe kein Fieber.", english: "Since two days. No, I don't have a fever."),
+            ExamDialogueLine(id: "a1-spr-arzt-d5", speaker: "Examiner", german: "Hier, das ist ein Rezept. Zweimal täglich eine Tablette. Besserung!", english: "Here, this is a prescription. One tablet twice a day. Get well soon!"),
+            ExamDialogueLine(id: "a1-spr-arzt-d6", speaker: "You", german: "Vielen Dank, Herr Doktor. Auf Wiedersehen!", english: "Thank you very much, Doctor. Goodbye!")
+        ],
+        exercises: [],
+        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Arzt). Play the role of the doctor. The candidate is a patient. Lead the conversation: (1) Guten Tag. Was haben Sie? (2) Ask follow-ups: Seit wann? Haben Sie Fieber? Tut was anderes weh? (3) Give a simple diagnosis and advice (viel Wasser trinken, im Bett bleiben). (4) Hand over a prescription: \"Hier, das ist ein Rezept. Zweimal täglich eine Tablette.\" The candidate must describe the problem, answer questions, ask for a prescription if needed, and thank the doctor. If stuck, offer prompts: der Kopf, der Magen, Fieber, das Rezept. At the end, give two sentences of friendly feedback.",
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-spr-einkaufen",
+        section: .speaking,
+        title: "Einkaufen: im Shop",
+        subtitle: "Buy clothes and ask about price and return — Teil 3",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-spr-einkaufen-1", german: "anprobieren", english: "to try on", example: "Kann ich das anprobieren?", exampleEnglish: "Can I try this on?"),
+            ExamVocabularyItem(id: "a1-spr-einkaufen-2", german: "die Größe", english: "size", example: "Haben Sie das in Größe M?", exampleEnglish: "Do you have that in size M?"),
+            ExamVocabularyItem(id: "a1-spr-einkaufen-3", german: "die Farbe", english: "color", example: "Ich mag die rote Farbe.", exampleEnglish: "I like the red color."),
+            ExamVocabularyItem(id: "a1-spr-einkaufen-4", german: "zurückgeben", english: "to return", example: "Kann ich das zurückgeben?", exampleEnglish: "Can I return this?")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-spr-einkaufen-p1", german: "Ich suche ein neues Hemd.", english: "I am looking for a new shirt."),
+            ExamPhrase(id: "a1-spr-einkaufen-p2", german: "Haben Sie das in einer anderen Größe / Farbe?", english: "Do you have that in another size / color?"),
+            ExamPhrase(id: "a1-spr-einkaufen-p3", german: "Wie viel kostet das?", english: "How much does that cost?"),
+            ExamPhrase(id: "a1-spr-einkaufen-p4", german: "Kann ich mit Karte bezahlen?", english: "Can I pay by card?")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-spr-einkaufen-d1", speaker: "Examiner", german: "Guten Tag! Kann ich Ihnen helfen?", english: "Good day! Can I help you?"),
+            ExamDialogueLine(id: "a1-spr-einkaufen-d2", speaker: "You", german: "Ja, ich suche ein neues Hemd. Haben Sie das in Größe M?", english: "Yes, I am looking for a new shirt. Do you have that in size M?"),
+            ExamDialogueLine(id: "a1-spr-einkaufen-d3", speaker: "Examiner", german: "Ja, hier. In Blau oder Weiß. Möchten Sie es anprobieren?", english: "Yes, here. In blue or white. Would you like to try it on?"),
+            ExamDialogueLine(id: "a1-spr-einkaufen-d4", speaker: "You", german: "Ja, gern. ... Das passt gut. Wie viel kostet das?", english: "Yes, please. ... That fits well. How much does it cost?"),
+            ExamDialogueLine(id: "a1-spr-einkaufen-d5", speaker: "Examiner", german: "Das macht 25 Euro. Mit Karte oder bar?", english: "That comes to 25 euros. By card or cash?"),
+            ExamDialogueLine(id: "a1-spr-einkaufen-d6", speaker: "You", german: "Mit Karte, bitte. Vielen Dank, auf Wiedersehen!", english: "By card, please. Thank you, goodbye!")
+        ],
+        exercises: [],
+        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Einkaufen). Play the role of a shop assistant. The candidate wants to buy a piece of clothing. Lead the conversation: (1) Kann ich Ihnen helfen? What are they looking for? (2) Ask about size and color and offer to try it on. (3) State the price and ask how to pay. (4) The candidate may ask about returns: Kann ich das zurückgeben? Keep sentences short. If stuck, offer prompts: das Hemd, Größe M, blau, 25 Euro, mit Karte. At the end, give two sentences of friendly feedback.",
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-spr-praesentation",
+        section: .speaking,
+        title: "Kurz vorstellen: ein Hobby",
+        subtitle: "Short presentation with examiner questions — Teil 4",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-spr-praesentation-1", german: "am Wochenende", english: "on the weekend", example: "Am Wochenende spiele ich Tennis.", exampleEnglish: "On the weekend I play tennis."),
+            ExamVocabularyItem(id: "a1-spr-praesentation-2", german: "seit ... Jahren", english: "for ... years", example: "Ich spiele seit fünf Jahren Tennis.", exampleEnglish: "I have been playing tennis for five years."),
+            ExamVocabularyItem(id: "a1-spr-praesentation-3", german: "deshalb", english: "that is why", example: "Ich spiele gern Tennis, deshalb trage ich viel Sportkleidung.", exampleEnglish: "I like playing tennis, that is why I wear a lot of sportswear."),
+            ExamVocabularyItem(id: "a1-spr-praesentation-4", german: "mit Freunden", english: "with friends", example: "Ich sehe am Sonntag meine Freunde.", exampleEnglish: "On Sunday I see my friends.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-spr-praesentation-p1", german: "Ich möchte etwas über mein Hobby erzählen.", english: "I would like to tell you something about my hobby."),
+            ExamPhrase(id: "a1-spr-praesentation-p2", german: "Ich mache das, weil mir das Spaß macht.", english: "I do that because I enjoy it."),
+            ExamPhrase(id: "a1-spr-praesentation-p3", german: "Vielen Dank. Haben Sie Fragen?", english: "Thank you. Do you have any questions?")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-spr-praesentation-d1", speaker: "You", german: "Ich möchte etwas über mein Hobby erzählen. Ich spiele gern Fußball. Ich spiele seit drei Jahren, am Wochenende mit Freunden.", english: "I would like to tell you something about my hobby. I like playing football. I have been playing for three years, on the weekend with friends."),
+            ExamDialogueLine(id: "a1-spr-praesentation-d2", speaker: "Examiner", german: "Warum magst du Fußball?", english: "Why do you like football?"),
+            ExamDialogueLine(id: "a1-spr-praesentation-d3", speaker: "You", german: "Ich mag Fußball, weil mir das Spaß macht und ich sportlich bin. Vielen Dank. Haben Sie Fragen?", english: "I like football because I enjoy it and I am sporty. Thank you. Do you have any questions?")
+        ],
+        exercises: [],
+        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 4 (Kurzvortrag). Ask the candidate to give a very short presentation (5-7 sentences) about one of: a hobby, a family member, a favourite city, or a recent trip. Give the topic and the three guiding points (Was? Wie oft? Warum?). After the short talk, ask two simple follow-up questions (Warum? Wie oft? Mit wem?). Listen for 5-7 connected sentences using weil/deshalb/am Wochenende/seit. Then give two or three sentences of friendly, specific feedback on content and language.",
+        writingPrompt: nil
     )
 ]
 
