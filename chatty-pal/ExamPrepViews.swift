@@ -5,27 +5,44 @@ import SwiftUI
 
 enum ExamTTS {
     private static var player: AVAudioPlayer?
+    private static let synthesizer = AVSpeechSynthesizer()
 
     static func speak(_ text: String, voiceId: String? = nil) {
         guard !text.isEmpty else { return }
         Task {
+            let audioData: Data?
             do {
-                let data = try await PollySpeechService().synthesizeSpeech(text: text, voiceId: voiceId)
-                await MainActor.run {
-                    do {
-                        player?.stop()
-                        player = try AVAudioPlayer(data: data)
-                        player?.prepareToPlay()
-                        player?.play()
-                    } catch {}
+                audioData = try await PollySpeechService().synthesizeSpeech(text: text, voiceId: voiceId)
+            } catch {
+                audioData = nil
+            }
+            await MainActor.run {
+                configureAudioSession()
+                if let audioData, let audioPlayer = try? AVAudioPlayer(data: audioData) {
+                    player?.stop()
+                    player = audioPlayer
+                    audioPlayer.prepareToPlay()
+                    audioPlayer.play()
+                } else {
+                    synthesizer.stopSpeaking(at: .immediate)
+                    let utterance = AVSpeechUtterance(string: text)
+                    utterance.voice = AVSpeechSynthesisVoice(language: "de-DE")
+                    utterance.rate = 0.45
+                    synthesizer.speak(utterance)
                 }
-            } catch {}
+            }
         }
     }
 
     static func stop() {
         player?.stop()
         player = nil
+        synthesizer.stopSpeaking(at: .immediate)
+    }
+
+    private static func configureAudioSession() {
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+        try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
     }
 }
 

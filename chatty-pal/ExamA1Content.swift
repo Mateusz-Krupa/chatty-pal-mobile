@@ -40,7 +40,9 @@ private let vocabularyUnits: [ExamUnit] = [
         exercises: [
             ExamExercise(id: "a1-voc-zahlen-e1", kind: .gapFill, question: "Die Jacke ___ zwanzig Euro.", options: ["kostet", "ist", "hat", "bin"], correctIndex: 0, explanation: "Use \"kosten\" for prices: Die Jacke kostet zwanzig Euro."),
             ExamExercise(id: "a1-voc-zahlen-e2", kind: .multipleChoice, question: "Zehn plus zwanzig ist ...", options: ["drei", "dreißig", "fünfzig"], correctIndex: 1, explanation: "10 + 20 = 30 (dreißig)."),
-            ExamExercise(id: "a1-voc-zahlen-e3", kind: .multipleChoice, question: "Which word means \"cheap\"?", options: ["teuer", "billig", "groß"], correctIndex: 1, explanation: "\"billig\" = cheap; \"teuer\" = expensive.")
+            ExamExercise(id: "a1-voc-zahlen-e3", kind: .multipleChoice, question: "Which word means \"cheap\"?", options: ["teuer", "billig", "groß"], correctIndex: 1, explanation: "\"billig\" = cheap; \"teuer\" = expensive."),
+            ExamExercise(id: "a1-voc-zahlen-e4", kind: .gapFill, question: "Das Hemd kostet fünf Euro ___ fünfzig.", options: ["und", "oder", "mit"], correctIndex: 0, explanation: "German uses \"und\" for decimals: fünf Euro und fünfzig."),
+            ExamExercise(id: "a1-voc-zahlen-e5", kind: .multipleChoice, question: "Was ist \"dreißig\"?", options: ["30", "3", "130"], correctIndex: 0, explanation: "dreißig = 30; drei = 3.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -77,7 +79,9 @@ private let vocabularyUnits: [ExamUnit] = [
         exercises: [
             ExamExercise(id: "a1-voc-familie-e1", kind: .gapFill, question: "Mein ___ ist Studentin.", options: ["Bruder", "Onkel", "Schwester", "Vater"], correctIndex: 2, explanation: "\"Studentin\" is feminine, so it is meine Schwester (sister)."),
             ExamExercise(id: "a1-voc-familie-e2", kind: .multipleChoice, question: "What is \"die Großmutter\"?", options: ["grandfather", "grandmother", "aunt"], correctIndex: 1, explanation: "die Großmutter = grandmother; der Großvater = grandfather."),
-            ExamExercise(id: "a1-voc-familie-e3", kind: .multipleChoice, question: "What is the plural of \"das Kind\"?", options: ["die Kinder", "die Kinds", "die Kindes"], correctIndex: 0, explanation: "das Kind → die Kinder (irregular plural).")
+            ExamExercise(id: "a1-voc-familie-e3", kind: .multipleChoice, question: "What is the plural of \"das Kind\"?", options: ["die Kinder", "die Kinds", "die Kindes"], correctIndex: 0, explanation: "das Kind → die Kinder (irregular plural)."),
+            ExamExercise(id: "a1-voc-familie-e4", kind: .multipleChoice, question: "Wer ist \"der Onkel\"?", options: ["der Bruder der Mutter", "der Vater", "der Sohn"], correctIndex: 0, explanation: "der Onkel = the uncle (mother's brother)."),
+            ExamExercise(id: "a1-voc-familie-e5", kind: .gapFill, question: "Meine ___ ist Lehrerin.", options: ["Tante", "Vater", "Bruder"], correctIndex: 0, explanation: "\"Lehrerin\" is feminine: meine Tante (aunt) works as a teacher.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1014,7 +1018,8 @@ private let readingUnits: [ExamUnit] = [
             ExamExercise(id: "a1-read-anzeige-e1", kind: .multipleChoice, question: "Wie viele Zimmer hat die Wohnung?", options: ["eins", "zwei", "drei"], correctIndex: 1, explanation: "\"2-Zimmer-Wohnung\" = a two-room apartment."),
             ExamExercise(id: "a1-read-anzeige-e2", kind: .multipleChoice, question: "Was hat die Wohnung NICHT?", options: ["einen Balkon", "ein Bad", "eine Garage"], correctIndex: 2, explanation: "The ad mentions a balcony and a bathroom, but no garage."),
             ExamExercise(id: "a1-read-anzeige-e3", kind: .multipleChoice, question: "Wie hoch ist die Miete?", options: ["650 Euro", "700 Euro", "750 Euro"], correctIndex: 2, explanation: "\"Die Miete ist 750 Euro.\""),
-            ExamExercise(id: "a1-read-anzeige-e4", kind: .multipleChoice, question: "Wann ist die Besichtigung?", options: ["Samstag, 14 Uhr", "Sonntag, 10 Uhr", "Freitag, 12 Uhr"], correctIndex: 0, explanation: "The viewing is on Saturday at 14:00.")
+            ExamExercise(id: "a1-read-anzeige-e4", kind: .multipleChoice, question: "Wann ist die Besichtigung?", options: ["Samstag, 14 Uhr", "Sonntag, 10 Uhr", "Freitag, 12 Uhr"], correctIndex: 0, explanation: "The viewing is on Saturday at 14:00."),
+            ExamExercise(id: "a1-read-anzeige-e5", kind: .multipleChoice, question: "Was gibt es in der Nähe der Wohnung?", options: ["eine U-Bahn-Station und ein Supermarkt", "ein Krankenhaus und eine Schule", "ein Park und ein Bahnhof"], correctIndex: 0, explanation: "\"In der Nähe sind eine U-Bahn-Station und ein Supermarkt.\"")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1042,7 +1047,8 @@ private let readingUnits: [ExamUnit] = [
             ExamExercise(id: "a1-read-mail-e1", kind: .multipleChoice, question: "Wie alt wird Tom?", options: ["24", "25", "26"], correctIndex: 1, explanation: "\"Ich bin dann 25 Jahre alt!\""),
             ExamExercise(id: "a1-read-mail-e2", kind: .multipleChoice, question: "Wo ist die Feier?", options: ["in der Hauptstraße", "in der Gaststätte \"Zur Sonne\"", "im Park"], correctIndex: 1, explanation: "The party is in the Gaststätte (pub) \"Zur Sonne\" (which is in the Hauptstraße)."),
             ExamExercise(id: "a1-read-mail-e3", kind: .multipleChoice, question: "Um wie viel Uhr beginnt die Feier?", options: ["um 15 Uhr", "um 19 Uhr", "um 24 Uhr"], correctIndex: 1, explanation: "\"Die Feier beginnt um 19 Uhr.\""),
-            ExamExercise(id: "a1-read-mail-e4", kind: .multipleChoice, question: "Was gibt es bei der Feier?", options: ["Kuchen und Getränke", "Pizza und Kaffee", "Suppe und Schnitzel"], correctIndex: 0, explanation: "\"Es gibt Kuchen und Getränke.\"")
+            ExamExercise(id: "a1-read-mail-e4", kind: .multipleChoice, question: "Was gibt es bei der Feier?", options: ["Kuchen und Getränke", "Pizza und Kaffee", "Suppe und Schnitzel"], correctIndex: 0, explanation: "\"Es gibt Kuchen und Getränke.\""),
+            ExamExercise(id: "a1-read-mail-e5", kind: .multipleChoice, question: "Wann ist der Geburtstag?", options: ["am Samstag, den 15. Mai", "am Freitag, den 14. Mai", "am Sonntag, den 16. Mai"], correctIndex: 0, explanation: "\"am Samstag, den 15. Mai, habe ich Geburtstag.\"")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1070,7 +1076,8 @@ private let readingUnits: [ExamUnit] = [
             ExamExercise(id: "a1-read-reise-e1", kind: .multipleChoice, question: "Wie viele Tage dauert die Reise?", options: ["3 Tage", "7 Tage", "14 Tage"], correctIndex: 1, explanation: "\"7 Tage\" / \"Dauer: 7 Tage.\""),
             ExamExercise(id: "a1-read-reise-e2", kind: .multipleChoice, question: "Was hat das Hotel?", options: ["Zimmer mit Balkon", "Zimmer ohne Bad", "keinen Garten"], correctIndex: 0, explanation: "The rooms have a bathroom and a balcony; the hotel also has a garden."),
             ExamExercise(id: "a1-read-reise-e3", kind: .multipleChoice, question: "Was ist NICHT im Preis?", options: ["der Transfer", "die Halbpension", "der Flug nach Berlin"], correctIndex: 2, explanation: "The transfer and half board are included; only the price from 499 euros is mentioned, the flight to Berlin is not part of the offer details."),
-            ExamExercise(id: "a1-read-reise-e4", kind: .multipleChoice, question: "Wann ist die Abreise?", options: ["3. Juli", "15. Mai", "3. August"], correctIndex: 0, explanation: "\"Abreise: 3. Juli, Flughafen Berlin.\"")
+            ExamExercise(id: "a1-read-reise-e4", kind: .multipleChoice, question: "Wann ist die Abreise?", options: ["3. Juli", "15. Mai", "3. August"], correctIndex: 0, explanation: "\"Abreise: 3. Juli, Flughafen Berlin.\""),
+            ExamExercise(id: "a1-read-reise-e5", kind: .multipleChoice, question: "Wie viel kostet die Reise mindestens?", options: ["499 Euro", "399 Euro", "599 Euro"], correctIndex: 0, explanation: "\"Preis: ab 499 Euro pro Person.\"")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1103,7 +1110,8 @@ private let readingUnits: [ExamUnit] = [
             ExamExercise(id: "a1-read-formular-e1", kind: .multipleChoice, question: "Wie heißt die Person?", options: ["Stefan Müller", "Müller Stefan", "Anna Müller"], correctIndex: 0, explanation: "Vorname (first name) Stefan + Name (surname) Müller."),
             ExamExercise(id: "a1-read-formular-e2", kind: .multipleChoice, question: "Welchen Kurs macht Stefan?", options: ["Deutsch A1, Gruppe 1", "Deutsch B1, Gruppe 4", "Englisch B1, Gruppe 4"], correctIndex: 1, explanation: "\"Kurs: Deutsch B1, Gruppe 4.\""),
             ExamExercise(id: "a1-read-formular-e3", kind: .multipleChoice, question: "Wann ist der Kurs?", options: ["Montag und Mittwoch, 18–20 Uhr", "Dienstag und Donnerstag, 18–20 Uhr", "Montag und Mittwoch, 16–18 Uhr"], correctIndex: 0, explanation: "\"Uhrzeit: Montag und Mittwoch, 18–20 Uhr.\""),
-            ExamExercise(id: "a1-read-formular-e4", kind: .multipleChoice, question: "Wie viel kostet der Kurs mit Ermäßigung?", options: ["80 Euro", "50 Euro", "30 Euro"], correctIndex: 1, explanation: "\"mit Ermäßigung: 50 Euro\".")
+            ExamExercise(id: "a1-read-formular-e4", kind: .multipleChoice, question: "Wie viel kostet der Kurs mit Ermäßigung?", options: ["80 Euro", "50 Euro", "30 Euro"], correctIndex: 1, explanation: "\"mit Ermäßigung: 50 Euro\"."),
+            ExamExercise(id: "a1-read-formular-e5", kind: .multipleChoice, question: "Wann beginnt der Kurs?", options: ["am 5. September", "am 1. September", "am 15. September"], correctIndex: 0, explanation: "\"Kursbeginn: 5. September.\"")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1132,7 +1140,8 @@ private let readingUnits: [ExamUnit] = [
             ExamExercise(id: "a1-read-stellenanzeige-e1", kind: .multipleChoice, question: "Was sucht die Firma?", options: ["einen Lehrer", "einen Lagermitarbeiter", "eine Ärztin"], correctIndex: 1, explanation: "\"Wir suchen: Lagermitarbeiter.\""),
             ExamExercise(id: "a1-read-stellenanzeige-e2", kind: .multipleChoice, question: "Was ist NICHT nötig?", options: ["Deutsch B1", "ein Führerschein", "Erfahrung"], correctIndex: 2, explanation: "\"Erfahrung ist von Vorteil, aber nicht nötig.\""),
             ExamExercise(id: "a1-read-stellenanzeige-e3", kind: .multipleChoice, question: "Wie viel bekommt die Person?", options: ["10 Euro pro Stunde", "14 Euro pro Stunde", "40 Euro pro Woche"], correctIndex: 1, explanation: "\"14 Euro pro Stunde\" (40 hours is the weekly working time)."),
-            ExamExercise(id: "a1-read-stellenanzeige-e4", kind: .multipleChoice, question: "Wie schickt man die Bewerbung?", options: ["per E-Mail", "per Post", "mündlich"], correctIndex: 0, explanation: "Send the application to personal@firma-hamburg.de (e-mail).")
+            ExamExercise(id: "a1-read-stellenanzeige-e4", kind: .multipleChoice, question: "Wie schickt man die Bewerbung?", options: ["per E-Mail", "per Post", "mündlich"], correctIndex: 0, explanation: "Send the application to personal@firma-hamburg.de (e-mail)."),
+            ExamExercise(id: "a1-read-stellenanzeige-e5", kind: .multipleChoice, question: "Wo arbeitet die Person?", options: ["in Hamburg", "in Berlin", "in Frankfurt"], correctIndex: 0, explanation: "\"Unsere Firma in Hamburg sucht ... einen Lagermitarbeiter.\"")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1160,7 +1169,8 @@ private let readingUnits: [ExamUnit] = [
             ExamExercise(id: "a1-read-museum-e1", kind: .multipleChoice, question: "Wann ist das Museum geschlossen?", options: ["montags", "dienstags", "sonntags"], correctIndex: 0, explanation: "\"Montag geschlossen\" = closed on Monday."),
             ExamExercise(id: "a1-read-museum-e2", kind: .multipleChoice, question: "Was zahlt ein Student?", options: ["8 Euro", "4 Euro", "nichts"], correctIndex: 1, explanation: "\"Studenten 4 Euro\" (children under 12 pay nothing)."),
             ExamExercise(id: "a1-read-museum-e3", kind: .multipleChoice, question: "Wann beginnt die Führung?", options: ["um 11 Uhr", "um 14 Uhr", "um 18 Uhr"], correctIndex: 1, explanation: "\"Die Führung beginnt jeden Tag um 14 Uhr.\""),
-            ExamExercise(id: "a1-read-museum-e4", kind: .multipleChoice, question: "Was gibt es im Café?", options: ["Kaffee, Tee und Kuchen", "Pizza und Suppe", "nur Wasser"], correctIndex: 0, explanation: "\"Dort gibt es Kaffee, Tee und Kuchen.\"")
+            ExamExercise(id: "a1-read-museum-e4", kind: .multipleChoice, question: "Was gibt es im Café?", options: ["Kaffee, Tee und Kuchen", "Pizza und Suppe", "nur Wasser"], correctIndex: 0, explanation: "\"Dort gibt es Kaffee, Tee und Kuchen.\""),
+            ExamExercise(id: "a1-read-museum-e5", kind: .multipleChoice, question: "Wie viel zahlt ein Erwachsener?", options: ["8 Euro", "4 Euro", "12 Euro"], correctIndex: 0, explanation: "\"Erwachsene 8 Euro\" (students pay 4 Euro, children under 12 pay nothing).")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1189,7 +1199,8 @@ private let listeningUnits: [ExamUnit] = [
         exercises: [
             ExamExercise(id: "a1-list-bahnhof-e1", kind: .listening, question: "Wann fährt der Zug nach Berlin?", options: ["um 9 Uhr 00", "um 9 Uhr 30", "um 10 Uhr 30"], correctIndex: 1, explanation: "You hear: \"Der Zug nach Berlin ist um 9 Uhr 30.\"", spokenText: "Der Zug nach Berlin ist um 9 Uhr 30."),
             ExamExercise(id: "a1-list-bahnhof-e2", kind: .listening, question: "Was muss die Person machen?", options: ["rechts gehen", "zwei Gleise weiter gehen", "warten"], correctIndex: 1, explanation: "You hear: \"Geh bitte zwei Gleise weiter, dann links.\"", spokenText: "Geh bitte zwei Gleise weiter, dann links."),
-            ExamExercise(id: "a1-list-bahnhof-e3", kind: .listening, question: "Was ist das Problem?", options: ["Der Zug ist spät.", "Der Zug ist voller.", "Der Zug ist abgesagt."], correctIndex: 2, explanation: "\"ausfallen\" means the train is cancelled (abgesagt).", spokenText: "Leider fällt der Zug heute aus.")
+            ExamExercise(id: "a1-list-bahnhof-e3", kind: .listening, question: "Was ist das Problem?", options: ["Der Zug ist spät.", "Der Zug ist voller.", "Der Zug ist abgesagt."], correctIndex: 2, explanation: "\"ausfallen\" means the train is cancelled (abgesagt).", spokenText: "Leider fällt der Zug heute aus."),
+            ExamExercise(id: "a1-list-bahnhof-e4", kind: .listening, question: "Wo ist der Zug nach München?", options: ["Gleis 5", "Gleis 7", "Gleis 9"], correctIndex: 1, explanation: "You hear: \"Der Zug nach München fährt ab Gleis 7.\"", spokenText: "Der Zug nach München fährt ab Gleis 7.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1214,7 +1225,8 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-einkauf-e1", kind: .listening, question: "Was kauft die Frau?", options: ["Tomaten", "Kartoffeln", "Zitronen"], correctIndex: 0, explanation: "You hear: \"Ich möchte zwei Kilo Tomaten, bitte.\"", spokenText: "Guten Morgen! Was möchten Sie? — Ich möchte zwei Kilo Tomaten, bitte."),
             ExamExercise(id: "a1-list-einkauf-e2", kind: .listening, question: "Wie viel kostet ein Kilo?", options: ["2,50 Euro", "3,00 Euro", "3,50 Euro"], correctIndex: 2, explanation: "You hear: \"Ein Kilo kostet drei Euro fünfzig.\"", spokenText: "Ein Kilo kostet drei Euro fünfzig."),
             ExamExercise(id: "a1-list-einkauf-e3", kind: .listening, question: "Was ist das Problem der Tomaten?", options: ["Sie sind teuer.", "Sie sind nicht frisch.", "Sie sind reif."], correctIndex: 1, explanation: "You hear: \"Leider sind die Tomaten nicht frisch. Die von gestern sind besser.\"", spokenText: "Leider sind die Tomaten nicht frisch. Die von gestern sind besser."),
-            ExamExercise(id: "a1-list-einkauf-e4", kind: .listening, question: "Wie bezahlt die Frau?", options: ["mit Karte", "in bar", "mit Scheck"], correctIndex: 1, explanation: "You hear: \"Ich zahle gerne in bar.\"", spokenText: "Alles zusammen: sieben Euro. — Okay, ich zahle gerne in bar.")
+            ExamExercise(id: "a1-list-einkauf-e4", kind: .listening, question: "Wie bezahlt die Frau?", options: ["mit Karte", "in bar", "mit Scheck"], correctIndex: 1, explanation: "You hear: \"Ich zahle gerne in bar.\"", spokenText: "Alles zusammen: sieben Euro. — Okay, ich zahle gerne in bar."),
+            ExamExercise(id: "a1-list-einkauf-e5", kind: .listening, question: "Was kostet der Kuchen?", options: ["fünf Euro", "vier Euro", "sechs Euro"], correctIndex: 0, explanation: "You hear: \"Der Kuchen kostet fünf Euro.\"", spokenText: "Der Kuchen kostet fünf Euro.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1239,7 +1251,8 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-restaurant-e1", kind: .listening, question: "Was bestellt der Mann zu trinken?", options: ["ein Wasser", "einen Saft", "einen Kaffee"], correctIndex: 1, explanation: "You hear: \"Ich hätte gern einen Apfelsaft, bitte.\"", spokenText: "Was möchten Sie trinken? — Ich hätte gern einen Apfelsaft, bitte."),
             ExamExercise(id: "a1-list-restaurant-e2", kind: .listening, question: "Was bestellt die Frau?", options: ["Schnitzel", "Pasta", "Suppe"], correctIndex: 1, explanation: "You hear: \"Ich nehme die Pasta mit Tomatensoße.\"", spokenText: "Und Sie? — Ich nehme die Pasta mit Tomatensoße."),
             ExamExercise(id: "a1-list-restaurant-e3", kind: .listening, question: "Wie ist das Essen?", options: ["zu teuer", "sehr lecker", "zu salzig"], correctIndex: 1, explanation: "You hear: \"Das war sehr lecker. Vielen Dank!\"", spokenText: "Das Essen ist fertig. — Sehr gut! ... Das war sehr lecker. Vielen Dank!"),
-            ExamExercise(id: "a1-list-restaurant-e4", kind: .listening, question: "Wie viel kostet die Rechnung?", options: ["38,50 Euro", "42,50 Euro", "48,50 Euro"], correctIndex: 0, explanation: "You hear: \"Das macht zusammen achtunddreißig Euro fünfzig.\"", spokenText: "Die Rechnung? — Die ist schon da. Das macht zusammen achtunddreißig Euro fünfzig.")
+            ExamExercise(id: "a1-list-restaurant-e4", kind: .listening, question: "Wie viel kostet die Rechnung?", options: ["38,50 Euro", "42,50 Euro", "48,50 Euro"], correctIndex: 0, explanation: "You hear: \"Das macht zusammen achtunddreißig Euro fünfzig.\"", spokenText: "Die Rechnung? — Die ist schon da. Das macht zusammen achtunddreißig Euro fünfzig."),
+            ExamExercise(id: "a1-list-restaurant-e5", kind: .listening, question: "Was bestellt der Mann?", options: ["Schnitzel und Orangensaft", "Pizza und Kaffee", "Suppe und Wasser"], correctIndex: 0, explanation: "You hear: \"Ich hätte gerne ein Schnitzel und einen Orangensaft.\"", spokenText: "Ich hätte gerne ein Schnitzel und einen Orangensaft.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1264,7 +1277,8 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-telefon-e1", kind: .listening, question: "Wen möchte die Frau anrufen?", options: ["den Arzt", "das Hotel", "die Schule"], correctIndex: 0, explanation: "You hear: \"Guten Tag, hier ist Anna Weber. Ich möchte einen Termin beim Arzt machen.\"", spokenText: "Guten Tag, hier ist Anna Weber. Ich möchte einen Termin beim Arzt machen."),
             ExamExercise(id: "a1-list-telefon-e2", kind: .listening, question: "Warum ruft sie an?", options: ["Weil sie Fieber hat", "Weil ihr Zahn wehtut", "Weil sie ein Rezept braucht"], correctIndex: 1, explanation: "You hear: \"Mein Zahn tut sehr weh.\"", spokenText: "Mein Zahn tut sehr weh."),
             ExamExercise(id: "a1-list-telefon-e3", kind: .listening, question: "Wann ist der Termin?", options: ["morgen um 10 Uhr", "übermorgen um 14 Uhr", "am Freitag um 9 Uhr"], correctIndex: 2, explanation: "You hear: \"Am Donnerstag ist keine Zeit frei. Aber am Freitag um 9 Uhr kann ich Sie nehmen.\"", spokenText: "Am Donnerstag ist keine Zeit frei. Aber am Freitag um 9 Uhr kann ich Sie nehmen."),
-            ExamExercise(id: "a1-list-telefon-e4", kind: .listening, question: "Was muss die Frau noch sagen?", options: ["Ihren Namen", "Ihre Adresse", "Ihre Versicherungsnummer"], correctIndex: 0, explanation: "You hear: \"Wie heißt Sie bitte? — Anna Weber.\"", spokenText: "Wie heißt Sie bitte? — Anna Weber.")
+            ExamExercise(id: "a1-list-telefon-e4", kind: .listening, question: "Was muss die Frau noch sagen?", options: ["Ihren Namen", "Ihre Adresse", "Ihre Versicherungsnummer"], correctIndex: 0, explanation: "You hear: \"Wie heißt Sie bitte? — Anna Weber.\"", spokenText: "Wie heißt Sie bitte? — Anna Weber."),
+            ExamExercise(id: "a1-list-telefon-e5", kind: .listening, question: "Auf welchen Tag verschieben sie den Termin?", options: ["Mittwoch", "Donnerstag", "Freitag"], correctIndex: 1, explanation: "You hear: \"Können wir den Termin auf Donnerstag verschieben? — Ja, das passt mir.\"", spokenText: "Können wir den Termin auf Donnerstag verschieben? — Ja, das passt mir.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1289,7 +1303,8 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-veranstaltung-e1", kind: .listening, question: "Wann ist das Konzert?", options: ["am Freitag", "am Samstag", "am Sonntag"], correctIndex: 1, explanation: "You hear: \"Am Samstag, den 20. Juni, ist das Konzert.\"", spokenText: "Sehr geehrte Gäste! Am Samstag, den 20. Juni, ist das Konzert im Kulturhaus."),
             ExamExercise(id: "a1-list-veranstaltung-e2", kind: .listening, question: "Um wie viel Uhr beginnt das Konzert?", options: ["um 18 Uhr", "um 19 Uhr", "um 20 Uhr"], correctIndex: 1, explanation: "You hear: \"Der Einlass ist um 18 Uhr, das Konzert beginnt um 19 Uhr.\"", spokenText: "Der Einlass ist um 18 Uhr, das Konzert beginnt um 19 Uhr."),
             ExamExercise(id: "a1-list-veranstaltung-e3", kind: .listening, question: "Wie viel kostet das Ticket?", options: ["15 Euro", "20 Euro", "25 Euro"], correctIndex: 1, explanation: "You hear: \"Die Tickets kosten zwanzig Euro. Mit Studentenausweis: fünfzehn Euro.\"", spokenText: "Die Tickets kosten zwanzig Euro. Mit Studentenausweis: fünfzehn Euro."),
-            ExamExercise(id: "a1-list-veranstaltung-e4", kind: .listening, question: "Wo kann man Tickets kaufen?", options: ["an der Tür", "im Internet", "beim Supermarkt"], correctIndex: 0, explanation: "You hear: \"Die Tickets gibt es an der Tür und im Internet.\"", spokenText: "Die Tickets gibt es an der Tür und im Internet.")
+            ExamExercise(id: "a1-list-veranstaltung-e4", kind: .listening, question: "Wo kann man Tickets kaufen?", options: ["an der Tür", "im Internet", "beim Supermarkt"], correctIndex: 0, explanation: "You hear: \"Die Tickets gibt es an der Tür und im Internet.\"", spokenText: "Die Tickets gibt es an der Tür und im Internet."),
+            ExamExercise(id: "a1-list-veranstaltung-e5", kind: .listening, question: "Wann beginnt das Konzert?", options: ["18 Uhr", "19 Uhr", "20 Uhr"], correctIndex: 1, explanation: "You hear: \"Das Konzert beginnt um neunzehn Uhr. Der Einlass ist ab achtzehn Uhr.\"", spokenText: "Das Konzert beginnt um neunzehn Uhr. Der Einlass ist ab achtzehn Uhr.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1314,7 +1329,8 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-hotel-e1", kind: .listening, question: "Wie heißt der Gast?", options: ["Herr Weber", "Frau Weber", "Herr Müller"], correctIndex: 0, explanation: "You hear: \"Guten Abend, ich habe eine Reservierung auf den Namen Weber. — Ja, Herr Weber, willkommen!\"", spokenText: "Guten Abend, ich habe eine Reservierung auf den Namen Weber. — Ja, Herr Weber, willkommen!"),
             ExamExercise(id: "a1-list-hotel-e2", kind: .listening, question: "Wie viele Nächte bleibt der Gast?", options: ["zwei", "drei", "fünf"], correctIndex: 1, explanation: "You hear: \"Sie bleiben drei Nächte, bis Freitag.\"", spokenText: "Sehr gut. Sie bleiben drei Nächte, bis Freitag."),
             ExamExercise(id: "a1-list-hotel-e3", kind: .listening, question: "Wo ist das Zimmer?", options: ["im zweiten Stock", "im dritten Stock", "im Erdgeschoss"], correctIndex: 1, explanation: "You hear: \"Ihr Zimmer ist im dritten Stock, Zimmer 312.\"", spokenText: "Ihr Zimmer ist im dritten Stock, Zimmer 312."),
-            ExamExercise(id: "a1-list-hotel-e4", kind: .listening, question: "Wann ist das Frühstück?", options: ["von 6 bis 9 Uhr", "von 7 bis 10 Uhr", "von 8 bis 11 Uhr"], correctIndex: 1, explanation: "You hear: \"Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss.\"", spokenText: "Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss.")
+            ExamExercise(id: "a1-list-hotel-e4", kind: .listening, question: "Wann ist das Frühstück?", options: ["von 6 bis 9 Uhr", "von 7 bis 10 Uhr", "von 8 bis 11 Uhr"], correctIndex: 1, explanation: "You hear: \"Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss.\"", spokenText: "Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss."),
+            ExamExercise(id: "a1-list-hotel-e5", kind: .listening, question: "Wo ist das Zimmer?", options: ["im dritten Stock", "im vierten Stock", "im fünften Stock"], correctIndex: 1, explanation: "You hear: \"Ihr Zimmer ist im vierten Stock.\"", spokenText: "Ihr Zimmer ist im vierten Stock.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
