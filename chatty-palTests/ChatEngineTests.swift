@@ -134,6 +134,7 @@ private final class FakeSynth: SpeechSynthesizing {
 private final class FakeSpeech: SpeechRecognition {
     var onTranscription: ((String, Bool) -> Void)?
     var onError: ((Error) -> Void)?
+    var onAudioLevel: ((Float) -> Void)?
     var permissionGranted = true
     var startError: Error?
     private(set) var startCount = 0
@@ -156,6 +157,10 @@ private final class FakeSpeech: SpeechRecognition {
 
     func emit(_ text: String, isFinal: Bool) {
         onTranscription?(text, isFinal)
+    }
+
+    func emitLevel(_ rms: Float) {
+        onAudioLevel?(rms)
     }
 
     func fail() {
@@ -196,7 +201,11 @@ private final class EngineHarness {
     let store: RecordingStore
     let engine: ChatEngine
 
-    init(persona: ChatPersona = .main(language: LanguageConfig.default, level: "B1"), store: RecordingStore? = nil) {
+    init(
+        persona: ChatPersona = .main(language: LanguageConfig.default, level: "B1"),
+        store: RecordingStore? = nil,
+        silenceWindow: TimeInterval = 0.05
+    ) {
         let speech = FakeSpeech()
         let resolvedStore = store ?? RecordingStore()
         self.speech = speech
@@ -213,7 +222,7 @@ private final class EngineHarness {
             persona: persona,
             store: resolvedStore,
             dependencies: dependencies,
-            silenceWindow: 0.05,
+            silenceWindow: silenceWindow,
             resumeDelay: 0.05,
             sendSuppressionWindow: 0.05
         )
@@ -434,5 +443,73 @@ final class ChatEngineTests: XCTestCase {
         await settle(250)
 
         XCTAssertEqual(userMessages(harness).map(\.message), ["still here"])
+    }
+
+    func testVoiceActivityResetsSilenceTimer() async {
+        let harness = EngineHarness(silenceWindow: 0.3)
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("still here", isFinal: false)
+        await settle(200)
+        harness.speech.emitLevel(0.1)
+        await settle(200)
+
+        // 400ms after the partial: without the voice reset it would have sent at 300ms.
+        XCTAssertEqual(userMessages(harness).map(\.message), [])
+
+        await settle(250)
+        XCTAssertEqual(userMessages(harness).map(\.message), ["still here"])
+    }
+
+    func testSilentLevelDoesNotResetTimer() async {
+        let harness = EngineHarness(silenceWindow: 0.3)
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("still here", isFinal: false)
+        await settle(200)
+        harness.speech.emitLevel(0.001)
+        await settle(250)
+
+        // Below-threshold energy must not extend the silence window.
+        XCTAssertEqual(userMessages(harness).map(\.message), ["still here"])
+    }
+
+    func testVoiceActivitySetsAudioLevel() async {
+        let harness = makeHarness()
+        harness.engine.startRecording()
+        await settle()
+
+        harness.speech.emitLevel(0.1)
+        await settle(20)
+        XCTAssertEqual(harness.engine.audioLevel, 1, accuracy: 0.001)
+
+        harness.speech.emitLevel(0.03)
+        await settle(20)
+        XCTAssertEqual(harness.engine.audioLevel, 0.375, accuracy: 0.001)
+
+        harness.speech.emitLevel(0.001)
+        await settle(20)
+        XCTAssertEqual(harness.engine.audioLevel, 0, accuracy: 0.001)
+    }
+
+    func testAudioLevelResetsOnStop() async {
+        let harness = makeHarness()
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("hi", isFinal: false)
+        harness.speech.emitLevel(0.1)
+        await settle(20)
+        XCTAssertGreaterThan(harness.engine.audioLevel, 0)
+
+        harness.engine.stopSpeechAndSend()
+        XCTAssertEqual(harness.engine.audioLevel, 0)
+
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emitLevel(0.1)
+        await settle(20)
+        XCTAssertGreaterThan(harness.engine.audioLevel, 0)
+        harness.engine.interrupt()
+        XCTAssertEqual(harness.engine.audioLevel, 0)
     }
 }

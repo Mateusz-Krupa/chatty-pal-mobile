@@ -10,10 +10,24 @@ final class SpeechController {
 
     var onTranscription: ((String, Bool) -> Void)?
     var onError: ((Error) -> Void)?
+    var onAudioLevel: ((Float) -> Void)?
 
     init(localeIdentifier: String) {
         self.localeIdentifier = localeIdentifier
         self.recognizer = SFSpeechRecognizer(locale: Locale(identifier: localeIdentifier))
+    }
+
+    static func rms(of buffer: AVAudioPCMBuffer) -> Float {
+        guard let channelData = buffer.floatChannelData else { return 0 }
+        let frames = Int(buffer.frameLength)
+        guard frames > 0 else { return 0 }
+        let samples = channelData[0]
+        var sum: Float = 0
+        for i in 0..<frames {
+            let sample = samples[i]
+            sum += sample * sample
+        }
+        return sqrt(sum / Float(frames))
     }
 
     func requestPermissions(completion: @escaping (Bool) -> Void) {
@@ -48,6 +62,7 @@ final class SpeechController {
         inputNode.removeTap(onBus: 0)
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputNode.outputFormat(forBus: 0)) { [weak self] buffer, _ in
             self?.recognitionRequest?.append(buffer)
+            self?.onAudioLevel?(Self.rms(of: buffer))
         }
 
         audioEngine.prepare()
@@ -76,6 +91,7 @@ final class SpeechController {
         recognitionTask?.cancel()
         recognitionTask = nil
         recognitionRequest = nil
+        onAudioLevel = nil
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
         try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)

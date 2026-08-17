@@ -77,6 +77,7 @@ final class ChatEngine {
     private(set) var voiceState: ChatVoiceState = .idle
     private(set) var isGenerating = false
     private(set) var transcriptText = ""
+    private(set) var audioLevel: Float = 0
     var isTTSEnabled = true
     var isActive = true
 
@@ -96,14 +97,16 @@ final class ChatEngine {
     private let silenceWindow: TimeInterval
     private let resumeDelay: TimeInterval
     private let sendSuppressionWindow: TimeInterval
+    private let voiceThreshold: Float
 
     init(
         persona: ChatPersona,
         store: any ChatStore,
         dependencies: ChatEngineDependencies,
-        silenceWindow: TimeInterval = 2,
+        silenceWindow: TimeInterval = 1.2,
         resumeDelay: TimeInterval = 0.35,
-        sendSuppressionWindow: TimeInterval = 0.6
+        sendSuppressionWindow: TimeInterval = 0.6,
+        voiceThreshold: Float = 0.02
     ) {
         self.persona = persona
         self.store = store
@@ -112,6 +115,7 @@ final class ChatEngine {
         self.silenceWindow = silenceWindow
         self.resumeDelay = resumeDelay
         self.sendSuppressionWindow = sendSuppressionWindow
+        self.voiceThreshold = voiceThreshold
         self.messages = store.load()
         self.speech = dependencies.makeSpeech(persona.language.speechLocale)
         self.playback.onFinished = { [weak self] in
@@ -146,6 +150,7 @@ final class ChatEngine {
         suppressSendUntil = nil
         pendingResume = false
         transcriptText = ""
+        audioLevel = 0
         isGenerating = false
         voiceState = .idle
     }
@@ -197,6 +202,7 @@ final class ChatEngine {
         sendTranscript(force: true)
         tracker.reset()
         transcriptText = ""
+        audioLevel = 0
     }
 
     func toggleTTS() {
@@ -281,6 +287,11 @@ final class ChatEngine {
                 self?.handleSpeechError()
             }
         }
+        speech.onAudioLevel = { [weak self] rms in
+            Task { @MainActor in
+                self?.handleAudioLevel(rms)
+            }
+        }
         do {
             try speech.startRecording()
             voiceState = .recording
@@ -300,6 +311,16 @@ final class ChatEngine {
         }
     }
 
+    private func handleAudioLevel(_ rms: Float) {
+        guard voiceState == .recording else { return }
+        if rms > voiceThreshold {
+            scheduleSilenceTimer()
+            audioLevel = min(1, rms / (voiceThreshold * 4))
+        } else {
+            audioLevel = 0
+        }
+    }
+
     private func handleSpeechError() {
         guard voiceState == .recording else { return }
         stopSpeechAndSend()
@@ -310,6 +331,7 @@ final class ChatEngine {
         speech?.stopRecording()
         voiceState = .idle
         transcriptText = ""
+        audioLevel = 0
     }
 
     private func cancelSilenceTimer() {

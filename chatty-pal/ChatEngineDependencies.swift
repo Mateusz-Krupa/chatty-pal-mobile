@@ -29,6 +29,7 @@ extension PollySpeechService: SpeechSynthesizing {}
 protocol SpeechRecognition: AnyObject {
     var onTranscription: ((String, Bool) -> Void)? { get set }
     var onError: ((Error) -> Void)? { get set }
+    var onAudioLevel: ((Float) -> Void)? { get set }
     func requestPermissions() async -> Bool
     func startRecording() throws
     func stopRecording()
