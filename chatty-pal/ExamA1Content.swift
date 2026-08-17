@@ -1018,6 +1018,152 @@ private let readingUnits: [ExamUnit] = [
         ],
         speakingScenario: nil,
         writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-read-mail",
+        section: .reading,
+        title: "Eine private E-Mail",
+        subtitle: "Read an invitation by e-mail and answer questions",
+        text: """
+        Betreff: Kommst du zu meiner Geburtstagsfeier?
+        Hallo Anna,
+        am Samstag, den 15. Mai, habe ich Geburtstag. Ich bin dann 25 Jahre alt! Ich feiere in der Gaststätte \"Zur Sonne\" in der Hauptstraße. Die Feier beginnt um 19 Uhr und dauert bis 24 Uhr. Es gibt Kuchen und Getränke. Bitte komm pünktlich!
+        Liebe Grüße
+        Tom
+        """,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-read-mail-1", german: "die Feier", english: "celebration, party", example: "Die Feier beginnt um 19 Uhr.", exampleEnglish: "The celebration starts at 7 p.m."),
+            ExamVocabularyItem(id: "a1-read-mail-2", german: "pünktlich", english: "on time", example: "Bitte komm pünktlich.", exampleEnglish: "Please come on time."),
+            ExamVocabularyItem(id: "a1-read-mail-3", german: "das Getränk (die Getränke)", english: "drink, beverage", example: "Es gibt Kaffee und Getränke.", exampleEnglish: "There is coffee and drinks.")
+        ],
+        phrases: [],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-read-mail-e1", kind: .multipleChoice, question: "Wie alt wird Tom?", options: ["24", "25", "26"], correctIndex: 1, explanation: "\"Ich bin dann 25 Jahre alt!\""),
+            ExamExercise(id: "a1-read-mail-e2", kind: .multipleChoice, question: "Wo ist die Feier?", options: ["in der Hauptstraße", "in der Gaststätte \"Zur Sonne\"", "im Park"], correctIndex: 1, explanation: "The party is in the Gaststätte (pub) \"Zur Sonne\" (which is in the Hauptstraße)."),
+            ExamExercise(id: "a1-read-mail-e3", kind: .multipleChoice, question: "Um wie viel Uhr beginnt die Feier?", options: ["um 15 Uhr", "um 19 Uhr", "um 24 Uhr"], correctIndex: 1, explanation: "\"Die Feier beginnt um 19 Uhr.\""),
+            ExamExercise(id: "a1-read-mail-e4", kind: .multipleChoice, question: "Was gibt es bei der Feier?", options: ["Kuchen und Getränke", "Pizza und Kaffee", "Suppe und Schnitzel"], correctIndex: 0, explanation: "\"Es gibt Kuchen und Getränke.\"")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-read-reise",
+        section: .reading,
+        title: "Ein Reiseangebot",
+        subtitle: "Read a travel offer and find the details",
+        text: """
+        Sommer in Italien!
+        7 Tage, Hotel \"La Bella Vista\" am Meer, in der Nähe von Rom.
+        Das Hotel hat 200 Zimmer mit Bad und Balkon. Es gibt ein Schwimmbad, einen Garten und ein Restaurant. Der Transfer vom Flughafen zum Hotel ist inklusive.
+        Preis: ab 499 Euro pro Person. Im Preis sind die Halbpension (Frühstück und Abendessen) und alle Kurse (Yoga und Sprache) enthalten.
+        Abreise: 3. Juli, Flughafen Berlin. Dauer: 7 Tage.
+        """,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-read-reise-1", german: "die Reise (die Reisen)", english: "trip, journey", example: "Die Reise dauert 7 Tage.", exampleEnglish: "The trip lasts 7 days."),
+            ExamVocabularyItem(id: "a1-read-reise-2", german: "inklusive", english: "included", example: "Der Transfer ist inklusive.", exampleEnglish: "The transfer is included."),
+            ExamVocabularyItem(id: "a1-read-reise-3", german: "die Halbpension", english: "half board", example: "Das Hotel hat Halbpension.", exampleEnglish: "The hotel has half board.")
+        ],
+        phrases: [],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-read-reise-e1", kind: .multipleChoice, question: "Wie viele Tage dauert die Reise?", options: ["3 Tage", "7 Tage", "14 Tage"], correctIndex: 1, explanation: "\"7 Tage\" / \"Dauer: 7 Tage.\""),
+            ExamExercise(id: "a1-read-reise-e2", kind: .multipleChoice, question: "Was hat das Hotel?", options: ["Zimmer mit Balkon", "Zimmer ohne Bad", "keinen Garten"], correctIndex: 0, explanation: "The rooms have a bathroom and a balcony; the hotel also has a garden."),
+            ExamExercise(id: "a1-read-reise-e3", kind: .multipleChoice, question: "Was ist NICHT im Preis?", options: ["der Transfer", "die Halbpension", "der Flug nach Berlin"], correctIndex: 2, explanation: "The transfer and half board are included; only the price from 499 euros is mentioned, the flight to Berlin is not part of the offer details."),
+            ExamExercise(id: "a1-read-reise-e4", kind: .multipleChoice, question: "Wann ist die Abreise?", options: ["3. Juli", "15. Mai", "3. August"], correctIndex: 0, explanation: "\"Abreise: 3. Juli, Flughafen Berlin.\"")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-read-formular",
+        section: .reading,
+        title: "Ein Formular",
+        subtitle: "Read a registration form and match the information",
+        text: """
+        Anmeldung bei der Volkshochschule
+        Name: Müller
+        Vorname: Stefan
+        Adresse: Lindenstraße 12, 10115 Berlin
+        Geburtsdatum: 12.03.1990
+        Beruf: IT-Spezialist
+        Kurs: Deutsch B1, Gruppe 4
+        Uhrzeit: Montag und Mittwoch, 18–20 Uhr
+        Kursbeginn: 5. September
+        Gebühr: 80 Euro (mit Ermäßigung: 50 Euro)
+        """,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-read-formular-1", german: "die Anmeldung", english: "registration", example: "Die Anmeldung ist fertig.", exampleEnglish: "The registration is complete."),
+            ExamVocabularyItem(id: "a1-read-formular-2", german: "die Gebühr (die Gebühren)", english: "fee", example: "Die Gebühr beträgt 80 Euro.", exampleEnglish: "The fee is 80 euros."),
+            ExamVocabularyItem(id: "a1-read-formular-3", german: "die Ermäßigung", english: "discount", example: "Mit Ermäßigung kostet der Kurs 50 Euro.", exampleEnglish: "With the discount the course costs 50 euros.")
+        ],
+        phrases: [],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-read-formular-e1", kind: .multipleChoice, question: "Wie heißt die Person?", options: ["Stefan Müller", "Müller Stefan", "Anna Müller"], correctIndex: 0, explanation: "Vorname (first name) Stefan + Name (surname) Müller."),
+            ExamExercise(id: "a1-read-formular-e2", kind: .multipleChoice, question: "Welchen Kurs macht Stefan?", options: ["Deutsch A1, Gruppe 1", "Deutsch B1, Gruppe 4", "Englisch B1, Gruppe 4"], correctIndex: 1, explanation: "\"Kurs: Deutsch B1, Gruppe 4.\""),
+            ExamExercise(id: "a1-read-formular-e3", kind: .multipleChoice, question: "Wann ist der Kurs?", options: ["Montag und Mittwoch, 18–20 Uhr", "Dienstag und Donnerstag, 18–20 Uhr", "Montag und Mittwoch, 16–18 Uhr"], correctIndex: 0, explanation: "\"Uhrzeit: Montag und Mittwoch, 18–20 Uhr.\""),
+            ExamExercise(id: "a1-read-formular-e4", kind: .multipleChoice, question: "Wie viel kostet der Kurs mit Ermäßigung?", options: ["80 Euro", "50 Euro", "30 Euro"], correctIndex: 1, explanation: "\"mit Ermäßigung: 50 Euro\".")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-read-stellenanzeige",
+        section: .reading,
+        title: "Eine Stellenanzeige",
+        subtitle: "Read a job ad and check the requirements",
+        text: """
+        Wir suchen: Lagermitarbeiter (m/w/d)
+        Unsere Firma in Hamburg sucht ab sofort einen Lagermitarbeiter.
+        Das bringen Sie mit: Sie sind zuverlässig, Sie sprechen Deutsch (B1) und Sie haben einen Führerschein (Klasse B). Erfahrung ist von Vorteil, aber nicht nötig.
+        Das bieten wir: gute Bezahlung (14 Euro pro Stunde), eine Vollzeitstelle (40 Stunden pro Woche) und ein nettes Team.
+        Arbeitszeit: Montag bis Freitag, 6–14 Uhr oder 10–18 Uhr.
+        Bewerbung: Bitte schicken Sie Ihre Bewerbung an: personal@firma-hamburg.de.
+        """,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-read-stellenanzeige-1", german: "die Stelle (die Stellen)", english: "position, job", example: "Die Stelle ist frei.", exampleEnglish: "The position is open."),
+            ExamVocabularyItem(id: "a1-read-stellenanzeige-2", german: "die Erfahrung", english: "experience", example: "Erfahrung ist von Vorteil.", exampleEnglish: "Experience is an advantage."),
+            ExamVocabularyItem(id: "a1-read-stellenanzeige-3", german: "der Führerschein", english: "driver's licence", example: "Ich habe einen Führerschein.", exampleEnglish: "I have a driver's licence.")
+        ],
+        phrases: [],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-read-stellenanzeige-e1", kind: .multipleChoice, question: "Was sucht die Firma?", options: ["einen Lehrer", "einen Lagermitarbeiter", "eine Ärztin"], correctIndex: 1, explanation: "\"Wir suchen: Lagermitarbeiter.\""),
+            ExamExercise(id: "a1-read-stellenanzeige-e2", kind: .multipleChoice, question: "Was ist NICHT nötig?", options: ["Deutsch B1", "ein Führerschein", "Erfahrung"], correctIndex: 2, explanation: "\"Erfahrung ist von Vorteil, aber nicht nötig.\""),
+            ExamExercise(id: "a1-read-stellenanzeige-e3", kind: .multipleChoice, question: "Wie viel bekommt die Person?", options: ["10 Euro pro Stunde", "14 Euro pro Stunde", "40 Euro pro Woche"], correctIndex: 1, explanation: "\"14 Euro pro Stunde\" (40 hours is the weekly working time)."),
+            ExamExercise(id: "a1-read-stellenanzeige-e4", kind: .multipleChoice, question: "Wie schickt man die Bewerbung?", options: ["per E-Mail", "per Post", "mündlich"], correctIndex: 0, explanation: "Send the application to personal@firma-hamburg.de (e-mail).")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-read-museum",
+        section: .reading,
+        title: "Museumshinweise",
+        subtitle: "Read museum information and answer questions",
+        text: """
+        Städtisches Museum
+        Öffnungszeiten: Dienstag bis Freitag 10–18 Uhr, Samstag und Sonntag 11–17 Uhr, Montag geschlossen.
+        Eintritt: Erwachsene 8 Euro, Studenten 4 Euro, Kinder unter 12 Jahren frei.
+        Die Führung beginnt jeden Tag um 14 Uhr. Dauer: 1 Stunde.
+        Im Museum gibt es eine kleine Café. Dort gibt es Kaffee, Tee und Kuchen.
+        """,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-read-museum-1", german: "die Öffnungszeiten", english: "opening hours", example: "Die Öffnungszeiten sind von 10 bis 18 Uhr.", exampleEnglish: "The opening hours are from 10 to 6."),
+            ExamVocabularyItem(id: "a1-read-museum-2", german: "der Eintritt (die Eintrittspreise)", english: "entrance, admission", example: "Der Eintritt kostet 8 Euro.", exampleEnglish: "Admission costs 8 euros."),
+            ExamVocabularyItem(id: "a1-read-museum-3", german: "die Führung", english: "guided tour", example: "Die Führung dauert eine Stunde.", exampleEnglish: "The tour lasts one hour.")
+        ],
+        phrases: [],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-read-museum-e1", kind: .multipleChoice, question: "Wann ist das Museum geschlossen?", options: ["montags", "dienstags", "sonntags"], correctIndex: 0, explanation: "\"Montag geschlossen\" = closed on Monday."),
+            ExamExercise(id: "a1-read-museum-e2", kind: .multipleChoice, question: "Was zahlt ein Student?", options: ["8 Euro", "4 Euro", "nichts"], correctIndex: 1, explanation: "\"Studenten 4 Euro\" (children under 12 pay nothing)."),
+            ExamExercise(id: "a1-read-museum-e3", kind: .multipleChoice, question: "Wann beginnt die Führung?", options: ["um 11 Uhr", "um 14 Uhr", "um 18 Uhr"], correctIndex: 1, explanation: "\"Die Führung beginnt jeden Tag um 14 Uhr.\""),
+            ExamExercise(id: "a1-read-museum-e4", kind: .multipleChoice, question: "Was gibt es im Café?", options: ["Kaffee, Tee und Kuchen", "Pizza und Suppe", "nur Wasser"], correctIndex: 0, explanation: "\"Dort gibt es Kaffee, Tee und Kuchen.\"")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
     )
 ]
 
@@ -1044,6 +1190,106 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-bahnhof-e1", kind: .listening, question: "Wann fährt der Zug nach Berlin?", options: ["um 9 Uhr 00", "um 9 Uhr 30", "um 10 Uhr 30"], correctIndex: 1, explanation: "You hear: \"Der Zug nach Berlin ist um 9 Uhr 30.\"", spokenText: "Der Zug nach Berlin ist um 9 Uhr 30."),
             ExamExercise(id: "a1-list-bahnhof-e2", kind: .listening, question: "Was muss die Person machen?", options: ["rechts gehen", "zwei Gleise weiter gehen", "warten"], correctIndex: 1, explanation: "You hear: \"Geh bitte zwei Gleise weiter, dann links.\"", spokenText: "Geh bitte zwei Gleise weiter, dann links."),
             ExamExercise(id: "a1-list-bahnhof-e3", kind: .listening, question: "Was ist das Problem?", options: ["Der Zug ist spät.", "Der Zug ist voller.", "Der Zug ist abgesagt."], correctIndex: 2, explanation: "\"ausfallen\" means the train is cancelled (abgesagt).", spokenText: "Leider fällt der Zug heute aus.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-list-einkauf",
+        section: .listening,
+        title: "Am Markt",
+        subtitle: "Listen to a conversation at the market",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-list-einkauf-1", german: "der Markt (die Märkte)", english: "market", example: "Am Markt ist es laut.", exampleEnglish: "The market is noisy."),
+            ExamVocabularyItem(id: "a1-list-einkauf-2", german: "frisch", english: "fresh", example: "Das Obst ist frisch.", exampleEnglish: "The fruit is fresh."),
+            ExamVocabularyItem(id: "a1-list-einkauf-3", german: "das Kilo", english: "kilogram", example: "Ein Kilo Tomaten kostet drei Euro.", exampleEnglish: "One kilo of tomatoes costs three euros.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-list-einkauf-p1", german: "Wie viel kostet das per Kilo?", english: "How much is that per kilo?"),
+            ExamPhrase(id: "a1-list-einkauf-p2", german: "Kann ich das probieren?", english: "Can I try that?")
+        ],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-list-einkauf-e1", kind: .listening, question: "Was kauft die Frau?", options: ["Tomaten", "Kartoffeln", "Zitronen"], correctIndex: 0, explanation: "You hear: \"Ich möchte zwei Kilo Tomaten, bitte.\"", spokenText: "Guten Morgen! Was möchten Sie? — Ich möchte zwei Kilo Tomaten, bitte."),
+            ExamExercise(id: "a1-list-einkauf-e2", kind: .listening, question: "Wie viel kostet ein Kilo?", options: ["2,50 Euro", "3,00 Euro", "3,50 Euro"], correctIndex: 2, explanation: "You hear: \"Ein Kilo kostet drei Euro fünfzig.\"", spokenText: "Ein Kilo kostet drei Euro fünfzig."),
+            ExamExercise(id: "a1-list-einkauf-e3", kind: .listening, question: "Was ist das Problem der Tomaten?", options: ["Sie sind teuer.", "Sie sind nicht frisch.", "Sie sind reif."], correctIndex: 1, explanation: "You hear: \"Leider sind die Tomaten nicht frisch. Die von gestern sind besser.\"", spokenText: "Leider sind die Tomaten nicht frisch. Die von gestern sind besser."),
+            ExamExercise(id: "a1-list-einkauf-e4", kind: .listening, question: "Wie bezahlt die Frau?", options: ["mit Karte", "in bar", "mit Scheck"], correctIndex: 1, explanation: "You hear: \"Ich zahle gerne in bar.\"", spokenText: "Alles zusammen: sieben Euro. — Okay, ich zahle gerne in bar.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-list-restaurant",
+        section: .listening,
+        title: "Im Restaurant",
+        subtitle: "Listen to an order in a restaurant",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-list-restaurant-1", german: "die Bestellung", english: "order", example: "Meine Bestellung ist fertig.", exampleEnglish: "My order is ready."),
+            ExamVocabularyItem(id: "a1-list-restaurant-2", german: "die Rechnung (die Rechnungen)", english: "bill, check", example: "Die Rechnung, bitte.", exampleEnglish: "The bill, please."),
+            ExamVocabularyItem(id: "a1-list-restaurant-3", german: "die Vorspeise", english: "starter, appetizer", example: "Die Vorspeise ist lecker.", exampleEnglish: "The starter is tasty.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-list-restaurant-p1", german: "Die Rechnung, bitte.", english: "The bill, please."),
+            ExamPhrase(id: "a1-list-restaurant-p2", german: "Empfehlen Sie etwas?", english: "Do you recommend anything?")
+        ],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-list-restaurant-e1", kind: .listening, question: "Was bestellt der Mann zu trinken?", options: ["ein Wasser", "einen Saft", "einen Kaffee"], correctIndex: 1, explanation: "You hear: \"Ich hätte gern einen Apfelsaft, bitte.\"", spokenText: "Was möchten Sie trinken? — Ich hätte gern einen Apfelsaft, bitte."),
+            ExamExercise(id: "a1-list-restaurant-e2", kind: .listening, question: "Was bestellt die Frau?", options: ["Schnitzel", "Pasta", "Suppe"], correctIndex: 1, explanation: "You hear: \"Ich nehme die Pasta mit Tomatensoße.\"", spokenText: "Und Sie? — Ich nehme die Pasta mit Tomatensoße."),
+            ExamExercise(id: "a1-list-restaurant-e3", kind: .listening, question: "Wie ist das Essen?", options: ["zu teuer", "sehr lecker", "zu salzig"], correctIndex: 1, explanation: "You hear: \"Das war sehr lecker. Vielen Dank!\"", spokenText: "Das Essen ist fertig. — Sehr gut! ... Das war sehr lecker. Vielen Dank!"),
+            ExamExercise(id: "a1-list-restaurant-e4", kind: .listening, question: "Wie viel kostet die Rechnung?", options: ["38,50 Euro", "42,50 Euro", "48,50 Euro"], correctIndex: 0, explanation: "You hear: \"Das macht zusammen achtunddreißig Euro fünfzig.\"", spokenText: "Die Rechnung? — Die ist schon da. Das macht zusammen achtunddreißig Euro fünfzig.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-list-telefon",
+        section: .listening,
+        title: "Ein Anruf beim Arzt",
+        subtitle: "Listen to a phone call about an appointment",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-list-telefon-1", german: "der Termin (die Termine)", english: "appointment", example: "Ich habe einen Termin.", exampleEnglish: "I have an appointment."),
+            ExamVocabularyItem(id: "a1-list-telefon-2", german: "der Terminplan", english: "appointment schedule", example: "Morgen habe ich einen vollen Terminplan.", exampleEnglish: "Tomorrow my schedule is full."),
+            ExamVocabularyItem(id: "a1-list-telefon-3", german: "sich verabreden", english: "to make a plan to meet", example: "Wir verabreden uns für Freitag.", exampleEnglish: "We plan to meet on Friday.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-list-telefon-p1", german: "Haben Sie noch einen Termin frei?", english: "Do you still have a free appointment?"),
+            ExamPhrase(id: "a1-list-telefon-p2", german: "Wann passt es Ihnen?", english: "When suits you?")
+        ],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-list-telefon-e1", kind: .listening, question: "Wen möchte die Frau anrufen?", options: ["den Arzt", "das Hotel", "die Schule"], correctIndex: 0, explanation: "You hear: \"Guten Tag, hier ist Anna Weber. Ich möchte einen Termin beim Arzt machen.\"", spokenText: "Guten Tag, hier ist Anna Weber. Ich möchte einen Termin beim Arzt machen."),
+            ExamExercise(id: "a1-list-telefon-e2", kind: .listening, question: "Warum ruft sie an?", options: ["Weil sie Fieber hat", "Weil ihr Zahn wehtut", "Weil sie ein Rezept braucht"], correctIndex: 1, explanation: "You hear: \"Mein Zahn tut sehr weh.\"", spokenText: "Mein Zahn tut sehr weh."),
+            ExamExercise(id: "a1-list-telefon-e3", kind: .listening, question: "Wann ist der Termin?", options: ["morgen um 10 Uhr", "übermorgen um 14 Uhr", "am Freitag um 9 Uhr"], correctIndex: 2, explanation: "You hear: \"Am Donnerstag ist keine Zeit frei. Aber am Freitag um 9 Uhr kann ich Sie nehmen.\"", spokenText: "Am Donnerstag ist keine Zeit frei. Aber am Freitag um 9 Uhr kann ich Sie nehmen."),
+            ExamExercise(id: "a1-list-telefon-e4", kind: .listening, question: "Was muss die Frau noch sagen?", options: ["Ihren Namen", "Ihre Adresse", "Ihre Versicherungsnummer"], correctIndex: 0, explanation: "You hear: \"Wie heißt Sie bitte? — Anna Weber.\"", spokenText: "Wie heißt Sie bitte? — Anna Weber.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-list-veranstaltung",
+        section: .listening,
+        title: "Ein Konzert im Kulturhaus",
+        subtitle: "Listen to an announcement about an event",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-list-veranstaltung-1", german: "das Konzert (die Konzerte)", english: "concert", example: "Das Konzert beginnt um 19 Uhr.", exampleEnglish: "The concert starts at 7 p.m."),
+            ExamVocabularyItem(id: "a1-list-veranstaltung-2", german: "das Ticket (die Tickets)", english: "ticket", example: "Die Tickets kosten 20 Euro.", exampleEnglish: "The tickets cost 20 euros."),
+            ExamVocabularyItem(id: "a1-list-veranstaltung-3", german: "der Einlass", english: "admission, entry", example: "Der Einlass ist um 18 Uhr.", exampleEnglish: "Entry is at 6 p.m.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-list-veranstaltung-p1", german: "Wo kann man Tickets kaufen?", english: "Where can you buy tickets?"),
+            ExamPhrase(id: "a1-list-veranstaltung-p2", german: "Um wie viel Uhr fängt das an?", english: "What time does it start?")
+        ],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-list-veranstaltung-e1", kind: .listening, question: "Wann ist das Konzert?", options: ["am Freitag", "am Samstag", "am Sonntag"], correctIndex: 1, explanation: "You hear: \"Am Samstag, den 20. Juni, ist das Konzert.\"", spokenText: "Sehr geehrte Gäste! Am Samstag, den 20. Juni, ist das Konzert im Kulturhaus."),
+            ExamExercise(id: "a1-list-veranstaltung-e2", kind: .listening, question: "Um wie viel Uhr beginnt das Konzert?", options: ["um 18 Uhr", "um 19 Uhr", "um 20 Uhr"], correctIndex: 1, explanation: "You hear: \"Der Einlass ist um 18 Uhr, das Konzert beginnt um 19 Uhr.\"", spokenText: "Der Einlass ist um 18 Uhr, das Konzert beginnt um 19 Uhr."),
+            ExamExercise(id: "a1-list-veranstaltung-e3", kind: .listening, question: "Wie viel kostet das Ticket?", options: ["15 Euro", "20 Euro", "25 Euro"], correctIndex: 1, explanation: "You hear: \"Die Tickets kosten zwanzig Euro. Mit Studentenausweis: fünfzehn Euro.\"", spokenText: "Die Tickets kosten zwanzig Euro. Mit Studentenausweis: fünfzehn Euro."),
+            ExamExercise(id: "a1-list-veranstaltung-e4", kind: .listening, question: "Wo kann man Tickets kaufen?", options: ["an der Tür", "im Internet", "beim Supermarkt"], correctIndex: 0, explanation: "You hear: \"Die Tickets gibt es an der Tür und im Internet.\"", spokenText: "Die Tickets gibt es an der Tür und im Internet.")
         ],
         speakingScenario: nil,
         writingPrompt: nil

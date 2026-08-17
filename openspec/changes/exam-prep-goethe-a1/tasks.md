@@ -40,9 +40,9 @@
 
 ## 4. Faza D: Lesen + Hören
 
-- [ ] 4.1 Lesen: 4–6 tekstów egzaminacyjnych (Anzeige, Mail, Prospekt, Formular) z zadaniem per tekst
-- [ ] 4.2 Hören: 4–6 dialogów/ogłoszeń ze `spokenText` (TTS) i zadaniami listening
-- [ ] 4.3 Build + testy + commit "Exam A1 phase D: reading and listening units"
+- [x] 4.1 Lesen: 4–6 tekstów egzaminacyjnych (Anzeige, Mail, Prospekt, Formular) z zadaniem per tekst
+- [x] 4.2 Hören: 4–6 dialogów/ogłoszeń ze `spokenText` (TTS) i zadaniami listening
+- [x] 4.3 Build + testy + commit "Exam A1 phase D: reading and listening units"
 
 ## 5. Faza E: Sprechen (scenariusze Teil 1–4)
 
