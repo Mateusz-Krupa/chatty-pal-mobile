@@ -12,20 +12,20 @@
 
 ## 2. Faza B: Słownictwo (12 jednostek tematycznych)
 
-- [ ] 2.1 Zeit und Daten (godziny, dni, miesiące, daty) + ćwiczenia
-- [ ] 2.2 Wohnen (mieszkanie, meble, kierunki) + ćwiczenia
-- [ ] 2.3 Essen und Trinken (jedzenie, w restauracji) + ćwiczenia
-- [ ] 2.4 Einkaufen (sklep, produkty, płatność, zwrot) + ćwiczenia
-- [ ] 2.5 Stadt und Wege (miasto, pytania o drogę) + ćwiczenia
-- [ ] 2.6 Gesundheit (części ciała, lekarz, apteka) + ćwiczenia
-- [ ] 2.7 Arbeit und Beruf (zawody, biuro, rozmowa kwalifikacyjna A1) + ćwiczenia
-- [ ] 2.8 Freizeit und Hobby (czas wolny, sport, zaproszenia) + ćwiczenia
-- [ ] 2.9 Kleidung (ubrania, rozmiary, kolory) + ćwiczenia
-- [ ] 2.10 Körper und Aussehen (opisywanie ludzi) + ćwiczenia
-- [ ] 2.11 Reisen (podróże, lotnisko, hotel) + ćwiczenia
-- [ ] 2.12 Telefonieren (rozmowy telefoniczne, umawianie się) + ćwiczenia
-- [ ] 2.12b Każda jednostka: ~10–14 Vokabeln, ~5 Phrasen, dialog, 4–6 ćwiczeń (MC/gap/listening)
-- [ ] 2.13 Build + testy + commit "Exam A1 phase B: vocabulary units"
+- [x] 2.1 Zeit und Daten (godziny, dni, miesiące, daty) + ćwiczenia
+- [x] 2.2 Wohnen (mieszkanie, meble, kierunki) + ćwiczenia
+- [x] 2.3 Essen und Trinken (jedzenie, w restauracji) + ćwiczenia
+- [x] 2.4 Einkaufen (sklep, produkty, płatność, zwrot) + ćwiczenia
+- [x] 2.5 Stadt und Wege (miasto, pytania o drogę) + ćwiczenia
+- [x] 2.6 Gesundheit (części ciała, lekarz, apteka) + ćwiczenia
+- [x] 2.7 Arbeit und Beruf (zawody, biuro, rozmowa kwalifikacyjna A1) + ćwiczenia
+- [x] 2.8 Freizeit und Hobby (czas wolny, sport, zaproszenia) + ćwiczenia
+- [x] 2.9 Kleidung (ubrania, rozmiary, kolory) + ćwiczenia
+- [x] 2.10 Körper und Aussehen (opisywanie ludzi) + ćwiczenia
+- [x] 2.11 Reisen (podróże, lotnisko, hotel) + ćwiczenia
+- [x] 2.12 Telefonieren (rozmowy telefoniczne, umawianie się) + ćwiczenia
+- [x] 2.12b Każda jednostka: ~10–14 Vokabeln, ~5 Phrasen, dialog, 4–6 ćwiczeń (MC/gap/listening)
+- [x] 2.13 Build + testy + commit "Exam A1 phase B: vocabulary units"
 
 ## 3. Faza C: Gramatyka (10 jednostek)
 
