@@ -213,6 +213,7 @@ struct ChatView: View {
             text: $messageText,
             isRecording: engine.isRecording,
             isPulsing: isPulsing,
+            isVoiceLocked: engine.voiceState == .waitingForBot || engine.voiceState == .playingTTS,
             onToggleRecording: { engine.toggleRecording() },
             onSend: sendMessage
         )

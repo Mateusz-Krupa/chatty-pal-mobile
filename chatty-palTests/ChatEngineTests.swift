@@ -223,7 +223,6 @@ private final class EngineHarness {
             store: resolvedStore,
             dependencies: dependencies,
             silenceWindow: silenceWindow,
-            resumeDelay: 0.05,
             sendSuppressionWindow: 0.05
         )
     }
@@ -281,7 +280,7 @@ final class ChatEngineTests: XCTestCase {
         XCTAssertEqual(harness.engine.isGenerating, false)
     }
 
-    func testVoiceFlowSendsTranscriptAndAutoResumesMic() async {
+    func testVoiceFlowSendsTranscriptAndStaysClosed() async {
         let harness = makeHarness()
         harness.engine.startRecording()
         await settle()
@@ -292,14 +291,14 @@ final class ChatEngineTests: XCTestCase {
 
         XCTAssertEqual(userMessages(harness).map(\.message), ["Hallo wie geht's"])
         XCTAssertTrue(harness.engine.messages.contains { $0.role == .assistant && $0.message == "Bot reply" })
-        XCTAssertEqual(harness.engine.voiceState, .recording)
-        XCTAssertEqual(harness.speech.startCount, 2)
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+        XCTAssertEqual(harness.speech.startCount, 1)
         XCTAssertEqual(harness.playback.playCount, 1)
         XCTAssertEqual(harness.synth.calls.first?.text, "Bot reply")
         XCTAssertEqual(harness.synth.calls.first?.voiceId, "Vicki")
     }
 
-    func testVoiceFlowResumesMicWhenTTSFails() async {
+    func testVoiceFlowStaysClosedWhenTTSFails() async {
         let harness = makeHarness()
         harness.synth.mode = .fail
         harness.engine.startRecording()
@@ -307,8 +306,8 @@ final class ChatEngineTests: XCTestCase {
         harness.speech.emit("hello", isFinal: true)
         await settle(250)
 
-        XCTAssertEqual(harness.engine.voiceState, .recording)
-        XCTAssertEqual(harness.speech.startCount, 2)
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+        XCTAssertEqual(harness.speech.startCount, 1)
         XCTAssertEqual(harness.playback.playCount, 0)
     }
 
@@ -338,7 +337,7 @@ final class ChatEngineTests: XCTestCase {
         XCTAssertEqual(userMessages(harness).map(\.message), ["Hallo"])
     }
 
-    func testBotFailureAfterVoiceSendResumesMic() async {
+    func testBotFailureAfterVoiceSendStaysClosed() async {
         let harness = makeHarness()
         harness.bot.mode = .fail
         harness.teacher.mode = .suspend
@@ -347,8 +346,8 @@ final class ChatEngineTests: XCTestCase {
         harness.speech.emit("help me", isFinal: true)
         await settle(250)
 
-        XCTAssertEqual(harness.engine.voiceState, .recording)
-        XCTAssertEqual(harness.speech.startCount, 2)
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+        XCTAssertEqual(harness.speech.startCount, 1)
         let last = harness.engine.messages.last
         XCTAssertEqual(last?.role, .assistant)
         XCTAssertEqual(last?.message, "Error: Fake error: bot-fail")
@@ -422,7 +421,7 @@ final class ChatEngineTests: XCTestCase {
         XCTAssertEqual(harness.engine.voiceState, .idle)
     }
 
-    func testReplayWhileRecordingStopsMicAndResumesAfterTTS() async {
+    func testReplayWhileRecordingStopsMicAndStaysClosed() async {
         let harness = makeHarness()
         harness.engine.startRecording()
         await settle()
@@ -430,8 +429,8 @@ final class ChatEngineTests: XCTestCase {
         harness.engine.speak("hello")
         await settle(250)
 
-        XCTAssertEqual(harness.engine.voiceState, .recording)
-        XCTAssertEqual(harness.speech.startCount, 2)
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+        XCTAssertEqual(harness.speech.startCount, 1)
         XCTAssertEqual(harness.playback.playCount, 1)
     }
 
@@ -503,13 +502,66 @@ final class ChatEngineTests: XCTestCase {
 
         harness.engine.stopSpeechAndSend()
         XCTAssertEqual(harness.engine.audioLevel, 0)
+        await settle(250)
+        XCTAssertEqual(harness.engine.voiceState, .idle)
 
         harness.engine.startRecording()
         await settle()
+        XCTAssertEqual(harness.engine.voiceState, .recording)
         harness.speech.emitLevel(0.1)
         await settle(20)
         XCTAssertGreaterThan(harness.engine.audioLevel, 0)
         harness.engine.interrupt()
         XCTAssertEqual(harness.engine.audioLevel, 0)
+    }
+
+    func testIsFinalMidSentenceDoesNotSendUntilSilence() async {
+        let harness = EngineHarness(silenceWindow: 0.3)
+        harness.engine.startRecording()
+        await settle()
+
+        harness.speech.emit("Hallo", isFinal: true)
+        await settle(200)
+        XCTAssertEqual(userMessages(harness).map(\.message), [])
+
+        harness.speech.emit("Hallo und wie geht dir", isFinal: false)
+        await settle(200)
+        XCTAssertEqual(userMessages(harness).map(\.message), [])
+
+        await settle(250)
+        XCTAssertEqual(userMessages(harness).map(\.message), ["Hallo und wie geht dir"])
+    }
+
+    func testMicLockedDuringBotTurn() async {
+        let harness = makeHarness()
+        harness.playback.autoFinish = false
+        harness.bot.mode = .suspend
+        harness.teacher.mode = .suspend
+        harness.engine.sendText("question")
+        await settle()
+        XCTAssertEqual(harness.engine.voiceState, .waitingForBot)
+
+        harness.engine.startRecording()
+        await settle()
+        XCTAssertEqual(harness.engine.voiceState, .waitingForBot)
+        XCTAssertEqual(harness.speech.startCount, 0)
+
+        harness.bot.resolve(with: "answer")
+        await settle(150)
+        XCTAssertEqual(harness.engine.voiceState, .playingTTS)
+
+        harness.engine.startRecording()
+        await settle()
+        XCTAssertEqual(harness.engine.voiceState, .playingTTS)
+        XCTAssertEqual(harness.speech.startCount, 0)
+
+        harness.playback.finish()
+        await settle()
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+
+        harness.engine.startRecording()
+        await settle()
+        XCTAssertEqual(harness.engine.voiceState, .recording)
+        XCTAssertEqual(harness.speech.startCount, 1)
     }
 }

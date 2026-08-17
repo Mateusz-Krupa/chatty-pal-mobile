@@ -4,6 +4,7 @@ struct ChatInputBar: View {
     @Binding var text: String
     let isRecording: Bool
     let isPulsing: Bool
+    var isVoiceLocked: Bool = false
     let onToggleRecording: () -> Void
     let onSend: () -> Void
 
@@ -62,12 +63,14 @@ struct ChatInputBar: View {
                     Circle()
                         .stroke(ChattyTheme.softHairline, lineWidth: 1)
                 )
-                .overlay(
-                    Circle()
-                        .stroke(Color.red.opacity(0.35), lineWidth: 2)
-                        .scaleEffect(isPulsing ? 1.35 : 0.9)
-                        .opacity(isPulsing ? 0 : 0.35)
-                )
+                    .overlay(
+                        Circle()
+                            .stroke(Color.red.opacity(0.35), lineWidth: 2)
+                            .scaleEffect(isPulsing ? 1.35 : 0.9)
+                            .opacity(isPulsing ? 0 : 0.35)
+                    )
+                    .opacity(isVoiceLocked ? 0.4 : 1)
+                    .disabled(isVoiceLocked)
         }
     }
 
@@ -77,6 +80,8 @@ struct ChatInputBar: View {
                 .font(.system(size: 28))
                 .foregroundStyle(isRecording ? Color.red : Color.accentColor)
         }
+        .opacity(isVoiceLocked ? 0.4 : 1)
+        .disabled(isVoiceLocked)
     }
 
     private var sendButton: some View {

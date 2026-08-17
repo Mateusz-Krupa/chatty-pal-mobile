@@ -92,10 +92,8 @@ final class ChatEngine {
     private var teacherTask: Task<Void, Never>?
     private var ttsTask: Task<Void, Never>?
     private var suppressSendUntil: Date?
-    private var pendingResume = false
 
     private let silenceWindow: TimeInterval
-    private let resumeDelay: TimeInterval
     private let sendSuppressionWindow: TimeInterval
     private let voiceThreshold: Float
 
@@ -104,7 +102,6 @@ final class ChatEngine {
         store: any ChatStore,
         dependencies: ChatEngineDependencies,
         silenceWindow: TimeInterval = 1.2,
-        resumeDelay: TimeInterval = 0.35,
         sendSuppressionWindow: TimeInterval = 0.6,
         voiceThreshold: Float = 0.02
     ) {
@@ -113,7 +110,6 @@ final class ChatEngine {
         self.dependencies = dependencies
         self.playback = dependencies.playback
         self.silenceWindow = silenceWindow
-        self.resumeDelay = resumeDelay
         self.sendSuppressionWindow = sendSuppressionWindow
         self.voiceThreshold = voiceThreshold
         self.messages = store.load()
@@ -148,7 +144,6 @@ final class ChatEngine {
         playback.stop()
         tracker.reset()
         suppressSendUntil = nil
-        pendingResume = false
         transcriptText = ""
         audioLevel = 0
         isGenerating = false
@@ -164,7 +159,6 @@ final class ChatEngine {
         let text = TranscriptTracker.trimmed(rawText)
         guard !text.isEmpty, isActive else { return }
         if voiceState == .recording {
-            pendingResume = true
             stopSpeechWithoutSend()
         }
         append(ChatMessage(role: .user, message: text))
@@ -184,12 +178,12 @@ final class ChatEngine {
     }
 
     func startRecording() {
-        guard voiceState != .recording, isActive else { return }
+        guard voiceState == .idle, isActive else { return }
         guard let speech else { return }
         Task { [weak self] in
             guard let self else { return }
             guard await speech.requestPermissions() else { return }
-            guard self.voiceState != .recording else { return }
+            guard self.voiceState == .idle else { return }
             self.beginRecording()
         }
     }
@@ -225,7 +219,6 @@ final class ChatEngine {
             return
         }
         if voiceState == .recording {
-            pendingResume = true
             stopSpeechWithoutSend()
         }
         voiceState = .playingTTS
@@ -273,7 +266,6 @@ final class ChatEngine {
     private func beginRecording() {
         guard let speech else { return }
         playback.stop()
-        pendingResume = false
         transcriptText = ""
         tracker.reset()
         cancelSilenceTimer()
@@ -303,12 +295,7 @@ final class ChatEngine {
     private func handleTranscription(text: String, isFinal: Bool) {
         guard voiceState == .recording else { return }
         transcriptText = text
-        if isFinal {
-            cancelSilenceTimer()
-            sendTranscript()
-        } else {
-            scheduleSilenceTimer()
-        }
+        scheduleSilenceTimer()
     }
 
     private func handleAudioLevel(_ rms: Float) {
@@ -401,19 +388,6 @@ final class ChatEngine {
     private func finishPlaybackPhase() {
         guard voiceState == .playingTTS || voiceState == .waitingForBot else { return }
         voiceState = .idle
-        if pendingResume {
-            pendingResume = false
-            scheduleResumeRecording()
-        }
-    }
-
-    private func scheduleResumeRecording() {
-        let delay = resumeDelay
-        Task { [weak self] in
-            try? await Task.sleep(for: .seconds(delay))
-            guard let self, !Task.isCancelled, self.voiceState == .idle else { return }
-            self.startRecording()
-        }
     }
 
     private func append(_ message: ChatMessage) {
