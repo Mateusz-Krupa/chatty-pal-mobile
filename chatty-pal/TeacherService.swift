@@ -20,6 +20,21 @@ struct TeacherService {
     }
 
     func fixText(message: String, language: String) async throws -> TeacherResponse {
+        try await send(message: "Fix to \(language): \(message)")
+    }
+
+    func examFix(text: String) async throws -> TeacherResponse {
+        let framed = """
+        You are a friendly examiner for the Goethe-Zertifikat A1 writing exam. \
+        The student wrote a short German text for the A1 exam. \
+        First give the corrected version of the text (keep it simple, A1 level). \
+        Then give 2-3 very short improvement tips. \
+        Student text: \(text)
+        """
+        return try await send(message: framed)
+    }
+
+    private func send(message: String) async throws -> TeacherResponse {
         var request = URLRequest(url: baseURL.appendingNextAPIPath("fix-text"))
         request.httpMethod = "POST"
         request.timeoutInterval = 30
@@ -35,7 +50,7 @@ struct TeacherService {
             request.setValue(referer, forHTTPHeaderField: "Referer")
         }
 
-        let payload = TeacherRequest(message: "Fix to \(language): \(message)")
+        let payload = TeacherRequest(message: message)
         request.httpBody = try JSONEncoder().encode(payload)
 
         let (data, response) = try await URLSession.shared.data(for: request)

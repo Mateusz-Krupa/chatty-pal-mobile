@@ -1576,5 +1576,74 @@ private let writingUnits: [ExamUnit] = [
         exercises: [],
         speakingScenario: nil,
         writingPrompt: "Write a short message (4-6 sentences) to a friend. Tell them: What did you do last weekend? What are you doing this Saturday? Invite your friend to join you. Use simple A1 sentences."
+    ),
+    ExamUnit(
+        id: "a1-schreib-bewerbung",
+        section: .writing,
+        title: "Eine formelle Nachricht",
+        subtitle: "Write a formal message: short job application",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-schreib-bewerbung-1", german: "die Bewerbung", english: "job application", example: "Ich schreibe eine Bewerbung.", exampleEnglish: "I am writing a job application."),
+            ExamVocabularyItem(id: "a1-schreib-bewerbung-2", german: "der Job / die Stelle", english: "the job / position", example: "Ich suche einen Job im Café.", exampleEnglish: "I am looking for a job in a café."),
+            ExamVocabularyItem(id: "a1-schreib-bewerbung-3", german: "die Erfahrung", english: "experience", example: "Ich habe Erfahrung mit Kunden.", exampleEnglish: "I have experience with customers."),
+            ExamVocabularyItem(id: "a1-schreib-bewerbung-4", german: "das Anschreiben", english: "cover letter", example: "Im Anschreiben stehe meine Daten.", exampleEnglish: "My details are in the cover letter.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-schreib-bewerbung-p1", german: "Sehr geehrte Damen und Herren,", english: "Dear Sir or Madam,"),
+            ExamPhrase(id: "a1-schreib-bewerbung-p2", german: "Ich bewerbe mich um die Stelle als ...", english: "I am applying for the position as ..."),
+            ExamPhrase(id: "a1-schreib-bewerbung-p3", german: "Ich bin zuverlässig und arbeite gern im Team.", english: "I am reliable and like working in a team."),
+            ExamPhrase(id: "a1-schreib-bewerbung-p4", german: "Mit freundlichen Grüßen", english: "Yours sincerely")
+        ],
+        dialogue: [],
+        exercises: [],
+        speakingScenario: nil,
+        writingPrompt: "Write a short formal message (5-7 sentences): a simple job application (Bewerbung) for a part-time job (Café, Supermarkt, or Büro). Include: a formal greeting (Sehr geehrte Damen und Herren,), which position you apply for, a short sentence about yourself (age, city, language level), one reason why you are suitable (zuverlässig, Teamarbeit, Erfahrung), and a formal closing (Mit freundlichen Grüßen)."
+    ),
+    ExamUnit(
+        id: "a1-schreib-einladung",
+        section: .writing,
+        title: "Eine Einladung",
+        subtitle: "Write an invitation to a friend",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-schreib-einladung-1", german: "das Fest / die Feier", english: "the party / celebration", example: "Wir machen ein kleines Fest.", exampleEnglish: "We are having a small party."),
+            ExamVocabularyItem(id: "a1-schreib-einladung-2", german: "einzuladen", english: "to invite", example: "Ich lade dich zu meiner Geburtstagsfeier ein.", exampleEnglish: "I am inviting you to my birthday party."),
+            ExamVocabularyItem(id: "a1-schreib-einladung-3", german: "der Geburtstag", english: "birthday", example: "Mein Geburtstag ist am 15. Juni.", exampleEnglish: "My birthday is on June 15."),
+            ExamVocabularyItem(id: "a1-schreib-einladung-4", german: "Kannst du ...?", english: "Can you ...?", example: "Kannst du um 18 Uhr kommen?", exampleEnglish: "Can you come at 6 p.m.?")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-schreib-einladung-p1", german: "Ich lade dich zu meiner Feier ein!", english: "I am inviting you to my celebration!"),
+            ExamPhrase(id: "a1-schreib-einladung-p2", german: "Es ist am Samstag, den 15. Juni, um 18 Uhr.", english: "It is on Saturday, June 15, at 6 p.m."),
+            ExamPhrase(id: "a1-schreib-einladung-p3", german: "Kannst du kommen? Sag mir bitte Bescheid.", english: "Can you come? Please let me know."),
+            ExamPhrase(id: "a1-schreib-einladung-p4", german: "Ich freue mich auf dich!", english: "I am looking forward to seeing you!")
+        ],
+        dialogue: [],
+        exercises: [],
+        speakingScenario: nil,
+        writingPrompt: "Write an invitation (5-6 sentences) to a friend for your birthday party. Include: who is invited, the date (Samstag, 15. Juni) and the time (18 Uhr), the place (bei mir zu Hause, in der Stadt), what you will do (essen, Musik, Tanz), a question (Kannst du kommen? Sag mir bitte Bescheid.), and a friendly closing (Ich freue mich auf dich!)."
+    ),
+    ExamUnit(
+        id: "a1-schreib-beschwerde",
+        section: .writing,
+        title: "Eine Beschwerde",
+        subtitle: "Write a complaint letter",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-schreib-beschwerde-1", german: "die Beschwerde", english: "complaint", example: "Ich schreibe eine Beschwerde.", exampleEnglish: "I am writing a complaint."),
+            ExamVocabularyItem(id: "a1-schreib-beschwerde-2", german: "das Problem", english: "the problem", example: "Es gibt ein Problem mit dem Zimmer.", exampleEnglish: "There is a problem with the room."),
+            ExamVocabularyItem(id: "a1-schreib-beschwerde-3", german: "unangenehm", english: "unpleasant", example: "Die Musik ist laut und unangenehm.", exampleEnglish: "The music is loud and unpleasant."),
+            ExamVocabularyItem(id: "a1-schreib-beschwerde-4", german: "zurückbekommen", english: "to get back (money)", example: "Ich möchte mein Geld zurückbekommen.", exampleEnglish: "I want my money back.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-schreib-beschwerde-p1", german: "Ich schreibe Ihnen, weil ...", english: "I am writing to you because ..."),
+            ExamPhrase(id: "a1-schreib-beschwerde-p2", german: "Es gibt ein Problem mit ...", english: "There is a problem with ..."),
+            ExamPhrase(id: "a1-schreib-beschwerde-p3", german: "Können Sie das bitte beheben?", english: "Can you please fix that?"),
+            ExamPhrase(id: "a1-schreib-beschwerde-p4", german: "Ich hoffe, Sie helfen mir. Mit freundlichen Grüßen", english: "I hope you will help me. Yours sincerely")
+        ],
+        dialogue: [],
+        exercises: [],
+        speakingScenario: nil,
+        writingPrompt: "Write a short complaint (5-6 sentences) to a hotel. The problem: the room is small and noisy at night (music from the bar). Include: a formal greeting, the reason for writing (Ich schreibe Ihnen, weil ...), the problem (small room, noisy at night), what you want (another room or money back), a polite question (Können Sie das bitte beheben?), and a formal closing (Mit freundlichen Grüßen)."
     )
 ]

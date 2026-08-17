@@ -269,15 +269,7 @@ struct ExamUnitDetailView: View {
                 }
 
                 if let prompt = unit.writingPrompt {
-                    card(title: "Schreiben") {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(prompt)
-                                .font(.subheadline)
-                            Text("Write your text in the chat, then ask your partner to correct it.")
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+                    WritingCard(prompt: prompt)
                 }
             }
             .padding(16)
@@ -502,6 +494,119 @@ struct ExamSpeakingView: View {
         isPulsing = false
         withAnimation(.easeOut(duration: 1.0).repeatForever(autoreverses: false)) {
             isPulsing = true
+        }
+    }
+}
+
+// MARK: - Writing card
+
+private struct WritingCard: View {
+    let prompt: String
+    @State private var text = ""
+    @State private var isChecking = false
+    @State private var feedback: String?
+    @State private var errorMessage: String?
+
+    private var trimmedText: String {
+        text.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Schreiben")
+                .font(.headline)
+            Text(prompt)
+                .font(.subheadline)
+
+            ZStack(alignment: .topLeading) {
+                if trimmedText.isEmpty {
+                    Text("Schreib deinen Text hier ...")
+                        .font(.subheadline)
+                        .foregroundStyle(.tertiary)
+                        .padding(.top, 10)
+                        .padding(.leading, 8)
+                        .allowsHitTesting(false)
+                }
+                TextEditor(text: $text)
+                    .font(.subheadline)
+                    .frame(minHeight: 140)
+                    .padding(6)
+                    .scrollContentBackground(.hidden)
+            }
+            .background(Color.clear, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .stroke(ChattyTheme.softHairline, lineWidth: 1)
+            )
+
+            Button {
+                checkWriting()
+            } label: {
+                Group {
+                    if isChecking {
+                        ProgressView()
+                    } else {
+                        Text("Check my writing")
+                            .font(.subheadline.weight(.semibold))
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(trimmedText.isEmpty || isChecking)
+
+            if let feedback {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Feedback")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Color.accentColor)
+                    Text(feedback)
+                        .font(.footnote)
+                        .lineSpacing(3)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(10)
+                .background(Color.green.opacity(0.08), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            }
+
+            if let errorMessage {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(errorMessage)
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                    Button("Try again") {
+                        checkWriting()
+                    }
+                    .font(.footnote.weight(.semibold))
+                    .disabled(isChecking)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(10)
+                .background(Color.orange.opacity(0.08), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(14)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+    }
+
+    private func checkWriting() {
+        guard !trimmedText.isEmpty, !isChecking else { return }
+        isChecking = true
+        feedback = nil
+        errorMessage = nil
+        let submitted = trimmedText
+        Task {
+            do {
+                let service = TeacherService()
+                let response = try await service.examFix(text: submitted)
+                errorMessage = nil
+                feedback = response.message
+            } catch {
+                errorMessage = "Could not check your text (\(error.localizedDescription)). Your text is saved — try again."
+            }
+            isChecking = false
         }
     }
 }

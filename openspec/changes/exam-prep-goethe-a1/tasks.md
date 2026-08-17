@@ -55,10 +55,10 @@
 
 ## 6. Faza F: Schreiben + korekta
 
-- [ ] 6.1 Writing units: Kurze Nachricht (jest), formelle Nachricht/Bewerbung, +2 kolejne (Einladung, Beschwerde)
-- [ ] 6.2 UI Schreiben: prompt + edytor tekstu + "Check my writing" (teacher endpoint, prompt ramujący jako egzamin A1 — decyzja: istniejący teacher-fix z rozszerzonym promptem)
-- [ ] 6.3 Obsługa błędów: pusty tekst, błąd sieci/auth (zapis tekstu, retry)
-- [ ] 6.4 Build + testy + commit "Exam A1 phase F: writing with correction"
+- [x] 6.1 Writing units: Kurze Nachricht (jest), formelle Nachricht/Bewerbung, +2 kolejne (Einladung, Beschwerde)
+- [x] 6.2 UI Schreiben: prompt + edytor tekstu + "Check my writing" (teacher endpoint, prompt ramujący jako egzamin A1 — decyzja: istniejący teacher-fix z rozszerzonym promptem)
+- [x] 6.3 Obsługa błędów: pusty tekst, błąd sieci/auth (zapis tekstu, retry)
+- [x] 6.4 Build + testy + commit "Exam A1 phase F: writing with correction"
 
 ## 7. Faza G: Progres + Mini-Examen + testy spójności
 
