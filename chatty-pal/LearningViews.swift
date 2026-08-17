@@ -187,6 +187,10 @@ private struct LearningLessonDetailView: View {
         LanguageConfig.all[lesson.languageCode]?.voice ?? LanguageConfig.default.voice
     }
 
+    private var lessonSpeechLocale: String {
+        LanguageConfig.all[lesson.languageCode]?.speechLocale ?? "de-DE"
+    }
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 18) {
@@ -222,6 +226,18 @@ private struct LearningLessonDetailView: View {
                             LearningPhraseRow(
                                 phrase: phrase,
                                 isPlaying: playingText == phrase.mainContent,
+                                onPlay: { playLessonText(phrase.mainContent) }
+                            )
+                        }
+                    }
+                }
+
+                InfoSectionCard(title: "Shadowing: Listen & Repeat", systemImage: "waveform") {
+                    VStack(spacing: 10) {
+                        ForEach(lesson.phrases, id: \.self) { phrase in
+                            ShadowingPhraseRow(
+                                phrase: phrase,
+                                localeIdentifier: lessonSpeechLocale,
                                 onPlay: { playLessonText(phrase.mainContent) }
                             )
                         }
@@ -353,6 +369,130 @@ private struct LearningLessonDetailView: View {
                     audioError = "Could not load lesson audio. Make sure the speech service is available."
                 }
             }
+        }
+    }
+}
+
+private struct ShadowingPhraseRow: View {
+    let phrase: LearningPhrase
+    let localeIdentifier: String
+    let onPlay: () -> Void
+
+    @State private var isRecording = false
+    @State private var result: ShadowingScorer.Result?
+    @State private var addedToReview = false
+    @State private var speech: SpeechController?
+    @State private var lastSpoken = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 10) {
+                Button(action: onPlay) {
+                    Image(systemName: "speaker.wave.2.fill")
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color.accentColor)
+                }
+                Text(phrase.mainContent)
+                    .font(.body.weight(.medium))
+                Spacer()
+                Button {
+                    toggleRecording()
+                } label: {
+                    Image(systemName: isRecording ? "stop.circle.fill" : "mic.fill")
+                        .font(.system(size: 18))
+                        .foregroundStyle(isRecording ? Color.red : Color.accentColor)
+                }
+            }
+            if let support = phrase.supportContent, !support.isEmpty {
+                Text(support)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            if isRecording {
+                Text("Listening... say it now")
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
+            if let result {
+                HStack(spacing: 6) {
+                    ForEach(Array(result.words.enumerated()), id: \.offset) { _, match in
+                        Text(match.word)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(match.matched ? Color.green : Color.red)
+                    }
+                    Spacer()
+                    Text("\(result.percent)%")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(scoreColor)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(scoreColor.opacity(0.15), in: Capsule())
+                }
+            }
+            if addedToReview {
+                Label("Added to Word Review", systemImage: "plus.circle")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(12)
+        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+    }
+
+    private var scoreColor: Color {
+        guard let result else { return .secondary }
+        switch result.percent {
+        case 80...:
+            return .green
+        case 60..<80:
+            return .orange
+        default:
+            return .red
+        }
+    }
+
+    private func toggleRecording() {
+        if isRecording {
+            speech?.stopRecording()
+            isRecording = false
+            finishRecording()
+            return
+        }
+        let controller = speech ?? SpeechController(localeIdentifier: localeIdentifier)
+        speech = controller
+        Task {
+            guard await controller.requestPermissions() else { return }
+            controller.onTranscription = { text, _ in
+                Task { @MainActor in
+                    lastSpoken = text
+                }
+            }
+            controller.onError = { _ in
+                Task { @MainActor in
+                    isRecording = false
+                }
+            }
+            do {
+                try controller.startRecording()
+                lastSpoken = ""
+                isRecording = true
+            } catch {
+                // Mic unavailable - stay idle.
+            }
+        }
+    }
+
+    private func finishRecording() {
+        let spoken = lastSpoken
+        lastSpoken = ""
+        guard !spoken.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        let scored = ShadowingScorer.score(reference: phrase.mainContent, spoken: spoken)
+        result = scored
+        if scored.percent < 60, let english = phrase.supportContent, !english.isEmpty {
+            WordReviewStore.shared.add(german: phrase.mainContent, english: english, source: "shadowing")
+            addedToReview = true
         }
     }
 }

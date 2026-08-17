@@ -53,6 +53,8 @@
 		AA0000000000000000000038 /* WordReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000037 /* WordReview.swift */; };
 		AA0000000000000000000040 /* WordReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000039 /* WordReviewView.swift */; };
 		AA0000000000000000000042 /* WordReviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000041 /* WordReviewTests.swift */; };
+		AA0000000000000000000044 /* ShadowingScorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000043 /* ShadowingScorer.swift */; };
+		AA0000000000000000000046 /* ShadowingScorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000045 /* ShadowingScorerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +109,8 @@
 		AA0000000000000000000037 /* WordReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordReview.swift; sourceTree = "<group>"; };
 		AA0000000000000000000039 /* WordReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordReviewView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000041 /* WordReviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordReviewTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000043 /* ShadowingScorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowingScorer.swift; sourceTree = "<group>"; };
+		AA0000000000000000000045 /* ShadowingScorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowingScorerTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000013 /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
 		AA0000000000000000000015 /* LoginPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPanel.swift; sourceTree = "<group>"; };
 		AA0000000000000000000016 /* MenuOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOverlay.swift; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 				AA000000000000000000002D /* ExamPrepViews.swift */,
 				AA0000000000000000000037 /* WordReview.swift */,
 				AA0000000000000000000039 /* WordReviewView.swift */,
+				AA0000000000000000000043 /* ShadowingScorer.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -231,6 +236,7 @@
 				AA0000000000000000000033 /* ExamViewRenderTests.swift */,
 				AA0000000000000000000035 /* SpeechControllerRMSTests.swift */,
 				AA0000000000000000000041 /* WordReviewTests.swift */,
+				AA0000000000000000000045 /* ShadowingScorerTests.swift */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -398,6 +404,7 @@
 				AA000000000000000000002F /* ExamA1Content.swift in Sources */,
 				AA0000000000000000000038 /* WordReview.swift in Sources */,
 				AA0000000000000000000040 /* WordReviewView.swift in Sources */,
+				AA0000000000000000000044 /* ShadowingScorer.swift in Sources */,
 				AA0000000000000000000030 /* ExamPrepViews.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
@@ -423,6 +430,7 @@
 				AA0000000000000000000034 /* ExamViewRenderTests.swift in Sources */,
 				AA0000000000000000000036 /* SpeechControllerRMSTests.swift in Sources */,
 				AA0000000000000000000042 /* WordReviewTests.swift in Sources */,
+				AA0000000000000000000046 /* ShadowingScorerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
