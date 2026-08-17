@@ -374,15 +374,13 @@ final class ChatEngine {
     }
 
     private func fetchTeacherFix(for userMessage: String) async {
-        do {
-            let response = try await dependencies.teacher.fixText(message: userMessage, language: persona.language.language)
-            guard !Task.isCancelled else { return }
-            append(ChatMessage(role: .teacher, message: response.message))
-        } catch {
-            guard !Task.isCancelled else { return }
-            let description = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
-            append(ChatMessage(role: .teacher, message: "Teacher error: \(description)"))
+        // The teacher fix is an optional enrichment: failures (offline, local env
+        // without a running server) must never surface as chat messages.
+        guard let response = try? await dependencies.teacher.fixText(message: userMessage, language: persona.language.language) else {
+            return
         }
+        guard !Task.isCancelled else { return }
+        append(ChatMessage(role: .teacher, message: response.message))
     }
 
     private func finishPlaybackPhase() {
