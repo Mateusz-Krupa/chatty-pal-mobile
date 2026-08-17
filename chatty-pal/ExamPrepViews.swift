@@ -337,6 +337,9 @@ struct ExamUnitDetailView: View {
                 }
 
                 Button {
+                    if !isCompleted {
+                        WordReviewStore.shared.addExamUnit(unit)
+                    }
                     progress.toggle(unit.id)
                 } label: {
                     Label(isCompleted ? "Completed" : "Mark as complete", systemImage: isCompleted ? "checkmark.circle.fill" : "circle")

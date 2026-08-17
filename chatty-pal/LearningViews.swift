@@ -285,6 +285,9 @@ private struct LearningLessonDetailView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle(lesson.level)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            WordReviewStore.shared.addLesson(lesson)
+        }
         .onDisappear {
             audioPlayer?.stop()
             playingText = nil

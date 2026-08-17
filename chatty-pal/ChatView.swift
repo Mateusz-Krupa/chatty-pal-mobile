@@ -130,6 +130,8 @@ struct ChatView: View {
                     }
                 case .examPrep:
                     ExamPrepHomeView()
+                case .wordReview:
+                    WordReviewView()
                 default:
                     PlaceholderView(title: destination.title)
                 }

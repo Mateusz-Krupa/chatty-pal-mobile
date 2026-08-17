@@ -14,6 +14,8 @@ struct MenuOverlay: View {
     let onLogin: () -> Void
     let onLogout: () -> Void
 
+    @State private var wordStore = WordReviewStore.shared
+
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .trailing) {
@@ -60,6 +62,7 @@ struct MenuOverlay: View {
                             MenuLinkRow(destination: .teacherHelp, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .learningMaterials, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .examPrep, disabled: false) { selectDestination() }
+                            MenuLinkRow(destination: .wordReview, disabled: false, badge: wordStore.dueCount) { selectDestination() }
 
                             MenuSectionHeader(title: "Teacher")
                             MenuLinkRow(destination: .classroom, disabled: !isTeacher) { selectDestination() }
@@ -175,6 +178,7 @@ private struct MenuActionRow: View {
 private struct MenuLinkRow: View {
     let destination: MenuDestination
     let disabled: Bool
+    var badge: Int? = nil
     let onSelect: () -> Void
 
     var body: some View {
@@ -182,7 +186,7 @@ private struct MenuLinkRow: View {
             MenuRowContent(title: destination.title, systemImage: destination.systemImage, locked: true)
         } else {
             NavigationLink(value: destination) {
-                MenuRowContent(title: destination.title, systemImage: destination.systemImage, locked: false)
+                MenuRowContent(title: destination.title, systemImage: destination.systemImage, locked: false, badge: badge)
             }
             .simultaneousGesture(TapGesture().onEnded { onSelect() })
         }
@@ -194,6 +198,7 @@ private struct MenuRowContent: View {
     let systemImage: String
     var locked: Bool = false
     var selected: Bool = false
+    var badge: Int? = nil
 
     var body: some View {
         HStack(spacing: 12) {
@@ -203,6 +208,14 @@ private struct MenuRowContent: View {
             Text(title)
                 .font(.subheadline)
             Spacer()
+            if let badge, badge > 0 {
+                Text("\(badge)")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 2)
+                    .background(Color.accentColor, in: Capsule())
+            }
             if selected {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 12))
@@ -228,6 +241,7 @@ enum MenuDestination: Hashable {
     case teacherHelp
     case learningMaterials
     case examPrep
+    case wordReview
     case classroom
     case stories
     case lessonPlanner
@@ -251,6 +265,8 @@ enum MenuDestination: Hashable {
             return "Learning Materials"
         case .examPrep:
             return "Exam Prep A1"
+        case .wordReview:
+            return "Word Review"
         case .classroom:
             return "Classroom"
         case .stories:
@@ -280,6 +296,8 @@ enum MenuDestination: Hashable {
             return "book.closed"
         case .examPrep:
             return "checkmark.seal"
+        case .wordReview:
+            return "text.book.closed"
         case .classroom:
             return "person.3"
         case .stories:
