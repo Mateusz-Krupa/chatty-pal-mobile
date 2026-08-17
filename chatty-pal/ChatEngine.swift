@@ -104,7 +104,7 @@ final class ChatEngine {
         persona: ChatPersona,
         store: any ChatStore,
         dependencies: ChatEngineDependencies,
-        silenceWindow: TimeInterval = 1.2,
+        silenceWindow: TimeInterval = 3.0,
         sendSuppressionWindow: TimeInterval = 0.6,
         voiceThreshold: Float = 0.02,
         resumeDelay: TimeInterval = 0.6
