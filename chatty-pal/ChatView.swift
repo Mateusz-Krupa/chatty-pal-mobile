@@ -118,6 +118,8 @@ struct ChatView: View {
                     LearningMaterialsHomeView { lesson in
                         startLearningPractice(lesson)
                     }
+                case .examPrep:
+                    ExamPrepHomeView()
                 default:
                     PlaceholderView(title: destination.title)
                 }

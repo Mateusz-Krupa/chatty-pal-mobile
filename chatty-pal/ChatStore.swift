@@ -10,6 +10,11 @@ extension ChatStore {
     func flush() async throws {}
 }
 
+struct TransientChatStore: ChatStore {
+    func load() -> [ChatMessage] { [] }
+    func save(_ messages: [ChatMessage]) {}
+}
+
 struct LocalChatStore: ChatStore {
     private let key: String
 

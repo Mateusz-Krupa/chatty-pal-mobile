@@ -59,6 +59,7 @@ struct MenuOverlay: View {
                             MenuLinkRow(destination: .homework, disabled: !isLoggedIn) { selectDestination() }
                             MenuLinkRow(destination: .teacherHelp, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .learningMaterials, disabled: false) { selectDestination() }
+                            MenuLinkRow(destination: .examPrep, disabled: false) { selectDestination() }
 
                             MenuSectionHeader(title: "Teacher")
                             MenuLinkRow(destination: .classroom, disabled: !isTeacher) { selectDestination() }
@@ -226,6 +227,7 @@ enum MenuDestination: Hashable {
     case homework
     case teacherHelp
     case learningMaterials
+    case examPrep
     case classroom
     case stories
     case lessonPlanner
@@ -247,6 +249,8 @@ enum MenuDestination: Hashable {
             return "Teacher Help"
         case .learningMaterials:
             return "Learning Materials"
+        case .examPrep:
+            return "Exam Prep A1"
         case .classroom:
             return "Classroom"
         case .stories:
@@ -274,6 +278,8 @@ enum MenuDestination: Hashable {
             return "questionmark.circle"
         case .learningMaterials:
             return "book.closed"
+        case .examPrep:
+            return "checkmark.seal"
         case .classroom:
             return "person.3"
         case .stories:

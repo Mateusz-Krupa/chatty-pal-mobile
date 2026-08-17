@@ -26,6 +26,24 @@ struct ChatPersona: Equatable {
         )
     }
 
+    static func examinerA1(scenario: String) -> ChatPersona {
+        let german = LanguageConfig.all["de"] ?? LanguageConfig.default
+        return ChatPersona(
+            language: german,
+            level: "A1",
+            systemInstruction: """
+            You are the examiner for the Goethe-Zertifikat A1 oral exam. You are calm, friendly and patient, and you always stay in your examiner role.
+            Conduct the practice exactly as the scenario below describes.
+            Always speak only simple German at A1 level: short sentences, basic vocabulary.
+            After each part, give one or two sentences of short, encouraging feedback on the candidate's German, then continue.
+            If the candidate answers in English, gently ask them to try again in German.
+
+            YOUR ROLE IS =>
+            \(scenario)
+            """
+        )
+    }
+
     static func homework(language: Language, level: String, prompt: String) -> ChatPersona {
         ChatPersona(
             language: language,
