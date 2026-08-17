@@ -114,7 +114,14 @@ struct BotService {
     }
 
     private func send(_ request: URLRequest) async throws -> BotResponse {
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let data: Data
+        let response: URLResponse
+        do {
+            (data, response) = try await URLSession.shared.data(for: request)
+        } catch {
+            let underlying = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+            throw BotServiceError.connectionFailed(url: request.url?.absoluteString ?? "?", underlying: underlying)
+        }
         guard let httpResponse = response as? HTTPURLResponse else {
             throw BotServiceError.invalidResponse
         }
@@ -159,6 +166,7 @@ struct BotResponse: Decodable {
 
 enum BotServiceError: Error {
     case invalidResponse
+    case connectionFailed(url: String, underlying: String)
     case httpError(statusCode: Int, body: String)
     case decodingFailed(body: String)
 }
@@ -168,6 +176,8 @@ extension BotServiceError: LocalizedError {
         switch self {
         case .invalidResponse:
             return "Invalid response from server"
+        case .connectionFailed(let url, let underlying):
+            return "Could not reach \(url): \(underlying)"
         case .httpError(let statusCode, let body):
             if body.isEmpty {
                 return "Server error (\(statusCode))"
