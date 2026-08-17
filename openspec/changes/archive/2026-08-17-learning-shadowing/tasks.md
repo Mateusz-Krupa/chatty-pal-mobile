@@ -4,4 +4,4 @@
 - [x] 1.2 `ShadowingScorerTests.swift`
 - [x] 2.1 `LearningViews.swift`: shadowing section + `ShadowingPhraseRow` (TTS, push-to-talk, colored words, percent, review hook)
 - [x] 3.1 Build + full test suite green
-- [ ] 3.2 Commit + archive
+- [x] 3.2 Commit + archive
