@@ -284,6 +284,7 @@ private struct LearningLessonDetailView: View {
                             .background(Color.accentColor.opacity(0.10), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
 
                         Button {
+                            LearningStatsStore.shared.recordLessonPractice(lessonID: lesson.id)
                             onStartPractice(lesson)
                         } label: {
                             Text("Practice in Chatty Pal")
@@ -490,6 +491,7 @@ private struct ShadowingPhraseRow: View {
         }
         let scored = ShadowingScorer.score(reference: phrase.mainContent, spoken: spoken)
         result = scored
+        LearningStatsStore.shared.recordShadowingAttempt()
         if scored.percent < 60, let english = phrase.supportContent, !english.isEmpty {
             WordReviewStore.shared.add(german: phrase.mainContent, english: english, source: "shadowing")
             addedToReview = true

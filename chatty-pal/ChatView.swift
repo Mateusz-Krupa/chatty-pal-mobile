@@ -49,6 +49,8 @@ struct ChatView: View {
                 VStack(spacing: 16) {
                     headerView
 
+                    todayCard
+
                     ChatMessageList(
                         messages: engine.messages,
                         isGenerating: false,
@@ -208,6 +210,44 @@ struct ChatView: View {
             }
         }
         .padding(.top, 12)
+    }
+
+    private var todayCard: some View {
+        let stats = LearningStatsStore.shared
+        let due = WordReviewStore.shared.dueCount
+        return Button {
+            navigationPath.append(MenuDestination.wordReview)
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Image(systemName: "flame.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                    Text(stats.streak > 0 ? "\(stats.streak)-day streak" : "Start your streak today")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.primary)
+                    Spacer()
+                    if due > 0 {
+                        Text("\(due) due")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(Color.accentColor)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Color.accentColor.opacity(0.12), in: Capsule())
+                    }
+                }
+                HStack(spacing: 14) {
+                    Label("\(stats.completedLessonCount) lessons", systemImage: "book.fill")
+                    Label("\(stats.totalReviews) reviews", systemImage: "checkmark.circle.fill")
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        }
+        .buttonStyle(.plain)
     }
 
     private var inputBar: some View {

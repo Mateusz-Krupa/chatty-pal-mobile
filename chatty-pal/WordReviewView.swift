@@ -136,6 +136,7 @@ struct WordReviewView: View {
     private func grade(_ grade: WordReviewGrade) {
         ExamTTS.stop()
         store.grade(wordID: current.id, grade: grade)
+        LearningStatsStore.shared.recordReviewGrade()
         reviewedCount += 1
         session.removeFirst()
         revealed = false
