@@ -35,17 +35,16 @@ struct ExamPrepHomeView: View {
     @ObservedObject private var progress = ExamProgressModel.shared
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 14) {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Goethe-Zertifikat A1")
-                            .font(.system(size: 28, weight: .semibold))
-                        Text("Practice the four exam parts with lessons, listening and speaking drills.")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+        ScrollView {
+            VStack(spacing: 14) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Goethe-Zertifikat A1")
+                        .font(.system(size: 28, weight: .semibold))
+                    Text("Practice the four exam parts with lessons, listening and speaking drills.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
 
                     NavigationLink(value: ExamMiniExamStart()) {
                         HStack(spacing: 14) {
@@ -102,7 +101,6 @@ struct ExamPrepHomeView: View {
             .navigationDestination(for: ExamMiniExamStart.self) { _ in
                 ExamMiniExamView()
             }
-        }
     }
 
     private func sectionCard(_ section: ExamSection) -> some View {
