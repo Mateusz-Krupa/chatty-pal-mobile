@@ -1293,6 +1293,31 @@ private let listeningUnits: [ExamUnit] = [
         ],
         speakingScenario: nil,
         writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-list-hotel",
+        section: .listening,
+        title: "Im Hotel",
+        subtitle: "Listen to a check-in conversation at the reception",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-list-hotel-1", german: "das Zimmer (die Zimmer)", english: "room", example: "Das Zimmer ist im dritten Stock.", exampleEnglish: "The room is on the third floor."),
+            ExamVocabularyItem(id: "a1-list-hotel-2", german: "das Frühstück", english: "breakfast", example: "Das Frühstück ist von 7 bis 10 Uhr.", exampleEnglish: "Breakfast is from 7 to 10."),
+            ExamVocabularyItem(id: "a1-list-hotel-3", german: "die Rechnung (die Rechnungen)", english: "bill", example: "Die Rechnung bekommen Sie am Freitag.", exampleEnglish: "You will get the bill on Friday.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-list-hotel-p1", german: "Ich habe eine Reservierung auf den Namen Weber.", english: "I have a reservation under the name Weber."),
+            ExamPhrase(id: "a1-list-hotel-p2", german: "Um wie viel Uhr ist das Frühstück?", english: "What time is breakfast?")
+        ],
+        dialogue: [],
+        exercises: [
+            ExamExercise(id: "a1-list-hotel-e1", kind: .listening, question: "Wie heißt der Gast?", options: ["Herr Weber", "Frau Weber", "Herr Müller"], correctIndex: 0, explanation: "You hear: \"Guten Abend, ich habe eine Reservierung auf den Namen Weber. — Ja, Herr Weber, willkommen!\"", spokenText: "Guten Abend, ich habe eine Reservierung auf den Namen Weber. — Ja, Herr Weber, willkommen!"),
+            ExamExercise(id: "a1-list-hotel-e2", kind: .listening, question: "Wie viele Nächte bleibt der Gast?", options: ["zwei", "drei", "fünf"], correctIndex: 1, explanation: "You hear: \"Sie bleiben drei Nächte, bis Freitag.\"", spokenText: "Sehr gut. Sie bleiben drei Nächte, bis Freitag."),
+            ExamExercise(id: "a1-list-hotel-e3", kind: .listening, question: "Wo ist das Zimmer?", options: ["im zweiten Stock", "im dritten Stock", "im Erdgeschoss"], correctIndex: 1, explanation: "You hear: \"Ihr Zimmer ist im dritten Stock, Zimmer 312.\"", spokenText: "Ihr Zimmer ist im dritten Stock, Zimmer 312."),
+            ExamExercise(id: "a1-list-hotel-e4", kind: .listening, question: "Wann ist das Frühstück?", options: ["von 6 bis 9 Uhr", "von 7 bis 10 Uhr", "von 8 bis 11 Uhr"], correctIndex: 1, explanation: "You hear: \"Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss.\"", spokenText: "Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
     )
 ]
 
