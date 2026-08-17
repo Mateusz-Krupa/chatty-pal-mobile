@@ -1324,6 +1324,34 @@ private let speakingUnits: [ExamUnit] = [
         exercises: [],
         speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 1 (Vorstellung). Greet the candidate, introduce yourself briefly, then ask one by one: (1) Wie heißen Sie? (2) Woher kommen Sie? (3) Wo wohnen Sie jetzt? (4) Was ist Ihr Beruf? / Was studieren Sie? (5) Was sind Ihre Hobbys? React briefly and encouragingly after each answer, then ask the next question. After all questions, give two or three sentences of short, friendly feedback on the candidate's German.",
         writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-spr-personen",
+        section: .speaking,
+        title: "Personen vorstellen",
+        subtitle: "Introduce family and friends — Teil 1",
+        text: nil,
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-spr-personen-1", german: "das ist ...", english: "this is ...", example: "Das ist mein Bruder.", exampleEnglish: "This is my brother."),
+            ExamVocabularyItem(id: "a1-spr-personen-2", german: "er/sie ist ...", english: "he/she is ...", example: "Sie ist acht Jahre alt.", exampleEnglish: "She is eight years old."),
+            ExamVocabularyItem(id: "a1-spr-personen-3", german: "er/sie wohnt in ...", english: "he/she lives in ...", example: "Er wohnt in Berlin.", exampleEnglish: "He lives in Berlin."),
+            ExamVocabularyItem(id: "a1-spr-personen-4", german: "er/sie arbeitet als ...", english: "he/she works as ...", example: "Sie arbeitet als Ärztin.", exampleEnglish: "She works as a doctor."),
+            ExamVocabularyItem(id: "a1-spr-personen-5", german: "ich habe ...", english: "I have ...", example: "Ich habe eine große Familie.", exampleEnglish: "I have a big family.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-spr-personen-p1", german: "Ich habe einen Bruder und eine Schwester.", english: "I have a brother and a sister."),
+            ExamPhrase(id: "a1-spr-personen-p2", german: "Meine Eltern wohnen in Polen.", english: "My parents live in Poland."),
+            ExamPhrase(id: "a1-spr-personen-p3", german: "Meine Schwester ist verheiratet. Sie hat zwei Kinder.", english: "My sister is married. She has two children.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-spr-personen-d1", speaker: "Examiner", german: "Erzählen Sie etwas über Ihre Familie.", english: "Tell me something about your family."),
+            ExamDialogueLine(id: "a1-spr-personen-d2", speaker: "You", german: "Ich habe eine kleine Familie: einen Bruder und eine Schwester.", english: "I have a small family: a brother and a sister."),
+            ExamDialogueLine(id: "a1-spr-personen-d3", speaker: "Examiner", german: "Was macht Ihr Bruder? Wo wohnt er?", english: "What does your brother do? Where does he live?"),
+            ExamDialogueLine(id: "a1-spr-personen-d4", speaker: "You", german: "Er ist Ingenieur. Er wohnt und arbeitet in Hamburg.", english: "He is an engineer. He lives and works in Hamburg.")
+        ],
+        exercises: [],
+        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 1 (Personen). Ask the candidate to talk about their family and one friend, one step at a time: (1) Erzählen Sie etwas über Ihre Familie. Haben Sie Geschwister? (2) Was macht Ihr Bruder / Ihre Schwester? Wo wohnt er / sie? (3) Erzählen Sie etwas über Ihre Eltern. Wo wohnen sie? (4) Haben Sie gute Freunde? Was macht Ihr / Ihre beste Freund / Freundin? Give short follow-up questions (Was macht er/sie? Wie alt ist er/sie?) and brief encouraging feedback. If the candidate is stuck, offer a simple prompt like \"Ist er/sie verheiratet?\" After all questions, give two sentences of short, friendly feedback on the German.",
+        writingPrompt: nil
     )
 ]
 
