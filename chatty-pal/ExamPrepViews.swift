@@ -32,6 +32,8 @@ enum ExamTTS {
 // MARK: - Home
 
 struct ExamPrepHomeView: View {
+    @ObservedObject private var progress = ExamProgressModel.shared
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -44,6 +46,37 @@ struct ExamPrepHomeView: View {
                             .foregroundStyle(.secondary)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
+
+                    NavigationLink(value: ExamMiniExamStart()) {
+                        HStack(spacing: 14) {
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.title2)
+                                .foregroundStyle(Color.accentColor)
+                                .frame(width: 44, height: 44)
+                                .background(Color.accentColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Mini-Examen")
+                                    .font(.headline)
+                                Text("Random questions from all sections. Instant results.")
+                                    .font(.footnote)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .font(.footnote.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(14)
+                        .background(Color.accentColor.opacity(0.08), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .stroke(ChattyTheme.softHairline, lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(.plain)
 
                     ForEach(ExamSection.allCases) { section in
                         NavigationLink(value: section) {
@@ -66,6 +99,9 @@ struct ExamPrepHomeView: View {
             .navigationDestination(for: ExamSpeakingTask.self) { task in
                 ExamSpeakingView(task: task)
             }
+            .navigationDestination(for: ExamMiniExamStart.self) { _ in
+                ExamMiniExamView()
+            }
         }
     }
 
@@ -87,7 +123,7 @@ struct ExamPrepHomeView: View {
 
             Spacer()
 
-            Text("\(ExamA1Catalog.units(in: section).count)")
+            Text("\(progress.completedCount(in: section)) / \(ExamA1Catalog.units(in: section).count)")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.secondary)
         }
@@ -104,17 +140,25 @@ struct ExamPrepHomeView: View {
 
 struct ExamSectionView: View {
     let section: ExamSection
+    @ObservedObject private var progress = ExamProgressModel.shared
 
     var body: some View {
         List {
             ForEach(ExamA1Catalog.units(in: section)) { unit in
                 NavigationLink(value: unit) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(unit.title)
-                            .font(.subheadline.weight(.semibold))
-                        Text(unit.subtitle)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
+                    HStack(spacing: 10) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(unit.title)
+                                .font(.subheadline.weight(.semibold))
+                            Text(unit.subtitle)
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        if progress.isCompleted(unit.id) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                        }
                     }
                 }
             }
@@ -128,8 +172,13 @@ struct ExamSectionView: View {
 
 struct ExamUnitDetailView: View {
     let unit: ExamUnit
+    @ObservedObject private var progress = ExamProgressModel.shared
     @State private var selected: [String: Int] = [:]
     @State private var checked: Set<String> = []
+
+    private var isCompleted: Bool {
+        progress.isCompleted(unit.id)
+    }
 
     var body: some View {
         ScrollView {
@@ -271,6 +320,17 @@ struct ExamUnitDetailView: View {
                 if let prompt = unit.writingPrompt {
                     WritingCard(prompt: prompt)
                 }
+
+                Button {
+                    progress.toggle(unit.id)
+                } label: {
+                    Label(isCompleted ? "Completed" : "Mark as complete", systemImage: isCompleted ? "checkmark.circle.fill" : "circle")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(isCompleted ? .green : .accentColor)
             }
             .padding(16)
         }
@@ -608,5 +668,143 @@ private struct WritingCard: View {
             }
             isChecking = false
         }
+    }
+}
+
+// MARK: - Mini-Examen
+
+struct ExamMiniExamStart: Hashable {}
+
+struct ExamMiniExamView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var questions: [ExamExercise] = []
+    @State private var answers: [String: Int] = [:]
+    @State private var showResults = false
+
+    init() {
+        _questions = State(initialValue: ExamA1Catalog.buildMiniExamQuestions())
+    }
+
+    var body: some View {
+        Group {
+            if showResults {
+                resultsView
+            } else {
+                questionsView
+            }
+        }
+        .navigationTitle("Mini-Examen")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var questionsView: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                Text("Answer all questions. The set is random every time.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                ForEach(Array(questions.enumerated()), id: \.element.id) { index, exercise in
+                    ExerciseCard(
+                        exercise: exercise,
+                        number: index + 1,
+                        selection: answers[exercise.id],
+                        isChecked: false,
+                        onSelect: { optionIndex in
+                            answers[exercise.id] = optionIndex
+                        }
+                    )
+                }
+
+                Button {
+                    showResults = true
+                } label: {
+                    Text("See results")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(!allAnswered)
+            }
+            .padding(16)
+        }
+        .background(ChattyTheme.appBackground.ignoresSafeArea())
+    }
+
+    private var allAnswered: Bool {
+        questions.allSatisfy { answers[$0.id] != nil }
+    }
+
+    private var score: Int {
+        questions.filter { answers[$0.id] == $0.correctIndex }.count
+    }
+
+    private var resultsView: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack(spacing: 12) {
+                    Image(systemName: score == questions.count ? "trophy.fill" : "chart.bar.fill")
+                        .font(.title)
+                        .foregroundStyle(Color.accentColor)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("\(score) / \(questions.count)")
+                            .font(.title2.weight(.semibold))
+                        Text(score == questions.count ? "Perfekt! You are ready for the exam." : "Gut gemacht! Review the explanations below.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                ForEach(Array(questions.enumerated()), id: \.element.id) { index, exercise in
+                    let isCorrect = answers[exercise.id] == exercise.correctIndex
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 8) {
+                            Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .foregroundStyle(isCorrect ? .green : .red)
+                            Text("\(index + 1). \(exercise.question)")
+                                .font(.subheadline.weight(.medium))
+                        }
+                        if !isCorrect {
+                            Text("Your answer: \(exercise.options[answers[exercise.id] ?? 0])")
+                                .font(.footnote)
+                                .foregroundStyle(.orange)
+                        }
+                        Text("Correct: \(exercise.options[exercise.correctIndex]) — \(exercise.explanation)")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(10)
+                    .background(Color.accentColor.opacity(0.04), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+
+                HStack(spacing: 10) {
+                    Button {
+                        questions = ExamA1Catalog.buildMiniExamQuestions()
+                        answers = [:]
+                        showResults = false
+                    } label: {
+                        Text("New random set")
+                            .font(.subheadline.weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                    }
+                    .buttonStyle(.bordered)
+
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Back")
+                            .font(.subheadline.weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+            }
+            .padding(16)
+        }
+        .background(ChattyTheme.appBackground.ignoresSafeArea())
     }
 }

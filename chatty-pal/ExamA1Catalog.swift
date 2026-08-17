@@ -94,4 +94,60 @@ enum ExamA1Catalog {
     static func units(in section: ExamSection) -> [ExamUnit] {
         units.filter { $0.section == section }
     }
+
+    static func allExercises() -> [ExamExercise] {
+        units.flatMap { $0.exercises }
+    }
+
+    static func buildMiniExamQuestions(targetCount: Int = 12) -> [ExamExercise] {
+        let all = allExercises()
+        var bySection: [ExamSection: [ExamExercise]] = [:]
+        for unit in units {
+            bySection[unit.section, default: []].append(contentsOf: unit.exercises)
+        }
+        var picked: [ExamExercise] = []
+        for exercises in bySection.values where !exercises.isEmpty {
+            if let random = exercises.randomElement() {
+                picked.append(random)
+            }
+        }
+        if picked.count < targetCount {
+            let pickedIDs = Set(picked.map(\.id))
+            let remaining = all.filter { !pickedIDs.contains($0.id) }
+            picked.append(contentsOf: remaining.shuffled().prefix(targetCount - picked.count))
+        }
+        return picked.shuffled()
+    }
+}
+
+final class ExamProgressModel: ObservableObject {
+    static let shared = ExamProgressModel()
+
+    private static let completedKey = "exam.a1.completed"
+
+    @Published private(set) var completed: Set<String> = []
+
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        self.completed = Set(defaults.stringArray(forKey: Self.completedKey) ?? [])
+    }
+
+    func isCompleted(_ unitID: String) -> Bool {
+        completed.contains(unitID)
+    }
+
+    func toggle(_ unitID: String) {
+        if completed.contains(unitID) {
+            completed.remove(unitID)
+        } else {
+            completed.insert(unitID)
+        }
+        defaults.set(Array(completed), forKey: Self.completedKey)
+    }
+
+    func completedCount(in section: ExamSection) -> Int {
+        ExamA1Catalog.units(in: section).filter { completed.contains($0.id) }.count
+    }
 }

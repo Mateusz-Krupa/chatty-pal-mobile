@@ -62,7 +62,7 @@
 
 ## 7. Faza G: Progres + Mini-Examen + testy spójności
 
-- [ ] 7.1 Progres: "Mark as complete" (UserDefaults `exam.a1.completed`), wskaźnik per jednostka i "x / y" per sekcja na home
-- [ ] 7.2 Mini-Examen: losowy zestaw MC/gap (≥1 na sekcję), podsumowanie z licznikiem i wyjaśnieniami, bez zapisu
-- [ ] 7.3 Testy spójności katalogu: unikalne ID, każda jednostka ma sekcję, exercise ma poprawny correctIndex, ≥12 vocab / ≥10 grammar / ≥1 na sekcję egzaminacyjną
-- [ ] 7.4 Build + testy + commit "Exam A1 phase G: progress, mini exam, catalog tests"
+- [x] 7.1 Progres: "Mark as complete" (UserDefaults `exam.a1.completed`), wskaźnik per jednostka i "x / y" per sekcja na home
+- [x] 7.2 Mini-Examen: losowy zestaw MC/gap (≥1 na sekcję), podsumowanie z licznikiem i wyjaśnieniami, bez zapisu
+- [x] 7.3 Testy spójności katalogu: unikalne ID, każda jednostka ma sekcję, exercise ma poprawny correctIndex, ≥12 vocab / ≥10 grammar / ≥1 na sekcję egzaminacyjną
+- [x] 7.4 Build + testy + commit "Exam A1 phase G: progress, mini exam, catalog tests"
