@@ -619,6 +619,375 @@ private let grammarUnits: [ExamUnit] = [
         ],
         speakingScenario: nil,
         writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-fragen",
+        section: .reading,
+        title: "Fragen bilden",
+        subtitle: "Yes/No questions and W-questions",
+        text: "Yes/No questions: the verb comes first. \"Du sprichst Deutsch.\" → \"Sprichst du Deutsch?\" W-questions: W-word + verb + subject. \"Wo wohnst du?\" (Where do you live?) Common W-words: wer (who), was (what), wo (where), wann (when), warum (why), wie (how), wie viel (how much), wie oft (how often).",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-fragen-1", german: "wer", english: "who", example: "Wer ist das?", exampleEnglish: "Who is that?"),
+            ExamVocabularyItem(id: "a1-gram-fragen-2", german: "was", english: "what", example: "Was ist das?", exampleEnglish: "What is that?"),
+            ExamVocabularyItem(id: "a1-gram-fragen-3", german: "wo", english: "where", example: "Wo wohnst du?", exampleEnglish: "Where do you live?"),
+            ExamVocabularyItem(id: "a1-gram-fragen-4", german: "wann", english: "when", example: "Wann hast du Zeit?", exampleEnglish: "When do you have time?"),
+            ExamVocabularyItem(id: "a1-gram-fragen-5", german: "warum", english: "why", example: "Warum lernst du Deutsch?", exampleEnglish: "Why do you learn German?"),
+            ExamVocabularyItem(id: "a1-gram-fragen-6", german: "wie", english: "how", example: "Wie geht es dir?", exampleEnglish: "How are you?"),
+            ExamVocabularyItem(id: "a1-gram-fragen-7", german: "wie viel", english: "how much", example: "Wie viel kostet das?", exampleEnglish: "How much does that cost?"),
+            ExamVocabularyItem(id: "a1-gram-fragen-8", german: "wie oft", english: "how often", example: "Wie oft kommst du?", exampleEnglish: "How often do you come?")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-fragen-p1", german: "Wie heißt du?", english: "What is your name?"),
+            ExamPhrase(id: "a1-gram-fragen-p2", german: "Was machst du?", english: "What are you doing?"),
+            ExamPhrase(id: "a1-gram-fragen-p3", german: "Wie geht es dir?", english: "How are you?")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-fragen-d1", speaker: "Vicki", german: "Wo wohnst du?", english: "Where do you live?"),
+            ExamDialogueLine(id: "a1-gram-fragen-d2", speaker: "Daniel", german: "Ich wohne in Hamburg. Und du?", english: "I live in Hamburg. And you?"),
+            ExamDialogueLine(id: "a1-gram-fragen-d3", speaker: "Vicki", german: "In Berlin. Warum lernst du Deutsch?", english: "In Berlin. Why do you learn German?"),
+            ExamDialogueLine(id: "a1-gram-fragen-d4", speaker: "Daniel", german: "Weil ich in Berlin arbeite.", english: "Because I work in Berlin.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-fragen-e1", kind: .gapFill, question: "___ wohnst du?", options: ["Wo", "Was", "Warum", "Wie"], correctIndex: 0, explanation: "wo = where. \"Wo wohnst du?\""),
+            ExamExercise(id: "a1-gram-fragen-e2", kind: .gapFill, question: "Du sprichst Deutsch. — ___ Deutsch?", options: ["Sprichst du", "Du sprichst", "Sprechen du", "Spricht du"], correctIndex: 0, explanation: "Yes/No question: the verb comes first (inversion)."),
+            ExamExercise(id: "a1-gram-fragen-e3", kind: .multipleChoice, question: "How do you ask for someone's name?", options: ["Wie heißt du?", "Wo wohnst du?", "Was machst du?"], correctIndex: 0, explanation: "heißen = to be called."),
+            ExamExercise(id: "a1-gram-fragen-e4", kind: .gapFill, question: "___ ist das?", options: ["Was", "Wo", "Wann", "Wer"], correctIndex: 0, explanation: "was = what. \"Was ist das?\""),
+            ExamExercise(id: "a1-gram-fragen-e5", kind: .multipleChoice, question: "What does \"warum\" mean?", options: ["when", "why", "how"], correctIndex: 1, explanation: "warum = why; when = wann; how = wie."),
+            ExamExercise(id: "a1-gram-fragen-e6", kind: .gapFill, question: "Wie ___ du?", options: ["heißt", "wohnst", "hast", "sagst"], correctIndex: 0, explanation: "Wie heißt du? = What is your name?"),
+            ExamExercise(id: "a1-gram-fragen-e7", kind: .multipleChoice, question: "How do you ask \"How much does it cost?\"", options: ["Wie viel kostet das?", "Warum kostet das?", "Wo kostet das?"], correctIndex: 0, explanation: "wie viel = how much (for prices).")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-negation",
+        section: .reading,
+        title: "Negation: nicht und kein",
+        subtitle: "How to say \"no\" and \"not\" in German",
+        text: "\"kein\" negates nouns (with articles): \"Ich habe keine Zeit.\" \"nicht\" negates adjectives, verbs and adverbs: \"Das ist nicht teuer.\" \"Er spricht nicht Deutsch.\" \"nie\" = never, \"nur\" = only, \"auch ... nicht\" = ... either / not at all.",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-negation-1", german: "kein", english: "no, not a (masc./neut.)", example: "Ich habe kein Auto.", exampleEnglish: "I don't have a car."),
+            ExamVocabularyItem(id: "a1-gram-negation-2", german: "keine", english: "no, not a (fem./plural)", example: "Sie hat keine Zeit.", exampleEnglish: "She has no time."),
+            ExamVocabularyItem(id: "a1-gram-negation-3", german: "nicht", english: "not", example: "Das ist nicht gut.", exampleEnglish: "That is not good."),
+            ExamVocabularyItem(id: "a1-gram-negation-4", german: "nie", english: "never", example: "Ich rauche nie.", exampleEnglish: "I never smoke."),
+            ExamVocabularyItem(id: "a1-gram-negation-5", german: "nur", english: "only", example: "Ich trinke nur Tee.", exampleEnglish: "I only drink tea."),
+            ExamVocabularyItem(id: "a1-gram-negation-6", german: "auch ... nicht", english: "also not, neither", example: "Ich mag das auch nicht.", exampleEnglish: "I don't like that either.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-negation-p1", german: "Nein, ich habe keine Zeit.", english: "No, I have no time."),
+            ExamPhrase(id: "a1-gram-negation-p2", german: "Das ist nicht möglich.", english: "That is not possible."),
+            ExamPhrase(id: "a1-gram-negation-p3", german: "Ich trinke keinen Kaffee.", english: "I don't drink coffee.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-negation-d1", speaker: "Vicki", german: "Trinkst du Kaffee?", english: "Do you drink coffee?"),
+            ExamDialogueLine(id: "a1-gram-negation-d2", speaker: "Daniel", german: "Nein, ich trinke keinen Kaffee. Ich trinke nur Tee.", english: "No, I don't drink coffee. I only drink tea."),
+            ExamDialogueLine(id: "a1-gram-negation-d3", speaker: "Vicki", german: "Magst du Fisch?", english: "Do you like fish?"),
+            ExamDialogueLine(id: "a1-gram-negation-d4", speaker: "Daniel", german: "Ich mag Fisch nicht. Ich mag aber Pizza.", english: "I don't like fish. But I like pizza.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-negation-e1", kind: .gapFill, question: "Ich habe ___ Auto.", options: ["kein", "nicht", "nie", "nur"], correctIndex: 0, explanation: "Nouns are negated with kein: Ich habe kein Auto."),
+            ExamExercise(id: "a1-gram-negation-e2", kind: .gapFill, question: "Das ist ___ teuer.", options: ["nicht", "kein", "keine", "nie"], correctIndex: 0, explanation: "Adjectives are negated with nicht: Das ist nicht teuer."),
+            ExamExercise(id: "a1-gram-negation-e3", kind: .multipleChoice, question: "Which sentence is correct?", options: ["Ich habe kein Zeit.", "Ich habe keine Zeit.", "Ich habe nicht Zeit."], correctIndex: 1, explanation: "die Zeit is feminine → keine."),
+            ExamExercise(id: "a1-gram-negation-e4", kind: .gapFill, question: "Ich rauche ___.", options: ["nie", "heute", "morgen", "gern"], correctIndex: 0, explanation: "nie = never. \"Ich rauche nie.\""),
+            ExamExercise(id: "a1-gram-negation-e5", kind: .multipleChoice, question: "What does \"nur\" mean?", options: ["never", "only", "also"], correctIndex: 1, explanation: "nur = only; never = nie; also = auch."),
+            ExamExercise(id: "a1-gram-negation-e6", kind: .gapFill, question: "Er spricht ___ Deutsch.", options: ["nicht", "kein", "keine", "nie"], correctIndex: 0, explanation: "Verbs are negated with nicht: Er spricht nicht Deutsch.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-artikel",
+        section: .reading,
+        title: "Artikel und Plural",
+        subtitle: "Noun genders and plural forms",
+        text: "Every German noun has a gender: der (masculine), die (feminine), das (neuter) — learn the article with the noun! Plurals: usually -e, -en or -er, often with an umlaut (der Apfel → die Äpfel). The definite article in the plural is always \"die\": die Männer, die Frauen, die Kinder.",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-artikel-1", german: "der Mann (die Männer)", english: "man (men)", example: "Der Mann ist groß.", exampleEnglish: "The man is tall."),
+            ExamVocabularyItem(id: "a1-gram-artikel-2", german: "die Frau (die Frauen)", english: "woman (women)", example: "Die Frau ist nett.", exampleEnglish: "The woman is nice."),
+            ExamVocabularyItem(id: "a1-gram-artikel-3", german: "das Kind (die Kinder)", english: "child (children)", example: "Das Kind ist klein.", exampleEnglish: "The child is small."),
+            ExamVocabularyItem(id: "a1-gram-artikel-4", german: "der Tisch (die Tische)", english: "table (tables)", example: "Der Tisch ist neu.", exampleEnglish: "The table is new."),
+            ExamVocabularyItem(id: "a1-gram-artikel-5", german: "die Blume (die Blumen)", english: "flower (flowers)", example: "Die Blume ist rot.", exampleEnglish: "The flower is red."),
+            ExamVocabularyItem(id: "a1-gram-artikel-6", german: "der Apfel (die Äpfel)", english: "apple (apples)", example: "Der Apfel ist lecker.", exampleEnglish: "The apple is tasty."),
+            ExamVocabularyItem(id: "a1-gram-artikel-7", german: "das Buch (die Bücher)", english: "book (books)", example: "Das Buch ist interessant.", exampleEnglish: "The book is interesting."),
+            ExamVocabularyItem(id: "a1-gram-artikel-8", german: "der Freund (die Freunde)", english: "friend (friends)", example: "Der Freund wohnt in Köln.", exampleEnglish: "The friend lives in Cologne.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-artikel-p1", german: "Wo sind die Bücher?", english: "Where are the books?"),
+            ExamPhrase(id: "a1-gram-artikel-p2", german: "Das ist ein neues Buch.", english: "That is a new book."),
+            ExamPhrase(id: "a1-gram-artikel-p3", german: "Die Männer spielen Fußball.", english: "The men are playing football.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-artikel-d1", speaker: "Vicki", german: "Wer ist das? Ist das dein Bruder?", english: "Who is that? Is that your brother?"),
+            ExamDialogueLine(id: "a1-gram-artikel-d2", speaker: "Daniel", german: "Nein, das ist mein Vater. Er hat einen neuen Wagen.", english: "No, that is my father. He has a new car."),
+            ExamDialogueLine(id: "a1-gram-artikel-d3", speaker: "Vicki", german: "Und die Frau? Das ist deine Mutter?", english: "And the woman? That is your mother?"),
+            ExamDialogueLine(id: "a1-gram-artikel-d4", speaker: "Daniel", german: "Ja, und das ist mein Sohn. Er ist drei Jahre alt.", english: "Yes, and that is my son. He is three years old.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-artikel-e1", kind: .gapFill, question: "___ Mann ist groß.", options: ["Der", "Die", "Das", "Den"], correctIndex: 0, explanation: "der Mann is masculine → Der Mann."),
+            ExamExercise(id: "a1-gram-artikel-e2", kind: .gapFill, question: "___ Frau ist nett.", options: ["Der", "Die", "Das", "Dem"], correctIndex: 1, explanation: "die Frau is feminine → Die Frau."),
+            ExamExercise(id: "a1-gram-artikel-e3", kind: .gapFill, question: "___ Kind spielt im Garten.", options: ["Der", "Die", "Das", "Dem"], correctIndex: 2, explanation: "das Kind is neuter → Das Kind."),
+            ExamExercise(id: "a1-gram-artikel-e4", kind: .multipleChoice, question: "What is the plural of \"der Mann\"?", options: ["die Mannen", "die Männer", "die Männern"], correctIndex: 1, explanation: "der Mann → die Männer (umaut + -er)."),
+            ExamExercise(id: "a1-gram-artikel-e5", kind: .multipleChoice, question: "What is the plural of \"das Buch\"?", options: ["die Buchs", "die Büchern", "die Bücher"], correctIndex: 2, explanation: "das Buch → die Bücher (umlaut + -er)."),
+            ExamExercise(id: "a1-gram-artikel-e6", kind: .multipleChoice, question: "What is the plural of \"der Apfel\"?", options: ["die Äpfel", "die Apfels", "die Apffle"], correctIndex: 0, explanation: "der Apfel → die Äpfel (umlaut + -e)."),
+            ExamExercise(id: "a1-gram-artikel-e7", kind: .gapFill, question: "Ich lese Bücher. Wo sind die ___?", options: ["Bücher", "Buche", "Buchs", "Büchern"], correctIndex: 0, explanation: "das Buch → die Bücher.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-possessiv",
+        section: .reading,
+        title: "Possessivartikel: mein, dein, sein",
+        subtitle: "\"My\", \"your\", \"his/her\" with nouns",
+        text: "The possessive changes with the noun's gender: mein Bruder (der), meine Schwester (die), mein Kind (das). For \"I\" → mein/meine; for \"you (informal)\" → dein/deine; for \"he\" → sein/sein; for \"she\" → ihr/ihre; for \"we\" → unser/unsere. Example: \"Mein Bruder ist groß. Meine Schwester ist klein. Sein Auto ist neu. Ihre Wohnung ist schön.\"",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-possessiv-1", german: "mein", english: "my (masc./neut.)", example: "Mein Name ist Anna.", exampleEnglish: "My name is Anna."),
+            ExamVocabularyItem(id: "a1-gram-possessiv-2", german: "meine", english: "my (fem./plural)", example: "Meine Mutter kommt.", exampleEnglish: "My mother is coming."),
+            ExamVocabularyItem(id: "a1-gram-possessiv-3", german: "dein", english: "your (informal, masc./neut.)", example: "Wie ist dein Name?", exampleEnglish: "What is your name?"),
+            ExamVocabularyItem(id: "a1-gram-possessiv-4", german: "deine", english: "your (informal, fem./plural)", example: "Wo sind deine Eltern?", exampleEnglish: "Where are your parents?"),
+            ExamVocabularyItem(id: "a1-gram-possessiv-5", german: "sein", english: "his (masc./neut.)", example: "Sein Auto ist neu.", exampleEnglish: "His car is new."),
+            ExamVocabularyItem(id: "a1-gram-possessiv-6", german: "ihre", english: "her (fem./plural)", example: "Ihre Wohnung ist groß.", exampleEnglish: "Her apartment is big."),
+            ExamVocabularyItem(id: "a1-gram-possessiv-7", german: "unser", english: "our (masc./neut.)", example: "Unser Haus ist alt.", exampleEnglish: "Our house is old."),
+            ExamVocabularyItem(id: "a1-gram-possessiv-8", german: "unsere", english: "our (fem./plural)", example: "Unsere Stadt ist klein.", exampleEnglish: "Our city is small.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-possessiv-p1", german: "Das ist mein Freund.", english: "That is my friend."),
+            ExamPhrase(id: "a1-gram-possessiv-p2", german: "Wo ist dein Handy?", english: "Where is your mobile phone?"),
+            ExamPhrase(id: "a1-gram-possessiv-p3", german: "Ihre Eltern wohnen in Berlin.", english: "Her parents live in Berlin.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-possessiv-d1", speaker: "Vicki", german: "Ist das dein Bruder?", english: "Is that your brother?"),
+            ExamDialogueLine(id: "a1-gram-possessiv-d2", speaker: "Daniel", german: "Ja, das ist mein Bruder. Seine Frau heißt Anna.", english: "Yes, that is my brother. His wife is called Anna."),
+            ExamDialogueLine(id: "a1-gram-possessiv-d3", speaker: "Vicki", german: "Und wo wohnen deine Eltern?", english: "And where do your parents live?"),
+            ExamDialogueLine(id: "a1-gram-possessiv-d4", speaker: "Daniel", german: "Meine Eltern wohnen in Krakau.", english: "My parents live in Krakow.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-possessiv-e1", kind: .gapFill, question: "Das ist ___ Bruder. (my)", options: ["mein", "meine", "meiner", "meinen"], correctIndex: 0, explanation: "der Bruder is masculine → mein."),
+            ExamExercise(id: "a1-gram-possessiv-e2", kind: .gapFill, question: "Das ist ___ Schwester. (my)", options: ["mein", "meine", "meiner", "meinen"], correctIndex: 1, explanation: "die Schwester is feminine → meine."),
+            ExamExercise(id: "a1-gram-possessiv-e3", kind: .gapFill, question: "Das ist ___ Kind. (my)", options: ["mein", "meine", "meiner", "meinen"], correctIndex: 0, explanation: "das Kind is neuter → mein."),
+            ExamExercise(id: "a1-gram-possessiv-e4", kind: .multipleChoice, question: "Which possessive belongs to \"du\" (you)?", options: ["mein", "dein", "sein", "ihr"], correctIndex: 1, explanation: "du → dein. (ich → mein, er → sein, sie → ihre)."),
+            ExamExercise(id: "a1-gram-possessiv-e5", kind: .gapFill, question: "Wo ist ___ Handy? (to you)", options: ["mein", "dein", "seine", "ihre"], correctIndex: 1, explanation: "You are talking to \"du\" → dein."),
+            ExamExercise(id: "a1-gram-possessiv-e6", kind: .multipleChoice, question: "\"Sein Auto ist neu\" — whose car is it?", options: ["my", "your", "his"], correctIndex: 2, explanation: "sein = his.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-modalverben",
+        section: .reading,
+        title: "Modalverben",
+        subtitle: "können, müssen, möchten, dürfen, wollen",
+        text: "Modal verbs: können (can, ability), müssen (must), möchten (would like), dürfen (may, permission), sollen (should), wollen (want). The modal verb goes in position 2, the main verb goes to the END of the sentence: \"Ich kann gut schwimmen.\" \"Ich muss heute arbeiten.\"",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-modalverben-1", german: "können", english: "can (ability)", example: "Ich kann gut Deutsch.", exampleEnglish: "I can speak German well."),
+            ExamVocabularyItem(id: "a1-gram-modalverben-2", german: "müssen", english: "must, have to", example: "Ich muss arbeiten.", exampleEnglish: "I must work."),
+            ExamVocabularyItem(id: "a1-gram-modalverben-3", german: "möchten", english: "would like", example: "Ich möchte einen Kaffee.", exampleEnglish: "I would like a coffee."),
+            ExamVocabularyItem(id: "a1-gram-modalverben-4", german: "dürfen", english: "may (permission)", example: "Du darfst hier nicht rauchen.", exampleEnglish: "You may not smoke here."),
+            ExamVocabularyItem(id: "a1-gram-modalverben-5", german: "sollen", english: "should", example: "Was soll ich machen?", exampleEnglish: "What should I do?"),
+            ExamVocabularyItem(id: "a1-gram-modalverben-6", german: "wollen", english: "to want", example: "Ich will nach Hause.", exampleEnglish: "I want to go home.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-modalverben-p1", german: "Ich möchte gern ein Wasser.", english: "I would like some water, please."),
+            ExamPhrase(id: "a1-gram-modalverben-p2", german: "Du darfst hier nicht parken.", english: "You may not park here."),
+            ExamPhrase(id: "a1-gram-modalverben-p3", german: "Ich muss um 8 Uhr aufstehen.", english: "I have to get up at 8.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-modalverben-d1", speaker: "Vicki", german: "Möchtest du einen Kaffee?", english: "Would you like a coffee?"),
+            ExamDialogueLine(id: "a1-gram-modalverben-d2", speaker: "Daniel", german: "Ja, gern. Ich muss aber schnell sein.", english: "Yes, please. But I have to be quick."),
+            ExamDialogueLine(id: "a1-gram-modalverben-d3", speaker: "Vicki", german: "Warum? Du kannst doch in Ruhe trinken.", english: "Why? You can drink in peace."),
+            ExamDialogueLine(id: "a1-gram-modalverben-d4", speaker: "Daniel", german: "Ich muss um 9 Uhr ins Büro.", english: "I have to go to the office at 9.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-modalverben-e1", kind: .gapFill, question: "Ich ___ gut schwimmen. (can)", options: ["kann", "muss", "darf", "will"], correctIndex: 0, explanation: "können = can (ability)."),
+            ExamExercise(id: "a1-gram-modalverben-e2", kind: .gapFill, question: "Ich ___ heute arbeiten. (must)", options: ["muss", "kann", "mag", "darf"], correctIndex: 0, explanation: "müssen = must, have to."),
+            ExamExercise(id: "a1-gram-modalverben-e3", kind: .gapFill, question: "___ ein Wasser, bitte. (would like)", options: ["Ich möchte", "Ich muss", "Ich will", "Ich darf"], correctIndex: 0, explanation: "möchten = would like (polite)."),
+            ExamExercise(id: "a1-gram-modalverben-e4", kind: .multipleChoice, question: "What does \"dürfen\" mean?", options: ["can (ability)", "may (permission)", "want"], correctIndex: 1, explanation: "dürfen = may (permission); können = can (ability)."),
+            ExamExercise(id: "a1-gram-modalverben-e5", kind: .gapFill, question: "Du ___ hier nicht rauchen. (permission)", options: ["darfst", "kannst", "musst", "willst"], correctIndex: 0, explanation: "For rules: du darfst nicht rauchen."),
+            ExamExercise(id: "a1-gram-modalverben-e6", kind: .multipleChoice, question: "In \"Ich muss arbeiten\", where does the main verb go?", options: ["position 2", "the end of the sentence", "the beginning"], correctIndex: 1, explanation: "With modal verbs the main verb goes to the end: Ich muss ... arbeiten.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-zeiten",
+        section: .reading,
+        title: "Zeiten: Präsens, Perfekt, Futur",
+        subtitle: "Present, past and future in simple A1 sentences",
+        text: "Present: \"Ich lerne Deutsch.\" Past (Perfekt): haben/sein + Partizip II at the end: \"Ich habe Deutsch gelernt.\" (movement verbs use sein: \"Ich bin zum Arzt gegangen.\") Future: present tense + a time word, or werden + infinitive: \"Morgen fahre ich nach Berlin.\"",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-zeiten-1", german: "lernen — gelernt", english: "to learn", example: "Ich habe Deutsch gelernt.", exampleEnglish: "I learned German."),
+            ExamVocabularyItem(id: "a1-gram-zeiten-2", german: "machen — gemacht", english: "to do, to make", example: "Ich habe Sport gemacht.", exampleEnglish: "I did sport."),
+            ExamVocabularyItem(id: "a1-gram-zeiten-3", german: "essen — gegessen", english: "to eat", example: "Ich habe Pizza gegessen.", exampleEnglish: "I ate pizza."),
+            ExamVocabularyItem(id: "a1-gram-zeiten-4", german: "trinken — getrunken", english: "to drink", example: "Wir haben Kaffee getrunken.", exampleEnglish: "We drank coffee."),
+            ExamVocabularyItem(id: "a1-gram-zeiten-5", german: "gehen — gegangen", english: "to go", example: "Ich bin zum Arzt gegangen.", exampleEnglish: "I went to the doctor."),
+            ExamVocabularyItem(id: "a1-gram-zeiten-6", german: "fahren — gefahren", english: "to drive, to travel", example: "Sie ist nach Berlin gefahren.", exampleEnglish: "She traveled to Berlin.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-zeiten-p1", german: "Was hast du am Wochenende gemacht?", english: "What did you do on the weekend?"),
+            ExamPhrase(id: "a1-gram-zeiten-p2", german: "Ich habe einen Film gesehen.", english: "I watched a film."),
+            ExamPhrase(id: "a1-gram-zeiten-p3", german: "Morgen fahre ich nach Berlin.", english: "Tomorrow I am going to Berlin.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-zeiten-d1", speaker: "Vicki", german: "Was hast du gestern gemacht?", english: "What did you do yesterday?"),
+            ExamDialogueLine(id: "a1-gram-zeiten-d2", speaker: "Daniel", german: "Ich habe einen Film gesehen und Pizza gegessen.", english: "I watched a film and ate pizza."),
+            ExamDialogueLine(id: "a1-gram-zeiten-d3", speaker: "Vicki", german: "Und was machst du am Wochenende?", english: "And what are you doing on the weekend?"),
+            ExamDialogueLine(id: "a1-gram-zeiten-d4", speaker: "Daniel", german: "Ich fahre zu meinen Eltern.", english: "I am going to my parents.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-zeiten-e1", kind: .gapFill, question: "Ich ___ gestern Pizza gegessen.", options: ["habe", "bin", "hat", "hast"], correctIndex: 0, explanation: "With essen we use haben: Ich habe ... gegessen."),
+            ExamExercise(id: "a1-gram-zeiten-e2", kind: .gapFill, question: "Er ___ zum Arzt gegangen.", options: ["ist", "hat", "sind", "haben"], correctIndex: 0, explanation: "Movement verbs (gehen) use sein: Er ist ... gegangen."),
+            ExamExercise(id: "a1-gram-zeiten-e3", kind: .multipleChoice, question: "What is the Partizip II of \"essen\"?", options: ["gessest", "gegessen", "geessen"], correctIndex: 1, explanation: "essen → gegessen (reduplicated prefix ge-ge-)."),
+            ExamExercise(id: "a1-gram-zeiten-e4", kind: .gapFill, question: "Ich habe Deutsch ___.", options: ["gelernt", "lernen", "lernte", "lerne"], correctIndex: 0, explanation: "Perfekt: haben + Partizip II (gelernt) at the end."),
+            ExamExercise(id: "a1-gram-zeiten-e5", kind: .multipleChoice, question: "Which sentence is in the past (Perfekt)?", options: ["Ich lerne Deutsch.", "Ich habe Deutsch gelernt.", "Ich lerne morgen Deutsch."], correctIndex: 1, explanation: "haben + Partizip II = past tense."),
+            ExamExercise(id: "a1-gram-zeiten-e6", kind: .gapFill, question: "Morgen ___ ich nach Berlin. (future plan)", options: ["fahre", "fahren", "fuhr", "gefahren"], correctIndex: 0, explanation: "For near future we often use present tense + time word: Morgen fahre ich ...")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-prapositionen",
+        section: .reading,
+        title: "Präpositionen: in, an, auf, mit, zu",
+        subtitle: "Where? and how? — prepositions and cases",
+        text: "Prepositions answer questions: \"wo?\" (where?) → Dativ: \"Ich bin in Berlin.\" \"wohin?\" (where to?) → Akkusativ: \"Ich fahre in die Stadt.\" \"mit wem/was?\" → always Dativ: \"Ich komme mit dem Bus.\" \"zu\" = to (a person/place): \"Ich gehe zum Arzt.\" \"nach\" = to (cities/countries without article): \"Ich fliege nach München.\"",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-prapositionen-1", german: "in", english: "in, into", example: "Ich wohne in Berlin.", exampleEnglish: "I live in Berlin."),
+            ExamVocabularyItem(id: "a1-gram-prapositionen-2", german: "an", english: "at, on (wall, river)", example: "Das Bild hängt an der Wand.", exampleEnglish: "The picture hangs on the wall."),
+            ExamVocabularyItem(id: "a1-gram-prapositionen-3", german: "auf", english: "on (surface)", example: "Das Buch ist auf dem Tisch.", exampleEnglish: "The book is on the table."),
+            ExamVocabularyItem(id: "a1-gram-prapositionen-4", german: "mit (+ Dativ)", english: "with", example: "Ich komme mit dem Bus.", exampleEnglish: "I come by bus."),
+            ExamVocabularyItem(id: "a1-gram-prapositionen-5", german: "zu (+ Dativ)", english: "to (a person/place)", example: "Ich gehe zum Arzt.", exampleEnglish: "I go to the doctor."),
+            ExamVocabularyItem(id: "a1-gram-prapositionen-6", german: "nach", english: "to (cities, countries)", example: "Ich fliege nach München.", exampleEnglish: "I fly to Munich."),
+            ExamVocabularyItem(id: "a1-gram-prapositionen-7", german: "der Bus (dem Bus, den Bus)", english: "bus", example: "Der Bus kommt um 8 Uhr.", exampleEnglish: "The bus comes at 8."),
+            ExamVocabularyItem(id: "a1-gram-prapositionen-8", german: "die Wand (der Wand, die Wand)", english: "wall", example: "Die Wand ist weiß.", exampleEnglish: "The wall is white.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-prapositionen-p1", german: "Ich komme mit dem Bus.", english: "I come by bus."),
+            ExamPhrase(id: "a1-gram-prapositionen-p2", german: "Das ist auf dem Tisch.", english: "That is on the table."),
+            ExamPhrase(id: "a1-gram-prapositionen-p3", german: "Ich gehe zum Arzt.", english: "I go to the doctor.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-prapositionen-d1", speaker: "Vicki", german: "Wie kommst du zur Arbeit?", english: "How do you get to work?"),
+            ExamDialogueLine(id: "a1-gram-prapositionen-d2", speaker: "Daniel", german: "Ich komme mit dem Bus. Mein Büro ist in der Mitte.", english: "I come by bus. My office is in the center."),
+            ExamDialogueLine(id: "a1-gram-prapositionen-d3", speaker: "Vicki", german: "Und wo ist dein Koffer?", english: "And where is your suitcase?"),
+            ExamDialogueLine(id: "a1-gram-prapositionen-d4", speaker: "Daniel", german: "Er ist auf dem Tisch. Er ist noch nicht fertig.", english: "It is on the table. It is not finished yet.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-prapositionen-e1", kind: .gapFill, question: "Ich wohne ___ Berlin.", options: ["in", "mit", "auf", "zu"], correctIndex: 0, explanation: "wo? + city → in (Dativ)."),
+            ExamExercise(id: "a1-gram-prapositionen-e2", kind: .gapFill, question: "Ich komme ___ dem Bus.", options: ["mit", "in", "an", "auf"], correctIndex: 0, explanation: "mit + Dativ: mit dem Bus."),
+            ExamExercise(id: "a1-gram-prapositionen-e3", kind: .gapFill, question: "Das Buch ist ___ dem Tisch.", options: ["auf", "mit", "nach", "zu"], correctIndex: 0, explanation: "on a surface → auf: auf dem Tisch."),
+            ExamExercise(id: "a1-gram-prapositionen-e4", kind: .multipleChoice, question: "What is the Dativ of \"der Bus\"?", options: ["der Bus", "dem Bus", "den Bus", "des Bus"], correctIndex: 1, explanation: "der → dem (Dativ masculine)."),
+            ExamExercise(id: "a1-gram-prapositionen-e5", kind: .gapFill, question: "Ich fliege ___ München.", options: ["nach", "in", "mit", "an"], correctIndex: 0, explanation: "to a city (without article) → nach München."),
+            ExamExercise(id: "a1-gram-prapositionen-e6", kind: .multipleChoice, question: "\"Ich gehe zum Arzt\" — \"zum\" is a short form of:", options: ["zu dem", "in dem", "an dem", "auf dem"], correctIndex: 0, explanation: "zum = zu + dem.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-trennbar",
+        section: .reading,
+        title: "Trennbare Verben",
+        subtitle: "Verbs that split apart: aufstehen, anrufen, einkaufen",
+        text: "Separable verbs split in the present tense: the prefix goes to the END of the sentence. aufstehen → \"Ich stehe um 7 Uhr AUF.\" anrufen → \"Ich rufe dich AN.\" einkaufen → \"Ich kaufe am Samstag EIN.\" In compound tenses the prefix stays with the verb: \"Ich habe eingekauft.\"",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-trennbar-1", german: "aufstehen", english: "to get up", example: "Ich stehe um 7 Uhr auf.", exampleEnglish: "I get up at 7."),
+            ExamVocabularyItem(id: "a1-gram-trennbar-2", german: "anrufen", english: "to call (phone)", example: "Ich rufe dich morgen an.", exampleEnglish: "I call you tomorrow."),
+            ExamVocabularyItem(id: "a1-gram-trennbar-3", german: "einkaufen", english: "to shop", example: "Ich kaufe am Samstag ein.", exampleEnglish: "I shop on Saturday."),
+            ExamVocabularyItem(id: "a1-gram-trennbar-4", german: "nach Hause fahren", english: "to go home", example: "Er fährt um 18 Uhr nach Hause.", exampleEnglish: "He goes home at 6."),
+            ExamVocabularyItem(id: "a1-gram-trennbar-5", german: "sich treffen", english: "to meet", example: "Wir treffen uns um 18 Uhr.", exampleEnglish: "We meet at 6."),
+            ExamVocabularyItem(id: "a1-gram-trennbar-6", german: "einschlafen", english: "to fall asleep", example: "Das Kind schläft schnell ein.", exampleEnglish: "The child falls asleep quickly.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-trennbar-p1", german: "Ich stehe früh auf.", english: "I get up early."),
+            ExamPhrase(id: "a1-gram-trennbar-p2", german: "Ruf mich bitte an!", english: "Please call me!"),
+            ExamPhrase(id: "a1-gram-trennbar-p3", german: "Wir treffen uns um 18 Uhr.", english: "We meet at 6.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-trennbar-d1", speaker: "Vicki", german: "Um wie viel Uhr stehst du auf?", english: "What time do you get up?"),
+            ExamDialogueLine(id: "a1-gram-trennbar-d2", speaker: "Daniel", german: "Ich stehe um 7 Uhr auf und kaufe um 8 Uhr ein.", english: "I get up at 7 and shop at 8."),
+            ExamDialogueLine(id: "a1-gram-trennbar-d3", speaker: "Vicki", german: "Komisch! Und wann fährst du nach Hause?", english: "Strange! And when do you go home?"),
+            ExamDialogueLine(id: "a1-gram-trennbar-d4", speaker: "Daniel", german: "Ich fahre um 18 Uhr nach Hause. Dann ruhe ich mich aus.", english: "I go home at 6. Then I rest.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-trennbar-e1", kind: .gapFill, question: "Ich ___ um 7 Uhr ___.", options: ["stehe ... auf", "aufstehe", "stehe auf um", "auf stehe"], correctIndex: 0, explanation: "The prefix goes to the end: Ich stehe ... auf."),
+            ExamExercise(id: "a1-gram-trennbar-e2", kind: .gapFill, question: "Ruf mich bitte ___!", options: ["an", "aus", "ab", "auf"], correctIndex: 0, explanation: "anrufen: Ruf mich an!"),
+            ExamExercise(id: "a1-gram-trennbar-e3", kind: .multipleChoice, question: "How is \"nach Hause fahren\" with \"er\"?", options: ["er fahrt nach Hause", "er fährt nach Hause", "er nach Hause fährt"], correctIndex: 1, explanation: "er + fährt + nach Hause (prefix stays at the end as part of the phrase)."),
+            ExamExercise(id: "a1-gram-trennbar-e4", kind: .gapFill, question: "Wir ___ uns um 18 Uhr.", options: ["treffen", "sagen", "machen", "geben"], correctIndex: 0, explanation: "sich treffen = to meet: Wir treffen uns ..."),
+            ExamExercise(id: "a1-gram-trennbar-e5", kind: .multipleChoice, question: "In \"Ich kaufe ein\", where does the prefix go?", options: ["the beginning", "the end of the sentence", "position 2"], correctIndex: 1, explanation: "Separable prefix → end of the sentence.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-komparativ",
+        section: .reading,
+        title: "Komparativ und Superlativ",
+        subtitle: "Bigger than ..., the biggest",
+        text: "Comparative: adjective + -er + als (than): \"Mein Bruder ist GRÖSSER als ich.\" Superlative: am + adjective + -sten: \"Er ist AM GRÖSSTEN.\" Irregular: gut → besser → am besten; viel → mehr → am meisten. Example: \"Berlin ist größer als Hamburg. Das ist der beste Kuchen!\"",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-komparativ-1", german: "groß — größer — am größten", english: "big, tall", example: "Der Mann ist groß.", exampleEnglish: "The man is tall."),
+            ExamVocabularyItem(id: "a1-gram-komparativ-2", german: "klein — kleiner — am kleinsten", english: "small", example: "Die Stadt ist klein.", exampleEnglish: "The city is small."),
+            ExamVocabularyItem(id: "a1-gram-komparativ-3", german: "teuer — teurer — am teuersten", english: "expensive", example: "Der Wagen ist teuer.", exampleEnglish: "The car is expensive."),
+            ExamVocabularyItem(id: "a1-gram-komparativ-4", german: "gut — besser — am besten", english: "good", example: "Das Essen ist gut.", exampleEnglish: "The food is good."),
+            ExamVocabularyItem(id: "a1-gram-komparativ-5", german: "viel — mehr — am meisten", english: "much, many", example: "Ich habe viel Zeit.", exampleEnglish: "I have a lot of time."),
+            ExamVocabularyItem(id: "a1-gram-komparativ-6", german: "alt — älter — am ältesten", english: "old", example: "Mein Opa ist alt.", exampleEnglish: "My grandpa is old.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-komparativ-p1", german: "Mein Bruder ist größer als ich.", english: "My brother is taller than me."),
+            ExamPhrase(id: "a1-gram-komparativ-p2", german: "Berlin ist größer als Hamburg.", english: "Berlin is bigger than Hamburg."),
+            ExamPhrase(id: "a1-gram-komparativ-p3", german: "Das ist der beste Kuchen!", english: "That is the best cake!")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-komparativ-d1", speaker: "Vicki", german: "Dein Wagen ist neu. Ist er teuer?", english: "Your car is new. Is it expensive?"),
+            ExamDialogueLine(id: "a1-gram-komparativ-d2", speaker: "Daniel", german: "Ja, er ist teurer als mein alter Wagen.", english: "Yes, it is more expensive than my old car."),
+            ExamDialogueLine(id: "a1-gram-komparativ-d3", speaker: "Vicki", german: "Und was ist das Beste an dem Wagen?", english: "And what is the best thing about the car?"),
+            ExamDialogueLine(id: "a1-gram-komparativ-d4", speaker: "Daniel", german: "Er ist schnell und gut. Das ist der beste Wagen!", english: "It is fast and good. That is the best car!")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-komparativ-e1", kind: .gapFill, question: "Mein Bruder ist ___ als ich. (groß)", options: ["größer", "größerer", "am größten", "mehr groß"], correctIndex: 0, explanation: "Comparative = adjective + -er + als."),
+            ExamExercise(id: "a1-gram-komparativ-e2", kind: .gapFill, question: "Das ist ___ Kuchen! (gut)", options: ["der beste", "am besten", "bester", "mehr gut"], correctIndex: 0, explanation: "With a noun: das ist der beste Kuchen!"),
+            ExamExercise(id: "a1-gram-komparativ-e3", kind: .multipleChoice, question: "What is the comparative of \"gut\"?", options: ["guter", "besser", "gutest"], correctIndex: 1, explanation: "gut → besser → am besten (irregular)."),
+            ExamExercise(id: "a1-gram-komparativ-e4", kind: .gapFill, question: "Mein Auto ist ___ als deins. (teuer)", options: ["teurer", "am teuersten", "mehr teuer", "teuerer"], correctIndex: 0, explanation: "Comparative: teurer als."),
+            ExamExercise(id: "a1-gram-komparativ-e5", kind: .multipleChoice, question: "What is the superlative of \"alt\"?", options: ["älter", "am ältesten", "altster"], correctIndex: 1, explanation: "am + adj + -sten: am ältesten."),
+            ExamExercise(id: "a1-gram-komparativ-e6", kind: .gapFill, question: "Ich trinke ___ Kaffee als du. (viel)", options: ["mehr", "mehrer", "am meisten", "viel"], correctIndex: 0, explanation: "viel → mehr (comparative, irregular).")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
+    ),
+    ExamUnit(
+        id: "a1-gram-satzbau",
+        section: .reading,
+        title: "Satzbau",
+        subtitle: "Word order: main clauses, questions and weil-clauses",
+        text: "Main clause: the verb is in position 2: \"ICH LERNE Deutsch.\" Yes/No question: the verb is first: \"LERNST du Deutsch?\" W-question: W-word first, verb second: \"WO LERNST du Deutsch?\" Subordinate clause (weil, dass): the verb goes to the END: \"Ich lerne Deutsch, WEIL ich in Berlin ARBEITE.\"",
+        vocabulary: [
+            ExamVocabularyItem(id: "a1-gram-satzbau-1", german: "weil", english: "because", example: "Ich lerne, weil ich in Berlin arbeite.", exampleEnglish: "I study because I work in Berlin."),
+            ExamVocabularyItem(id: "a1-gram-satzbau-2", german: "dass", english: "that", example: "Ich weiß, dass du recht hast.", exampleEnglish: "I know that you are right."),
+            ExamVocabularyItem(id: "a1-gram-satzbau-3", german: "aber", english: "but", example: "Er ist müde, aber er arbeitet.", exampleEnglish: "He is tired but he works."),
+            ExamVocabularyItem(id: "a1-gram-satzbau-4", german: "und", english: "and", example: "Ich trinke Tee und esse Kuchen.", exampleEnglish: "I drink tea and eat cake."),
+            ExamVocabularyItem(id: "a1-gram-satzbau-5", german: "oder", english: "or", example: "Kaffee oder Tee?", exampleEnglish: "Coffee or tea?"),
+            ExamVocabularyItem(id: "a1-gram-satzbau-6", german: "deshalb", english: "therefore, that's why", example: "Er ist krank, deshalb bleibt er zu Hause.", exampleEnglish: "He is sick, therefore he stays at home.")
+        ],
+        phrases: [
+            ExamPhrase(id: "a1-gram-satzbau-p1", german: "Ich bleibe zu Hause, weil ich krank bin.", english: "I stay at home because I am sick."),
+            ExamPhrase(id: "a1-gram-satzbau-p2", german: "Ich weiß, dass du recht hast.", english: "I know that you are right."),
+            ExamPhrase(id: "a1-gram-satzbau-p3", german: "Er ist müde, aber er arbeitet weiter.", english: "He is tired but he keeps working.")
+        ],
+        dialogue: [
+            ExamDialogueLine(id: "a1-gram-satzbau-d1", speaker: "Vicki", german: "Warum lernst du Deutsch?", english: "Why do you learn German?"),
+            ExamDialogueLine(id: "a1-gram-satzbau-d2", speaker: "Daniel", german: "Weil ich in Deutschland arbeite.", english: "Because I work in Germany."),
+            ExamDialogueLine(id: "a1-gram-satzbau-d3", speaker: "Vicki", german: "Und warum in Deutschland?", english: "And why in Germany?"),
+            ExamDialogueLine(id: "a1-gram-satzbau-d4", speaker: "Daniel", german: "Weil die Arbeit gut ist. Deshalb bleibe ich hier.", english: "Because the work is good. That's why I stay here.")
+        ],
+        exercises: [
+            ExamExercise(id: "a1-gram-satzbau-e1", kind: .gapFill, question: "Ich lerne Deutsch, ___ ich in Berlin arbeite.", options: ["weil", "und", "aber", "oder"], correctIndex: 0, explanation: "weil = because (gives a reason)."),
+            ExamExercise(id: "a1-gram-satzbau-e2", kind: .multipleChoice, question: "In \"Ich lerne Deutsch, weil ich arbeite\", where does the verb of the weil-clause go?", options: ["position 2", "the end of the clause", "the beginning"], correctIndex: 1, explanation: "In weil/dass clauses the verb goes to the end."),
+            ExamExercise(id: "a1-gram-satzbau-e3", kind: .gapFill, question: "Er ist müde, ___ er arbeitet weiter.", options: ["aber", "weil", "dass", "oder"], correctIndex: 0, explanation: "aber = but (contrast)."),
+            ExamExercise(id: "a1-gram-satzbau-e4", kind: .multipleChoice, question: "In the sentence \"Du lernst Deutsch\", where is the verb?", options: ["position 1", "position 2", "the end"], correctIndex: 1, explanation: "Main clause: verb in position 2."),
+            ExamExercise(id: "a1-gram-satzbau-e5", kind: .gapFill, question: "Ich weiß, ___ du recht hast.", options: ["dass", "weil", "aber", "und"], correctIndex: 0, explanation: "dass = that (introduces a statement)."),
+            ExamExercise(id: "a1-gram-satzbau-e6", kind: .multipleChoice, question: "In a Yes/No question \"Lernst du Deutsch?\", where is the verb?", options: ["the end", "position 1", "the middle"], correctIndex: 1, explanation: "Yes/No question: the verb is first.")
+        ],
+        speakingScenario: nil,
+        writingPrompt: nil
     )
 ]
 

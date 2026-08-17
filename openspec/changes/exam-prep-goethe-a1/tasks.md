@@ -29,14 +29,14 @@
 
 ## 3. Faza C: Gramatyka (10 jednostek)
 
-- [ ] 3.1 sein und haben (rozszerzyć istniejącą), Fragen bilden, Negation (nicht/kein)
-- [ ] 3.2 Artikel und Plural, Possessivartikel (mein/dein/sein)
-- [ ] 3.3 Modalverben (können, müssen, möchten, dürfen, sollen, wollen)
-- [ ] 3.4 Zeiten: Präsens, Perfekt, Futur
-- [ ] 3.5 Präpositionen (in/an/auf/mit/zu + Akkusativ/Dativ), Trennbare Verben
-- [ ] 3.6 Komparativ/Superlativ, Satzbau (W-Frage, Satzklammer)
-- [ ] 3.7 Każda jednostka: reguła (text), tabela/przykłady (phrases), 5–8 ćwiczeń MC/gap
-- [ ] 3.8 Build + testy + commit "Exam A1 phase C: grammar units"
+- [x] 3.1 sein und haben (rozszerzyć istniejącą), Fragen bilden, Negation (nicht/kein)
+- [x] 3.2 Artikel und Plural, Possessivartikel (mein/dein/sein)
+- [x] 3.3 Modalverben (können, müssen, möchten, dürfen, sollen, wollen)
+- [x] 3.4 Zeiten: Präsens, Perfekt, Futur
+- [x] 3.5 Präpositionen (in/an/auf/mit/zu + Akkusativ/Dativ), Trennbare Verben
+- [x] 3.6 Komparativ/Superlativ, Satzbau (W-Frage, Satzklammer)
+- [x] 3.7 Każda jednostka: reguła (text), tabela/przykłady (phrases), 5–8 ćwiczeń MC/gap
+- [x] 3.8 Build + testy + commit "Exam A1 phase C: grammar units"
 
 ## 4. Faza D: Lesen + Hören
 
