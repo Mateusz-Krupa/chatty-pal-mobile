@@ -19,14 +19,14 @@ The chat voice input SHALL compute the RMS level of each microphone audio buffer
 - **THEN** the silence timer is not reset by transcription noise and no empty message is sent
 
 ### Requirement: Silence window tuned to real audio
-The silence window SHALL be 1.8 seconds, measured on audio energy: long enough to absorb the thinking pauses typical of language learners composing a sentence, short enough that the conversation feels continuous.
+The silence window SHALL be 2.5 seconds, measured on audio energy: because barge-in makes a premature split self-healing (the learner can keep talking over the bot), the window can be longer to absorb the thinking pauses typical of language learners composing a sentence.
 
-#### Scenario: Turn ends after 1.8s of silence
+#### Scenario: Turn ends after 2.5s of silence
 - **WHEN** the user stops producing audible speech while recording
-- **THEN** the transcript is eligible to be sent no earlier than 1.8 seconds after that buffer
+- **THEN** the transcript is eligible to be sent no earlier than 2.5 seconds after that buffer
 
 #### Scenario: Pause within the window does not end the turn
-- **WHEN** the user stops producing audible speech for less than 1.8 seconds and then continues speaking
+- **WHEN** the user stops producing audible speech for less than 2.5 seconds and then continues speaking
 - **THEN** the silence timer restarts on the new voice activity and the full sentence is sent as one message
 
 ### Requirement: Voice activity feedback in the listening bar
