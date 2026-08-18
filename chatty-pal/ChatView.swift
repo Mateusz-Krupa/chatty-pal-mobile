@@ -26,6 +26,8 @@ struct ChatView: View {
     @AppStorage("authUsername") private var authUsername: String = ""
     @AppStorage("authEmail") private var authEmail: String = ""
     @AppStorage("authRole") private var authRole: String = ""
+    @AppStorage("appEnvironment") private var appEnvironment: String = AppEnvironmentMode.production.rawValue
+    @AppStorage("localWebBaseURL") private var localWebBaseURL: String = AppEnvironment.defaultLocalWebBaseURL
 
     init() {
         let code = UserDefaults.standard.string(forKey: "langCode") ?? "de"
@@ -159,6 +161,12 @@ struct ChatView: View {
         }
         .onChange(of: level) { _ in
             applyCurrentPersona()
+        }
+        .onChange(of: appEnvironment) { _ in
+            rebuildEngine()
+        }
+        .onChange(of: localWebBaseURL) { _ in
+            rebuildEngine()
         }
     }
 
@@ -314,6 +322,16 @@ struct ChatView: View {
         engine.reload(
             persona: .main(language: LanguageConfig.all[langCode] ?? LanguageConfig.default, level: level),
             store: LocalChatStore(languageCode: langCode, level: level)
+        )
+    }
+
+    // Rebuilds the engine so its services (bot, TTS, teacher, transcriber)
+    // pick up the current AppEnvironment origin without an app restart.
+    private func rebuildEngine() {
+        engine = ChatEngine(
+            persona: .main(language: LanguageConfig.all[langCode] ?? LanguageConfig.default, level: level),
+            store: LocalChatStore(languageCode: langCode, level: level),
+            dependencies: .live
         )
     }
 
