@@ -9,8 +9,10 @@ struct WhisperTranscriber: AudioTranscribing {
         self.session = session
     }
 
+    static let model = "gpt-4o-mini-transcribe"
+
     func transcribe(wav: Data, language: String) async throws -> String {
-        let (body, contentType) = Self.multipartBody(wav: wav, model: "whisper-1", language: language)
+        let (body, contentType) = Self.multipartBody(wav: wav, model: Self.model, language: language)
         var request = URLRequest(url: baseURL.appendingNextAPIPath("transcriptions"))
         request.httpMethod = "POST"
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")

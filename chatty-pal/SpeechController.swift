@@ -98,12 +98,25 @@ final class SpeechController {
         recognitionTask = nil
         recognitionRequest = nil
         onAudioLevel = nil
-        let wav = WAVFile.make(fromFloatSamples: capturedPCM, sampleRate: capturedSampleRate)
+        let wav = makeUploadWAV()
         capturedPCM = Data()
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
         try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         return wav
+    }
+
+    private func makeUploadWAV() -> Data? {
+        guard capturedPCM.count > 0 else { return nil }
+        let samples = capturedPCM.withUnsafeBytes { ptr in
+            Array(ptr.bindMemory(to: Float32.self))
+        }
+        guard capturedSampleRate > WAVFile.targetSampleRate else {
+            return WAVFile.make(fromFloatSamples: capturedPCM, sampleRate: capturedSampleRate)
+        }
+        let resampled = WAVFile.resample(samples, from: capturedSampleRate, to: WAVFile.targetSampleRate)
+        let resampledData = resampled.withUnsafeBytes { Data($0) }
+        return WAVFile.make(fromFloatSamples: resampledData, sampleRate: WAVFile.targetSampleRate)
     }
 
     private func appendMono(_ buffer: AVAudioPCMBuffer) {

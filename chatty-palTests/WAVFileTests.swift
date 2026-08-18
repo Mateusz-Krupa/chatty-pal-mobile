@@ -61,4 +61,42 @@ final class WAVFileTests: XCTestCase {
     func testEmptyInputReturnsNil() {
         XCTAssertNil(WAVFile.make(fromFloatSamples: Data(), sampleRate: 44100))
     }
+
+    func testResampleDownsampleLength() {
+        // 88200 samples @ 44.1 kHz = 2 seconds of audio → 32000 samples @ 16 kHz
+        let src = (0..<88200).map { Float($0 % 100) / 100 }
+        let out = WAVFile.resample(src, from: 44100, to: 16000)
+        XCTAssertEqual(out.count, 32000)
+    }
+
+    func testResamplePreservesConstantSignal() {
+        let src = [Float](repeating: 0.25, count: 4410)
+        let out = WAVFile.resample(src, from: 44100, to: 16000)
+        // 4410 samples @ 44.1 kHz = 0.1 s → 1600 samples @ 16 kHz
+        XCTAssertEqual(out.count, 1600)
+        for sample in out {
+            XCTAssertEqual(sample, 0.25, accuracy: 0.0001)
+        }
+    }
+
+    func testResampleFollowsRamp() {
+        let src = (0..<100).map { Float($0) }
+        let out = WAVFile.resample(src, from: 100, to: 50)
+        XCTAssertEqual(out.count, 50)
+        XCTAssertEqual(out[0], 0, accuracy: 0.001)
+        XCTAssertEqual(out[49], 98, accuracy: 0.001)
+        XCTAssertEqual(out[25], 50, accuracy: 0.01)
+    }
+
+    func testResampleIdentityAtEqualRates() {
+        let src: [Float] = [0.1, 0.2, 0.3, 0.4]
+        XCTAssertEqual(WAVFile.resample(src, from: 16000, to: 16000), src)
+    }
+
+    func testResampleTrivialInputUnchanged() {
+        let empty: [Float] = []
+        XCTAssertEqual(WAVFile.resample(empty, from: 44100, to: 16000), empty)
+        let single: [Float] = [0.5]
+        XCTAssertEqual(WAVFile.resample(single, from: 44100, to: 16000), single)
+    }
 }

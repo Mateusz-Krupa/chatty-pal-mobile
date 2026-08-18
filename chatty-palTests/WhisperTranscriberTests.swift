@@ -4,14 +4,14 @@ import XCTest
 final class WhisperTranscriberTests: XCTestCase {
     func testMultipartBodyContainsAllFields() {
         let wav = Data([0x52, 0x49, 0x46, 0x46])
-        let (body, contentType) = WhisperTranscriber.multipartBody(wav: wav, model: "whisper-1", language: "de")
+        let (body, contentType) = WhisperTranscriber.multipartBody(wav: wav, model: WhisperTranscriber.model, language: "de")
 
         XCTAssertTrue(contentType.hasPrefix("multipart/form-data; boundary="))
         let boundary = String(contentType.dropFirst("multipart/form-data; boundary=".count))
         let text = String(decoding: body, as: UTF8.self)
 
         XCTAssertTrue(text.contains("--\(boundary)\r\n"))
-        XCTAssertTrue(text.contains("name=\"model\"\r\n\r\nwhisper-1\r\n"))
+        XCTAssertTrue(text.contains("name=\"model\"\r\n\r\n\(WhisperTranscriber.model)\r\n"))
         XCTAssertTrue(text.contains("name=\"language\"\r\n\r\nde\r\n"))
         XCTAssertTrue(text.contains("name=\"file\"; filename=\"audio.wav\""))
         XCTAssertTrue(text.contains("Content-Type: audio/wav"))

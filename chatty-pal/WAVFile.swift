@@ -1,6 +1,27 @@
 import Foundation
 
 enum WAVFile {
+    /// Standard speech rate for upload (Whisper/Deepgram native rate).
+    static let targetSampleRate: Double = 16000
+
+    /// Linear-interpolation resample. Identity for equal rates or trivial input.
+    static func resample(_ samples: [Float], from srcRate: Double, to dstRate: Double) -> [Float] {
+        guard samples.count > 1, srcRate > 0, dstRate > 0, dstRate != srcRate else {
+            return samples
+        }
+        let ratio = srcRate / dstRate
+        let outCount = Int(Double(samples.count - 1) / ratio) + 1
+        var out = [Float](repeating: 0, count: outCount)
+        for i in 0..<outCount {
+            let position = Double(i) * ratio
+            let index = Int(position)
+            let fraction = Float(position - Double(index))
+            let next = min(index + 1, samples.count - 1)
+            out[i] = samples[index] + (samples[next] - samples[index]) * fraction
+        }
+        return out
+    }
+
     /// Builds a 16-bit mono PCM WAV from little-endian float32 samples in [-1, 1].
     static func make(fromFloatSamples data: Data, sampleRate: Double) -> Data? {
         let sampleCount = data.count / 4
