@@ -65,22 +65,7 @@ struct ChatView: View {
                     )
 
                     if engine.isRecording {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(engine.transcriptText.isEmpty ? "Listening..." : engine.transcriptText)
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            ZStack(alignment: .leading) {
-                                Capsule()
-                                    .fill(Color.red.opacity(0.15))
-                                Capsule()
-                                    .fill(Color.red)
-                                    .frame(width: max(4, CGFloat(engine.audioLevel) * 150))
-                            }
-                            .frame(height: 4)
-                        }
-                        .padding(10)
-                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        ListeningIndicator(transcript: engine.transcriptText, level: engine.audioLevel)
                     }
 
                     inputBar

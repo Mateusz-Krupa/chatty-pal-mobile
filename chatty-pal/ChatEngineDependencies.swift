@@ -32,7 +32,11 @@ protocol SpeechRecognition: AnyObject {
     var onAudioLevel: ((Float) -> Void)? { get set }
     func requestPermissions() async -> Bool
     func startRecording() throws
-    func stopRecording()
+    func stopRecording() -> Data?
+}
+
+protocol AudioTranscribing {
+    func transcribe(wav: Data, language: String) async throws -> String
 }
 
 extension SpeechController {
@@ -108,6 +112,7 @@ struct ChatEngineDependencies {
     let synth: any SpeechSynthesizing
     let makeSpeech: (String) -> any SpeechRecognition
     let playback: any AudioPlayback
+    let transcriber: any AudioTranscribing
 
     static var live: ChatEngineDependencies {
         ChatEngineDependencies(
@@ -116,7 +121,8 @@ struct ChatEngineDependencies {
             translate: TranslationService(),
             synth: PollySpeechService(),
             makeSpeech: { locale in SpeechController(localeIdentifier: locale) },
-            playback: AVAudioPlayback()
+            playback: AVAudioPlayback(),
+            transcriber: WhisperTranscriber(baseURL: AppEnvironment.webBaseURL)
         )
     }
 }

@@ -86,7 +86,6 @@ final class ChatEngine {
     private let dependencies: ChatEngineDependencies
     private let playback: any AudioPlayback
     private var speech: (any SpeechRecognition)?
-    private var tracker = TranscriptTracker()
     private var silenceTask: Task<Void, Never>?
     private var botTask: Task<Void, Never>?
     private var teacherTask: Task<Void, Never>?
@@ -149,7 +148,6 @@ final class ChatEngine {
         resumeTask = nil
         speech?.stopRecording()
         playback.stop()
-        tracker.reset()
         suppressSendUntil = nil
         autoResumeListening = false
         transcriptText = ""
@@ -199,13 +197,9 @@ final class ChatEngine {
 
     func stopSpeechAndSend() {
         cancelSilenceTimer()
-        speech?.stopRecording()
-        voiceState = .idle
+        let wav = speech?.stopRecording()
         suppressSendUntil = Date().addingTimeInterval(sendSuppressionWindow)
-        sendTranscript(force: true)
-        tracker.reset()
-        transcriptText = ""
-        audioLevel = 0
+        finishUtterance(wav: wav, resume: false, force: true)
     }
 
     func toggleTTS() {
@@ -282,7 +276,6 @@ final class ChatEngine {
         resumeTask?.cancel()
         resumeTask = nil
         transcriptText = ""
-        tracker.reset()
         cancelSilenceTimer()
         speech.onTranscription = { [weak self] text, isFinal in
             Task { @MainActor in
@@ -352,11 +345,44 @@ final class ChatEngine {
     }
 
     private func sendTranscript(force: Bool = false) {
+        guard voiceState == .recording else { return }
+        let wav = speech?.stopRecording()
+        finishUtterance(wav: wav, resume: true, force: force)
+    }
+
+    private func finishUtterance(wav: Data?, resume: Bool, force: Bool) {
         if !force, let suppressSendUntil, Date() < suppressSendUntil { return }
-        let fullTranscript = TranscriptTracker.trimmed(transcriptText)
-        guard !fullTranscript.isEmpty else { return }
-        guard let delta = tracker.nextDelta(from: fullTranscript) else { return }
-        sendText(delta)
+        let localTranscript = TranscriptTracker.trimmed(transcriptText)
+        let language = persona.language.code
+        transcriptText = ""
+        audioLevel = 0
+        if resume {
+            autoResumeListening = true
+        }
+        guard let wav else {
+            voiceState = .idle
+            guard !localTranscript.isEmpty else { return }
+            sendText(localTranscript)
+            return
+        }
+        voiceState = .waitingForBot
+        Task { [weak self] in
+            guard let self else { return }
+            var whisper = ""
+            do {
+                whisper = try await self.dependencies.transcriber.transcribe(wav: wav, language: language)
+            } catch {
+                // Fall back to the local transcript.
+            }
+            guard !Task.isCancelled else { return }
+            let text = TranscriptTracker.trimmed(whisper)
+            let finalText = text.isEmpty ? localTranscript : text
+            guard !finalText.isEmpty else {
+                self.voiceState = .idle
+                return
+            }
+            self.sendText(finalText)
+        }
     }
 
     private func requestBotResponse(for userMessage: String) {

@@ -7,6 +7,8 @@ final class SpeechController {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private var recognizer: SFSpeechRecognizer?
+    private var capturedPCM = Data()
+    private var capturedSampleRate: Double = 44100
 
     var onTranscription: ((String, Bool) -> Void)?
     var onError: ((Error) -> Void)?
@@ -60,8 +62,12 @@ final class SpeechController {
 
         let inputNode = audioEngine.inputNode
         inputNode.removeTap(onBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputNode.outputFormat(forBus: 0)) { [weak self] buffer, _ in
+        let inputFormat = inputNode.outputFormat(forBus: 0)
+        capturedPCM = Data()
+        capturedSampleRate = inputFormat.sampleRate > 0 ? inputFormat.sampleRate : 44100
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputFormat) { [weak self] buffer, _ in
             self?.recognitionRequest?.append(buffer)
+            self?.appendMono(buffer)
             self?.onAudioLevel?(Self.rms(of: buffer))
         }
 
@@ -82,7 +88,7 @@ final class SpeechController {
         }
     }
 
-    func stopRecording() {
+    func stopRecording() -> Data? {
         if audioEngine.isRunning {
             audioEngine.stop()
             audioEngine.inputNode.removeTap(onBus: 0)
@@ -92,9 +98,32 @@ final class SpeechController {
         recognitionTask = nil
         recognitionRequest = nil
         onAudioLevel = nil
+        let wav = WAVFile.make(fromFloatSamples: capturedPCM, sampleRate: capturedSampleRate)
+        capturedPCM = Data()
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
         try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+        return wav
+    }
+
+    private func appendMono(_ buffer: AVAudioPCMBuffer) {
+        guard let channelData = buffer.floatChannelData else { return }
+        let frames = Int(buffer.frameLength)
+        guard frames > 0 else { return }
+        let channels = max(1, Int(buffer.format.channelCount))
+        var mono = [Float](repeating: 0, count: frames)
+        for channel in 0..<channels {
+            for frame in 0..<frames {
+                mono[frame] += channelData[channel][frame]
+            }
+        }
+        if channels > 1 {
+            let divisor = Float(channels)
+            for frame in 0..<frames {
+                mono[frame] /= divisor
+            }
+        }
+        withUnsafeBytes(of: mono) { capturedPCM.append(contentsOf: $0) }
     }
 }
 

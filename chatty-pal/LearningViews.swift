@@ -238,6 +238,7 @@ private struct LearningLessonDetailView: View {
                             ShadowingPhraseRow(
                                 phrase: phrase,
                                 localeIdentifier: lessonSpeechLocale,
+                                languageCode: lesson.languageCode,
                                 onPlay: { playLessonText(phrase.mainContent) }
                             )
                         }
@@ -377,13 +378,18 @@ private struct LearningLessonDetailView: View {
 private struct ShadowingPhraseRow: View {
     let phrase: LearningPhrase
     let localeIdentifier: String
+    let languageCode: String
     let onPlay: () -> Void
 
+    private let voiceThreshold: Float = 0.02
+
     @State private var isRecording = false
+    @State private var isTranscribing = false
+    @State private var liveTranscript = ""
+    @State private var audioLevel: Float = 0
     @State private var result: ShadowingScorer.Result?
     @State private var addedToReview = false
     @State private var speech: SpeechController?
-    @State private var lastSpoken = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -410,9 +416,12 @@ private struct ShadowingPhraseRow: View {
                     .foregroundStyle(.secondary)
             }
             if isRecording {
-                Text("Listening... say it now")
+                ListeningIndicator(transcript: liveTranscript, level: audioLevel)
+            }
+            if isTranscribing {
+                Label("Transcribing...", systemImage: "waveform.badge.magnifyingglass")
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(.secondary)
             }
             if let result {
                 HStack(spacing: 6) {
@@ -454,8 +463,6 @@ private struct ShadowingPhraseRow: View {
 
     private func toggleRecording() {
         if isRecording {
-            speech?.stopRecording()
-            isRecording = false
             finishRecording()
             return
         }
@@ -465,7 +472,12 @@ private struct ShadowingPhraseRow: View {
             guard await controller.requestPermissions() else { return }
             controller.onTranscription = { text, _ in
                 Task { @MainActor in
-                    lastSpoken = text
+                    liveTranscript = text
+                }
+            }
+            controller.onAudioLevel = { rms in
+                Task { @MainActor in
+                    audioLevel = rms > voiceThreshold ? min(1, rms / (voiceThreshold * 4)) : 0
                 }
             }
             controller.onError = { _ in
@@ -475,7 +487,8 @@ private struct ShadowingPhraseRow: View {
             }
             do {
                 try controller.startRecording()
-                lastSpoken = ""
+                liveTranscript = ""
+                audioLevel = 0
                 isRecording = true
             } catch {
                 // Mic unavailable - stay idle.
@@ -484,17 +497,37 @@ private struct ShadowingPhraseRow: View {
     }
 
     private func finishRecording() {
-        let spoken = lastSpoken
-        lastSpoken = ""
-        guard !spoken.trimmingCharacters(in: .whitespaces).isEmpty else {
+        let wav = speech?.stopRecording()
+        let localTranscript = liveTranscript
+        liveTranscript = ""
+        audioLevel = 0
+        isRecording = false
+        guard wav != nil || !localTranscript.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
-        let scored = ShadowingScorer.score(reference: phrase.mainContent, spoken: spoken)
-        result = scored
-        LearningStatsStore.shared.recordShadowingAttempt()
-        if scored.percent < 60, let english = phrase.supportContent, !english.isEmpty {
-            WordReviewStore.shared.add(german: phrase.mainContent, english: english, source: "shadowing")
-            addedToReview = true
+        isTranscribing = wav != nil
+        Task {
+            var spoken = localTranscript
+            if let wav {
+                do {
+                    let whisper = try await WhisperTranscriber(baseURL: AppEnvironment.webBaseURL)
+                        .transcribe(wav: wav, language: languageCode)
+                    spoken = whisper
+                } catch {
+                    // Fall back to the local transcript.
+                }
+            }
+            await MainActor.run {
+                isTranscribing = false
+                guard !spoken.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+                let scored = ShadowingScorer.score(reference: phrase.mainContent, spoken: spoken)
+                result = scored
+                LearningStatsStore.shared.recordShadowingAttempt()
+                if scored.percent < 60, let english = phrase.supportContent, !english.isEmpty {
+                    WordReviewStore.shared.add(german: phrase.mainContent, english: english, source: "shadowing")
+                    addedToReview = true
+                }
+            }
         }
     }
 }

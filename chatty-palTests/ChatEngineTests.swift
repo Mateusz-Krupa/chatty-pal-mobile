@@ -137,6 +137,7 @@ private final class FakeSpeech: SpeechRecognition {
     var onAudioLevel: ((Float) -> Void)?
     var permissionGranted = true
     var startError: Error?
+    var recordedWAV: Data? = Data([0x52, 0x49, 0x46, 0x46])
     private(set) var startCount = 0
     private(set) var stopCount = 0
 
@@ -151,8 +152,9 @@ private final class FakeSpeech: SpeechRecognition {
         }
     }
 
-    func stopRecording() {
+    func stopRecording() -> Data? {
         stopCount += 1
+        return recordedWAV
     }
 
     func emit(_ text: String, isFinal: Bool) {
@@ -190,6 +192,28 @@ private final class FakePlayback: AudioPlayback {
     }
 }
 
+private final class FakeTranscriber: AudioTranscribing {
+    enum Mode {
+        case empty
+        case text(String)
+        case fail
+    }
+    var mode: Mode = .empty
+    private(set) var calls: [(wav: Data, language: String)] = []
+
+    func transcribe(wav: Data, language: String) async throws -> String {
+        calls.append((wav, language))
+        switch mode {
+        case .empty:
+            return ""
+        case .text(let text):
+            return text
+        case .fail:
+            throw FakeError(code: "transcribe-fail")
+        }
+    }
+}
+
 @MainActor
 private final class EngineHarness {
     let bot = FakeBot()
@@ -198,6 +222,7 @@ private final class EngineHarness {
     let synth = FakeSynth()
     let speech: FakeSpeech
     let playback = FakePlayback()
+    let transcriber = FakeTranscriber()
     let store: RecordingStore
     let engine: ChatEngine
 
@@ -216,7 +241,8 @@ private final class EngineHarness {
             translate: translate,
             synth: synth,
             makeSpeech: { _ in speech },
-            playback: playback
+            playback: playback,
+            transcriber: transcriber
         )
         self.engine = ChatEngine(
             persona: persona,
@@ -352,6 +378,54 @@ final class ChatEngineTests: XCTestCase {
         let last = harness.engine.messages.last
         XCTAssertEqual(last?.role, .assistant)
         XCTAssertEqual(last?.message, "Error: Fake error: bot-fail")
+    }
+
+    func testVoiceFlowSendsWhisperTextWhenAvailable() async {
+        let harness = makeHarness()
+        harness.transcriber.mode = .text("Ich möchte ein Wasser")
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("partial", isFinal: false)
+        await settle(250)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["Ich möchte ein Wasser"])
+        XCTAssertEqual(harness.transcriber.calls.first?.language, "de")
+    }
+
+    func testVoiceFlowFallsBackToLocalTranscriptWhenWhisperFails() async {
+        let harness = makeHarness()
+        harness.transcriber.mode = .fail
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("Hallo wie geht's", isFinal: true)
+        await settle(250)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["Hallo wie geht's"])
+    }
+
+    func testVoiceFlowFallsBackToLocalTranscriptWhenWhisperEmpty() async {
+        let harness = makeHarness()
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("guten tag", isFinal: true)
+        await settle(250)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["guten tag"])
+    }
+
+    func testManualStopUsesWhisperTextAndDoesNotResume() async {
+        let harness = makeHarness()
+        harness.transcriber.mode = .text("Danke, auf Wiedersehen")
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("danke", isFinal: false)
+        await settle(1)
+        harness.engine.stopSpeechAndSend()
+        await settle(250)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["Danke, auf Wiedersehen"])
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+        XCTAssertEqual(harness.speech.startCount, 1)
     }
 
     func testInterruptStopsEverything() async {
