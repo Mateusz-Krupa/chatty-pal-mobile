@@ -78,6 +78,7 @@ final class ChatEngine {
     private(set) var isGenerating = false
     private(set) var transcriptText = ""
     private(set) var audioLevel: Float = 0
+    private(set) var isTranscribing = false
     var isTTSEnabled = true
     var isActive = true
 
@@ -153,6 +154,7 @@ final class ChatEngine {
         transcriptText = ""
         audioLevel = 0
         isGenerating = false
+        isTranscribing = false
         voiceState = .idle
     }
 
@@ -366,6 +368,7 @@ final class ChatEngine {
             return
         }
         voiceState = .waitingForBot
+        isTranscribing = true
         Task { [weak self] in
             guard let self else { return }
             var whisper = ""
@@ -374,6 +377,7 @@ final class ChatEngine {
             } catch {
                 // Fall back to the local transcript.
             }
+            self.isTranscribing = false
             guard !Task.isCancelled else { return }
             let text = TranscriptTracker.trimmed(whisper)
             let finalText = text.isEmpty ? localTranscript : text

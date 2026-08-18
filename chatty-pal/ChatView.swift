@@ -53,7 +53,7 @@ struct ChatView: View {
 
                     ChatMessageList(
                         messages: engine.messages,
-                        isGenerating: false,
+                        isGenerating: engine.isGenerating,
                         onSpeak: { engine.speak($0.message) },
                         onTranslate: { message in
                             Task { await engine.translate(message.message) }
@@ -66,6 +66,12 @@ struct ChatView: View {
 
                     if engine.isRecording {
                         ListeningIndicator(transcript: engine.transcriptText, level: engine.audioLevel)
+                    } else if engine.isTranscribing {
+                        ProgressView("Transcribing...")
+                            .font(.footnote)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(10)
+                            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
 
                     inputBar
