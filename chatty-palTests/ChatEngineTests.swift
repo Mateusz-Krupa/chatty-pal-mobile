@@ -37,8 +37,10 @@ private final class FakeBot: BotServicing {
     }
 
     var mode: Mode = .ok("Bot reply")
+    var streamChunks: [String]?
     private(set) var calls: [Call] = []
     private var pending: CheckedContinuation<BotResponse, Error>?
+    private var pendingStream: AsyncThrowingStream<String, Error>.Continuation?
 
     func sendMessage(instruction: String, message: String, messages: [BotMessage]) async throws -> BotResponse {
         calls.append(Call(message: message, roles: messages.map(\.role)))
@@ -54,7 +56,32 @@ private final class FakeBot: BotServicing {
         }
     }
 
+    func streamMessage(instruction: String, message: String, messages: [BotMessage]) -> AsyncThrowingStream<String, Error> {
+        let mode = self.mode
+        let chunks = self.streamChunks
+        calls.append(Call(message: message, roles: messages.map(\.role)))
+        return AsyncThrowingStream { continuation in
+            switch mode {
+            case .ok(let reply):
+                for chunk in chunks ?? [reply] {
+                    continuation.yield(chunk)
+                }
+                continuation.finish()
+            case .fail:
+                continuation.finish(throwing: FakeError(code: "stream-fail"))
+            case .suspend:
+                self.pendingStream = continuation
+            }
+        }
+    }
+
     func resolve(with reply: String) {
+        if let stream = pendingStream {
+            stream.yield(reply)
+            stream.finish()
+            pendingStream = nil
+            return
+        }
         pending?.resume(returning: BotResponse(message: reply))
         pending = nil
     }
@@ -426,6 +453,58 @@ final class ChatEngineTests: XCTestCase {
         XCTAssertEqual(userMessages(harness).map(\.message), ["Danke, auf Wiedersehen"])
         XCTAssertEqual(harness.engine.voiceState, .idle)
         XCTAssertEqual(harness.speech.startCount, 1)
+    }
+
+    func testBotReplyStreamsIntoBubbleAndSpeaksPerSentence() async {
+        let harness = makeHarness()
+        harness.bot.streamChunks = ["Ich bin ", "Anna. ", "Und du? "]
+        harness.engine.sendText("Hallo")
+        await settle(300)
+
+        let assistant = harness.engine.messages.first { $0.role == .assistant }
+        XCTAssertEqual(assistant?.message, "Ich bin Anna. Und du? ")
+        XCTAssertEqual(harness.synth.calls.map(\.text), ["Ich bin Anna.", "Und du?"])
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+        XCTAssertEqual(harness.engine.isGenerating, false)
+    }
+
+    func testBotStreamFailureFallsBackToOneShot() async {
+        let harness = makeHarness()
+        harness.bot.mode = .fail
+        harness.engine.sendText("Hallo")
+        await settle(300)
+
+        XCTAssertEqual(harness.engine.messages.first { $0.role == .assistant }?.message, "Error: Fake error: bot-fail")
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+    }
+
+    func testHandsFreeResumesOnlyAfterStreamDrains() async {
+        let harness = makeHarness()
+        harness.bot.streamChunks = ["Erste. ", "Zweite. "]
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("hallo", isFinal: true)
+        await settle(300)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["hallo"])
+        XCTAssertEqual(harness.synth.calls.map(\.text), ["Erste.", "Zweite."])
+        XCTAssertEqual(harness.engine.voiceState, .recording)
+        XCTAssertEqual(harness.speech.startCount, 2)
+    }
+
+    func testInterruptMidStreamCancelsGeneration() async {
+        let harness = makeHarness()
+        harness.bot.mode = .suspend
+        harness.teacher.mode = .suspend
+        harness.engine.sendText("question")
+        await settle()
+        XCTAssertEqual(harness.engine.voiceState, .waitingForBot)
+
+        harness.engine.interrupt()
+
+        XCTAssertEqual(harness.engine.voiceState, .idle)
+        XCTAssertEqual(harness.engine.messages.map(\.role), [.user])
+        XCTAssertEqual(harness.synth.calls.count, 0)
     }
 
     func testInterruptStopsEverything() async {

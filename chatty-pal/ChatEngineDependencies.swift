@@ -3,6 +3,7 @@ import Foundation
 
 protocol BotServicing {
     func sendMessage(instruction: String, message: String, messages: [BotMessage]) async throws -> BotResponse
+    func streamMessage(instruction: String, message: String, messages: [BotMessage]) -> AsyncThrowingStream<String, Error>
 }
 
 extension BotService: BotServicing {}

@@ -94,6 +94,62 @@ struct BotService {
         }
     }
 
+    func streamMessage(instruction: String, message: String, messages: [BotMessage]) -> AsyncThrowingStream<String, Error> {
+        let payload = BotRequest(
+            instruction: instruction,
+            message: message,
+            messages: messages,
+            languageLevel: languageLevel,
+            stream: true
+        )
+        return AsyncThrowingStream { continuation in
+            let task = Task {
+                var current = try self.request(for: self.baseURL, payload: payload)
+                while true {
+                    do {
+                        try await Self.pumpStream(for: current) { delta in
+                            continuation.yield(delta)
+                        }
+                        continuation.finish()
+                        return
+                    } catch BotServiceError.httpError(let statusCode, _) where statusCode == 404 && self.baseURL != Self.defaultBaseURL {
+                        current = try self.request(for: Self.defaultBaseURL, payload: payload)
+                        continue
+                    } catch {
+                        continuation.finish(throwing: error)
+                        return
+                    }
+                }
+            }
+            continuation.onTermination = { _ in
+                task.cancel()
+            }
+        }
+    }
+
+    private static func pumpStream(for request: URLRequest, onDelta: @escaping (String) -> Void) async throws {
+        let (bytes, response): (URLSession.AsyncBytes, URLResponse)
+        do {
+            (bytes, response) = try await URLSession.shared.bytes(for: request)
+        } catch {
+            let underlying = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+            throw BotServiceError.connectionFailed(url: request.url?.absoluteString ?? "?", underlying: underlying)
+        }
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw BotServiceError.invalidResponse
+        }
+        guard httpResponse.statusCode == 200 else {
+            throw BotServiceError.httpError(statusCode: httpResponse.statusCode, body: "")
+        }
+        for try await line in bytes.lines {
+            if Task.isCancelled { return }
+            if BotStreamParser.isDone(line) { return }
+            if let delta = BotStreamParser.delta(fromLine: line) {
+                onDelta(delta)
+            }
+        }
+    }
+
     private func request(for baseURL: URL, payload: BotRequest) throws -> URLRequest {
         var request = URLRequest(url: baseURL.appendingNextAPIPath("bot"))
         request.httpMethod = "POST"
@@ -153,6 +209,7 @@ struct BotRequest: Encodable {
     let message: String
     let messages: [BotMessage]
     let languageLevel: String?
+    var stream: Bool = false
 }
 
 struct BotMessage: Encodable {

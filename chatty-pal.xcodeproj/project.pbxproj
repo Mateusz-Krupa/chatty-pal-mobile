@@ -55,6 +55,9 @@
 		AA0000000000000000000042 /* WordReviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000041 /* WordReviewTests.swift */; };
 		AA0000000000000000000044 /* ShadowingScorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000043 /* ShadowingScorer.swift */; };
 		AA0000000000000000000046 /* ShadowingScorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000045 /* ShadowingScorerTests.swift */; };
+		AA0000000000000000000066 /* BotStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000065 /* BotStreamTests.swift */; };
+		AA0000000000000000000064 /* UtteranceSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000063 /* UtteranceSplitter.swift */; };
+		AA0000000000000000000062 /* BotStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000061 /* BotStream.swift */; };
 		AA0000000000000000000060 /* ListeningIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000059 /* ListeningIndicator.swift */; };
 		AA0000000000000000000058 /* WhisperTranscriberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000057 /* WhisperTranscriberTests.swift */; };
 		AA0000000000000000000056 /* WhisperTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000055 /* WhisperTranscriber.swift */; };
@@ -118,6 +121,9 @@
 		AA0000000000000000000041 /* WordReviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordReviewTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000043 /* ShadowingScorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowingScorer.swift; sourceTree = "<group>"; };
 		AA0000000000000000000045 /* ShadowingScorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowingScorerTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000065 /* BotStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotStreamTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000063 /* UtteranceSplitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtteranceSplitter.swift; sourceTree = "<group>"; };
+		AA0000000000000000000061 /* BotStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotStream.swift; sourceTree = "<group>"; };
 		AA0000000000000000000059 /* ListeningIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningIndicator.swift; sourceTree = "<group>"; };
 		AA0000000000000000000057 /* WhisperTranscriberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperTranscriberTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000055 /* WhisperTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperTranscriber.swift; sourceTree = "<group>"; };
@@ -230,6 +236,8 @@
 				AA0000000000000000000051 /* WAVFile.swift */,
 				AA0000000000000000000055 /* WhisperTranscriber.swift */,
 				AA0000000000000000000059 /* ListeningIndicator.swift */,
+				AA0000000000000000000061 /* BotStream.swift */,
+				AA0000000000000000000063 /* UtteranceSplitter.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -258,6 +266,7 @@
 				AA0000000000000000000049 /* LearningStatsTests.swift */,
 				AA0000000000000000000053 /* WAVFileTests.swift */,
 				AA0000000000000000000057 /* WhisperTranscriberTests.swift */,
+				AA0000000000000000000065 /* BotStreamTests.swift */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -430,6 +439,8 @@
 				AA0000000000000000000052 /* WAVFile.swift in Sources */,
 				AA0000000000000000000056 /* WhisperTranscriber.swift in Sources */,
 				AA0000000000000000000060 /* ListeningIndicator.swift in Sources */,
+				AA0000000000000000000062 /* BotStream.swift in Sources */,
+				AA0000000000000000000064 /* UtteranceSplitter.swift in Sources */,
 				AA0000000000000000000030 /* ExamPrepViews.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
@@ -459,6 +470,7 @@
 				AA0000000000000000000050 /* LearningStatsTests.swift in Sources */,
 				AA0000000000000000000054 /* WAVFileTests.swift in Sources */,
 				AA0000000000000000000058 /* WhisperTranscriberTests.swift in Sources */,
+				AA0000000000000000000066 /* BotStreamTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,7 @@ struct ChatMessage: Identifiable, Codable {
 
     let id: UUID
     let role: Role
-    let message: String
+    var message: String
 
     init(id: UUID = UUID(), role: Role, message: String) {
         self.id = id

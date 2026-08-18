@@ -100,6 +100,12 @@ final class ChatEngine {
     private let voiceThreshold: Float
     private let resumeDelay: TimeInterval
 
+    private var streamBuffer = ""
+    private var splitter = UtteranceSplitter()
+    private var ttsQueue: [String] = []
+    private var isTTSPumping = false
+    private var streamFinished = false
+
     init(
         persona: ChatPersona,
         store: any ChatStore,
@@ -121,7 +127,7 @@ final class ChatEngine {
         self.speech = dependencies.makeSpeech(persona.language.speechLocale)
         self.playback.onFinished = { [weak self] in
             Task { @MainActor in
-                self?.finishPlaybackPhase()
+                self?.playbackFinished()
             }
         }
     }
@@ -155,6 +161,11 @@ final class ChatEngine {
         audioLevel = 0
         isGenerating = false
         isTranscribing = false
+        streamBuffer = ""
+        splitter = UtteranceSplitter()
+        ttsQueue.removeAll()
+        isTTSPumping = false
+        streamFinished = false
         voiceState = .idle
     }
 
@@ -209,19 +220,25 @@ final class ChatEngine {
         if !isTTSEnabled {
             ttsTask?.cancel()
             ttsTask = nil
+            isTTSPumping = false
+            ttsQueue.removeAll()
             playback.stop()
             autoResumeListening = false
             resumeTask?.cancel()
             resumeTask = nil
-            if voiceState == .playingTTS {
-                voiceState = .idle
-            }
+            pumpTTS()
         }
     }
 
     func speak(_ text: String, voiceId: String? = nil) {
+        if isGenerating {
+            interrupt()
+        }
         ttsTask?.cancel()
         ttsTask = nil
+        isTTSPumping = false
+        ttsQueue.removeAll()
+        streamFinished = true
         guard isTTSEnabled, !text.isEmpty else {
             finishPlaybackPhase()
             return
@@ -394,20 +411,79 @@ final class ChatEngine {
         botTask = nil
         isGenerating = true
         voiceState = .waitingForBot
+        streamBuffer = ""
+        splitter = UtteranceSplitter()
+        ttsQueue.removeAll()
+        streamFinished = false
         let instruction = persona.systemInstruction
         let payload = buildBotMessages()
+        var hasBubble = false
+        botTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                for try await delta in self.dependencies.bot.streamMessage(
+                    instruction: instruction,
+                    message: userMessage,
+                    messages: payload
+                ) {
+                    guard !Task.isCancelled else { return }
+                    self.streamBuffer += delta
+                    if hasBubble {
+                        self.updateLastAssistantMessage(self.streamBuffer)
+                    } else {
+                        self.append(ChatMessage(role: .assistant, message: self.streamBuffer))
+                        hasBubble = true
+                    }
+                    for utterance in self.splitter.feed(delta) {
+                        self.enqueueTTS(utterance)
+                    }
+                }
+                guard !Task.isCancelled else { return }
+                if !hasBubble {
+                    // Empty stream — fall back to the one-shot endpoint.
+                    self.requestOneShotBotResponse(instruction: instruction, message: userMessage, messages: payload)
+                    return
+                }
+                if let tail = self.splitter.finish() {
+                    self.enqueueTTS(tail)
+                }
+                self.store.save(self.messages)
+                self.isGenerating = false
+                self.streamFinished = true
+                self.pumpTTS()
+            } catch {
+                guard !Task.isCancelled else { return }
+                self.isGenerating = false
+                if !hasBubble {
+                    // Streaming failed before anything arrived (e.g. old server) — retry one-shot.
+                    self.requestOneShotBotResponse(instruction: instruction, message: userMessage, messages: payload)
+                } else {
+                    let description = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+                    self.append(ChatMessage(role: .assistant, message: "Error: \(description)"))
+                    self.store.save(self.messages)
+                    self.streamFinished = true
+                    self.finishPlaybackPhase()
+                }
+            }
+        }
+    }
+
+    private func requestOneShotBotResponse(instruction: String, message: String, messages: [BotMessage]) {
+        botTask?.cancel()
+        botTask = nil
         botTask = Task { [weak self] in
             guard let self else { return }
             do {
                 let response = try await self.dependencies.bot.sendMessage(
                     instruction: instruction,
-                    message: userMessage,
-                    messages: payload
+                    message: message,
+                    messages: messages
                 )
                 guard !Task.isCancelled else { return }
                 self.isGenerating = false
                 self.append(ChatMessage(role: .assistant, message: response.message))
-                self.speak(response.message)
+                self.streamFinished = true
+                self.enqueueTTS(response.message)
             } catch {
                 guard !Task.isCancelled else { return }
                 self.isGenerating = false
@@ -415,6 +491,57 @@ final class ChatEngine {
                 self.append(ChatMessage(role: .assistant, message: "Error: \(description)"))
                 self.finishPlaybackPhase()
             }
+        }
+    }
+
+    private func updateLastAssistantMessage(_ text: String) {
+        guard let index = messages.lastIndex(where: { $0.role == .assistant }) else { return }
+        messages[index].message = text
+    }
+
+    private func enqueueTTS(_ text: String) {
+        let trimmed = TranscriptTracker.trimmed(text)
+        guard !trimmed.isEmpty else { return }
+        ttsQueue.append(trimmed)
+        pumpTTS()
+    }
+
+    private func pumpTTS() {
+        if !isTTSEnabled {
+            ttsQueue.removeAll()
+            if streamFinished {
+                finishPlaybackPhase()
+            }
+            return
+        }
+        guard !isTTSPumping, let next = ttsQueue.first else {
+            if streamFinished, !isTTSPumping {
+                finishPlaybackPhase()
+            }
+            return
+        }
+        ttsQueue.removeFirst()
+        isTTSPumping = true
+        voiceState = .playingTTS
+        ttsTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let data = try await self.dependencies.synth.synthesizeSpeech(text: next, voiceId: self.persona.language.voice)
+                guard !Task.isCancelled else { return }
+                self.isTTSPumping = false
+                try self.playback.play(data)
+            } catch {
+                self.isTTSPumping = false
+                self.pumpTTS()
+            }
+        }
+    }
+
+    private func playbackFinished() {
+        if !ttsQueue.isEmpty {
+            pumpTTS()
+        } else if streamFinished {
+            finishPlaybackPhase()
         }
     }
 
