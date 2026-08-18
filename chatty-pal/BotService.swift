@@ -14,6 +14,20 @@ enum AppEnvironmentMode: String, CaseIterable, Identifiable {
     }
 }
 
+enum VoiceTranscriptionMode: String, CaseIterable, Identifiable {
+    case local
+    case cloud
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .local: return "On-device (fast)"
+        case .cloud: return "Cloud Whisper (accurate)"
+        }
+    }
+}
+
 struct AppEnvironment {
     static let productionWebBaseURL = URL(string: "https://chatty-pal.com")!
     static let productionCMSAPIBaseURL = URL(string: "https://cms.chatty-pal.com/api")!
@@ -42,6 +56,11 @@ struct AppEnvironment {
             return url
         }
         return webBaseURL
+    }
+
+    static var voiceTranscriptionMode: VoiceTranscriptionMode {
+        let stored = UserDefaults.standard.string(forKey: "voiceTranscriptionMode")
+        return VoiceTranscriptionMode(rawValue: stored ?? "") ?? .local
     }
 
     static var cmsAPIBaseURL: URL {

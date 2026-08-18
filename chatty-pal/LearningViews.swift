@@ -505,29 +505,36 @@ private struct ShadowingPhraseRow: View {
         guard wav != nil || !localTranscript.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
-        isTranscribing = wav != nil
+        let useCloud = AppEnvironment.voiceTranscriptionMode == .cloud
+        guard useCloud, let wav else {
+            applyScore(to: localTranscript)
+            return
+        }
+        isTranscribing = true
         Task {
             var spoken = localTranscript
-            if let wav {
-                do {
-                    let whisper = try await WhisperTranscriber(baseURL: AppEnvironment.webBaseURL)
-                        .transcribe(wav: wav, language: languageCode)
-                    spoken = whisper
-                } catch {
-                    // Fall back to the local transcript.
-                }
+            do {
+                let whisper = try await WhisperTranscriber(baseURL: AppEnvironment.webBaseURL)
+                    .transcribe(wav: wav, language: languageCode)
+                spoken = whisper
+            } catch {
+                // Fall back to the local transcript.
             }
             await MainActor.run {
                 isTranscribing = false
-                guard !spoken.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-                let scored = ShadowingScorer.score(reference: phrase.mainContent, spoken: spoken)
-                result = scored
-                LearningStatsStore.shared.recordShadowingAttempt()
-                if scored.percent < 60, let english = phrase.supportContent, !english.isEmpty {
-                    WordReviewStore.shared.add(german: phrase.mainContent, english: english, source: "shadowing")
-                    addedToReview = true
-                }
+                applyScore(to: spoken)
             }
+        }
+    }
+
+    private func applyScore(to spoken: String) {
+        guard !spoken.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        let scored = ShadowingScorer.score(reference: phrase.mainContent, spoken: spoken)
+        result = scored
+        LearningStatsStore.shared.recordShadowingAttempt()
+        if scored.percent < 60, let english = phrase.supportContent, !english.isEmpty {
+            WordReviewStore.shared.add(german: phrase.mainContent, english: english, source: "shadowing")
+            addedToReview = true
         }
     }
 }

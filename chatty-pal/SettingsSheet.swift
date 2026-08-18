@@ -24,6 +24,7 @@ struct SettingsSheet: View {
     @AppStorage("appEnvironment") private var appEnvironment: String = AppEnvironmentMode.production.rawValue
     @AppStorage("localWebBaseURL") private var localWebBaseURL: String = AppEnvironment.defaultLocalWebBaseURL
     @AppStorage("localCMSAPIBaseURL") private var localCMSAPIBaseURL: String = AppEnvironment.defaultLocalCMSAPIBaseURL
+    @AppStorage("voiceTranscriptionMode") private var voiceTranscriptionMode: String = VoiceTranscriptionMode.local.rawValue
 
     var body: some View {
         NavigationStack {
@@ -52,6 +53,17 @@ struct SettingsSheet: View {
                         LabeledContent("Web", value: AppEnvironment.productionWebBaseURL.absoluteString)
                         LabeledContent("CMS", value: AppEnvironment.productionCMSAPIBaseURL.absoluteString)
                     }
+                }
+
+                Section("Voice input") {
+                    Picker("Transcription", selection: $voiceTranscriptionMode) {
+                        ForEach(VoiceTranscriptionMode.allCases) { mode in
+                            Text(mode.title).tag(mode.rawValue)
+                        }
+                    }
+                    Text("On-device is instant but weaker on accented speech. Cloud Whisper is more accurate but adds 1-3s.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
 
                 Section("Practice") {

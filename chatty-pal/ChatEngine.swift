@@ -378,7 +378,8 @@ final class ChatEngine {
         if resume {
             autoResumeListening = true
         }
-        guard let wav else {
+        let useCloud = AppEnvironment.voiceTranscriptionMode == .cloud
+        guard useCloud, let wav else {
             voiceState = .idle
             guard !localTranscript.isEmpty else { return }
             sendText(localTranscript)

@@ -284,6 +284,16 @@ private final class EngineHarness {
 
 @MainActor
 final class ChatEngineTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        UserDefaults.standard.set(VoiceTranscriptionMode.cloud.rawValue, forKey: "voiceTranscriptionMode")
+    }
+
+    override func tearDown() {
+        UserDefaults.standard.removeObject(forKey: "voiceTranscriptionMode")
+        super.tearDown()
+    }
+
     private func makeHarness() -> EngineHarness {
         EngineHarness()
     }
@@ -438,6 +448,29 @@ final class ChatEngineTests: XCTestCase {
         await settle(250)
 
         XCTAssertEqual(userMessages(harness).map(\.message), ["guten tag"])
+    }
+
+    func testLocalModeSendsOnDeviceTranscriptWithoutCloudCall() async {
+        UserDefaults.standard.removeObject(forKey: "voiceTranscriptionMode")
+        let harness = makeHarness()
+        harness.transcriber.mode = .text("should not be used")
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("guten tag", isFinal: true)
+        await settle(250)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["guten tag"])
+        XCTAssertEqual(harness.transcriber.calls.count, 0)
+        XCTAssertEqual(harness.engine.isTranscribing, false)
+    }
+
+    func testVoiceModeDefaultsToLocalAndFallsBackOnUnknown() {
+        UserDefaults.standard.removeObject(forKey: "voiceTranscriptionMode")
+        XCTAssertEqual(AppEnvironment.voiceTranscriptionMode, .local)
+        UserDefaults.standard.set("cloud", forKey: "voiceTranscriptionMode")
+        XCTAssertEqual(AppEnvironment.voiceTranscriptionMode, .cloud)
+        UserDefaults.standard.set("bogus", forKey: "voiceTranscriptionMode")
+        XCTAssertEqual(AppEnvironment.voiceTranscriptionMode, .local)
     }
 
     func testManualStopUsesWhisperTextAndDoesNotResume() async {
