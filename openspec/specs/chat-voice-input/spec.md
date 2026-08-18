@@ -19,14 +19,14 @@ The chat voice input SHALL compute the RMS level of each microphone audio buffer
 - **THEN** the silence timer is not reset by transcription noise and no empty message is sent
 
 ### Requirement: Silence window tuned to real audio
-The silence window SHALL be 3.0 seconds, measured on audio energy, to absorb the thinking pauses typical of language learners composing a sentence.
+The silence window SHALL be 1.8 seconds, measured on audio energy: long enough to absorb the thinking pauses typical of language learners composing a sentence, short enough that the conversation feels continuous.
 
-#### Scenario: Timing of the end-of-speech decision
-- **WHEN** the last voice-above-threshold buffer arrives during recording
-- **THEN** the transcript is eligible to be sent no earlier than 3.0 seconds after that buffer
+#### Scenario: Turn ends after 1.8s of silence
+- **WHEN** the user stops producing audible speech while recording
+- **THEN** the transcript is eligible to be sent no earlier than 1.8 seconds after that buffer
 
-#### Scenario: Learner pauses to think mid-sentence
-- **WHEN** the user stops producing audible speech for less than 3.0 seconds and then continues speaking
+#### Scenario: Pause within the window does not end the turn
+- **WHEN** the user stops producing audible speech for less than 1.8 seconds and then continues speaking
 - **THEN** the silence timer restarts on the new voice activity and the full sentence is sent as one message
 
 ### Requirement: Voice activity feedback in the listening bar
@@ -95,11 +95,11 @@ A single recorded turn SHALL be sent as one user message. A recognition `isFinal
 
 ### Requirement: Whisper transcription for voice input
 
-The app SHALL transcribe recorded voice input with the OpenAI Whisper API by posting the captured audio to the web app's existing `POST /api/transcriptions` endpoint (`model=whisper-1` plus a language hint), using the same server-side key as the web app. The app SHALL NOT embed any OpenAI key.
+The app SHALL transcribe recorded voice input with the OpenAI transcription API by posting the captured audio to the web app's existing `POST /api/transcriptions` endpoint (`model=gpt-4o-mini-transcribe` plus a language hint), using the same server-side key as the web app. The app SHALL NOT embed any OpenAI key.
 
 #### Scenario: Chat voice turn is transcribed with Whisper
 - **WHEN** the learner finishes a voice utterance in the chat and the recording was captured
-- **THEN** the app posts the audio to `/api/transcriptions` and sends the returned text to the bot
+- **THEN** the app posts the audio to `/api/transcriptions` with the fast transcribe model and sends the returned text to the bot
 
 #### Scenario: Whisper failure falls back to the local transcript
 - **WHEN** the transcription request fails or returns empty text
@@ -116,4 +116,16 @@ The shadowing pronunciation score SHALL be computed from the Whisper transcripti
 #### Scenario: Shadowing falls back to the local transcript
 - **WHEN** the learner finishes a shadowing attempt and transcription fails
 - **THEN** the score is computed from the local speech-recognition transcript
+
+### Requirement: Compact 16 kHz upload payload
+
+The app SHALL resample the captured microphone audio to 16 kHz mono before building the WAV sent to the transcription endpoint, unless the captured rate is already 16 kHz or lower.
+
+#### Scenario: High-rate capture is downsampled
+- **WHEN** the microphone delivers 44.1 kHz audio
+- **THEN** the uploaded WAV is 16 kHz mono and the transcription request succeeds
+
+#### Scenario: Low-rate capture is untouched
+- **WHEN** the microphone delivers 16 kHz or lower audio
+- **THEN** the uploaded WAV uses the captured sample rate unchanged
 
