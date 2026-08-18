@@ -69,8 +69,12 @@ final class AVAudioPlayback: NSObject, AudioPlayback, AVAudioPlayerDelegate {
         current?.stop()
         current?.delegate = nil
 
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
-        try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+        let session = AVAudioSession.sharedInstance()
+        // Preserve the play-and-record (AEC) session set up by the barge-in monitor.
+        if session.category != .playAndRecord {
+            try? session.setCategory(.playback, mode: .default, options: [])
+        }
+        try? session.setActive(true, options: .notifyOthersOnDeactivation)
 
         let newPlayer = try AVAudioPlayer(data: data)
         finished = false
@@ -114,6 +118,7 @@ struct ChatEngineDependencies {
     let makeSpeech: (String) -> any SpeechRecognition
     let playback: any AudioPlayback
     let transcriber: any AudioTranscribing
+    let makeMonitor: () -> any VoiceMonitoring
 
     static var live: ChatEngineDependencies {
         ChatEngineDependencies(
@@ -123,7 +128,8 @@ struct ChatEngineDependencies {
             synth: PollySpeechService(),
             makeSpeech: { locale in SpeechController(localeIdentifier: locale) },
             playback: AVAudioPlayback(),
-            transcriber: WhisperTranscriber(baseURL: AppEnvironment.webBaseURL)
+            transcriber: WhisperTranscriber(baseURL: AppEnvironment.webBaseURL),
+            makeMonitor: { VoiceMonitor() }
         )
     }
 }

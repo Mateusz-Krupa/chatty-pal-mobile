@@ -106,11 +106,17 @@ final class ChatEngine {
     private var isTTSPumping = false
     private var streamFinished = false
 
+    private var voiceTurnActive = false
+    private var mergeTargetID: UUID?
+    private var inFlightAssistantID: UUID?
+    var bargeInDetector = BargeInDetector()
+    private let monitor: any VoiceMonitoring
+
     init(
         persona: ChatPersona,
         store: any ChatStore,
         dependencies: ChatEngineDependencies,
-        silenceWindow: TimeInterval = 1.8,
+        silenceWindow: TimeInterval = 2.5,
         sendSuppressionWindow: TimeInterval = 0.6,
         voiceThreshold: Float = 0.02,
         resumeDelay: TimeInterval = 0.6
@@ -119,6 +125,7 @@ final class ChatEngine {
         self.store = store
         self.dependencies = dependencies
         self.playback = dependencies.playback
+        self.monitor = dependencies.makeMonitor()
         self.silenceWindow = silenceWindow
         self.sendSuppressionWindow = sendSuppressionWindow
         self.voiceThreshold = voiceThreshold
@@ -128,6 +135,11 @@ final class ChatEngine {
         self.playback.onFinished = { [weak self] in
             Task { @MainActor in
                 self?.playbackFinished()
+            }
+        }
+        self.monitor.onLevel = { [weak self] rms in
+            Task { @MainActor in
+                self?.handleMonitorLevel(rms)
             }
         }
     }
@@ -166,6 +178,9 @@ final class ChatEngine {
         ttsQueue.removeAll()
         isTTSPumping = false
         streamFinished = false
+        inFlightAssistantID = nil
+        voiceTurnActive = false
+        disarmBargeIn()
         voiceState = .idle
     }
 
@@ -177,6 +192,7 @@ final class ChatEngine {
     func sendText(_ rawText: String) {
         let text = TranscriptTracker.trimmed(rawText)
         guard !text.isEmpty, isActive else { return }
+        mergeTargetID = nil
         if voiceState == .recording {
             autoResumeListening = true
             stopSpeechWithoutSend()
@@ -187,6 +203,63 @@ final class ChatEngine {
         teacherTask = Task { [weak self] in
             await self?.fetchTeacherFix(for: text)
         }
+    }
+
+    // Voice-only path (used by finishUtterance). Unlike sendText it may merge the
+    // utterance into the user message that a barge-in left pending, and it arms barge-in.
+    private func deliverUtterance(_ text: String) {
+        guard !text.isEmpty, isActive else { return }
+        voiceTurnActive = true
+        let sent: String
+        if let targetID = mergeTargetID,
+           let idx = messages.lastIndex(where: { $0.id == targetID && $0.role == .user }) {
+            let merged = "\(messages[idx].message) \(text)"
+            messages[idx].message = merged
+            store.save(messages)
+            sent = merged
+        } else {
+            append(ChatMessage(role: .user, message: text))
+            sent = text
+        }
+        mergeTargetID = nil
+        requestBotResponse(for: sent)
+        teacherTask?.cancel()
+        teacherTask = Task { [weak self] in
+            await self?.fetchTeacherFix(for: sent)
+        }
+    }
+
+    private func handleMonitorLevel(_ rms: Float) {
+        guard bargeInDetector.feed(rms) else { return }
+        handleBargeIn()
+    }
+
+    private func handleBargeIn() {
+        reconcileInterruptedTurn()
+        interrupt()
+        startRecording()
+    }
+
+    private func reconcileInterruptedTurn() {
+        if let id = inFlightAssistantID,
+           let idx = messages.lastIndex(where: { $0.id == id }) {
+            messages.remove(at: idx)
+            store.save(messages)
+        }
+        inFlightAssistantID = nil
+        if let uid = messages.lastIndex(where: { $0.role == .user }) {
+            mergeTargetID = messages[uid].id
+        }
+    }
+
+    private func armBargeIn() {
+        try? monitor.start()
+        bargeInDetector.arm()
+    }
+
+    private func disarmBargeIn() {
+        bargeInDetector.disarm()
+        monitor.stop()
     }
 
     func toggleRecording() {
@@ -382,7 +455,7 @@ final class ChatEngine {
         guard useCloud, let wav else {
             voiceState = .idle
             guard !localTranscript.isEmpty else { return }
-            sendText(localTranscript)
+            deliverUtterance(localTranscript)
             return
         }
         voiceState = .waitingForBot
@@ -403,7 +476,7 @@ final class ChatEngine {
                 self.voiceState = .idle
                 return
             }
-            self.sendText(finalText)
+            self.deliverUtterance(finalText)
         }
     }
 
@@ -416,6 +489,10 @@ final class ChatEngine {
         splitter = UtteranceSplitter()
         ttsQueue.removeAll()
         streamFinished = false
+        inFlightAssistantID = nil
+        if voiceTurnActive {
+            armBargeIn()
+        }
         let instruction = persona.systemInstruction
         let payload = buildBotMessages()
         var hasBubble = false
@@ -432,7 +509,9 @@ final class ChatEngine {
                     if hasBubble {
                         self.updateLastAssistantMessage(self.streamBuffer)
                     } else {
-                        self.append(ChatMessage(role: .assistant, message: self.streamBuffer))
+                        let bubble = ChatMessage(role: .assistant, message: self.streamBuffer)
+                        self.inFlightAssistantID = bubble.id
+                        self.append(bubble)
                         hasBubble = true
                     }
                     for utterance in self.splitter.feed(delta) {
@@ -482,7 +561,9 @@ final class ChatEngine {
                 )
                 guard !Task.isCancelled else { return }
                 self.isGenerating = false
-                self.append(ChatMessage(role: .assistant, message: response.message))
+                let bubble = ChatMessage(role: .assistant, message: response.message)
+                self.inFlightAssistantID = bubble.id
+                self.append(bubble)
                 self.streamFinished = true
                 self.enqueueTTS(response.message)
             } catch {
@@ -558,6 +639,8 @@ final class ChatEngine {
 
     private func finishPlaybackPhase() {
         guard voiceState == .playingTTS || voiceState == .waitingForBot else { return }
+        disarmBargeIn()
+        voiceTurnActive = false
         voiceState = .idle
         if autoResumeListening {
             autoResumeListening = false

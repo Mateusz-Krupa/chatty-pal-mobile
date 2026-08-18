@@ -65,6 +65,9 @@
 		AA0000000000000000000052 /* WAVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000051 /* WAVFile.swift */; };
 		AA0000000000000000000048 /* LearningStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000047 /* LearningStats.swift */; };
 		AA0000000000000000000050 /* LearningStatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000049 /* LearningStatsTests.swift */; };
+		AA0000000000000000000067 /* BargeInDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000068 /* BargeInDetector.swift */; };
+		AA0000000000000000000069 /* VoiceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000070 /* VoiceMonitor.swift */; };
+		AA0000000000000000000071 /* BargeInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000072 /* BargeInTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +134,9 @@
 		AA0000000000000000000051 /* WAVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WAVFile.swift; sourceTree = "<group>"; };
 		AA0000000000000000000047 /* LearningStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStats.swift; sourceTree = "<group>"; };
 		AA0000000000000000000049 /* LearningStatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStatsTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000068 /* BargeInDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BargeInDetector.swift; sourceTree = "<group>"; };
+		AA0000000000000000000070 /* VoiceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceMonitor.swift; sourceTree = "<group>"; };
+		AA0000000000000000000072 /* BargeInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BargeInTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000013 /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
 		AA0000000000000000000015 /* LoginPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPanel.swift; sourceTree = "<group>"; };
 		AA0000000000000000000016 /* MenuOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOverlay.swift; sourceTree = "<group>"; };
@@ -238,6 +244,8 @@
 				AA0000000000000000000059 /* ListeningIndicator.swift */,
 				AA0000000000000000000061 /* BotStream.swift */,
 				AA0000000000000000000063 /* UtteranceSplitter.swift */,
+				AA0000000000000000000068 /* BargeInDetector.swift */,
+				AA0000000000000000000070 /* VoiceMonitor.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -267,6 +275,7 @@
 				AA0000000000000000000053 /* WAVFileTests.swift */,
 				AA0000000000000000000057 /* WhisperTranscriberTests.swift */,
 				AA0000000000000000000065 /* BotStreamTests.swift */,
+				AA0000000000000000000072 /* BargeInTests.swift */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -441,6 +450,8 @@
 				AA0000000000000000000060 /* ListeningIndicator.swift in Sources */,
 				AA0000000000000000000062 /* BotStream.swift in Sources */,
 				AA0000000000000000000064 /* UtteranceSplitter.swift in Sources */,
+				AA0000000000000000000067 /* BargeInDetector.swift in Sources */,
+				AA0000000000000000000069 /* VoiceMonitor.swift in Sources */,
 				AA0000000000000000000030 /* ExamPrepViews.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
@@ -471,6 +482,7 @@
 				AA0000000000000000000054 /* WAVFileTests.swift in Sources */,
 				AA0000000000000000000058 /* WhisperTranscriberTests.swift in Sources */,
 				AA0000000000000000000066 /* BotStreamTests.swift in Sources */,
+				AA0000000000000000000071 /* BargeInTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

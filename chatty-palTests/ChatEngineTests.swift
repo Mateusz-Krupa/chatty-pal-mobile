@@ -241,6 +241,27 @@ private final class FakeTranscriber: AudioTranscribing {
     }
 }
 
+private final class FakeMonitor: VoiceMonitoring {
+    var onLevel: ((Float) -> Void)?
+    private(set) var startCount = 0
+    private(set) var stopCount = 0
+    private(set) var started = false
+
+    func start() throws {
+        startCount += 1
+        started = true
+    }
+
+    func stop() {
+        stopCount += 1
+        started = false
+    }
+
+    func feed(_ rms: Float) {
+        onLevel?(rms)
+    }
+}
+
 @MainActor
 private final class EngineHarness {
     let bot = FakeBot()
@@ -250,6 +271,7 @@ private final class EngineHarness {
     let speech: FakeSpeech
     let playback = FakePlayback()
     let transcriber = FakeTranscriber()
+    let monitor: FakeMonitor
     let store: RecordingStore
     let engine: ChatEngine
 
@@ -259,8 +281,10 @@ private final class EngineHarness {
         silenceWindow: TimeInterval = 0.05
     ) {
         let speech = FakeSpeech()
+        let monitor = FakeMonitor()
         let resolvedStore = store ?? RecordingStore()
         self.speech = speech
+        self.monitor = monitor
         self.store = resolvedStore
         let dependencies = ChatEngineDependencies(
             bot: bot,
@@ -269,7 +293,8 @@ private final class EngineHarness {
             synth: synth,
             makeSpeech: { _ in speech },
             playback: playback,
-            transcriber: transcriber
+            transcriber: transcriber,
+            makeMonitor: { monitor }
         )
         self.engine = ChatEngine(
             persona: persona,
@@ -780,5 +805,106 @@ final class ChatEngineTests: XCTestCase {
         await settle(250)
         XCTAssertEqual(harness.engine.voiceState, .idle)
         XCTAssertEqual(harness.speech.startCount, 1)
+    }
+
+    // Barge-in detector with a real clock but zeroed settle/sustain so a single
+    // above-threshold feed fires deterministically as soon as the monitor is armed.
+    private func armedDetector() -> BargeInDetector {
+        var detector = BargeInDetector()
+        detector.settle = 0
+        detector.sustain = 0
+        detector.cooldown = 1
+        return detector
+    }
+
+    func testBargeInReopensMicAndStopsBot() async {
+        let harness = makeHarness()
+        harness.engine.bargeInDetector = armedDetector()
+        harness.playback.autoFinish = false
+        harness.bot.mode = .suspend
+        harness.teacher.mode = .suspend
+
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("hallo", isFinal: true)
+        await settle(250)
+        XCTAssertEqual(harness.engine.voiceState, .waitingForBot)
+        XCTAssertTrue(harness.monitor.started)
+
+        harness.monitor.feed(0.5)
+        await settle(50)
+
+        XCTAssertEqual(harness.engine.voiceState, .recording)
+        XCTAssertEqual(harness.speech.startCount, 2)
+        XCTAssertFalse(harness.monitor.started)
+        XCTAssertEqual(harness.bot.calls.count, 1)
+    }
+
+    func testBargeInContinuationMergesIntoPreviousUtterance() async {
+        let harness = makeHarness()
+        harness.engine.bargeInDetector = armedDetector()
+        harness.playback.autoFinish = false
+        harness.bot.mode = .suspend
+        harness.teacher.mode = .suspend
+
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("hallo", isFinal: true)
+        await settle(250)
+
+        harness.monitor.feed(0.5)
+        await settle(50)
+        XCTAssertEqual(harness.engine.voiceState, .recording)
+
+        harness.speech.emit("wie geht dir", isFinal: true)
+        await settle(250)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["hallo wie geht dir"])
+        XCTAssertEqual(harness.bot.calls.last?.message, "hallo wie geht dir")
+    }
+
+    func testBargeInRemovesInterruptedReply() async {
+        let harness = makeHarness()
+        harness.engine.bargeInDetector = armedDetector()
+        harness.playback.autoFinish = false
+        harness.bot.mode = .suspend
+        harness.teacher.mode = .suspend
+
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("hallo", isFinal: true)
+        await settle(250)
+
+        harness.bot.resolve(with: "Gern, sag mal ")
+        await settle(100)
+        XCTAssertEqual(harness.engine.messages.map(\.role), [.user, .assistant])
+
+        harness.monitor.feed(0.5)
+        await settle(50)
+
+        XCTAssertEqual(harness.engine.messages.map(\.role), [.user])
+        XCTAssertEqual(harness.engine.voiceState, .recording)
+    }
+
+    func testTypedMessageCancelsPendingMerge() async {
+        let harness = makeHarness()
+        harness.engine.bargeInDetector = armedDetector()
+        harness.playback.autoFinish = false
+        harness.bot.mode = .suspend
+        harness.teacher.mode = .suspend
+
+        harness.engine.startRecording()
+        await settle()
+        harness.speech.emit("hallo", isFinal: true)
+        await settle(250)
+
+        harness.monitor.feed(0.5)
+        await settle(50)
+        XCTAssertEqual(harness.engine.voiceState, .recording)
+
+        harness.engine.sendText("tastatur")
+        await settle(250)
+
+        XCTAssertEqual(userMessages(harness).map(\.message), ["hallo", "tastatur"])
     }
 }
