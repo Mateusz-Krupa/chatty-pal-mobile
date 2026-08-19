@@ -35,11 +35,21 @@ final class LearningStatsStore {
     private(set) var data = LearningStatsData()
 
     private let defaults: UserDefaults
+    private var scope: String
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
-        self.data = Self.load(from: defaults)
+        self.scope = DataScope.current
+        self.data = Self.load(from: defaults, scope: self.scope)
     }
+
+    // Reload after a login/logout switch so the store tracks the new account.
+    func scopeDidChange() {
+        scope = DataScope.current
+        data = Self.load(from: defaults, scope: scope)
+    }
+
+    private var storageKey: String { "learning.stats.\(scope)" }
 
     var streak: Int {
         LearningStats.streak(for: data.activityDates, today: Date())
@@ -79,14 +89,29 @@ final class LearningStatsStore {
 
     private func save() {
         if let encoded = try? JSONEncoder().encode(data) {
-            defaults.set(encoded, forKey: Self.storageKey)
+            defaults.set(encoded, forKey: storageKey)
         }
     }
 
-    private static let storageKey = "learning.stats"
+    private static func load(from defaults: UserDefaults, scope: String) -> LearningStatsData {
+        let scopedKey = "learning.stats.\(scope)"
+        if let data = defaults.data(forKey: scopedKey) {
+            return decode(data)
+        }
+        // One-shot migrations: legacy unscoped key (app upgrade), then the
+        // guest scope (carries pre-login progress to the signed-in user).
+        let fallbacks = ["learning.stats", "learning.stats.guest"]
+        for fallback in fallbacks where scope != "guest" {
+            if let data = defaults.data(forKey: fallback) {
+                defaults.set(data, forKey: scopedKey)
+                defaults.removeObject(forKey: fallback)
+                return decode(data)
+            }
+        }
+        return LearningStatsData()
+    }
 
-    private static func load(from defaults: UserDefaults) -> LearningStatsData {
-        guard let data = defaults.data(forKey: storageKey) else { return LearningStatsData() }
-        return (try? JSONDecoder().decode(LearningStatsData.self, from: data)) ?? LearningStatsData()
+    private static func decode(_ data: Data) -> LearningStatsData {
+        (try? JSONDecoder().decode(LearningStatsData.self, from: data)) ?? LearningStatsData()
     }
 }

@@ -9,6 +9,7 @@ final class SpeechController {
     private var recognizer: SFSpeechRecognizer?
     private var capturedPCM = Data()
     private var capturedSampleRate: Double = 44100
+    private let captureLock = NSLock()
 
     var onTranscription: ((String, Bool) -> Void)?
     var onError: ((Error) -> Void)?
@@ -63,8 +64,10 @@ final class SpeechController {
         let inputNode = audioEngine.inputNode
         inputNode.removeTap(onBus: 0)
         let inputFormat = inputNode.outputFormat(forBus: 0)
+        captureLock.lock()
         capturedPCM = Data()
         capturedSampleRate = inputFormat.sampleRate > 0 ? inputFormat.sampleRate : 44100
+        captureLock.unlock()
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputFormat) { [weak self] buffer, _ in
             self?.recognitionRequest?.append(buffer)
             self?.appendMono(buffer)
@@ -99,7 +102,6 @@ final class SpeechController {
         recognitionRequest = nil
         onAudioLevel = nil
         let wav = makeUploadWAV()
-        capturedPCM = Data()
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
         try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
@@ -107,19 +109,26 @@ final class SpeechController {
     }
 
     private func makeUploadWAV() -> Data? {
+        captureLock.lock()
+        defer { captureLock.unlock() }
         guard capturedPCM.count > 0 else { return nil }
-        let samples = capturedPCM.withUnsafeBytes { ptr in
+        let pcm = capturedPCM
+        let sampleRate = capturedSampleRate
+        capturedPCM = Data()
+        let samples = pcm.withUnsafeBytes { ptr in
             Array(ptr.bindMemory(to: Float32.self))
         }
-        guard capturedSampleRate > WAVFile.targetSampleRate else {
-            return WAVFile.make(fromFloatSamples: capturedPCM, sampleRate: capturedSampleRate)
+        guard sampleRate > WAVFile.targetSampleRate else {
+            return WAVFile.make(fromFloatSamples: pcm, sampleRate: sampleRate)
         }
-        let resampled = WAVFile.resample(samples, from: capturedSampleRate, to: WAVFile.targetSampleRate)
+        let resampled = WAVFile.resample(samples, from: sampleRate, to: WAVFile.targetSampleRate)
         let resampledData = resampled.withUnsafeBytes { Data($0) }
         return WAVFile.make(fromFloatSamples: resampledData, sampleRate: WAVFile.targetSampleRate)
     }
 
     private func appendMono(_ buffer: AVAudioPCMBuffer) {
+        captureLock.lock()
+        defer { captureLock.unlock() }
         guard let channelData = buffer.floatChannelData else { return }
         let frames = Int(buffer.frameLength)
         guard frames > 0 else { return }

@@ -101,24 +101,45 @@ struct LoginPanel: View {
     @State private var password = ""
     @State private var email = ""
     @State private var isRegisterMode = false
+    @State private var isForgotMode = false
     @State private var isLoading = false
     @State private var errorMessage: String?
+    @State private var forgotSent = false
     @State private var isGoogleAuthPresented = false
 
     private let authService = AuthService()
 
+    private var headerTitle: String {
+        if isForgotMode { return "Reset password" }
+        return isRegisterMode ? "Create account" : "Welcome back"
+    }
+
+    private var headerSubtitle: String {
+        if isForgotMode { return "We will email you a reset link" }
+        return isRegisterMode ? "Sign up to continue" : "Sign in to continue"
+    }
+
     var body: some View {
         VStack(spacing: 18) {
             VStack(spacing: 6) {
-                Text(isRegisterMode ? "Create account" : "Welcome back")
+                Text(headerTitle)
                     .font(.system(size: 24, weight: .semibold))
-                Text(isRegisterMode ? "Sign up to continue" : "Sign in to continue")
+                Text(headerSubtitle)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
 
             VStack(spacing: 12) {
-                if isRegisterMode {
+                if isForgotMode {
+                    TextField("Email", text: $email)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .keyboardType(.emailAddress)
+                        .textContentType(.emailAddress)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                } else if isRegisterMode {
                     TextField("Username", text: $identifier)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
@@ -158,23 +179,55 @@ struct LoginPanel: View {
                     .foregroundStyle(.red)
             }
 
+            if isForgotMode && forgotSent {
+                Text("If an account exists for that email, a reset link has been sent.")
+                    .font(.footnote)
+                    .foregroundStyle(.green)
+                    .multilineTextAlignment(.center)
+            }
+
             HStack(spacing: 12) {
                 Button("Cancel", action: onCancel)
                     .buttonStyle(.bordered)
 
-                Button(isRegisterMode ? "Register" : "Login") {
-                    performAuth()
+                if isForgotMode {
+                    Button("Send reset link") {
+                        performForgotPassword()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(isLoading || email.trimmingCharacters(in: .whitespaces).isEmpty)
+                } else {
+                    Button(isRegisterMode ? "Register" : "Login") {
+                        performAuth()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(isLoading || identifier.trimmingCharacters(in: .whitespaces).isEmpty || password.isEmpty)
                 }
-                .buttonStyle(.borderedProminent)
-                .disabled(isLoading || identifier.trimmingCharacters(in: .whitespaces).isEmpty || password.isEmpty)
             }
 
-            Button(isRegisterMode ? "Already have an account? Sign in" : "Don't have an account? Register") {
-                isRegisterMode.toggle()
-                errorMessage = nil
+            if isForgotMode {
+                Button("Back to sign in") {
+                    switchMode(isRegister: false, isForgot: false)
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            } else {
+                HStack(spacing: 12) {
+                    Button(isRegisterMode ? "Already have an account? Sign in" : "Don't have an account? Register") {
+                        switchMode(isRegister: !isRegisterMode, isForgot: false)
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                    if !isRegisterMode {
+                        Button("Forgot password?") {
+                            switchMode(isRegister: false, isForgot: true)
+                        }
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    }
+                }
             }
-            .font(.footnote)
-            .foregroundStyle(.secondary)
 
             Divider().padding(.vertical, 4)
 
@@ -207,6 +260,32 @@ struct LoginPanel: View {
                     errorMessage = msg
                 }
             )
+        }
+    }
+
+    private func switchMode(isRegister: Bool, isForgot: Bool) {
+        isRegisterMode = isRegister
+        isForgotMode = isForgot
+        errorMessage = nil
+        forgotSent = false
+    }
+
+    private func performForgotPassword() {
+        isLoading = true
+        errorMessage = nil
+        Task {
+            do {
+                try await authService.forgotPassword(email: email)
+                DispatchQueue.main.async {
+                    isLoading = false
+                    forgotSent = true
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    isLoading = false
+                    errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+                }
+            }
         }
     }
 

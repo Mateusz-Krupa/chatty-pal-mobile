@@ -34,3 +34,43 @@ final class chatty_palTests: XCTestCase {
     }
 
 }
+
+final class StrapiErrorMessagesTests: XCTestCase {
+
+    func testExtractsMessageFromStrapiArrayShape() {
+        let body = #"{"data":null,"error":{"status":400,"name":"AuthError","message":[{"id":"invalid","messages":[{"message":"Invalid identifier or password"}]}]}}"#
+        XCTAssertEqual(StrapiErrorMessages.first(in: body), "Invalid identifier or password")
+    }
+
+    func testExtractsPlainMessage() {
+        let body = #"{"message":"Please enter valid credentials."}"#
+        XCTAssertEqual(StrapiErrorMessages.first(in: body), "Please enter valid credentials.")
+    }
+
+    func testExtractsNestedErrorMessage() {
+        let body = #"{"error":{"message":"User not found"}}"#
+        XCTAssertEqual(StrapiErrorMessages.first(in: body), "User not found")
+    }
+
+    func testTopLevelArrayShape() {
+        let body = #"[{"messages":[{"message":"Something went wrong"}]}]"#
+        XCTAssertEqual(StrapiErrorMessages.first(in: body), "Something went wrong")
+    }
+
+    func testUnparseableBodyReturnsNil() {
+        XCTAssertNil(StrapiErrorMessages.first(in: "not json"))
+        XCTAssertNil(StrapiErrorMessages.first(in: "{}"))
+        XCTAssertNil(StrapiErrorMessages.first(in: ""))
+    }
+
+    func testAuthErrorDescriptionUsesStrapiMessage() {
+        let body = #"{"message":[{"messages":[{"message":"Invalid identifier or password"}]}]}"#
+        let error = AuthError.badRequest(status: 400, body: body)
+        XCTAssertEqual(error.errorDescription, "Invalid identifier or password")
+    }
+
+    func testAuthErrorDescriptionFallsBackToStatus() {
+        let error = AuthError.badRequest(status: 401, body: "no message here")
+        XCTAssertEqual(error.errorDescription, "Login failed (401)")
+    }
+}

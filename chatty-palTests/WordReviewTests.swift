@@ -145,4 +145,66 @@ final class WordReviewTests: XCTestCase {
         XCTAssertEqual(store.words.count, unit.vocabulary.count)
         XCTAssertTrue(store.words.allSatisfy { $0.source == "exam:\(unit.id)" })
     }
+
+    // MARK: - Scoping and migration
+
+    private func withAuthUsername(_ username: String?, _ body: () -> Void) {
+        let standard = UserDefaults.standard
+        let original = standard.string(forKey: "authUsername")
+        if let username {
+            standard.set(username, forKey: "authUsername")
+        } else {
+            standard.removeObject(forKey: "authUsername")
+        }
+        defer {
+            if let original {
+                standard.set(original, forKey: "authUsername")
+            } else {
+                standard.removeObject(forKey: "authUsername")
+            }
+        }
+        body()
+    }
+
+    @MainActor
+    func testLegacyWordsMigratedToScopedKey() {
+        let defaults = makeDefaults()
+        let legacy = [word(box: 1, due: now)]
+        defaults.set(try! JSONEncoder().encode(legacy), forKey: "learning.wordReview")
+
+        // Legacy data migrates to the signed-in user on first load.
+        withAuthUsername("alice") {
+            let store = WordReviewStore(defaults: defaults)
+            XCTAssertEqual(store.words.count, 1)
+            XCTAssertNil(defaults.data(forKey: "learning.wordReview"))
+        }
+    }
+
+    @MainActor
+    func testAccountsAreIsolated() {
+        let defaults = makeDefaults()
+        withAuthUsername("alice") {
+            WordReviewStore(defaults: defaults).add(german: "Haus", english: "house", source: "t")
+        }
+        withAuthUsername("bob") {
+            XCTAssertEqual(WordReviewStore(defaults: defaults).words.count, 0)
+        }
+        withAuthUsername("alice") {
+            XCTAssertEqual(WordReviewStore(defaults: defaults).words.count, 1)
+        }
+    }
+
+    @MainActor
+    func testGuestWordsCarriedToUserOnLogin() {
+        let defaults = makeDefaults()
+        withAuthUsername(nil) {
+            WordReviewStore(defaults: defaults).add(german: "Brot", english: "bread", source: "t")
+        }
+        withAuthUsername("alice") {
+            XCTAssertEqual(WordReviewStore(defaults: defaults).words.count, 1)
+        }
+        withAuthUsername("bob") {
+            XCTAssertEqual(WordReviewStore(defaults: defaults).words.count, 0)
+        }
+    }
 }

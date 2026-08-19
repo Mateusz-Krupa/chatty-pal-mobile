@@ -68,11 +68,21 @@ final class WordReviewStore {
 
     static let sessionLimit = 20
     private let defaults: UserDefaults
+    private var scope: String
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
-        self.words = Self.load(from: defaults)
+        self.scope = DataScope.current
+        self.words = Self.load(from: defaults, scope: self.scope)
     }
+
+    // Reload after a login/logout switch so the store tracks the new account.
+    func scopeDidChange() {
+        scope = DataScope.current
+        words = Self.load(from: defaults, scope: scope)
+    }
+
+    private var storageKey: String { "learning.wordReview.\(scope)" }
 
     var dueCount: Int {
         WordReviewScheduler.dueWords(words, now: Date()).count
@@ -118,14 +128,29 @@ final class WordReviewStore {
 
     private func save() {
         if let data = try? JSONEncoder().encode(words) {
-            defaults.set(data, forKey: Self.storageKey)
+            defaults.set(data, forKey: storageKey)
         }
     }
 
-    private static let storageKey = "learning.wordReview"
+    private static func load(from defaults: UserDefaults, scope: String) -> [ReviewWord] {
+        let scopedKey = "learning.wordReview.\(scope)"
+        if let data = defaults.data(forKey: scopedKey) {
+            return decode(data)
+        }
+        // One-shot migrations: legacy unscoped key (app upgrade), then the
+        // guest scope (carries pre-login progress to the signed-in user).
+        let fallbacks = ["learning.wordReview", "learning.wordReview.guest"]
+        for fallback in fallbacks where scope != "guest" {
+            if let data = defaults.data(forKey: fallback) {
+                defaults.set(data, forKey: scopedKey)
+                defaults.removeObject(forKey: fallback)
+                return decode(data)
+            }
+        }
+        return []
+    }
 
-    private static func load(from defaults: UserDefaults) -> [ReviewWord] {
-        guard let data = defaults.data(forKey: storageKey) else { return [] }
-        return (try? JSONDecoder().decode([ReviewWord].self, from: data)) ?? []
+    private static func decode(_ data: Data) -> [ReviewWord] {
+        (try? JSONDecoder().decode([ReviewWord].self, from: data)) ?? []
     }
 }

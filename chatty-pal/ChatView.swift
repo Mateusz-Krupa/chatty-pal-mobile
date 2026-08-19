@@ -18,6 +18,8 @@ struct ChatView: View {
     @State private var availableChatLanguages: [UserProfileLanguage] = []
     @State private var navigationPath = NavigationPath()
     @State private var engine: ChatEngine
+    @State private var sessionExpired = false
+    @State private var profileChecked = false
 
     @State private var session: AuthSession
 
@@ -50,6 +52,10 @@ struct ChatView: View {
 
                 VStack(spacing: 16) {
                     headerView
+
+                    if sessionExpired && !isLoginPresented {
+                        sessionExpiredBanner
+                    }
 
                     todayCard
 
@@ -107,6 +113,9 @@ struct ChatView: View {
                             authEmail = ""
                             authRole = ""
                             availableChatLanguages = []
+                            LearningStatsStore.shared.scopeDidChange()
+                            WordReviewStore.shared.scopeDidChange()
+                            applyCurrentPersona()
                         }
                     )
                 }
@@ -138,6 +147,11 @@ struct ChatView: View {
                 onSuccess: { token, name in
                     session.signIn(with: token)
                     authUsername = name
+                    sessionExpired = false
+                    profileChecked = true
+                    LearningStatsStore.shared.scopeDidChange()
+                    WordReviewStore.shared.scopeDidChange()
+                    applyCurrentPersona()
                     isLoginPresented = false
                     Task { await loadUserProfile(jwt: token) }
                 }
@@ -152,7 +166,8 @@ struct ChatView: View {
         }
         .onAppear {
             applyCurrentPersona()
-            if session.isAuthenticated {
+            if session.isAuthenticated && !profileChecked {
+                profileChecked = true
                 Task { await loadUserProfile(jwt: session.jwt) }
             }
         }
@@ -209,6 +224,22 @@ struct ChatView: View {
             }
         }
         .padding(.top, 12)
+    }
+
+    private var sessionExpiredBanner: some View {
+        VStack(spacing: 8) {
+            Text("Session expired. Sign in again to access your homework and profile.")
+                .font(.footnote)
+                .multilineTextAlignment(.center)
+            Button("Sign in") {
+                isLoginPresented = true
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.small)
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private var todayCard: some View {
@@ -342,8 +373,10 @@ struct ChatView: View {
         }
     }
 
-    // After login: fetch the user's Strapi profile and apply their saved language + level
-    // (mirrors the web app's updateUser() -> getMe() flow in _app.tsx)
+    // After login / at launch: fetch the user's Strapi profile.
+    // Populates the menu (username, email, role, selectable languages) but
+    // deliberately does NOT switch the active chat language/level — doing so
+    // would move the user to a different (empty) chat thread.
     private func loadUserProfile(jwt: String) async {
         do {
             let profile = try await AuthService().getMe(jwt: jwt)
@@ -359,29 +392,24 @@ struct ChatView: View {
                         guard let code = chat.code else { return false }
                         return LanguageConfig.all[code] != nil
                     }
-                if let code = profile.language?.code, !code.isEmpty,
-                   LanguageConfig.all[code] != nil {
-                    langCode = code
-                }
-                if let lvl = profile.language?.level, !lvl.isEmpty,
-                    LanguageConfig.levels.contains(lvl) {
-                    level = lvl
-                }
-                applyCurrentPersona()
             }
         } catch {
             var isAuthFailure = false
             if case .badRequest(let status, _)? = error as? AuthError {
                 isAuthFailure = status == 401 || status == 403
             }
-            if isAuthFailure {
+            guard isAuthFailure else { return } // Other failures are non-fatal — keep local state
+            await MainActor.run {
                 session.signOut()
                 authUsername = ""
                 authEmail = ""
                 authRole = ""
                 availableChatLanguages = []
+                LearningStatsStore.shared.scopeDidChange()
+                WordReviewStore.shared.scopeDidChange()
+                applyCurrentPersona()
+                sessionExpired = true
             }
-            // Other failures are non-fatal — keep local state
         }
     }
 

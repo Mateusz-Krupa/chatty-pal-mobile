@@ -41,7 +41,7 @@ struct AuthService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let payload = ["identifier": identifier, "password": password]
         request.httpBody = try JSONEncoder().encode(payload)
-        return try await send(request)
+        return try decodeAuth(try await send(request))
     }
 
     func register(username: String, email: String, password: String) async throws -> AuthResponse {
@@ -50,14 +50,23 @@ struct AuthService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let payload = ["username": username, "email": email, "password": password]
         request.httpBody = try JSONEncoder().encode(payload)
-        return try await send(request)
+        return try decodeAuth(try await send(request))
+    }
+
+    func forgotPassword(email: String) async throws {
+        var request = URLRequest(url: Self.backendURL.appendingPathComponent("auth/local/forgot-password"))
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let payload = ["email": email]
+        request.httpBody = try JSONEncoder().encode(payload)
+        _ = try await send(request)
     }
 
     func exchangeOAuthCallback(queryString: String) async throws -> AuthResponse {
         var request = URLRequest(url: Self.backendURL
             .appendingPathComponent("auth/google/callback?\(queryString)"))
         request.httpMethod = "GET"
-        return try await send(request)
+        return try decodeAuth(try await send(request))
     }
 
     /// GET /users/me?populate=... — same as web app's getMe()
@@ -75,7 +84,7 @@ struct AuthService {
         return try JSONDecoder().decode(UserProfile.self, from: data)
     }
 
-    private func send(_ request: URLRequest) async throws -> AuthResponse {
+    private func send(_ request: URLRequest) async throws -> Data {
         var request = request
         request.timeoutInterval = 30
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -83,11 +92,53 @@ struct AuthService {
             let body = String(data: data, encoding: .utf8) ?? ""
             throw AuthError.badRequest(status: (response as? HTTPURLResponse)?.statusCode ?? -1, body: body)
         }
+        return data
+    }
+
+    private func decodeAuth(_ data: Data) throws -> AuthResponse {
         do {
             return try JSONDecoder().decode(AuthResponse.self, from: data)
         } catch {
             throw AuthError.decodingFailed(body: String(data: data, encoding: .utf8) ?? "")
         }
+    }
+}
+
+// Extracts a human-readable message from a Strapi error body.
+// Handles: {"message":"..."}, {"error":{"message":"..."}}, and the legacy
+// array shape {"message":[{"messages":[{"message":"..."}]}]} (incl. nested).
+enum StrapiErrorMessages {
+    static func first(in body: String) -> String? {
+        guard let data = body.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: data) else { return nil }
+        return first(in: json)
+    }
+
+    private static func first(in json: Any) -> String? {
+        if let object = json as? [String: Any] {
+            // "message" may be a plain string or a legacy nested array.
+            if let messageValue = object["message"] {
+                if let message = messageValue as? String, !message.isEmpty {
+                    return message
+                }
+                if let found = first(in: messageValue) { return found }
+            }
+            if let error = object["error"], let found = first(in: error) {
+                return found
+            }
+            if let messages = object["messages"] as? [Any] {
+                for item in messages {
+                    if let found = first(in: item) { return found }
+                }
+            }
+            return nil
+        }
+        if let array = json as? [Any] {
+            for item in array {
+                if let found = first(in: item) { return found }
+            }
+        }
+        return nil
     }
 }
 
@@ -98,9 +149,8 @@ enum AuthError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .badRequest(let status, let body):
-            // Strapi errors look like {"message":[{"messages":[{"message":"..."}]}]}
-            return "Login failed (\(status))"
-        case .decodingFailed(let body):
+            return StrapiErrorMessages.first(in: body) ?? "Login failed (\(status))"
+        case .decodingFailed:
             return "Unexpected response from server"
         }
     }
