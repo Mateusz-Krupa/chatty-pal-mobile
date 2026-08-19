@@ -28,4 +28,4 @@
 ## 5. Verify & close
 
 - [x] 5.1 Build + full test suite green
-- [ ] 5.2 Commit + archive (Task ID required)
+- [x] 5.2 Commit + archive (Task ID required)
