@@ -34,12 +34,34 @@ struct ChatView: View {
     init() {
         let code = UserDefaults.standard.string(forKey: "langCode") ?? "de"
         let lvl = UserDefaults.standard.string(forKey: "level") ?? "B1"
+        let store = ConversationStore.shared
+        let conversationID = Self.conversationID(store: store, languageCode: code, level: lvl)
         _session = State(initialValue: AuthSession())
         _engine = State(initialValue: ChatEngine(
-            persona: .main(language: LanguageConfig.all[code] ?? LanguageConfig.default, level: lvl),
-            store: LocalChatStore(languageCode: code, level: lvl),
+            persona: Self.makePersona(languageCode: code, level: lvl),
+            store: ConversationChatStore(store: store, conversationID: conversationID),
             dependencies: .live
         ))
+    }
+
+    static func conversationID(store: ConversationStore, languageCode: String, level: String) -> UUID {
+        if let active = store.activeID,
+           let activeConversation = store.conversation(active),
+           activeConversation.languageCode == languageCode,
+           activeConversation.level == level {
+            return active
+        }
+        return store.mostRecent(languageCode: languageCode, level: level)?.id
+            ?? store.startNew(languageCode: languageCode, level: level).id
+    }
+
+    static func makePersona(languageCode: String, level: String) -> ChatPersona {
+        var persona = ChatPersona.main(
+            language: LanguageConfig.all[languageCode] ?? LanguageConfig.default,
+            level: level
+        )
+        persona.memory = BotMemoryStore.shared.summary(for: languageCode)
+        return persona
     }
 
     private var isLoggedIn: Bool { session.isAuthenticated }
@@ -80,6 +102,10 @@ struct ChatView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(10)
                             .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    } else if !engine.isGenerating, !engine.replySuggestions.isEmpty {
+                        SuggestionChipsView(suggestions: engine.replySuggestions) { suggestion in
+                            engine.sendText(suggestion)
+                        }
                     }
 
                     inputBar
@@ -115,6 +141,8 @@ struct ChatView: View {
                             availableChatLanguages = []
                             LearningStatsStore.shared.scopeDidChange()
                             WordReviewStore.shared.scopeDidChange()
+                            ConversationStore.shared.scopeDidChange()
+                            BotMemoryStore.shared.scopeDidChange()
                             applyCurrentPersona()
                         }
                     )
@@ -136,6 +164,12 @@ struct ChatView: View {
                     ExamPrepHomeView()
                 case .wordReview:
                     WordReviewView()
+                case .chats:
+                    ConversationListView { conversation in
+                        openConversation(conversation)
+                    }
+                case .rolePlay:
+                    RolePlayHomeView(jwt: session.jwt)
                 default:
                     PlaceholderView(title: destination.title)
                 }
@@ -151,6 +185,8 @@ struct ChatView: View {
                     profileChecked = true
                     LearningStatsStore.shared.scopeDidChange()
                     WordReviewStore.shared.scopeDidChange()
+                    ConversationStore.shared.scopeDidChange()
+                    BotMemoryStore.shared.scopeDidChange()
                     applyCurrentPersona()
                     isLoginPresented = false
                     Task { await loadUserProfile(jwt: token) }
@@ -198,6 +234,14 @@ struct ChatView: View {
             Spacer()
 
             HStack(spacing: 8) {
+                Button(action: startNewChat) {
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 16, weight: .semibold))
+                        .padding(10)
+                }
+                .buttonStyle(.bordered)
+                .modifier(GlassButtonModifier())
+
                 Button(action: { isSettingsPresented = true }) {
                     Image(systemName: "slider.horizontal.3")
                         .font(.system(size: 16, weight: .semibold))
@@ -245,6 +289,7 @@ struct ChatView: View {
     private var todayCard: some View {
         let stats = LearningStatsStore.shared
         let due = WordReviewStore.shared.dueCount
+        let recap = stats.weeklyRecap()
         return Button {
             navigationPath.append(MenuDestination.wordReview)
         } label: {
@@ -257,6 +302,12 @@ struct ChatView: View {
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(.primary)
                     Spacer()
+                    Text("Level \(stats.level)")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(Color.accentColor)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Color.accentColor.opacity(0.12), in: Capsule())
                     if due > 0 {
                         Text("\(due) due")
                             .font(.caption.weight(.bold))
@@ -266,9 +317,29 @@ struct ChatView: View {
                             .background(Color.accentColor.opacity(0.12), in: Capsule())
                     }
                 }
+                HStack(spacing: 8) {
+                    ProgressView(value: stats.levelProgress)
+                        .tint(Color.accentColor)
+                    Text("\(stats.xp % LearningStatsStore.xpPerLevel)/\(LearningStatsStore.xpPerLevel) XP")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+                HStack(spacing: 6) {
+                    Image(systemName: stats.questCompletedToday ? "checkmark.seal.fill" : "target")
+                        .font(.caption)
+                        .foregroundStyle(stats.questCompletedToday ? Color.green : Color.secondary)
+                    Text(stats.questCompletedToday
+                         ? "Daily quest complete (+25 XP)"
+                         : "Daily quest: earn \(LearningStatsStore.dailyQuestXP - stats.questProgress) more XP today")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
                 HStack(spacing: 14) {
                     Label("\(stats.completedLessonCount) lessons", systemImage: "book.fill")
                     Label("\(stats.totalReviews) reviews", systemImage: "checkmark.circle.fill")
+                    Label("\(recap.messages) msgs · \(recap.reviews) rev · \(recap.xp) XP", systemImage: "calendar")
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -339,7 +410,7 @@ struct ChatView: View {
 
         Speak first as the conversation partner. Keep it short, natural, friendly, and only in \(lesson.languageName). Ask one simple question that helps the student begin the role play.
         """
-        engine.sendText(prompt)
+        engine.sendText(prompt, credit: false)
     }
 
     private func sendMessage() {
@@ -350,19 +421,45 @@ struct ChatView: View {
     }
 
     private func applyCurrentPersona() {
+        let store = ConversationStore.shared
+        let conversationID = Self.conversationID(store: store, languageCode: langCode, level: level)
         engine.reload(
-            persona: .main(language: LanguageConfig.all[langCode] ?? LanguageConfig.default, level: level),
-            store: LocalChatStore(languageCode: langCode, level: level)
+            persona: Self.makePersona(languageCode: langCode, level: level),
+            store: ConversationChatStore(store: store, conversationID: conversationID)
         )
     }
 
     // Rebuilds the engine so its services (bot, TTS, teacher, transcriber)
     // pick up the current AppEnvironment origin without an app restart.
     private func rebuildEngine() {
+        let store = ConversationStore.shared
+        let conversationID = Self.conversationID(store: store, languageCode: langCode, level: level)
         engine = ChatEngine(
-            persona: .main(language: LanguageConfig.all[langCode] ?? LanguageConfig.default, level: level),
-            store: LocalChatStore(languageCode: langCode, level: level),
+            persona: Self.makePersona(languageCode: langCode, level: level),
+            store: ConversationChatStore(store: store, conversationID: conversationID),
             dependencies: .live
+        )
+    }
+
+    private func openConversation(_ conversation: Conversation) {
+        navigationPath = NavigationPath()
+        langCode = conversation.languageCode
+        level = conversation.level
+        let store = ConversationStore.shared
+        store.setActive(conversation.id)
+        engine.reload(
+            persona: Self.makePersona(languageCode: conversation.languageCode, level: conversation.level),
+            store: ConversationChatStore(store: store, conversationID: conversation.id)
+        )
+    }
+
+    private func startNewChat() {
+        engine.interrupt()
+        let store = ConversationStore.shared
+        let conversation = store.startNew(languageCode: langCode, level: level)
+        engine.reload(
+            persona: Self.makePersona(languageCode: langCode, level: level),
+            store: ConversationChatStore(store: store, conversationID: conversation.id)
         )
     }
 
@@ -407,6 +504,8 @@ struct ChatView: View {
                 availableChatLanguages = []
                 LearningStatsStore.shared.scopeDidChange()
                 WordReviewStore.shared.scopeDidChange()
+                ConversationStore.shared.scopeDidChange()
+                BotMemoryStore.shared.scopeDidChange()
                 applyCurrentPersona()
                 sessionExpired = true
             }

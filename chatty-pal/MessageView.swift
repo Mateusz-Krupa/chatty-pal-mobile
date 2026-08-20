@@ -76,8 +76,55 @@ struct ChattyTheme {
     }
 }
 
+// Word-level diff (common prefix + suffix, case/punctuation insensitive).
+enum TextDiffer {
+    enum SegmentKind: Hashable {
+        case same
+        case removed
+        case added
+    }
+
+    struct Segment: Hashable {
+        let text: String
+        let kind: SegmentKind
+    }
+
+    private static func normalize(_ word: String) -> String {
+        word.lowercased().trimmingCharacters(in: CharacterSet.punctuationCharacters)
+    }
+
+    static func diff(original: String, corrected: String) -> [Segment] {
+        let a = original.split(whereSeparator: { $0.isWhitespace }).map(String.init)
+        let b = corrected.split(whereSeparator: { $0.isWhitespace }).map(String.init)
+        var prefix = 0
+        while prefix < a.count, prefix < b.count, normalize(a[prefix]) == normalize(b[prefix]) {
+            prefix += 1
+        }
+        var suffix = 0
+        while suffix < a.count - prefix, suffix < b.count - prefix,
+              normalize(a[a.count - 1 - suffix]) == normalize(b[b.count - 1 - suffix]) {
+            suffix += 1
+        }
+        var segments: [Segment] = []
+        if prefix > 0 {
+            segments.append(Segment(text: a[..<prefix].joined(separator: " "), kind: .same))
+        }
+        if prefix < a.count - suffix {
+            segments.append(Segment(text: a[prefix..<(a.count - suffix)].joined(separator: " "), kind: .removed))
+        }
+        if prefix < b.count - suffix {
+            segments.append(Segment(text: b[prefix..<(b.count - suffix)].joined(separator: " "), kind: .added))
+        }
+        if suffix > 0 {
+            segments.append(Segment(text: b[(b.count - suffix)...].joined(separator: " "), kind: .same))
+        }
+        return segments
+    }
+}
+
 struct MessageView: View {
     let message: ChatMessage
+    var originalText: String? = nil
     let onTeacherTap: () -> Void
     let onReplayTap: () -> Void
     let onTranslateTap: () -> Void
@@ -94,7 +141,7 @@ struct MessageView: View {
             }
 
             VStack(alignment: .leading, spacing: 6) {
-                Text(message.message)
+                messageText
                     .foregroundColor(message.role == .user ? Color.white : Color.primary)
 
                 if message.role == .teacher {
@@ -144,6 +191,29 @@ struct MessageView: View {
                 Spacer()
             }
         }
+    }
+
+    @ViewBuilder
+    private var messageText: some View {
+        if message.role == .teacher, let original = originalText, !original.isEmpty {
+            diffText(original: original, corrected: message.message)
+        } else {
+            Text(message.message)
+        }
+    }
+
+    private func diffText(original: String, corrected: String) -> Text {
+        TextDiffer.diff(original: original, corrected: corrected)
+            .reduce(Text(verbatim: "")) { acc, segment in
+                switch segment.kind {
+                case .same:
+                    return acc + Text(verbatim: segment.text)
+                case .removed:
+                    return acc + Text(verbatim: segment.text).strikethrough().foregroundColor(.secondary)
+                case .added:
+                    return acc + Text(verbatim: segment.text).bold().foregroundColor(.orange)
+                }
+            }
     }
 
     private func bubbleColor(for role: ChatMessage.Role) -> Color {

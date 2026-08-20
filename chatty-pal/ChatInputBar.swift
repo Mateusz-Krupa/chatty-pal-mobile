@@ -128,9 +128,10 @@ struct ChatMessageList<TopContent: View>: View {
                 LazyVStack(spacing: 12) {
                     topContent
 
-                    ForEach(messages) { message in
+                    ForEach(Array(messages.enumerated()), id: \.element.id) { index, message in
                         MessageView(
                             message: message,
+                            originalText: message.role == .teacher ? precedingUserText(before: index) : nil,
                             onTeacherTap: { onSpeak(message) },
                             onReplayTap: { onSpeak(message) },
                             onTranslateTap: { onTranslate(message) },
@@ -159,6 +160,36 @@ struct ChatMessageList<TopContent: View>: View {
                     proxy.scrollTo(lastID, anchor: .bottom)
                 }
             }
+        }
+    }
+
+    private func precedingUserText(before index: Int) -> String? {
+        messages[..<index].last(where: { $0.role == .user })?.message
+    }
+}
+
+struct SuggestionChipsView: View {
+    let suggestions: [String]
+    let onSend: (String) -> Void
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(suggestions, id: \.self) { suggestion in
+                    Button {
+                        onSend(suggestion)
+                    } label: {
+                        Text(suggestion)
+                            .font(.footnote)
+                            .lineLimit(1)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(.thinMaterial, in: Capsule())
+                            .overlay(Capsule().stroke(ChattyTheme.softHairline, lineWidth: 1))
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
         }
     }
 }

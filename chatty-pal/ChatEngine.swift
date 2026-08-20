@@ -5,6 +5,13 @@ struct ChatPersona: Equatable {
     let language: Language
     let level: String
     let systemInstruction: String
+    var memory: String? = nil
+
+    // System instruction plus the rolling learner summary, when available.
+    var fullInstruction: String {
+        guard let memory, !memory.isEmpty else { return systemInstruction }
+        return systemInstruction + "\n\nABOUT YOUR FRIEND:\n\(memory)"
+    }
 
     static func main(language: Language, level: String) -> ChatPersona {
         ChatPersona(
@@ -12,16 +19,13 @@ struct ChatPersona: Equatable {
             level: level,
             systemInstruction: """
             As actor \(language.voice) a lively 25-year-old \(language.country) \(language.genderWord),
-            engage in supportive chat with a friend. Always remain positive and funny. Respond as \(language.voice) would, you are expert in active listening.
-            Unsure how to answer? Invent a response; it'll help us shape the script later.
-            It is very important - to keep the level at \(level) level as the readers are learning the language.
-            Use some humor in your conversations and try to be as natural as possible.
-
-            NEXT use techniques like:
-            Mirroring, Using humour, Ask Follow-Up Questions, Avoid Monopolizing the Conversation, Balance Sharing and Receiving, but the most important.
-            Don't use emoticons.
-
-            Embody \(language.voice) as if you're in a movie, respond only in \(language.language) with \(level) CEFR level.
+            engage in a friendly, natural chat with a friend who is learning your language. Always remain positive and funny.
+            Keep \(level) CEFR level: short simple sentences, everyday vocabulary.
+            Keep your replies SHORT: at most 2 short sentences — your friend is a language learner and must get enough speaking time.
+            If you do not know the answer, say it simply and change the topic.
+            Use natural conversation techniques: mirroring, light humour, follow-up questions. Let the learner talk more than you.
+            Don't use emoticons or emoji.
+            Embody \(language.voice) as if you're in a movie, respond only in \(language.language).
             """
         )
     }
@@ -79,6 +83,7 @@ final class ChatEngine {
     private(set) var transcriptText = ""
     private(set) var audioLevel: Float = 0
     private(set) var isTranscribing = false
+    private(set) var replySuggestions: [String] = []
     var isTTSEnabled = true
     var isActive = true
 
@@ -90,6 +95,7 @@ final class ChatEngine {
     private var silenceTask: Task<Void, Never>?
     private var botTask: Task<Void, Never>?
     private var teacherTask: Task<Void, Never>?
+    private var suggestionsTask: Task<Void, Never>?
     private var ttsTask: Task<Void, Never>?
     private var suppressSendUntil: Date?
     private var autoResumeListening = false
@@ -159,6 +165,9 @@ final class ChatEngine {
         botTask = nil
         teacherTask?.cancel()
         teacherTask = nil
+        suggestionsTask?.cancel()
+        suggestionsTask = nil
+        replySuggestions = []
         ttsTask?.cancel()
         ttsTask = nil
         silenceTask?.cancel()
@@ -189,15 +198,20 @@ final class ChatEngine {
         store.save(messages)
     }
 
-    func sendText(_ rawText: String) {
+    func sendText(_ rawText: String, credit: Bool = true) {
         let text = TranscriptTracker.trimmed(rawText)
         guard !text.isEmpty, isActive else { return }
         mergeTargetID = nil
+        replySuggestions = []
         if voiceState == .recording {
             autoResumeListening = true
             stopSpeechWithoutSend()
         }
         append(ChatMessage(role: .user, message: text))
+        if credit {
+            LearningStatsStore.shared.recordUserMessage()
+            scheduleMemoryRefreshIfNeeded()
+        }
         requestBotResponse(for: text)
         teacherTask?.cancel()
         teacherTask = Task { [weak self] in
@@ -210,6 +224,7 @@ final class ChatEngine {
     private func deliverUtterance(_ text: String) {
         guard !text.isEmpty, isActive else { return }
         voiceTurnActive = true
+        replySuggestions = []
         let sent: String
         if let targetID = mergeTargetID,
            let idx = messages.lastIndex(where: { $0.id == targetID && $0.role == .user }) {
@@ -222,6 +237,8 @@ final class ChatEngine {
             sent = text
         }
         mergeTargetID = nil
+        LearningStatsStore.shared.recordUserMessage()
+        scheduleMemoryRefreshIfNeeded()
         requestBotResponse(for: sent)
         teacherTask?.cancel()
         teacherTask = Task { [weak self] in
@@ -272,6 +289,7 @@ final class ChatEngine {
 
     func startRecording() {
         guard voiceState == .idle, isActive else { return }
+        replySuggestions = []
         guard let speech else { return }
         Task { [weak self] in
             guard let self else { return }
@@ -351,7 +369,7 @@ final class ChatEngine {
         Suggest one short natural way to reply in \(persona.language.language) at \(persona.level) CEFR level.
         Only the reply, nothing else.
         """
-        let instruction = persona.systemInstruction
+        let instruction = persona.fullInstruction
         let payload = buildBotMessages()
         do {
             let response = try await dependencies.bot.sendMessage(instruction: instruction, message: prompt, messages: payload)
@@ -493,7 +511,7 @@ final class ChatEngine {
         if voiceTurnActive {
             armBargeIn()
         }
-        let instruction = persona.systemInstruction
+        let instruction = persona.fullInstruction
         let payload = buildBotMessages()
         var hasBubble = false
         botTask = Task { [weak self] in
@@ -531,6 +549,7 @@ final class ChatEngine {
                 self.isGenerating = false
                 self.streamFinished = true
                 self.pumpTTS()
+                self.scheduleReplySuggestions()
             } catch {
                 guard !Task.isCancelled else { return }
                 self.isGenerating = false
@@ -566,6 +585,7 @@ final class ChatEngine {
                 self.append(bubble)
                 self.streamFinished = true
                 self.enqueueTTS(response.message)
+                self.scheduleReplySuggestions()
             } catch {
                 guard !Task.isCancelled else { return }
                 self.isGenerating = false
@@ -627,6 +647,86 @@ final class ChatEngine {
         }
     }
 
+    // Every 15th learner message (with enough context) refreshes the rolling
+    // "ABOUT YOUR FRIEND" summary injected into the persona.
+    private func scheduleMemoryRefreshIfNeeded() {
+        let stats = LearningStatsStore.shared
+        guard stats.data.messagesSent % 15 == 0,
+              messages.filter({ $0.role == .user }).count >= 8 else { return }
+        let langCode = persona.language.code
+        let context = messages
+            .suffix(30)
+            .filter { $0.role == .user || $0.role == .assistant }
+            .map { "\($0.role == .user ? "learner" : "partner"): \($0.message)" }
+            .joined(separator: "\n")
+        Task { [weak self] in
+            guard let self else { return }
+            let system = """
+            You are a note-taking assistant. Reply in English with at most 3 short bullet lines \
+            about the learner: interests, names mentioned, level observations. Under 120 words. No other text.
+            """
+            guard let response = try? await dependencies.bot.sendMessage(
+                instruction: "",
+                message: "Conversation so far:\n\(context)",
+                messages: [BotMessage(role: "system", content: system)]
+            ) else { return }
+            BotMemoryStore.shared.save(response.message, for: langCode)
+        }
+    }
+
+    // After a complete bot reply, fetch 3 tappable follow-up suggestions so
+    // the learner is never stuck for words. Failures are silent.
+    private func scheduleReplySuggestions() {
+        guard messages.last?.role == .assistant else { return }
+        let lang = persona.language
+        let lvl = persona.level
+        let context = messages
+            .suffix(6)
+            .filter { $0.role == .user || $0.role == .assistant }
+            .map { "\($0.role == .user ? "learner" : "partner"): \($0.message)" }
+            .joined(separator: "\n")
+        suggestionsTask?.cancel()
+        suggestionsTask = Task { [weak self] in
+            guard let self else { return }
+            let system = """
+            You are a helpful writing assistant. Suggest 3 short natural follow-up messages the \
+            learner could send next, in \(lang.language) at \(lvl) CEFR level. \
+            Reply with ONLY a JSON array of 3 short strings. No other text.
+            """
+            guard let response = try? await dependencies.bot.sendMessage(
+                instruction: "",
+                message: "Conversation so far:\n\(context)\n\nSuggest 3 follow-up messages for the learner.",
+                messages: [BotMessage(role: "system", content: system)]
+            ) else { return }
+            let suggestions = Self.parseSuggestionArray(response.message)
+            guard !Task.isCancelled, !suggestions.isEmpty else { return }
+            self.replySuggestions = suggestions
+        }
+    }
+
+    static func parseSuggestionArray(_ raw: String) -> [String] {
+        var text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        if text.hasPrefix("```") {
+            if let firstNewline = text.firstIndex(of: "\n") {
+                text = String(text[text.index(after: firstNewline)...])
+            }
+            if text.hasSuffix("```") {
+                text = String(text.dropLast(3))
+            }
+            text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        guard let start = text.firstIndex(of: "["), let end = text.lastIndex(of: "]") else { return [] }
+        let arrayText = String(text[start...end])
+        guard let data = arrayText.data(using: .utf8),
+              let array = try? JSONDecoder().decode([String].self, from: data) else { return [] }
+        return Array(
+            array
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+                .prefix(3)
+        )
+    }
+
     private func fetchTeacherFix(for userMessage: String) async {
         // The teacher fix is an optional enrichment: failures (offline, local env
         // without a running server) must never surface as chat messages.
@@ -663,7 +763,7 @@ final class ChatEngine {
     }
 
     private func buildBotMessages() -> [BotMessage] {
-        var payload = [BotMessage(role: "system", content: persona.systemInstruction)]
+        var payload = [BotMessage(role: "system", content: persona.fullInstruction)]
         for item in messages.suffix(6) {
             if item.role == .teacher || item.role == .translation || item.role == .suggestion {
                 continue

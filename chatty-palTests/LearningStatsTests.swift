@@ -147,4 +147,86 @@ final class LearningStatsTests: XCTestCase {
             XCTAssertEqual(bob.completedLessonCount, 0)
         }
     }
+
+    // MARK: - XP / levels / quests
+
+    @MainActor
+    func testXPLevelCurve() {
+        let defaults = UserDefaults(suiteName: #function)!
+        defaults.removePersistentDomain(forName: #function)
+        let store = LearningStatsStore(defaults: defaults)
+        XCTAssertEqual(store.level, 1)
+        XCTAssertEqual(store.levelProgress, 0)
+
+        store.award(.lesson)     // 50 XP + 25 quest bonus = 75
+        XCTAssertEqual(store.xp, 75)
+        store.award(.rolePlay)   // +100 = 175
+        store.award(.review)     // +25 = 200
+        XCTAssertEqual(store.level, 2)
+        XCTAssertEqual(store.levelProgress, 0, accuracy: 0.0001)
+        store.award(.shadowing)  // +10 = 210
+        XCTAssertEqual(store.level, 2)
+        XCTAssertEqual(store.levelProgress, 0.05, accuracy: 0.0001)
+    }
+
+    @MainActor
+    func testDailyQuestBonusAwardedOncePerDay() {
+        let defaults = UserDefaults(suiteName: #function)!
+        defaults.removePersistentDomain(forName: #function)
+        let store = LearningStatsStore(defaults: defaults)
+
+        store.award(.review) // 25 XP
+        XCTAssertEqual(store.questProgress, 25)
+        XCTAssertFalse(store.questCompletedToday)
+        store.award(.review) // 50 XP -> quest bonus
+        XCTAssertEqual(store.questProgress, 50)
+        XCTAssertTrue(store.questCompletedToday)
+        let xpBefore = store.xp
+        store.award(.message) // +5 XP, no second bonus
+        XCTAssertEqual(store.xp, xpBefore + 5)
+    }
+
+    @MainActor
+    func testQuestBonusRewardsNextDay() {
+        let defaults = UserDefaults(suiteName: #function)!
+        defaults.removePersistentDomain(forName: #function)
+        let store = LearningStatsStore(defaults: defaults)
+        let today = Date()
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+
+        store.award(.review, now: yesterday)
+        store.award(.review, now: yesterday) // 50 yesterday -> bonus
+        store.award(.review, now: today)
+        store.award(.review, now: today)     // 50 today -> bonus again
+        XCTAssertEqual(store.xp, 150)
+    }
+
+    @MainActor
+    func testWeeklyRecapWindow() {
+        let defaults = UserDefaults(suiteName: #function)!
+        defaults.removePersistentDomain(forName: #function)
+        let store = LearningStatsStore(defaults: defaults)
+        let today = Date()
+        let inside = calendar.date(byAdding: .day, value: -6, to: today)!
+        let outside = calendar.date(byAdding: .day, value: -8, to: today)!
+
+        store.award(.message, now: today)
+        store.award(.message, now: inside)
+        store.award(.message, now: outside)
+
+        let recap = store.weeklyRecap(now: today, calendar: calendar)
+        XCTAssertEqual(recap.messages, 2)
+        XCTAssertEqual(recap.xp, 10)
+    }
+
+    func testPreXPDataDecodesWithDefaults() throws {
+        let legacy = """
+        {"activityDates":["2026-01-01"],"completedLessons":["de-a1-greetings"],"totalReviews":2,"totalShadowing":0}
+        """
+        let decoded = try JSONDecoder().decode(LearningStatsData.self, from: legacy.data(using: .utf8)!)
+        XCTAssertEqual(decoded.totalReviews, 2)
+        XCTAssertEqual(decoded.xp, 0)
+        XCTAssertNil(decoded.lastQuestRewardDay)
+        XCTAssertTrue(decoded.dayLog.isEmpty)
+    }
 }

@@ -229,6 +229,8 @@ struct BotRequest: Encodable {
     let messages: [BotMessage]
     let languageLevel: String?
     var stream: Bool = false
+    // Voice-first app: keep replies short (TTS latency + learner airtime).
+    let maxTokens = 150
 }
 
 struct BotMessage: Encodable {

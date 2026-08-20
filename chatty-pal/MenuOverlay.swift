@@ -58,6 +58,8 @@ struct MenuOverlay: View {
                             MenuLinkRow(destination: .policy, disabled: false) { selectDestination() }
 
                             MenuSectionHeader(title: "Student")
+                            MenuLinkRow(destination: .chats, disabled: false) { selectDestination() }
+                            MenuLinkRow(destination: .rolePlay, disabled: !isLoggedIn) { selectDestination() }
                             MenuLinkRow(destination: .homework, disabled: !isLoggedIn) { selectDestination() }
                             MenuLinkRow(destination: .teacherHelp, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .learningMaterials, disabled: false) { selectDestination() }
@@ -242,6 +244,8 @@ enum MenuDestination: Hashable {
     case learningMaterials
     case examPrep
     case wordReview
+    case chats
+    case rolePlay
     case classroom
     case stories
     case lessonPlanner
@@ -267,6 +271,10 @@ enum MenuDestination: Hashable {
             return "Exam Prep A1"
         case .wordReview:
             return "Word Review"
+        case .chats:
+            return "My chats"
+        case .rolePlay:
+            return "Role Play"
         case .classroom:
             return "Classroom"
         case .stories:
@@ -298,6 +306,10 @@ enum MenuDestination: Hashable {
             return "checkmark.seal"
         case .wordReview:
             return "text.book.closed"
+        case .chats:
+            return "bubble.left.and.bubble.right"
+        case .rolePlay:
+            return "theatermasks"
         case .classroom:
             return "person.3"
         case .stories:
