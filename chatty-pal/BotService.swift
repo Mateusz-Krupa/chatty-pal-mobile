@@ -98,12 +98,13 @@ struct BotService {
         self.languageLevel = env["BOT_LANGUAGE_LEVEL"]
     }
 
-    func sendMessage(instruction: String, message: String, messages: [BotMessage]) async throws -> BotResponse {
+    func sendMessage(instruction: String, message: String, messages: [BotMessage], exam: ExamMode?) async throws -> BotResponse {
         let payload = BotRequest(
             instruction: instruction,
             message: message,
             messages: messages,
-            languageLevel: languageLevel
+            languageLevel: languageLevel,
+            exam: exam
         )
 
         do {
@@ -113,13 +114,14 @@ struct BotService {
         }
     }
 
-    func streamMessage(instruction: String, message: String, messages: [BotMessage]) -> AsyncThrowingStream<String, Error> {
+    func streamMessage(instruction: String, message: String, messages: [BotMessage], exam: ExamMode?) -> AsyncThrowingStream<String, Error> {
         let payload = BotRequest(
             instruction: instruction,
             message: message,
             messages: messages,
             languageLevel: languageLevel,
-            stream: true
+            stream: true,
+            exam: exam
         )
         return AsyncThrowingStream { continuation in
             let task = Task {
@@ -223,12 +225,21 @@ extension URL {
     }
 }
 
+struct ExamMode: Encodable, Equatable {
+    let mode: String
+    let lessonId: String
+    let stage: String?
+    let briefing: String?
+    var learnerContext: String? = nil
+}
+
 struct BotRequest: Encodable {
     let instruction: String
     let message: String
     let messages: [BotMessage]
     let languageLevel: String?
     var stream: Bool = false
+    var exam: ExamMode? = nil
     // Voice-first app: keep replies short (TTS latency + learner airtime).
     let maxTokens = 150
 }

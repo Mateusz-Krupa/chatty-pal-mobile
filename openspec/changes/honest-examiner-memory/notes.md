@@ -1,0 +1,2 @@
+- Candidate memory travels through `ExamMode.learnerContext`, not `ChatPersona.memory`, because exam requests replace client system instructions with server-owned instructions.
+- Speaking history is scoped per lesson and stage so a stage switch cannot leak a previous task's conversation into the active examiner task.

@@ -161,7 +161,7 @@ struct ChatView: View {
                         startLearningPractice(lesson)
                     }
                 case .examPrep:
-                    ExamPrepHomeView()
+                    ExamCampaignHomeView()
                 case .wordReview:
                     WordReviewView()
                 case .chats:

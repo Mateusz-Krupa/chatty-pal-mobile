@@ -58,7 +58,27 @@ Archive a completed change in the experimental workflow.
 
    If user chooses sync, use Task tool (subagent_type: "general-purpose", prompt: "Use Skill tool to invoke openspec-sync-specs for change '<name>'. Delta spec analysis: <include the analyzed delta spec summary>"). Proceed to archive regardless of choice.
 
-5. **Perform the archive**
+5. **Reflect and update project memory** *(learning trigger — runs before the move, so `learnings.md` travels into the archive with the change)*
+
+   **a. Ensure the memory store exists.** If `openspec/memory/` is missing, create it with one file per category, each starting with a `# <Category>` header: `architecture.md`, `conventions.md`, `pitfalls.md`, `decisions.md`, `workflows.md` (plus an `index.md` table of contents). This is self-bootstrapping — every archived change leaves the project a little smarter.
+
+   **b. Gather reflection evidence** — small but strong: `proposal.md`, `design.md`, `tasks.md`, the change's specs, the final git diff for this change, the changed-file list, `notes.md` if present (decisions captured during implementation), and any test/validation results. Do NOT dump the whole session.
+
+   **c. Write `openspec/changes/<name>/learnings.md`** (it moves into the archive). Answer concisely:
+   - Intent vs final outcome; plan vs reality
+   - Problems / wrong turns, and the corrections that worked
+   - Decisions made and why; user corrections to how the work was done
+   - Classify each learning: **local** (one-off — do not promote) / **project** (reusable knowledge) / **procedural** (repeatable how-to)
+   - **Memory impact**: one line per memory retrieved during this change — did it actually help (how?) or was it noise? Write `memory impact: none retrieved` if retrieval was skipped or empty. This is the ground truth for measuring whether the memory system pays off.
+
+   **d. Propose project-memory operations.** For each *project* / *procedural* learning, pick one: `ADD` · `UPDATE` (new evidence or refinement of an existing entry) · `MERGE` (consolidate overlapping entries) · `IGNORE`. Prefer compression over appending. Use the `## <ID>: <title>` entry format from the category files. Every promoted entry MUST carry `**Evidence:**` (this archive's path) and `**Last verified:**` (today's date).
+   - Before proposing `ADD`: run `search_memory` with the candidate's learning text (limit 3). If an existing entry is a close match, propose `UPDATE`/`MERGE` of that entry instead of a new `ADD`.
+   - Never promote: one-off details, secrets/tokens, tool noise, or anything the final code contradicts.
+   - If a learning contradicts an existing entry, mark it `CONFLICT` and propose an UPDATE for review — do not silently overwrite.
+
+   **e. Show the diff and confirm.** Present the proposed changes (`learnings.md` + `openspec/memory/*.md`) as a normal file diff and ask: **`Apply? [yes / edit / no]`**. Apply only what the user accepts. Committed memory is picked up by the qdrant reindex (git hook or manual), so the next change retrieves it.
+
+6. **Perform the archive**
 
    Create the archive directory if it doesn't exist:
    ```bash
@@ -75,7 +95,7 @@ Archive a completed change in the experimental workflow.
    mv openspec/changes/<name> openspec/changes/archive/YYYY-MM-DD-<name>
    ```
 
-6. **Display summary**
+7. **Display summary**
 
    Show archive completion summary including:
    - Change name
@@ -145,6 +165,8 @@ Target archive directory already exists.
 ```
 
 **Guardrails**
+- Reflection (step 5) runs before the move and is never skipped silently. If nothing is worth promoting, still write `learnings.md` and report "no project-memory changes".
+- Memory promotion is gated by the user (`Apply? [yes/edit/no]`) — never auto-commit memory changes without showing the diff.
 - Always prompt for change selection if not provided
 - Use artifact graph (openspec status --json) for completion checking
 - Don't block archive on warnings - just inform and confirm

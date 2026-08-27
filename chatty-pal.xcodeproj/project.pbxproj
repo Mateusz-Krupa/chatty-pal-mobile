@@ -73,6 +73,13 @@
 		AA0000000000000000000077 /* RolePlayViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000078 /* RolePlayViews.swift */; };
 		AA0000000000000000000079 /* ConversationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000007A /* ConversationStoreTests.swift */; };
 		AA000000000000000000007B /* ChatUXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000007C /* ChatUXTests.swift */; };
+		AA000000000000000000007D /* ExamCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000007E /* ExamCampaign.swift */; };
+		AA000000000000000000007F /* ExamCampaignContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000080 /* ExamCampaignContent.swift */; };
+		AA0000000000000000000082 /* ExamCampaignProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000081 /* ExamCampaignProgress.swift */; };
+		AA0000000000000000000084 /* ExamCampaignTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000083 /* ExamCampaignTests.swift */; };
+		AA0000000000000000000086 /* ExamConversationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000085 /* ExamConversationTests.swift */; };
+		AA000000000000000000008A /* ExamCampaignFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* ExamCampaignFlowTests.swift */; };
+		AA0000000000000000000088 /* ExamCampaignViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* ExamCampaignViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +154,13 @@
 		AA0000000000000000000078 /* RolePlayViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlayViews.swift; sourceTree = "<group>"; };
 		AA000000000000000000007A /* ConversationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStoreTests.swift; sourceTree = "<group>"; };
 		AA000000000000000000007C /* ChatUXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUXTests.swift; sourceTree = "<group>"; };
+		AA000000000000000000007E /* ExamCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaign.swift; sourceTree = "<group>"; };
+		AA0000000000000000000080 /* ExamCampaignContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignContent.swift; sourceTree = "<group>"; };
+		AA0000000000000000000081 /* ExamCampaignProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignProgress.swift; sourceTree = "<group>"; };
+		AA0000000000000000000083 /* ExamCampaignTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000085 /* ExamConversationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamConversationTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000089 /* ExamCampaignFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignFlowTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000087 /* ExamCampaignViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignViews.swift; sourceTree = "<group>"; };
 		AA0000000000000000000013 /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
 		AA0000000000000000000015 /* LoginPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPanel.swift; sourceTree = "<group>"; };
 		AA0000000000000000000016 /* MenuOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOverlay.swift; sourceTree = "<group>"; };
@@ -259,6 +273,10 @@
 				AA0000000000000000000074 /* ConversationStore.swift */,
 				AA0000000000000000000076 /* ConversationViews.swift */,
 				AA0000000000000000000078 /* RolePlayViews.swift */,
+				AA000000000000000000007E /* ExamCampaign.swift */,
+				AA0000000000000000000087 /* ExamCampaignViews.swift */,
+				AA0000000000000000000080 /* ExamCampaignContent.swift */,
+				AA0000000000000000000081 /* ExamCampaignProgress.swift */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -291,6 +309,9 @@
 				AA0000000000000000000072 /* BargeInTests.swift */,
 				AA000000000000000000007A /* ConversationStoreTests.swift */,
 				AA000000000000000000007C /* ChatUXTests.swift */,
+				AA0000000000000000000083 /* ExamCampaignTests.swift */,
+				AA0000000000000000000085 /* ExamConversationTests.swift */,
+				AA0000000000000000000089 /* ExamCampaignFlowTests.swift */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -471,6 +492,10 @@
 				AA0000000000000000000075 /* ConversationViews.swift in Sources */,
 				AA0000000000000000000077 /* RolePlayViews.swift in Sources */,
 				AA0000000000000000000030 /* ExamPrepViews.swift in Sources */,
+				AA000000000000000000007D /* ExamCampaign.swift in Sources */,
+				AA0000000000000000000088 /* ExamCampaignViews.swift in Sources */,
+				AA000000000000000000007F /* ExamCampaignContent.swift in Sources */,
+				AA0000000000000000000082 /* ExamCampaignProgress.swift in Sources */,
 				9EB949D42F6073CA009EEF9A /* BotService.swift in Sources */,
 				9EB949D02F60738D009EEF9A /* ChatMessage.swift in Sources */,
 				9E3838092A0A45E0003569D9 /* ChatView.swift in Sources */,
@@ -503,6 +528,9 @@
 				AA0000000000000000000071 /* BargeInTests.swift in Sources */,
 				AA0000000000000000000079 /* ConversationStoreTests.swift in Sources */,
 				AA000000000000000000007B /* ChatUXTests.swift in Sources */,
+				AA0000000000000000000084 /* ExamCampaignTests.swift in Sources */,
+				AA0000000000000000000086 /* ExamConversationTests.swift in Sources */,
+				AA000000000000000000008A /* ExamCampaignFlowTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

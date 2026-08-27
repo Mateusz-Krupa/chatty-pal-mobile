@@ -15,26 +15,30 @@ The app SHALL provide an "Exam Prep A1" entry in the Student section of the main
 - **THEN** the "Exam Prep A1" row is enabled (not disabled by login state or language)
 
 ### Requirement: Exam Prep home lists exam sections
-The Exam Prep home screen SHALL list the exam sections (Lesen, Hören, Sprechen, Schreiben) as navigable cards, each showing the number of units in that section.
+The Exam Prep home screen SHALL show the ordered Goethe A1 campaign route rather than a flat list of four section cards. The route SHALL make its zones, current mission, available missions, locked prerequisites, checkpoint missions, and final mock-exam node navigable or visibly explained.
 
-#### Scenario: Home shows all four sections
+#### Scenario: Home shows campaign route
 - **WHEN** the user opens the Exam Prep home
-- **THEN** cards for Lesen, Hören, Sprechen and Schreiben are visible, each with a unit count taken from the catalog
+- **THEN** the app shows campaign nodes in their defined sequence with their current availability and completion state
 
-#### Scenario: User navigates into a section
-- **WHEN** the user taps a section card
-- **THEN** the app shows the list of units belonging to that section
+#### Scenario: User opens an available mission
+- **WHEN** the user taps an available campaign lesson or checkpoint
+- **THEN** the app opens that mission's briefing or resumable lesson flow
+
+#### Scenario: User views a locked mission
+- **WHEN** the user taps or inspects a locked campaign node
+- **THEN** the app shows which prerequisite lesson or checkpoint must be completed before it can start
 
 ### Requirement: Catalog of exam units
-The app SHALL contain a static, in-app catalog of Goethe A1 exam units. Each unit SHALL have a unique ID, a section, a title, a subtitle, and at least one of: text, vocabulary, phrases, dialogue, exercises, a speaking scenario, or a writing prompt.
+The app SHALL contain a static, in-app catalog of ordered Goethe A1 campaign lessons. Each lesson SHALL have a unique ID, zone, order, title, learner-facing goal, and at least one of: preparation content, exercises, a speaking task, or a writing prompt. Content that practices an exam skill SHALL also identify one of Lesen, Hören, Sprechen, or Schreiben.
 
-#### Scenario: Catalog is complete and unique
-- **WHEN** the app loads the exam catalog
-- **THEN** every unit has a unique ID and belongs to exactly one section
+#### Scenario: Campaign catalog is complete and unique
+- **WHEN** the app loads the campaign catalog
+- **THEN** every lesson has a unique ID, a single order within its zone, and a valid campaign position
 
-#### Scenario: Section view lists its units
-- **WHEN** the user opens a section
-- **THEN** the app shows all units of that section from the catalog, each tappable
+#### Scenario: Supporting content is truthfully classified
+- **WHEN** the app loads vocabulary or grammar preparation content
+- **THEN** it is associated with its lesson goal and is not labelled as a Lesen unit unless it contains a reading task
 
 ### Requirement: Unit detail shows unit content
 The unit detail screen SHALL display the parts of the unit that are present: intro text, vocabulary (German/English with examples), phrases (with audio playback), and dialogue (with audio playback).
@@ -52,9 +56,8 @@ The unit detail screen SHALL display the parts of the unit that are present: int
 - **THEN** the unit detail does not show a dialogue card
 
 ### Requirement: German A1 content scope
-The exam catalog SHALL cover the Goethe A1 scope: exam sections (Lesen, Hören, Sprechen, Schreiben) plus supporting units for vocabulary (at least 12 topic units) and grammar (at least 10 units), all in German at A1 level with English support text.
+The campaign SHALL cover practical German A1 language goals and all Goethe A1 exam skills: Lesen, Hören, Sprechen, and Schreiben. It SHALL include at least 12 vocabulary themes and 10 grammar objectives as support for missions, at least one mission for each exam skill, recurring exam-style tasks, checkpoints, and a final mixed mock exam.
 
-#### Scenario: Content volume
-- **WHEN** the app loads the exam catalog
-- **THEN** the catalog contains at least 12 vocabulary units, at least 10 grammar units, and at least one unit in each of the four exam sections
-
+#### Scenario: Content volume and distribution
+- **WHEN** the app loads the campaign catalog
+- **THEN** the catalog contains at least 12 vocabulary themes, at least 10 grammar objectives, at least one mission for every exam skill, and at least one checkpoint after a group of lessons

@@ -140,48 +140,11 @@ struct MessageView: View {
                 AvatarView(role: message.role)
             }
 
-            VStack(alignment: .leading, spacing: 6) {
-                messageText
-                    .foregroundColor(message.role == .user ? Color.white : Color.primary)
+            VStack(alignment: message.role == .user ? .trailing : .leading, spacing: 6) {
+                bubble
 
-                if message.role == .teacher {
-                    Text("Tap to hear")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
-
-                if message.role == .assistant {
-                    HStack(spacing: 8) {
-                        Button("Replay") {
-                            onReplayTap()
-                        }
-                        .font(.caption)
-
-                        Button("Translate") {
-                            onTranslateTap()
-                        }
-                        .font(.caption)
-
-                        Button("Help") {
-                            onSuggestTap()
-                        }
-                        .font(.caption)
-                    }
-                }
-            }
-            .padding(12)
-            .background(
-                bubbleColor(for: message.role),
-                in: RoundedRectangle(cornerRadius: 18, style: .continuous)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(ChattyTheme.softHairline, lineWidth: 1)
-            )
-            .contentShape(Rectangle())
-            .onTapGesture {
-                if message.role == .teacher {
-                    onTeacherTap()
+                if message.role == .user, let correction = message.correction, !correction.isEmpty {
+                    correctionRow(original: message.message, corrected: correction)
                 }
             }
 
@@ -191,6 +154,66 @@ struct MessageView: View {
                 Spacer()
             }
         }
+    }
+
+    private var bubble: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            messageText
+                .foregroundColor(message.role == .user ? Color.white : Color.primary)
+
+            if message.role == .teacher {
+                Text("Tap to hear")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            if message.role == .assistant {
+                HStack(spacing: 8) {
+                    Button("Replay") {
+                        onReplayTap()
+                    }
+                    .font(.caption)
+
+                    Button("Translate") {
+                        onTranslateTap()
+                    }
+                    .font(.caption)
+
+                    Button("Help") {
+                        onSuggestTap()
+                    }
+                    .font(.caption)
+                }
+            }
+        }
+        .padding(12)
+        .background(
+            bubbleColor(for: message.role),
+            in: RoundedRectangle(cornerRadius: 18, style: .continuous)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(ChattyTheme.softHairline, lineWidth: 1)
+        )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if message.role == .teacher {
+                onTeacherTap()
+            }
+        }
+    }
+
+    private func correctionRow(original: String, corrected: String) -> some View {
+        diffText(original: original, corrected: corrected)
+            .font(.caption)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(ChattyTheme.rowFill, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .stroke(ChattyTheme.softHairline, lineWidth: 1)
+            )
+            .accessibilityLabel("Correction: \(corrected)")
     }
 
     @ViewBuilder
@@ -203,17 +226,21 @@ struct MessageView: View {
     }
 
     private func diffText(original: String, corrected: String) -> Text {
-        TextDiffer.diff(original: original, corrected: corrected)
-            .reduce(Text(verbatim: "")) { acc, segment in
-                switch segment.kind {
-                case .same:
-                    return acc + Text(verbatim: segment.text)
-                case .removed:
-                    return acc + Text(verbatim: segment.text).strikethrough().foregroundColor(.secondary)
-                case .added:
-                    return acc + Text(verbatim: segment.text).bold().foregroundColor(.orange)
-                }
+        var text = Text(verbatim: "")
+        for (index, segment) in TextDiffer.diff(original: original, corrected: corrected).enumerated() {
+            if index > 0 {
+                text = text + Text(verbatim: " ")
             }
+            switch segment.kind {
+            case .same:
+                text = text + Text(verbatim: segment.text)
+            case .removed:
+                text = text + Text(verbatim: segment.text).strikethrough().foregroundColor(.secondary)
+            case .added:
+                text = text + Text(verbatim: segment.text).bold().foregroundColor(.orange)
+            }
+        }
+        return text
     }
 
     private func bubbleColor(for role: ChatMessage.Role) -> Color {

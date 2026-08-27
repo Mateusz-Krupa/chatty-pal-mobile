@@ -20,7 +20,19 @@ struct TeacherService {
     }
 
     func fixText(message: String, language: String) async throws -> TeacherResponse {
-        try await send(message: "Fix to \(language): \(message)")
+        try await fixText(message: message, language: language, context: [])
+    }
+
+    static let fixTextModel = "gpt-4o-mini"
+
+    static func fixTextPayload(message: String, language: String, context: [TeacherContextMessage]) -> TeacherRequest {
+        var messages = [TeacherContextMessage(role: "system", content: fixInstruction(language: language))]
+        messages.append(contentsOf: context)
+        return TeacherRequest(message: message, messages: messages, model: fixTextModel)
+    }
+
+    func fixText(message: String, language: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
+        try await send(Self.fixTextPayload(message: message, language: language, context: context))
     }
 
     func examFix(text: String) async throws -> TeacherResponse {
@@ -31,10 +43,19 @@ struct TeacherService {
         Then give 2-3 very short improvement tips. \
         Student text: \(text)
         """
-        return try await send(message: framed)
+        return try await send(TeacherRequest(message: framed, messages: [], model: nil))
     }
 
-    private func send(message: String) async throws -> TeacherResponse {
+    static func fixInstruction(language: String) -> String {
+        """
+        You are a \(language) language proofreader for A1-level learners. Return ONLY the corrected version of the final learner message in the conversation.
+        Make minimal changes: fix grammar, spelling, capitalization, word choice.
+        If a pronoun in the final message refers to a person or thing mentioned earlier in the conversation, use the gender and number that noun requires (der->ihn, die->sie, das->es).
+        Never answer questions, never add comments, never translate. If the message is already correct, return it unchanged.
+        """
+    }
+
+    private func send(_ payload: TeacherRequest) async throws -> TeacherResponse {
         var request = URLRequest(url: baseURL.appendingNextAPIPath("fix-text"))
         request.httpMethod = "POST"
         request.timeoutInterval = 30
@@ -50,7 +71,6 @@ struct TeacherService {
             request.setValue(referer, forHTTPHeaderField: "Referer")
         }
 
-        let payload = TeacherRequest(message: message)
         request.httpBody = try JSONEncoder().encode(payload)
 
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -70,8 +90,26 @@ struct TeacherService {
     }
 }
 
+struct TeacherContextMessage: Encodable {
+    let role: String
+    let content: String
+}
+
 struct TeacherRequest: Encodable {
     let message: String
+    let messages: [TeacherContextMessage]
+    let model: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case message, messages, model
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(message, forKey: .message)
+        try container.encode(messages, forKey: .messages)
+        try container.encodeIfPresent(model, forKey: .model)
+    }
 }
 
 struct TeacherResponse: Decodable {

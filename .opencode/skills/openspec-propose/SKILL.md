@@ -33,13 +33,19 @@ When ready to implement, run /opsx-apply
 
    **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
 
-2. **Create the change directory**
+2. **Retrieve project memory (context pack)** — *requires the `search_memory` tool (qdrant MCP). If that tool is unavailable, skip this step silently.*
+
+   Build a one-line task summary from the change description. Call `search_memory` with it (optionally set `type` to focus, e.g. `pitfall` or `convention`). Keep the top results as an in-context **Project Context Pack** — relevant architecture, conventions, pitfalls, decisions, and workflows to respect while writing artifacts.
+
+   Budget: aim for ≤10 memories, ~2–4k tokens total. Treat this like `context`/`rules`: it guides what you write, but do NOT copy it into the artifact files.
+
+3. **Create the change directory**
    ```bash
    openspec new change "<name>"
    ```
    This creates a scaffolded change at `openspec/changes/<name>/` with `.openspec.yaml`.
 
-3. **Get the artifact build order**
+4. **Get the artifact build order**
    ```bash
    openspec status --change "<name>" --json
    ```
@@ -47,7 +53,7 @@ When ready to implement, run /opsx-apply
    - `applyRequires`: array of artifact IDs needed before implementation (e.g., `["tasks"]`)
    - `artifacts`: list of all artifacts with their status and dependencies
 
-4. **Create artifacts in sequence until apply-ready**
+5. **Create artifacts in sequence until apply-ready**
 
    Use the **TodoWrite tool** to track progress through the artifacts.
 
@@ -79,7 +85,7 @@ When ready to implement, run /opsx-apply
       - Use **AskUserQuestion tool** to clarify
       - Then continue with creation
 
-5. **Show final status**
+6. **Show final status**
    ```bash
    openspec status --change "<name>"
    ```

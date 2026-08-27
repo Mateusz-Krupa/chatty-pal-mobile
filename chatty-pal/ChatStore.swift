@@ -23,6 +23,47 @@ enum DataScope {
     }
 }
 
+struct LessonChatStore: ChatStore {
+    private let defaults: UserDefaults
+    private let scope: String
+    private let lessonID: String
+    private let stageID: String
+
+    init(
+        lessonID: String,
+        stageID: String,
+        defaults: UserDefaults = .standard,
+        scope: String = DataScope.current
+    ) {
+        self.lessonID = lessonID
+        self.stageID = stageID
+        self.defaults = defaults
+        self.scope = scope
+    }
+
+    private var storageKey: String {
+        "lessonchat.\(scope).\(lessonID).\(stageID)"
+    }
+
+    func load() -> [ChatMessage] {
+        guard let data = defaults.data(forKey: storageKey) else { return [] }
+        return (try? JSONDecoder().decode([ChatMessage].self, from: data)) ?? []
+    }
+
+    func save(_ messages: [ChatMessage]) {
+        guard !messages.isEmpty else {
+            clear()
+            return
+        }
+        guard let data = try? JSONEncoder().encode(messages) else { return }
+        defaults.set(data, forKey: storageKey)
+    }
+
+    func clear() {
+        defaults.removeObject(forKey: storageKey)
+    }
+}
+
 struct LocalChatStore: ChatStore {
     private let scope: String
     private let languageCode: String

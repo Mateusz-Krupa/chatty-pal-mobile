@@ -37,9 +37,23 @@ Listening exercises SHALL contain a `spokenText` that the app synthesizes via TT
 - **THEN** the app does not show a play control for that exercise
 
 ### Requirement: Answer checking state
-The exercises section of a unit SHALL have a single "Check answers" action that evaluates all answered exercises at once, and feedback SHALL persist until the user changes an answer.
+The exercises step of a campaign lesson SHALL present its required exercises in the lesson-defined sequence and provide a single check action for the current exercise group. Feedback SHALL persist until the learner changes an answer, and the step SHALL report its result to the mission outcome.
 
-#### Scenario: Unanswered exercise after check
-- **WHEN** the user taps "Check answers" while an exercise has no selection
-- **THEN** that exercise is marked as unanswered and reveals the correct option with its explanation
+#### Scenario: Learner checks an exercise group
+- **WHEN** the learner taps "Check answers" for the current required exercise group
+- **THEN** the app evaluates every exercise in that group and shows success, error, or unanswered feedback with explanations
 
+#### Scenario: Learner changes an answer after checking
+- **WHEN** the learner changes a checked exercise answer
+- **THEN** the prior feedback for that exercise clears and the learner can check the group again
+
+#### Scenario: Mission records exercise outcome
+- **WHEN** the learner finishes a lesson's required exercise groups
+- **THEN** the mission outcome receives the completed exercise count and correct-answer count for star and review recommendations
+
+### Requirement: Exam-style exercise progression
+The campaign SHALL introduce task formats with guided examples before using them in a checkpoint or final mock exam.
+
+#### Scenario: Learner encounters a new task format
+- **WHEN** a lesson introduces a listening, reading, gap-fill, or multiple-choice format for the first time
+- **THEN** the lesson provides a brief format explanation and a guided practice item before the exam-style item

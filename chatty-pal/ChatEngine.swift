@@ -6,6 +6,7 @@ struct ChatPersona: Equatable {
     let level: String
     let systemInstruction: String
     var memory: String? = nil
+    var examMode: ExamMode? = nil
 
     // System instruction plus the rolling learner summary, when available.
     var fullInstruction: String {
@@ -45,6 +46,41 @@ struct ChatPersona: Equatable {
             YOUR ROLE IS =>
             \(scenario)
             """
+        )
+    }
+
+    static func examinerA1(scenario: String, lesson: String) -> ChatPersona {
+        let german = LanguageConfig.all["de"] ?? LanguageConfig.default
+        return ChatPersona(
+            language: german,
+            level: "A1",
+            systemInstruction: """
+            You are the examiner for the Goethe-Zertifikat A1 oral exam. You are calm, friendly and patient, and you always stay in your examiner role.
+            Conduct the practice exactly as the scenario below describes.
+            Always speak only simple German at A1 level: short sentences, basic vocabulary.
+            After each part, give one or two sentences of short, encouraging feedback on the candidate's German, then continue.
+            If the candidate answers in English, gently ask them to try again in German.
+
+            YOUR ROLE IS =>
+            \(scenario)
+            """,
+            examMode: ExamMode(mode: "examiner", lessonId: lesson, stage: nil, briefing: scenario)
+        )
+    }
+
+    static func examinerA1(lesson: String, stage: String, learnerContext: String? = nil) -> ChatPersona {
+        let german = LanguageConfig.all["de"] ?? LanguageConfig.default
+        return ChatPersona(
+            language: german,
+            level: "A1",
+            systemInstruction: "You are the examiner for the Goethe-Zertifikat A1 oral exam. Stay in your examiner role.",
+            examMode: ExamMode(
+                mode: "speaking",
+                lessonId: lesson,
+                stage: stage,
+                briefing: nil,
+                learnerContext: learnerContext
+            )
         )
     }
 
@@ -213,10 +249,16 @@ final class ChatEngine {
             scheduleMemoryRefreshIfNeeded()
         }
         requestBotResponse(for: text)
+        let correctionContext = correctionContext()
         teacherTask?.cancel()
         teacherTask = Task { [weak self] in
-            await self?.fetchTeacherFix(for: text)
+            await self?.fetchTeacherFix(for: text, context: correctionContext)
         }
+    }
+
+    func requestExamFeedback() {
+        guard persona.examMode != nil, !isGenerating, isActive else { return }
+        requestBotResponse(for: "Bitte geben Sie mir jetzt die strukturierte Prüfungszusammenfassung.")
     }
 
     // Voice-only path (used by finishUtterance). Unlike sendText it may merge the
@@ -240,9 +282,10 @@ final class ChatEngine {
         LearningStatsStore.shared.recordUserMessage()
         scheduleMemoryRefreshIfNeeded()
         requestBotResponse(for: sent)
+        let correctionContext = correctionContext()
         teacherTask?.cancel()
         teacherTask = Task { [weak self] in
-            await self?.fetchTeacherFix(for: sent)
+            await self?.fetchTeacherFix(for: sent, context: correctionContext)
         }
     }
 
@@ -372,7 +415,7 @@ final class ChatEngine {
         let instruction = persona.fullInstruction
         let payload = buildBotMessages()
         do {
-            let response = try await dependencies.bot.sendMessage(instruction: instruction, message: prompt, messages: payload)
+            let response = try await dependencies.bot.sendMessage(instruction: instruction, message: prompt, messages: payload, exam: nil)
             append(ChatMessage(role: .suggestion, message: response.message))
         } catch {
             let description = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
@@ -513,6 +556,7 @@ final class ChatEngine {
         }
         let instruction = persona.fullInstruction
         let payload = buildBotMessages()
+        let exam = persona.examMode
         var hasBubble = false
         botTask = Task { [weak self] in
             guard let self else { return }
@@ -520,7 +564,8 @@ final class ChatEngine {
                 for try await delta in self.dependencies.bot.streamMessage(
                     instruction: instruction,
                     message: userMessage,
-                    messages: payload
+                    messages: payload,
+                    exam: exam
                 ) {
                     guard !Task.isCancelled else { return }
                     self.streamBuffer += delta
@@ -576,7 +621,8 @@ final class ChatEngine {
                 let response = try await self.dependencies.bot.sendMessage(
                     instruction: instruction,
                     message: message,
-                    messages: messages
+                    messages: messages,
+                    exam: persona.examMode
                 )
                 guard !Task.isCancelled else { return }
                 self.isGenerating = false
@@ -668,7 +714,8 @@ final class ChatEngine {
             guard let response = try? await dependencies.bot.sendMessage(
                 instruction: "",
                 message: "Conversation so far:\n\(context)",
-                messages: [BotMessage(role: "system", content: system)]
+                messages: [BotMessage(role: "system", content: system)],
+                exam: nil
             ) else { return }
             BotMemoryStore.shared.save(response.message, for: langCode)
         }
@@ -696,7 +743,8 @@ final class ChatEngine {
             guard let response = try? await dependencies.bot.sendMessage(
                 instruction: "",
                 message: "Conversation so far:\n\(context)\n\nSuggest 3 follow-up messages for the learner.",
-                messages: [BotMessage(role: "system", content: system)]
+                messages: [BotMessage(role: "system", content: system)],
+                exam: nil
             ) else { return }
             let suggestions = Self.parseSuggestionArray(response.message)
             guard !Task.isCancelled, !suggestions.isEmpty else { return }
@@ -727,14 +775,35 @@ final class ChatEngine {
         )
     }
 
-    private func fetchTeacherFix(for userMessage: String) async {
+    private func fetchTeacherFix(for userMessage: String, context: [TeacherContextMessage]) async {
         // The teacher fix is an optional enrichment: failures (offline, local env
         // without a running server) must never surface as chat messages.
-        guard let response = try? await dependencies.teacher.fixText(message: userMessage, language: persona.language.language) else {
+        guard let response = try? await dependencies.teacher.fixText(message: userMessage, language: persona.language.language, context: context) else {
             return
         }
         guard !Task.isCancelled else { return }
-        append(ChatMessage(role: .teacher, message: response.message))
+        let corrected = response.message.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !corrected.isEmpty else { return }
+        let segments = TextDiffer.diff(original: userMessage, corrected: corrected)
+        guard segments.contains(where: { $0.kind != .same }) else { return }
+        if persona.examMode != nil {
+            attachCorrection(corrected, to: userMessage)
+        } else {
+            append(ChatMessage(role: .teacher, message: corrected))
+        }
+    }
+
+    private func correctionContext() -> [TeacherContextMessage] {
+        messages
+            .filter { $0.role == .user || $0.role == .assistant }
+            .suffix(4)
+            .map { TeacherContextMessage(role: $0.role == .user ? "user" : "assistant", content: String($0.message.prefix(500))) }
+    }
+
+    private func attachCorrection(_ corrected: String, to userMessage: String) {
+        guard let index = messages.lastIndex(where: { $0.role == .user && $0.message == userMessage }) else { return }
+        messages[index].correction = corrected
+        store.save(messages)
     }
 
     private func finishPlaybackPhase() {
@@ -764,7 +833,14 @@ final class ChatEngine {
 
     private func buildBotMessages() -> [BotMessage] {
         var payload = [BotMessage(role: "system", content: persona.fullInstruction)]
-        for item in messages.suffix(6) {
+        // The current learner turn arrives separately as `message` and is
+        // appended once by the server, so it is excluded from the history.
+        // The full session history is sent; the server owns the length cap.
+        var items = Array(messages)
+        if let last = items.last, last.role == .user {
+            items = items.dropLast()
+        }
+        for item in items {
             if item.role == .teacher || item.role == .translation || item.role == .suggestion {
                 continue
             }

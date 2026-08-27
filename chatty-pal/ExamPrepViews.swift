@@ -476,7 +476,7 @@ struct ExamSpeakingView: View {
     init(task: ExamSpeakingTask) {
         self.task = task
         _engine = State(initialValue: ChatEngine(
-            persona: .examinerA1(scenario: task.scenario),
+            persona: .examinerA1(scenario: task.scenario, lesson: task.unit.id),
             store: TransientChatStore(),
             dependencies: .live
         ))

@@ -2,14 +2,21 @@ import AVFoundation
 import Foundation
 
 protocol BotServicing {
-    func sendMessage(instruction: String, message: String, messages: [BotMessage]) async throws -> BotResponse
-    func streamMessage(instruction: String, message: String, messages: [BotMessage]) -> AsyncThrowingStream<String, Error>
+    func sendMessage(instruction: String, message: String, messages: [BotMessage], exam: ExamMode?) async throws -> BotResponse
+    func streamMessage(instruction: String, message: String, messages: [BotMessage], exam: ExamMode?) -> AsyncThrowingStream<String, Error>
 }
 
 extension BotService: BotServicing {}
 
 protocol TeacherServicing {
     func fixText(message: String, language: String) async throws -> TeacherResponse
+    func fixText(message: String, language: String, context: [TeacherContextMessage]) async throws -> TeacherResponse
+}
+
+extension TeacherServicing {
+    func fixText(message: String, language: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
+        try await fixText(message: message, language: language)
+    }
 }
 
 extension TeacherService: TeacherServicing {}

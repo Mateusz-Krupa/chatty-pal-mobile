@@ -4,22 +4,22 @@
 TBD - created by archiving change exam-prep-goethe-a1. Update Purpose after archive.
 ## Requirements
 ### Requirement: Speaking task entry point
-A unit that has a speaking scenario SHALL show a "Practice speaking" card in its detail screen, opening the speaking practice screen.
+A campaign lesson whose learning goal requires spoken interaction SHALL show a clearly labelled speaking mission step after its relevant preparation activities. The step SHALL open a speaking practice screen for that lesson's explicit task stage.
 
 #### Scenario: User starts a speaking task
-- **WHEN** the user taps "Practice speaking" on a unit that has a speaking scenario
-- **THEN** the app opens the speaking practice screen for that unit
+- **WHEN** the user reaches and starts the speaking step of a campaign lesson
+- **THEN** the app opens the speaking practice screen with the lesson goal and active task stage visible
 
-#### Scenario: Unit without scenario
-- **WHEN** a unit has no speaking scenario
-- **THEN** the unit detail does not show a "Practice speaking" card
+#### Scenario: Lesson without spoken goal
+- **WHEN** a campaign lesson has no spoken-interaction goal
+- **THEN** the lesson does not show a generic "Practice speaking" card
 
 ### Requirement: Examiner persona
-The speaking practice SHALL use a bot configured as the Goethe A1 oral exam examiner. The persona SHALL drive the conversation using the unit's speaking scenario, speak at A1 level in German, and provide brief encouraging feedback on the user's answers.
+The speaking practice SHALL use a bot configured as the Goethe A1 oral-practice examiner. The persona SHALL drive the conversation using the lesson's explicit task stage, speak concise A1-level German, remain in the examiner role, and provide bounded encouraging feedback before continuing.
 
-#### Scenario: Examiner follows the scenario
-- **WHEN** the user completes a part of the speaking scenario
-- **THEN** the bot moves the conversation to the next part of the scenario
+#### Scenario: Examiner follows the task stage
+- **WHEN** the user completes the objective of an active speaking task stage
+- **THEN** the bot acknowledges the response briefly and moves to the next defined stage or ends the mission when the final stage is complete
 
 #### Scenario: User writes in English
 - **WHEN** the user sends a message in English during practice
@@ -37,12 +37,11 @@ Speaking practice conversations SHALL NOT be saved to the main chat history and 
 - **THEN** the main chat history contains no messages from the speaking task
 
 ### Requirement: Automatic start
-The speaking practice screen SHALL start the conversation automatically by sending an opening line to the bot when opened.
+The speaking practice screen SHALL start its assigned task stage automatically by requesting the stage opening line when opened.
 
 #### Scenario: Opening the practice screen
 - **WHEN** the speaking practice screen appears
-- **THEN** the app sends the opening line and the bot responds without user action
-
+- **THEN** the app sends the stage-start request and the examiner responds without requiring a generic learner opening line
 ### Requirement: User input and finish
 The speaking practice screen SHALL allow the user to respond by voice (microphone) or by text using the shared chat input, and SHALL provide a "Finish practice" action that ends the session and returns to the unit.
 

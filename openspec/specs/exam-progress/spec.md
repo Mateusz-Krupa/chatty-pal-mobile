@@ -4,39 +4,38 @@
 TBD - created by archiving change exam-prep-goethe-a1. Update Purpose after archive.
 ## Requirements
 ### Requirement: Marking units complete
-The unit detail screen SHALL provide a "Mark as complete" action that records the unit as completed locally (UserDefaults) and updates all progress displays.
+The app SHALL record campaign lesson completion locally, including the lesson ID, earned stars, completed exercise outcome, and completed speaking state when applicable. Completion data SHALL update campaign and review displays without deleting existing mapped Exam Prep completion records.
 
-#### Scenario: Completing a unit
-- **WHEN** the user taps "Mark as complete" on a unit
-- **THEN** the app persists the unit ID as completed and the action state changes to "Completed"
+#### Scenario: Completing a lesson
+- **WHEN** the learner reaches a lesson's required final step
+- **THEN** the app persists the lesson as completed with its earned-star state and the lesson outcome screen reflects that state
 
 #### Scenario: Progress survives app restart
-- **WHEN** the user relaunches the app and opens a previously completed unit
-- **THEN** the unit is still shown as completed
+- **WHEN** the learner relaunches the app after completing a campaign lesson
+- **THEN** the campaign route and the completed lesson still show the saved completion and star state
+
+#### Scenario: Existing exam completion is migrated
+- **WHEN** the app reads a legacy completed exam-unit ID that maps to a campaign lesson
+- **THEN** the mapped campaign lesson is shown as completed without removing the stored legacy ID
 
 ### Requirement: Progress overview
-The Exam Prep home screen SHALL show, per section, how many units are completed out of the total, and a completion indicator on each unit row in section views.
+The Exam Prep home screen SHALL show campaign progress by zone, the learner's current available mission, completion indicators for completed lessons, and visual state for checkpoints and the final mock exam.
 
-#### Scenario: Section progress on home
-- **WHEN** the user opens the Exam Prep home with some units completed
-- **THEN** each section card shows "x / y" completed units
+#### Scenario: Campaign progress on home
+- **WHEN** the user opens the Exam Prep home with completed campaign lessons
+- **THEN** each zone shows completed lessons out of its total and the next available mission is identifiable
 
-#### Scenario: Unit completion indicator
-- **WHEN** the user opens a section view
-- **THEN** completed units show a completion indicator (e.g., checkmark) next to their title
+#### Scenario: Checkpoint state on home
+- **WHEN** a checkpoint's prerequisites are incomplete or complete
+- **THEN** the campaign route shows the checkpoint as locked with its requirement or available to start, respectively
 
 ### Requirement: Mini-Examen
-The Exam Prep home SHALL offer a "Mini-Examen" that assembles a random mixed set of exercises from the catalog (multiple choice and gap fill, at least one per exam section where available) and presents them one by one.
+The campaign SHALL offer a final mixed mock exam after its prerequisite zones are complete. The mock exam SHALL assemble a fresh set of original tasks across available exam skills and show an in-session result summary without presenting it as an official Goethe score.
 
-#### Scenario: Starting a mini exam
-- **WHEN** the user taps "Mini-Examen"
-- **THEN** the app generates a fresh random exercise set each time and shows the first exercise
+#### Scenario: Starting the final mock exam
+- **WHEN** the learner taps an unlocked final mock-exam node
+- **THEN** the app generates a fresh mixed task set and shows the first task with its exam-skill context
 
-#### Scenario: Finishing a mini exam
-- **WHEN** the user answers the last exercise of the set
-- **THEN** the app shows a result summary with the number of correct answers and the explanation for each missed exercise
-
-#### Scenario: No results stored
-- **WHEN** the user finishes a mini exam
-- **THEN** the result is shown only in-session and is not persisted
-
+#### Scenario: Finishing the final mock exam
+- **WHEN** the learner completes the last task of the mock exam
+- **THEN** the app shows a skill-by-skill result summary, missed-task explanations where applicable, and recommended missions to replay

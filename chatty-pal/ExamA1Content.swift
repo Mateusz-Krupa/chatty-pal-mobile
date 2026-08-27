@@ -2,6 +2,10 @@ import Foundation
 
 enum ExamA1Content {
     static let units: [ExamUnit] = vocabularyUnits + grammarUnits + readingUnits + listeningUnits + speakingUnits + writingUnits
+
+    static func unit(id: String) -> ExamUnit? {
+        units.first { $0.id == id }
+    }
 }
 
 // MARK: - Vocabulary

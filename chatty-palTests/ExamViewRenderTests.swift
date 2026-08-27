@@ -20,4 +20,20 @@ final class ExamViewRenderTests: XCTestCase {
     func testRenderMiniExam() throws {
         _ = ExamMiniExamView().body
     }
+    func testRenderCampaignHome() throws {
+        _ = ExamCampaignHomeView().body
+    }
+    func testRenderCampaignMissions() throws {
+        for lesson in ExamCampaignCatalog.allLessons {
+            _ = ExamCampaignMissionView(lesson: lesson).body
+        }
+    }
+    func testRenderCampaignCheckpointsAndFinalExam() throws {
+        for checkpoint in ExamCampaignCatalog.allCheckpoints {
+            _ = ExamCampaignCheckpointView(checkpoint: checkpoint).body
+        }
+        if let exam = ExamCampaignCatalog.finalExam {
+            _ = ExamCampaignFinalExamView(exam: exam).body
+        }
+    }
 }

@@ -56,7 +56,13 @@ Implement tasks from an OpenSpec change.
    - **spec-driven**: proposal, specs, design, tasks
    - Other schemas: follow the contextFiles from CLI output
 
-5. **Show current progress**
+5. **Retrieve project memory (context pack)** — *requires the `search_memory` tool (qdrant MCP). If that tool is unavailable, skip this step silently.*
+
+   Build a one-line summary of what this change implements (from the artifacts just read) and call `search_memory` with it. Implementation is where pitfalls bite, so prioritize `type: "pitfall"`, then conventions and workflows relevant to the touched areas.
+
+   Keep the top results in-context as constraints while implementing: known traps to avoid, local conventions to follow, procedures to reuse. Budget ≤10 memories (~2–4k tokens). Do NOT copy memory content into code or artifacts — it guides how you work.
+
+6. **Show current progress**
 
    Display:
    - Schema being used
@@ -64,12 +70,13 @@ Implement tasks from an OpenSpec change.
    - Remaining tasks overview
    - Dynamic instruction from CLI
 
-6. **Implement tasks (loop until done or blocked)**
+7. **Implement tasks (loop until done or blocked)**
 
    For each pending task:
    - Show which task is being worked on
    - Make the code changes required
    - Keep changes minimal and focused
+   - When you make a non-obvious decision, reject an approach, or hit a trap, append a one-line note to `openspec/changes/<name>/notes.md` (create it if missing) — raw material for archive reflection
    - Mark task complete in the tasks file: `- [ ]` → `- [x]`
    - Continue to next task
 
@@ -79,7 +86,7 @@ Implement tasks from an OpenSpec change.
    - Error or blocker encountered → report and wait for guidance
    - User interrupts
 
-7. **On completion or pause, show status**
+8. **On completion or pause, show status**
 
    Display:
    - Tasks completed this session

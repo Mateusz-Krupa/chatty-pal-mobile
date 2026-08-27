@@ -39,11 +39,13 @@ private final class FakeBot: BotServicing {
     var mode: Mode = .ok("Bot reply")
     var streamChunks: [String]?
     private(set) var calls: [Call] = []
+    private(set) var exams: [ExamMode?] = []
     private var pending: CheckedContinuation<BotResponse, Error>?
     private var pendingStream: AsyncThrowingStream<String, Error>.Continuation?
 
-    func sendMessage(instruction: String, message: String, messages: [BotMessage]) async throws -> BotResponse {
+    func sendMessage(instruction: String, message: String, messages: [BotMessage], exam: ExamMode?) async throws -> BotResponse {
         calls.append(Call(message: message, roles: messages.map(\.role)))
+        exams.append(exam)
         switch mode {
         case .ok(let reply):
             return BotResponse(message: reply)
@@ -56,10 +58,11 @@ private final class FakeBot: BotServicing {
         }
     }
 
-    func streamMessage(instruction: String, message: String, messages: [BotMessage]) -> AsyncThrowingStream<String, Error> {
+    func streamMessage(instruction: String, message: String, messages: [BotMessage], exam: ExamMode?) -> AsyncThrowingStream<String, Error> {
         let mode = self.mode
         let chunks = self.streamChunks
         calls.append(Call(message: message, roles: messages.map(\.role)))
+        exams.append(exam)
         return AsyncThrowingStream { continuation in
             switch mode {
             case .ok(let reply):
@@ -95,11 +98,21 @@ private final class FakeTeacher: TeacherServicing {
     }
 
     var mode: Mode = .ok
+    var exactReply: String? = nil
     private(set) var calls: [String] = []
+    private(set) var contexts: [[(role: String, content: String)]] = []
     private var pending: CheckedContinuation<TeacherResponse, Error>?
 
     func fixText(message: String, language: String) async throws -> TeacherResponse {
+        try await fixText(message: message, language: language, context: [])
+    }
+
+    func fixText(message: String, language: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
         calls.append(message)
+        contexts.append(context.map { ($0.role, $0.content) })
+        if let exactReply {
+            return TeacherResponse(message: exactReply)
+        }
         switch mode {
         case .ok:
             return TeacherResponse(message: "Fixed: \(message)")
@@ -351,10 +364,132 @@ final class ChatEngineTests: XCTestCase {
         XCTAssertEqual(harness.engine.voiceState, .idle)
         XCTAssertEqual(harness.engine.isGenerating, false)
         XCTAssertEqual(harness.bot.calls.first?.message, "Hello")
-        XCTAssertEqual(harness.bot.calls.first?.roles, ["system", "user"])
+        // The learner turn travels as `message`; history holds only prior turns.
+        XCTAssertEqual(harness.bot.calls.first?.roles, ["system"])
         XCTAssertEqual(harness.teacher.calls, ["Hello"])
         XCTAssertFalse(harness.store.saved.isEmpty)
         XCTAssertEqual(harness.store.saved.last?.map(\.role) ?? [], roles)
+    }
+
+    func testExamSpeakingAttachesInlineCorrectionWithoutTeacherBubble() async {
+        let harness = EngineHarness(persona: .examinerA1(lesson: "a1-small-talk", stage: "greeting"))
+        harness.engine.sendText("Ich habe 25 jahre")
+        await settle()
+
+        let roles = harness.engine.messages.map(\.role)
+        XCTAssertFalse(roles.contains(.teacher))
+        XCTAssertEqual(harness.engine.messages.first { $0.role == .user }?.correction, "Fixed: Ich habe 25 jahre")
+        XCTAssertEqual(harness.store.saved.last?.first { $0.role == .user }?.correction, "Fixed: Ich habe 25 jahre")
+    }
+
+    func testFreeChatSkipsTeacherBubbleWhenTextUnchanged() async {
+        let harness = makeHarness()
+        harness.teacher.exactReply = "Ich wohne in Berlin."
+        harness.engine.sendText("Ich wohne in Berlin.")
+        await settle()
+
+        XCTAssertFalse(harness.engine.messages.contains { $0.role == .teacher })
+    }
+
+    func testExamSpeakingSkipsCorrectionWhenTextUnchanged() async {
+        let harness = EngineHarness(persona: .examinerA1(lesson: "a1-small-talk", stage: "greeting"))
+        harness.teacher.exactReply = "Ich wohne in Berlin."
+        harness.engine.sendText("Ich wohne in Berlin.")
+        await settle()
+
+        XCTAssertFalse(harness.engine.messages.contains { $0.role == .teacher })
+        XCTAssertNil(harness.engine.messages.first { $0.role == .user }?.correction)
+    }
+
+    func testCorrectionContextIsBoundedToRecentLearnerAndExaminerTurns() async {
+        let harness = EngineHarness(persona: .examinerA1(lesson: "a1-small-talk", stage: "greeting"))
+        for text in ["one", "two", "three", "four", "five"] {
+            harness.engine.sendText(text)
+            await settle()
+        }
+
+        XCTAssertEqual(
+            (harness.teacher.contexts.last ?? []).map { "\($0.role): \($0.content)" },
+            ["assistant: Bot reply", "user: four", "assistant: Bot reply", "user: five"]
+        )
+    }
+
+    func testCorrectionContextExcludesTeacherTranslationAndSuggestionMessages() async {
+        let store = RecordingStore()
+        store.preload([
+            ChatMessage(role: .user, message: "one"),
+            ChatMessage(role: .assistant, message: "r1"),
+            ChatMessage(role: .teacher, message: "t1"),
+            ChatMessage(role: .translation, message: "tr1"),
+            ChatMessage(role: .suggestion, message: "s1"),
+            ChatMessage(role: .user, message: "two"),
+            ChatMessage(role: .assistant, message: "r2"),
+        ])
+        let harness = EngineHarness(persona: .examinerA1(lesson: "a1-small-talk", stage: "greeting"), store: store)
+        harness.engine.sendText("three")
+        await settle()
+
+        XCTAssertEqual(
+            (harness.teacher.contexts.last ?? []).map { "\($0.role): \($0.content)" },
+            ["assistant: r1", "user: two", "assistant: r2", "user: three"]
+        )
+    }
+
+    func testReloadKeepsInlineCorrectionVisible() {
+        let store = RecordingStore()
+        let corrected = ChatMessage(role: .user, message: "Ich habe 25 jahre", correction: "Ich habe 25 Jahre.")
+        store.preload([corrected])
+        let harness = EngineHarness(persona: .examinerA1(lesson: "a1-small-talk", stage: "greeting"), store: store)
+
+        XCTAssertEqual(harness.engine.messages.first?.correction, "Ich habe 25 Jahre.")
+    }
+
+    func testCorrectionContextTrimsLongMessages() async {
+        let store = RecordingStore()
+        let long = String(repeating: "a", count: 700)
+        store.preload([ChatMessage(role: .user, message: long)])
+        let harness = EngineHarness(persona: .examinerA1(lesson: "a1-small-talk", stage: "greeting"), store: store)
+        harness.engine.sendText("next")
+        await settle()
+
+        let context = harness.teacher.contexts.last ?? []
+        XCTAssertEqual(context.first?.content.count, 500)
+        XCTAssertEqual(context.last?.content, "next")
+    }
+
+    func testFixTextPayloadUsesProofreaderModelAndSystemInstruction() throws {
+        let payload = TeacherService.fixTextPayload(
+            message: "hallo",
+            language: "German",
+            context: [TeacherContextMessage(role: "user", content: "vorher")]
+        )
+        let data = try JSONEncoder().encode(payload)
+        let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+
+        XCTAssertEqual(json["message"] as? String, "hallo")
+        XCTAssertEqual(json["model"] as? String, TeacherService.fixTextModel)
+        let messages = json["messages"] as! [[String: String]]
+        XCTAssertEqual(messages.first?["role"], "system")
+        XCTAssertTrue(messages.first?["content"]?.contains("Return ONLY") == true)
+        XCTAssertEqual(messages.last, ["role": "user", "content": "vorher"])
+    }
+
+    func testTeacherRequestOmitsNilModelSoServerKeepsFineTunedDefault() throws {
+        let payload = TeacherRequest(message: "framed", messages: [], model: nil)
+        let json = try JSONSerialization.jsonObject(with: JSONEncoder().encode(payload)) as! [String: Any]
+
+        XCTAssertNil(json["model"])
+        XCTAssertEqual(json["message"] as? String, "framed")
+    }
+
+    func testChatMessageDecodesLegacyJSONWithoutCorrection() throws {
+        let id = UUID()
+        let json = #"{"id":"\#(id.uuidString)","role":"user","message":"hallo"}"#
+        let decoded = try JSONDecoder().decode(ChatMessage.self, from: json.data(using: .utf8)!)
+
+        XCTAssertEqual(decoded.id, id)
+        XCTAssertEqual(decoded.message, "hallo")
+        XCTAssertNil(decoded.correction)
     }
 
     func testSendTextBotFailureAppendsErrorMessage() async {
