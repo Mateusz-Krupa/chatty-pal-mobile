@@ -11,11 +11,15 @@ extension BotService: BotServicing {}
 protocol TeacherServicing {
     func fixText(message: String, language: String) async throws -> TeacherResponse
     func fixText(message: String, language: String, context: [TeacherContextMessage]) async throws -> TeacherResponse
+    func examReadyAnswer(message: String, stage: String, context: [TeacherContextMessage]) async throws -> TeacherResponse
 }
 
 extension TeacherServicing {
     func fixText(message: String, language: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
         try await fixText(message: message, language: language)
+    }
+    func examReadyAnswer(message: String, stage: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
+        try await fixText(message: message, language: "German", context: context)
     }
 }
 

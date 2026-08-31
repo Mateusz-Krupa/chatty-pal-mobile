@@ -145,21 +145,31 @@ struct ChatMessageList<TopContent: View>: View {
                             .font(.footnote)
                             .padding(.vertical, 8)
                     }
+
+                    Color.clear.frame(height: 1).id("chat-bottom")
                 }
                 .padding(.vertical, 8)
             }
             .onChange(of: messages.count) { _ in
-                withAnimation(.easeInOut(duration: 0.25)) {
-                    if let lastID = messages.last?.id {
-                        proxy.scrollTo(lastID, anchor: .bottom)
-                    }
-                }
+                scrollToBottom(proxy)
+            }
+            .onChange(of: messages.last?.message) { _ in
+                scrollToBottom(proxy)
+            }
+            .onChange(of: isGenerating) { _ in
+                scrollToBottom(proxy)
             }
             .onAppear {
-                if let lastID = messages.last?.id {
-                    proxy.scrollTo(lastID, anchor: .bottom)
+                if !messages.isEmpty {
+                    proxy.scrollTo("chat-bottom", anchor: .bottom)
                 }
             }
+        }
+    }
+
+    private func scrollToBottom(_ proxy: ScrollViewProxy) {
+        withAnimation(.easeInOut(duration: 0.25)) {
+            proxy.scrollTo("chat-bottom", anchor: .bottom)
         }
     }
 

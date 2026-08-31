@@ -159,16 +159,42 @@ final class ExamCampaignFlowTests: XCTestCase {
             resumeDelay: 0.05
         )
         engine.isTTSEnabled = false
-        await engine.sendText(CampaignSpeakingView.autoOpening)
-        try? await Task.sleep(for: .milliseconds(200))
+        let opening = CampaignSpeakingView.opening(lessonID: "l3-speaking-introduce", stageID: "Sich vorstellen")
+        await engine.startExam(with: opening)
 
-        XCTAssertFalse(CampaignSpeakingView.autoOpening.isEmpty)
-        let openingCall = bot.messageCalls.first { $0.message == CampaignSpeakingView.autoOpening }
-        XCTAssertNotNil(openingCall, "the auto-opening greeting must be sent to the bot")
-        let exam = bot.examCalls.compactMap { $0 }.first
-        XCTAssertEqual(exam?.mode, "speaking")
-        XCTAssertEqual(exam?.lessonId, lesson.id)
-        XCTAssertEqual(exam?.stage, task.stages[0].id)
+        XCTAssertFalse(opening.isEmpty)
+        XCTAssertEqual(engine.messages.last?.role, .assistant)
+        XCTAssertEqual(engine.messages.last?.message, opening)
+        XCTAssertTrue(bot.messageCalls.isEmpty, "the static greeting must not be sent to the bot")
+    }
+
+    func testCampaignSpeakingUsesSelectedStage() {
+        let lesson = ExamCampaignCatalog.lesson(id: "l3-speaking-introduce")!
+        let task = lesson.speaking!
+        let dependencies = ChatEngineDependencies(
+            bot: FlowCapturingBot(),
+            teacher: FlowStubTeacher(),
+            translate: FlowStubTranslate(),
+            synth: FlowStubSynth(),
+            makeSpeech: { _ in FlowStubSpeech() },
+            playback: FlowStubPlayback(),
+            transcriber: FlowStubTranscriber(),
+            makeMonitor: { FlowStubMonitor() }
+        )
+
+        // The card's selected tab drives the stage the view opens (not the hard-coded first).
+        let second = CampaignSpeakingView(task: task, lessonID: lesson.id, initialStageIndex: 1, dependencies: dependencies)
+        XCTAssertEqual(second.initialStageID, "Über die Familie sprechen")
+        let first = CampaignSpeakingView(task: task, lessonID: lesson.id, dependencies: dependencies)
+        XCTAssertEqual(first.initialStageID, "Sich vorstellen")
+        let clamped = CampaignSpeakingView(task: task, lessonID: lesson.id, initialStageIndex: 99, dependencies: dependencies)
+        XCTAssertEqual(clamped.initialStageID, task.stages[task.stages.count - 1].id)
+
+        // The selected stage drives the greeting shown to the learner.
+        XCTAssertEqual(
+            CampaignSpeakingView.opening(lessonID: lesson.id, stageID: second.initialStageID),
+            "Guten Tag. Ich heiße Frau Müller und bin Ihre Prüferin. Erzählen Sie bitte etwas über Ihre Familie."
+        )
     }
 
     // MARK: - Word-review collection

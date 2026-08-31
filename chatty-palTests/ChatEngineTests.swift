@@ -101,7 +101,16 @@ private final class FakeTeacher: TeacherServicing {
     var exactReply: String? = nil
     private(set) var calls: [String] = []
     private(set) var contexts: [[(role: String, content: String)]] = []
+    private(set) var examCalls: [(message: String, stage: String, context: [(role: String, content: String)])] = []
     private var pending: CheckedContinuation<TeacherResponse, Error>?
+
+    func examReadyAnswer(message: String, stage: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
+        examCalls.append((message, stage, context.map { ($0.role, $0.content) }))
+        if let exactReply {
+            return TeacherResponse(message: exactReply)
+        }
+        return TeacherResponse(message: "Fixed: \(message)")
+    }
 
     func fixText(message: String, language: String) async throws -> TeacherResponse {
         try await fixText(message: message, language: language, context: [])
@@ -391,14 +400,27 @@ final class ChatEngineTests: XCTestCase {
         XCTAssertFalse(harness.engine.messages.contains { $0.role == .teacher })
     }
 
-    func testExamSpeakingSkipsCorrectionWhenTextUnchanged() async {
+    func testExamSpeakingShowsReadyAnswerWhenTextUnchanged() async {
         let harness = EngineHarness(persona: .examinerA1(lesson: "a1-small-talk", stage: "greeting"))
         harness.teacher.exactReply = "Ich wohne in Berlin."
         harness.engine.sendText("Ich wohne in Berlin.")
         await settle()
 
         XCTAssertFalse(harness.engine.messages.contains { $0.role == .teacher })
-        XCTAssertNil(harness.engine.messages.first { $0.role == .user }?.correction)
+        XCTAssertEqual(harness.engine.messages.first { $0.role == .user }?.correction, "Ich wohne in Berlin.")
+    }
+
+    func testExamCorrectionRequestCarriesCurrentStage() async {
+        let harness = EngineHarness(persona: .examinerA1(lesson: "l3-speaking-introduce", stage: "Über die Familie sprechen"))
+        harness.engine.sendText("Meine Mutter ist 45 jahre")
+        await settle()
+
+        let call = harness.teacher.examCalls.last
+        XCTAssertEqual(call?.message, "Meine Mutter ist 45 jahre")
+        XCTAssertEqual(call?.stage, "Über die Familie sprechen")
+        XCTAssertTrue(harness.teacher.calls.isEmpty, "exam mode must use examReadyAnswer, not the free-chat fixText")
+        XCTAssertFalse(harness.engine.messages.contains { $0.role == .teacher })
+        XCTAssertEqual(harness.engine.messages.first { $0.role == .user }?.correction, "Fixed: Meine Mutter ist 45 jahre")
     }
 
     func testCorrectionContextIsBoundedToRecentLearnerAndExaminerTurns() async {
@@ -409,7 +431,7 @@ final class ChatEngineTests: XCTestCase {
         }
 
         XCTAssertEqual(
-            (harness.teacher.contexts.last ?? []).map { "\($0.role): \($0.content)" },
+            (harness.teacher.examCalls.last?.context ?? []).map { "\($0.role): \($0.content)" },
             ["assistant: Bot reply", "user: four", "assistant: Bot reply", "user: five"]
         )
     }
@@ -430,7 +452,7 @@ final class ChatEngineTests: XCTestCase {
         await settle()
 
         XCTAssertEqual(
-            (harness.teacher.contexts.last ?? []).map { "\($0.role): \($0.content)" },
+            (harness.teacher.examCalls.last?.context ?? []).map { "\($0.role): \($0.content)" },
             ["assistant: r1", "user: two", "assistant: r2", "user: three"]
         )
     }
@@ -452,7 +474,7 @@ final class ChatEngineTests: XCTestCase {
         harness.engine.sendText("next")
         await settle()
 
-        let context = harness.teacher.contexts.last ?? []
+        let context = harness.teacher.examCalls.last?.context ?? []
         XCTAssertEqual(context.first?.content.count, 500)
         XCTAssertEqual(context.last?.content, "next")
     }
@@ -472,6 +494,25 @@ final class ChatEngineTests: XCTestCase {
         XCTAssertEqual(messages.first?["role"], "system")
         XCTAssertTrue(messages.first?["content"]?.contains("Return ONLY") == true)
         XCTAssertEqual(messages.last, ["role": "user", "content": "vorher"])
+    }
+
+    func testExamReadyAnswerPayloadIsStageAware() throws {
+        let payload = TeacherService.examReadyAnswerPayload(
+            message: "Meine Mutter ist 45 jahre",
+            stage: "Über die Familie sprechen",
+            context: [TeacherContextMessage(role: "assistant", content: "Sprechen Sie über Ihre Familie.")]
+        )
+        let data = try JSONEncoder().encode(payload)
+        let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+
+        XCTAssertEqual(json["message"] as? String, "Meine Mutter ist 45 jahre")
+        XCTAssertEqual(json["model"] as? String, TeacherService.fixTextModel)
+        let messages = json["messages"] as! [[String: String]]
+        let system = messages.first?["content"] ?? ""
+        XCTAssertTrue(system.contains("Über die Familie sprechen"), "prompt must carry the current stage")
+        XCTAssertTrue(system.contains("Rewrite ONLY the candidate's final message"))
+        XCTAssertTrue(system.contains("Do NOT answer on the examiner's behalf"))
+        XCTAssertEqual(messages.last, ["role": "assistant", "content": "Sprechen Sie über Ihre Familie."])
     }
 
     func testTeacherRequestOmitsNilModelSoServerKeepsFineTunedDefault() throws {

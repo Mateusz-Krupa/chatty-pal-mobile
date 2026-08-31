@@ -1263,7 +1263,7 @@ struct CampaignSpeakingCard: View {
             }
 
             NavigationLink {
-                CampaignSpeakingView(task: task, lessonID: lesson.id) {
+                CampaignSpeakingView(task: task, lessonID: lesson.id, initialStageIndex: activeStageIndex) {
                     onFinished()
                 }
             } label: {
@@ -1288,11 +1288,29 @@ struct CampaignSpeakingCard: View {
 // MARK: - Speaking mission view
 
 struct CampaignSpeakingView: View {
-    static let autoOpening = "Guten Tag! Ich bin bereit. Wir können anfangen."
+    static func opening(lessonID: String, stageID: String) -> String {
+        switch (lessonID, stageID) {
+        case ("l3-speaking-introduce", "Sich vorstellen"):
+            "Guten Tag. Ich heiße Frau Müller und bin Ihre Prüferin. Wie heißen Sie?"
+        case ("l3-speaking-introduce", "Über die Familie sprechen"):
+            "Guten Tag. Ich heiße Frau Müller und bin Ihre Prüferin. Erzählen Sie bitte etwas über Ihre Familie."
+        case ("l13-shop-speaking", _):
+            "Guten Tag. Ich heiße Frau Müller. Kann ich Ihnen helfen?"
+        case ("l12-doctor-health", "Telefon: Termin machen"):
+            "Guten Tag. Praxis Dr. Müller, mein Name ist Frau Müller. Was kann ich für Sie tun?"
+        case ("l12-doctor-health", _):
+            "Guten Tag. Ich bin Frau Müller, Ihre Ärztin. Was haben Sie?"
+        case ("l19-speaking-picture", "Ein Bild beschreiben"):
+            "Guten Tag. Ich heiße Frau Müller und bin Ihre Prüferin. Was sehen Sie auf dem Bild?"
+        default:
+            "Guten Tag. Ich heiße Frau Müller und bin Ihre Prüferin. Bitte beginnen Sie."
+        }
+    }
 
     let task: CampaignSpeakingTask
     let lessonID: String
     let onFinished: () -> Void
+    let initialStageID: String
 
     @State private var engine: ChatEngine
     @State private var inputText = ""
@@ -1301,12 +1319,25 @@ struct CampaignSpeakingView: View {
     @State private var feedbackRequested = false
     @Environment(\.dismiss) private var dismiss
 
-    init(task: CampaignSpeakingTask, lessonID: String, onFinished: @escaping () -> Void = {}) {
+    init(
+        task: CampaignSpeakingTask,
+        lessonID: String,
+        initialStageIndex: Int = 0,
+        dependencies: ChatEngineDependencies = .live,
+        onFinished: @escaping () -> Void = {}
+    ) {
         self.task = task
         self.lessonID = lessonID
         self.onFinished = onFinished
-        let stageID = task.stages.first?.id ?? ""
-        _engine = State(initialValue: Self.makeEngine(lessonID: lessonID, stageID: stageID))
+        let stageIndex = Self.resolvedStageIndex(initialStageIndex, stageCount: task.stages.count)
+        self.initialStageID = task.stages[stageIndex].id
+        _stageIndex = State(initialValue: stageIndex)
+        _engine = State(initialValue: Self.makeEngine(lessonID: lessonID, stageID: self.initialStageID, dependencies: dependencies))
+    }
+
+    static func resolvedStageIndex(_ requestedIndex: Int, stageCount: Int) -> Int {
+        guard stageCount > 0 else { return 0 }
+        return min(max(requestedIndex, 0), stageCount - 1)
     }
 
     var body: some View {
@@ -1417,7 +1448,7 @@ struct CampaignSpeakingView: View {
         }
         .onAppear {
             if engine.messages.isEmpty {
-                engine.sendText(CampaignSpeakingView.autoOpening)
+                engine.startExam(with: CampaignSpeakingView.opening(lessonID: lessonID, stageID: task.stages[stageIndex].id))
             }
         }
         .onChange(of: stageIndex) { _ in
@@ -1425,7 +1456,7 @@ struct CampaignSpeakingView: View {
             engine = Self.makeEngine(lessonID: lessonID, stageID: task.stages[stageIndex].id)
             feedbackRequested = false
             if engine.messages.isEmpty {
-                engine.sendText(CampaignSpeakingView.autoOpening)
+                engine.startExam(with: CampaignSpeakingView.opening(lessonID: lessonID, stageID: task.stages[stageIndex].id))
             }
         }
         .onDisappear {
@@ -1433,13 +1464,18 @@ struct CampaignSpeakingView: View {
         }
     }
 
-    private static func makeEngine(lessonID: String, stageID: String) -> ChatEngine {
+    static func makeEngine(
+        lessonID: String,
+        stageID: String,
+        store: (any ChatStore)? = nil,
+        dependencies: ChatEngineDependencies = .live
+    ) -> ChatEngine {
         let german = LanguageConfig.all["de"] ?? LanguageConfig.default
         let learnerContext = BotMemoryStore.shared.summary(for: german.code)
         return ChatEngine(
             persona: .examinerA1(lesson: lessonID, stage: stageID, learnerContext: learnerContext),
-            store: LessonChatStore(lessonID: lessonID, stageID: stageID),
-            dependencies: .live
+            store: store ?? LessonChatStore(lessonID: lessonID, stageID: stageID),
+            dependencies: dependencies
         )
     }
 
@@ -1449,7 +1485,7 @@ struct CampaignSpeakingView: View {
         LessonChatStore(lessonID: lessonID, stageID: stageID).clear()
         engine = Self.makeEngine(lessonID: lessonID, stageID: stageID)
         feedbackRequested = false
-        engine.sendText(CampaignSpeakingView.autoOpening)
+        engine.startExam(with: CampaignSpeakingView.opening(lessonID: lessonID, stageID: stageID))
     }
 
     private func sendMessage() {

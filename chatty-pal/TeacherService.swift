@@ -23,7 +23,7 @@ struct TeacherService {
         try await fixText(message: message, language: language, context: [])
     }
 
-    static let fixTextModel = "gpt-4o-mini"
+    static let fixTextModel = "deepseek/deepseek-v4-flash"
 
     static func fixTextPayload(message: String, language: String, context: [TeacherContextMessage]) -> TeacherRequest {
         var messages = [TeacherContextMessage(role: "system", content: fixInstruction(language: language))]
@@ -33,6 +33,25 @@ struct TeacherService {
 
     func fixText(message: String, language: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
         try await send(Self.fixTextPayload(message: message, language: language, context: context))
+    }
+
+    static func examReadyInstruction(stage: String) -> String {
+        """
+        You are an A1 German examiner. The candidate is practicing the speaking task "\(stage)".
+        Rewrite ONLY the candidate's final message (the last user turn) into one correct, natural A1-level German response that fits that task.
+        Keep the candidate's intended meaning and the facts they stated. Fix grammar, spelling, word order and word choice.
+        Do NOT answer on the examiner's behalf, do NOT continue or replace the examiner's sentence, and do NOT add comments, explanations, or translations.
+        If the candidate's message is already correct, return it unchanged.
+        """
+    }
+
+    static func examReadyAnswerPayload(message: String, stage: String, context: [TeacherContextMessage]) -> TeacherRequest {
+        let messages = [TeacherContextMessage(role: "system", content: examReadyInstruction(stage: stage))] + context
+        return TeacherRequest(message: message, messages: messages, model: fixTextModel)
+    }
+
+    func examReadyAnswer(message: String, stage: String, context: [TeacherContextMessage]) async throws -> TeacherResponse {
+        try await send(Self.examReadyAnswerPayload(message: message, stage: stage, context: context))
     }
 
     func examFix(text: String) async throws -> TeacherResponse {

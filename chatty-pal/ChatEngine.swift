@@ -187,6 +187,7 @@ final class ChatEngine {
     }
 
     var isRecording: Bool { voiceState == .recording }
+    var examStage: String? { persona.examMode?.stage }
 
     func reload(persona: ChatPersona, store: any ChatStore) {
         interrupt()
@@ -234,6 +235,13 @@ final class ChatEngine {
         store.save(messages)
     }
 
+    func startExam(with greeting: String) {
+        guard messages.isEmpty, persona.examMode != nil else { return }
+        append(ChatMessage(role: .assistant, message: greeting))
+        streamFinished = true
+        enqueueTTS(greeting)
+    }
+
     func sendText(_ rawText: String, credit: Bool = true) {
         let text = TranscriptTracker.trimmed(rawText)
         guard !text.isEmpty, isActive else { return }
@@ -248,9 +256,10 @@ final class ChatEngine {
             LearningStatsStore.shared.recordUserMessage()
             scheduleMemoryRefreshIfNeeded()
         }
+        teacherTask?.cancel()
+        teacherTask = nil
         requestBotResponse(for: text)
         let correctionContext = correctionContext()
-        teacherTask?.cancel()
         teacherTask = Task { [weak self] in
             await self?.fetchTeacherFix(for: text, context: correctionContext)
         }
@@ -258,7 +267,7 @@ final class ChatEngine {
 
     func requestExamFeedback() {
         guard persona.examMode != nil, !isGenerating, isActive else { return }
-        requestBotResponse(for: "Bitte geben Sie mir jetzt die strukturierte Prüfungszusammenfassung.")
+        requestBotResponse(for: "Bitte geben Sie mir jetzt die strukturierte Prüfungszusammenfassung.", speak: false)
     }
 
     // Voice-only path (used by finishUtterance). Unlike sendText it may merge the
@@ -281,9 +290,10 @@ final class ChatEngine {
         mergeTargetID = nil
         LearningStatsStore.shared.recordUserMessage()
         scheduleMemoryRefreshIfNeeded()
+        teacherTask?.cancel()
+        teacherTask = nil
         requestBotResponse(for: sent)
         let correctionContext = correctionContext()
-        teacherTask?.cancel()
         teacherTask = Task { [weak self] in
             await self?.fetchTeacherFix(for: sent, context: correctionContext)
         }
@@ -541,7 +551,7 @@ final class ChatEngine {
         }
     }
 
-    private func requestBotResponse(for userMessage: String) {
+    private func requestBotResponse(for userMessage: String, speak: Bool = true) {
         botTask?.cancel()
         botTask = nil
         isGenerating = true
@@ -577,17 +587,19 @@ final class ChatEngine {
                         self.append(bubble)
                         hasBubble = true
                     }
-                    for utterance in self.splitter.feed(delta) {
-                        self.enqueueTTS(utterance)
+                    if speak {
+                        for utterance in self.splitter.feed(delta) {
+                            self.enqueueTTS(utterance)
+                        }
                     }
                 }
                 guard !Task.isCancelled else { return }
                 if !hasBubble {
                     // Empty stream — fall back to the one-shot endpoint.
-                    self.requestOneShotBotResponse(instruction: instruction, message: userMessage, messages: payload)
+                    self.requestOneShotBotResponse(instruction: instruction, message: userMessage, messages: payload, speak: speak)
                     return
                 }
-                if let tail = self.splitter.finish() {
+                if speak, let tail = self.splitter.finish() {
                     self.enqueueTTS(tail)
                 }
                 self.store.save(self.messages)
@@ -600,7 +612,7 @@ final class ChatEngine {
                 self.isGenerating = false
                 if !hasBubble {
                     // Streaming failed before anything arrived (e.g. old server) — retry one-shot.
-                    self.requestOneShotBotResponse(instruction: instruction, message: userMessage, messages: payload)
+                    self.requestOneShotBotResponse(instruction: instruction, message: userMessage, messages: payload, speak: speak)
                 } else {
                     let description = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
                     self.append(ChatMessage(role: .assistant, message: "Error: \(description)"))
@@ -612,7 +624,7 @@ final class ChatEngine {
         }
     }
 
-    private func requestOneShotBotResponse(instruction: String, message: String, messages: [BotMessage]) {
+    private func requestOneShotBotResponse(instruction: String, message: String, messages: [BotMessage], speak: Bool) {
         botTask?.cancel()
         botTask = nil
         botTask = Task { [weak self] in
@@ -630,7 +642,11 @@ final class ChatEngine {
                 self.inFlightAssistantID = bubble.id
                 self.append(bubble)
                 self.streamFinished = true
-                self.enqueueTTS(response.message)
+                if speak {
+                    self.enqueueTTS(response.message)
+                } else {
+                    self.finishPlaybackPhase()
+                }
                 self.scheduleReplySuggestions()
             } catch {
                 guard !Task.isCancelled else { return }
@@ -778,17 +794,23 @@ final class ChatEngine {
     private func fetchTeacherFix(for userMessage: String, context: [TeacherContextMessage]) async {
         // The teacher fix is an optional enrichment: failures (offline, local env
         // without a running server) must never surface as chat messages.
-        guard let response = try? await dependencies.teacher.fixText(message: userMessage, language: persona.language.language, context: context) else {
+        let response: TeacherResponse?
+        if let exam = persona.examMode {
+            response = try? await dependencies.teacher.examReadyAnswer(message: userMessage, stage: exam.stage ?? "", context: context)
+        } else {
+            response = try? await dependencies.teacher.fixText(message: userMessage, language: persona.language.language, context: context)
+        }
+        guard let response else {
             return
         }
         guard !Task.isCancelled else { return }
         let corrected = response.message.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !corrected.isEmpty else { return }
-        let segments = TextDiffer.diff(original: userMessage, corrected: corrected)
-        guard segments.contains(where: { $0.kind != .same }) else { return }
         if persona.examMode != nil {
             attachCorrection(corrected, to: userMessage)
         } else {
+            let segments = TextDiffer.diff(original: userMessage, corrected: corrected)
+            guard segments.contains(where: { $0.kind != .same }) else { return }
             append(ChatMessage(role: .teacher, message: corrected))
         }
     }

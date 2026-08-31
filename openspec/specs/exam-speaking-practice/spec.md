@@ -4,11 +4,11 @@
 TBD - created by archiving change exam-prep-goethe-a1. Update Purpose after archive.
 ## Requirements
 ### Requirement: Speaking task entry point
-A campaign lesson whose learning goal requires spoken interaction SHALL show a clearly labelled speaking mission step after its relevant preparation activities. The step SHALL open a speaking practice screen for that lesson's explicit task stage.
+A campaign lesson whose learning goal requires spoken interaction SHALL show a clearly labelled speaking mission step after its relevant preparation activities. The step SHALL open a speaking practice screen for the task stage selected on that lesson's speaking mission card.
 
-#### Scenario: User starts a speaking task
-- **WHEN** the user reaches and starts the speaking step of a campaign lesson
-- **THEN** the app opens the speaking practice screen with the lesson goal and active task stage visible
+#### Scenario: User starts a selected speaking task stage
+- **WHEN** the user selects a stage and starts the speaking step of a campaign lesson
+- **THEN** the app opens the speaking practice screen with the lesson goal and that selected task stage visible
 
 #### Scenario: Lesson without spoken goal
 - **WHEN** a campaign lesson has no spoken-interaction goal
@@ -37,11 +37,16 @@ Speaking practice conversations SHALL NOT be saved to the main chat history and 
 - **THEN** the main chat history contains no messages from the speaking task
 
 ### Requirement: Automatic start
-The speaking practice screen SHALL start its assigned task stage automatically by requesting the stage opening line when opened.
+The speaking practice screen SHALL start its assigned task stage automatically by requesting the stage opening line when opened without existing history. When history for that stage exists, the screen SHALL resume it without requesting a duplicate opening line. The screen SHALL provide a Refresh chat action that clears the active stage history and requests a new opening line.
 
-#### Scenario: Opening the practice screen
-- **WHEN** the speaking practice screen appears
-- **THEN** the app sends the stage-start request and the examiner responds without requiring a generic learner opening line
+#### Scenario: Opening a fresh practice screen
+- **WHEN** the speaking practice screen opens with no stored history for its stage
+- **THEN** the app requests the stage-start response and the examiner responds without requiring a generic learner opening line
+
+#### Scenario: Refreshing a resumed practice screen
+- **WHEN** the learner refreshes a resumed speaking stage
+- **THEN** the prior stage history is cleared and the examiner starts the stage again
+
 ### Requirement: User input and finish
 The speaking practice screen SHALL allow the user to respond by voice (microphone) or by text using the shared chat input, and SHALL provide a "Finish practice" action that ends the session and returns to the unit.
 
