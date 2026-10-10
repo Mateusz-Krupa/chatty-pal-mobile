@@ -65,7 +65,6 @@ struct ChatView: View {
     }
 
     private var isLoggedIn: Bool { session.isAuthenticated }
-    private var isTeacher: Bool { authRole == "Teacher" }
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -119,7 +118,6 @@ struct ChatView: View {
                         isLoggedIn: isLoggedIn,
                         authUsername: authUsername,
                         authEmail: authEmail,
-                        isTeacher: isTeacher,
                         chatLanguages: availableChatLanguages,
                         currentLanguageCode: langCode,
                         currentLevel: level,
@@ -170,8 +168,8 @@ struct ChatView: View {
                     }
                 case .rolePlay:
                     RolePlayHomeView(jwt: session.jwt)
-                default:
-                    PlaceholderView(title: destination.title)
+                case .aboutUs:
+                    InfoView()
                 }
             }
         }
@@ -249,6 +247,7 @@ struct ChatView: View {
                 }
                 .buttonStyle(.bordered)
                 .modifier(GlassButtonModifier())
+                .accessibilityIdentifier("settingsButton")
 
                 Button(action: { engine.toggleTTS() }) {
                     Image(systemName: engine.isTTSEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
@@ -265,6 +264,7 @@ struct ChatView: View {
                 }
                 .buttonStyle(.bordered)
                 .modifier(GlassButtonModifier())
+                .accessibilityIdentifier("menuButton")
             }
         }
         .padding(.top, 12)

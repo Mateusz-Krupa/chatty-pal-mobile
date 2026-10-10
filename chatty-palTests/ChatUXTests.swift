@@ -94,4 +94,25 @@ final class ChatUXTests: XCTestCase {
             "Store You are a shopkeeper . The customer buys bread."
         )
     }
+
+    // MARK: - Menu destinations (store-ready: no placeholder pages)
+
+    func testMenuDestinationsAllCarryRealContentMetadata() {
+        // Metadata/inventory regression test. Routing completeness comes from the
+        // exhaustive ChatView navigationDestination switch (no default) after
+        // PlaceholderView was deleted — an unhandled case would not compile, though
+        // rendering correctness of each destination view is validated by the app-wide
+        // smoke pass (tasks Phase H) rather than by this unit test.
+        XCTAssertFalse(MenuDestination.allCases.isEmpty)
+        for destination in MenuDestination.allCases {
+            XCTAssertFalse(destination.title.isEmpty, "destination \(destination) has empty title")
+            XCTAssertFalse(destination.systemImage.isEmpty, "destination \(destination) has empty icon")
+        }
+        // Exact set of shipped destinations (adds/removes must be an explicit, reviewed change).
+        let titles = Set(MenuDestination.allCases.map(\.title))
+        XCTAssertEqual(titles, [
+            "Info", "Policy", "Homework", "Learning Materials", "Exam Prep A1",
+            "Word Review", "My chats", "Role Play", "About Us",
+        ])
+    }
 }

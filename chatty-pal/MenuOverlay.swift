@@ -5,7 +5,6 @@ struct MenuOverlay: View {
     let isLoggedIn: Bool
     let authUsername: String
     let authEmail: String
-    let isTeacher: Bool
     let chatLanguages: [UserProfileLanguage]
     let currentLanguageCode: String
     let currentLevel: String
@@ -61,15 +60,9 @@ struct MenuOverlay: View {
                             MenuLinkRow(destination: .chats, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .rolePlay, disabled: !isLoggedIn) { selectDestination() }
                             MenuLinkRow(destination: .homework, disabled: !isLoggedIn) { selectDestination() }
-                            MenuLinkRow(destination: .teacherHelp, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .learningMaterials, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .examPrep, disabled: false) { selectDestination() }
                             MenuLinkRow(destination: .wordReview, disabled: false, badge: wordStore.dueCount) { selectDestination() }
-
-                            MenuSectionHeader(title: "Teacher")
-                            MenuLinkRow(destination: .classroom, disabled: !isTeacher) { selectDestination() }
-                            MenuLinkRow(destination: .stories, disabled: !isTeacher) { selectDestination() }
-                            MenuLinkRow(destination: .lessonPlanner, disabled: !isTeacher) { selectDestination() }
 
                             MenuSectionHeader(title: "Our Company")
                             MenuLinkRow(destination: .aboutUs, disabled: false) { selectDestination() }
@@ -234,37 +227,25 @@ private struct MenuRowContent: View {
     }
 }
 
-enum MenuDestination: Hashable {
-    case userPanel
-    case chat
+enum MenuDestination: Hashable, CaseIterable {
     case info
     case policy
     case homework
-    case teacherHelp
     case learningMaterials
     case examPrep
     case wordReview
     case chats
     case rolePlay
-    case classroom
-    case stories
-    case lessonPlanner
     case aboutUs
 
     var title: String {
         switch self {
-        case .userPanel:
-            return "User Panel"
-        case .chat:
-            return "Chat"
         case .info:
             return "Info"
         case .policy:
             return "Policy"
         case .homework:
             return "Homework"
-        case .teacherHelp:
-            return "Teacher Help"
         case .learningMaterials:
             return "Learning Materials"
         case .examPrep:
@@ -275,12 +256,6 @@ enum MenuDestination: Hashable {
             return "My chats"
         case .rolePlay:
             return "Role Play"
-        case .classroom:
-            return "Classroom"
-        case .stories:
-            return "My Stories List"
-        case .lessonPlanner:
-            return "Lesson Planner"
         case .aboutUs:
             return "About Us"
         }
@@ -288,18 +263,12 @@ enum MenuDestination: Hashable {
 
     var systemImage: String {
         switch self {
-        case .userPanel:
-            return "person.crop.circle"
-        case .chat:
-            return "bubble.left.and.bubble.right"
         case .info:
             return "info.circle"
         case .policy:
             return "doc.text"
         case .homework:
             return "pencil.and.list.clipboard"
-        case .teacherHelp:
-            return "questionmark.circle"
         case .learningMaterials:
             return "book.closed"
         case .examPrep:
@@ -310,12 +279,6 @@ enum MenuDestination: Hashable {
             return "bubble.left.and.bubble.right"
         case .rolePlay:
             return "theatermasks"
-        case .classroom:
-            return "person.3"
-        case .stories:
-            return "list.bullet.rectangle"
-        case .lessonPlanner:
-            return "calendar"
         case .aboutUs:
             return "building.2"
         }

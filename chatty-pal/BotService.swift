@@ -34,27 +34,47 @@ struct AppEnvironment {
     static let defaultLocalWebBaseURL = "http://localhost:3000"
     static let defaultLocalCMSAPIBaseURL = "http://localhost:1337/api"
 
+    /// Server-origin selection is locked to Production in Release builds: process-environment
+    /// overrides and persisted Local/custom preferences are development affordances that are
+    /// only read by Debug builds.
     static var mode: AppEnvironmentMode {
+        #if DEBUG
         let envValue = ProcessInfo.processInfo.environment["CHATTY_PAL_ENVIRONMENT"]
         let storedValue = UserDefaults.standard.string(forKey: "appEnvironment")
         return AppEnvironmentMode(rawValue: envValue ?? storedValue ?? AppEnvironmentMode.production.rawValue) ?? .production
+        #else
+        return .production
+        #endif
+    }
+
+    private static func processOverrideURL(forKey key: String) -> URL? {
+        #if DEBUG
+        if let value = ProcessInfo.processInfo.environment[key], let url = URL(string: value) {
+            return url
+        }
+        #endif
+        return nil
     }
 
     static var webBaseURL: URL {
-        if let override = ProcessInfo.processInfo.environment["BOT_BASE_URL"], let url = URL(string: override) {
+        #if DEBUG
+        if let url = processOverrideURL(forKey: "BOT_BASE_URL") {
             return url
         }
         if mode == .local {
             let stored = UserDefaults.standard.string(forKey: "localWebBaseURL") ?? defaultLocalWebBaseURL
             return URL(string: stored) ?? URL(string: defaultLocalWebBaseURL)!
         }
+        #endif
         return productionWebBaseURL
     }
 
     static var pollyBaseURL: URL {
-        if let override = ProcessInfo.processInfo.environment["POLLY_BASE_URL"], let url = URL(string: override) {
+        #if DEBUG
+        if let url = processOverrideURL(forKey: "POLLY_BASE_URL") {
             return url
         }
+        #endif
         return webBaseURL
     }
 
@@ -64,13 +84,15 @@ struct AppEnvironment {
     }
 
     static var cmsAPIBaseURL: URL {
-        if let override = ProcessInfo.processInfo.environment["CMS_API_BASE_URL"], let url = URL(string: override) {
+        #if DEBUG
+        if let url = processOverrideURL(forKey: "CMS_API_BASE_URL") {
             return url
         }
         if mode == .local {
             let stored = UserDefaults.standard.string(forKey: "localCMSAPIBaseURL") ?? defaultLocalCMSAPIBaseURL
             return URL(string: stored) ?? URL(string: defaultLocalCMSAPIBaseURL)!
         }
+        #endif
         return productionCMSAPIBaseURL
     }
 }

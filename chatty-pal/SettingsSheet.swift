@@ -1,23 +1,5 @@
 import SwiftUI
 
-struct PlaceholderView: View {
-    let title: String
-
-    var body: some View {
-        VStack(spacing: 12) {
-            Text(title)
-                .font(.title2.weight(.semibold))
-            Text("Placeholder page")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(ChattyTheme.appBackground)
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
 struct SettingsSheet: View {
     @AppStorage("langCode") private var langCode: String = "de"
     @AppStorage("level") private var level: String = "B1"
@@ -29,6 +11,7 @@ struct SettingsSheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                #if DEBUG
                 Section("Server") {
                     Picker("Environment", selection: $appEnvironment) {
                         ForEach(AppEnvironmentMode.allCases) { mode in
@@ -54,6 +37,7 @@ struct SettingsSheet: View {
                         LabeledContent("CMS", value: AppEnvironment.productionCMSAPIBaseURL.absoluteString)
                     }
                 }
+                #endif
 
                 Section("Voice input") {
                     Picker("Transcription", selection: $voiceTranscriptionMode) {
