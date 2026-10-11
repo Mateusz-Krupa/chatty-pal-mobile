@@ -10,6 +10,7 @@
 		9E3837DF2A0A447E003569D9 /* chatty_palApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837DE2A0A447E003569D9 /* chatty_palApp.swift */; };
 		9E3837E12A0A447E003569D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837E02A0A447E003569D9 /* ContentView.swift */; };
 		9E3837E32A0A447F003569D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E3837E22A0A447F003569D9 /* Assets.xcassets */; };
+		AA000000000000000000008C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* PrivacyInfo.xcprivacy */; };
 		9E3837E62A0A447F003569D9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E3837E52A0A447F003569D9 /* Preview Assets.xcassets */; };
 		9E3837F02A0A447F003569D9 /* chatty_palTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837EF2A0A447F003569D9 /* chatty_palTests.swift */; };
 		9E3837FA2A0A447F003569D9 /* chatty_palUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837F92A0A447F003569D9 /* chatty_palUITests.swift */; };
@@ -144,6 +145,7 @@
 		AA0000000000000000000055 /* WhisperTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperTranscriber.swift; sourceTree = "<group>"; };
 		AA0000000000000000000053 /* WAVFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WAVFileTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000051 /* WAVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WAVFile.swift; sourceTree = "<group>"; };
+		AA000000000000000000008B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AA0000000000000000000047 /* LearningStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStats.swift; sourceTree = "<group>"; };
 		AA0000000000000000000049 /* LearningStatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStatsTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000068 /* BargeInDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BargeInDetector.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				AA0000000000000000000087 /* ExamCampaignViews.swift */,
 				AA0000000000000000000080 /* ExamCampaignContent.swift */,
 				AA0000000000000000000081 /* ExamCampaignProgress.swift */,
+				AA000000000000000000008B /* PrivacyInfo.xcprivacy */,
 			);
 			path = "chatty-pal";
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 			files = (
 				9E3837E62A0A447F003569D9 /* Preview Assets.xcassets in Resources */,
 				9E3837E32A0A447F003569D9 /* Assets.xcassets in Resources */,
+				AA000000000000000000008C /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

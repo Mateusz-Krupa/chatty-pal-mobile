@@ -60,6 +60,16 @@ Consequence accepted for v1.0: web users who registered via Google cannot sign i
 - New `PrivacyInfo.xcprivacy` via **PBXResourcesBuildPhase** (4 pbxproj entries): `NSPrivacyTracking=false`, `NSPrivacyTrackingDomains=[]`, `NSPrivacyCollectedDataTypes` = email + name (linked; auth/product), chat text/voice content (linked; app functionality), crash diagnostics (unlinked; app functionality — Sentry, consent-gated); `NSPrivacyAccessedAPITypes` at minimum `NSPrivacyAccessedAPICategoryUserDefaults`/`CA92.1` (UserDefaults/`@AppStorage` used pervasively, e.g. `AuthSession.swift:31-34`, `ChatStore.swift:21`), plus any audit findings (e.g. `C6171.1` only if file-timestamp reads exist — check `WAVFile`/temp cleanup); SFSpeechRecognizer/AVAudioEngine are not required-reason categories.
 - `PolicyView` updated to the real flows (processors named as in D1, Sentry, retention, self-service deletion) — removing contradictory text ("request deletion by email", post-deletion retention claims). The **public policy URL** (website `/privacy`) must match the same inventory: a checklist item verifies/updates it before submission; App Store Connect App Privacy answers derive from that verified service-wide inventory, not a mechanical manifest copy.
 
+#### D7 audit result (executed 2026-10-11, Phase C; corrected after review)
+
+- Username is an account identifier → `NSPrivacyCollectedDataTypeUserID` (Apple has no `UserName` category; `Name` would mean real name, which is not collected).
+- Raw WAV uploads (`WhisperTranscriber` → `/api/transcriptions`, `audio/wav`) → dedicated `NSPrivacyCollectedDataTypeAudioData` declared. linked=true is a conservative choice because voice recordings may identify the speaker; note the upload client attaches no account authorization today (Content-Type + Referer only per `WhisperTranscriber.swift:14-21`), so actual server-side identity association is an endpoint-behavior question to reconcile in the service-wide privacy audit before submission. `OtherUserContent` retained for chat text/exam content.
+- UserDefaults/`@AppStorage` used in 11 source files → `NSPrivacyAccessedAPICategoryUserDefaults` / `CA92.1` declared.
+- No file creation/modification timestamp reads (greps for `creationDate|modificationDate|attributesOfItem|URLResourceKey`: zero hits), no system-boot-time, active-keyboard, or app-account-list API use → `C6171.1` NOT declared (not used).
+- SFSpeechRecognizer / AVAudioEngine are not required-reason categories.
+- Re-audit scheduled after Sentry lands (Phase G): SDK ships its own manifest; merged declarations to be inspected in the built bundle.
+- Icon note: `tools/appicon/main.swift` renders an opaque RGB PNG via `CGImageAlphaInfo.noneSkipLast` (plain `.none` bitmap info is rejected for sRGB on this macOS); verified `hasAlpha: no` with `sips`; `AppIcon` present in built `Assets.car`.
+
 ### D8. pbxproj discipline
 
 One commit per logical file addition; pbxproj `git diff` hand-reviewed every time; build green after each entry set. No XcodeGen migration this sprint.

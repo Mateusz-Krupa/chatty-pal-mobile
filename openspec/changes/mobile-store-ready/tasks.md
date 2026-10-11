@@ -18,10 +18,10 @@ Order = risk-first: server-contract facts gate the feature that depends on them;
 
 ## 3. Phase C — App icon + privacy manifest
 
-- [ ] Write `tools/appicon/main.swift` (CoreGraphics: CP monogram + speech bubble on accent gradient, opaque 1024×1024 PNG); generate into `AppIcon.appiconset`; switch to single-size universal format; verify on simulator Home Screen
-- [ ] Audit required-reason API usage in sources (UserDefaults/`@AppStorage`, file-timestamp reads incl. `WAVFile`/temp cleanup); record findings
-- [ ] Add `PrivacyInfo.xcprivacy` (tracking=false; collected: email, name, user content linked; crash diagnostics unlinked; APIs: `NSPrivacyAccessedAPICategoryUserDefaults`/`CA92.1` + audit findings) with 4 pbxproj entries in **PBXResourcesBuildPhase**
-- [ ] Build; verify manifest lands in the built `.app`; commit Phase C
+- [x] Write `tools/appicon/main.swift` (CoreGraphics: CP monogram + speech bubble on accent gradient, opaque 1024×1024 PNG); generate into `AppIcon.appiconset`; switch to single-size universal format; verified via `sips` (opaque) and `Assets.car` inventory — **visual Home Screen check pending, scheduled in Phase H device pass**
+- [x] Audit required-reason API usage in sources (UserDefaults/`@AppStorage`, file-timestamp reads incl. `WAVFile`/temp cleanup); record findings
+- [x] Add `PrivacyInfo.xcprivacy` (tracking=false; collected: email, user ID, text content, audio data linked; crash diagnostics unlinked; APIs: `NSPrivacyAccessedAPICategoryUserDefaults`/`CA92.1` + audit findings) with 4 pbxproj entries in **PBXResourcesBuildPhase**
+- [x] Build; verify manifest lands in the built `.app`; commit Phase C
 
 ## 4. Phase D — Onboarding + consent enforced at every AI boundary
 
