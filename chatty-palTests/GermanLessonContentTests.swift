@@ -18,7 +18,7 @@ final class GermanLessonContentTests: XCTestCase {
     func testShippingJSONIsInBundleAndDecodes() throws {
         let file = try loadedFile()
         XCTAssertEqual(file.schemaVersion, MobileLearningCatalog.germanSchemaVersion)
-        XCTAssertEqual(file.lessons.count, 20)
+        XCTAssertEqual(file.lessons.count, 25)
     }
 
     func testCatalogMatchesShippingJSON() throws {
@@ -30,7 +30,7 @@ final class GermanLessonContentTests: XCTestCase {
     func testLessonStructureInvariants() throws {
         let lessons = try loadedFile().lessons
         let expectedIDs = (1...lessons.count).map { String(format: "de-s-%02d", $0) }
-        XCTAssertEqual(lessons.count, 20)
+        XCTAssertEqual(lessons.count, 25)
         XCTAssertEqual(lessons.map(\.id), expectedIDs, "lesson ids must be sequential")
 
         for (index, lesson) in lessons.enumerated() {

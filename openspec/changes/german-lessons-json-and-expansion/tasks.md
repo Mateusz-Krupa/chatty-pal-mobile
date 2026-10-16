@@ -15,8 +15,8 @@ Every content-phase reviewer gate checks explicitly: (a) cumulative wall per des
 
 - [x] Task 7: Lessons 1-9 (sounds x3, gender x3, pronouns, sein, dieser) + Reviewer gate 2 + commit
 - [x] Task 8: Lessons 10-18 (haben, ein/kein, mein/dein, present x2, vowel verbs x2, werden, accusative nouns) + Reviewer gate 3 + commit
-- [ ] Task 9: Lessons 19-27 (accusative pronouns, für/ohne/gegen, plurals, numbers/age, -te past, ging/kam/sah, dative case, war/hatte/wurde, wissen/kennen) + Reviewer gate 4 + commit
-- [ ] Task 10: Lessons 28-36 (dative verbs, dative prepositions, modals, conjunctions, haben-perfect, sein-perfect, separable verbs, adjective endings, dates/review) + FINAL content-catalog test (ids de-s-01..de-s-36, counts, alternation, voice pairs) + Reviewer gate 5 + commit
+- [x] Task 9: Lessons 19-27 (accusative pronouns, für/ohne/gegen, plurals, numbers/age, -te past, ging/kam/sah, dative case, war/hatte/wurde, wissen/kennen) + Reviewer gate 4 + commit
+- [x] Task 10: Lessons 28-36 (dative verbs, dative prepositions, modals, conjunctions, haben-perfect, sein-perfect, separable verbs, adjective endings, dates/review) + FINAL content-catalog test (ids de-s-01..de-s-36, counts, alternation, voice pairs) + Reviewer gate 5 + commit
 
 ## Phase 6 — Close out
 
