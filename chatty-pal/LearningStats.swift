@@ -123,8 +123,15 @@ final class LearningStatsStore {
         LearningStats.streak(for: data.activityDates, today: Date())
     }
 
+    /// Completions counted against the catalog the app currently ships. Retired lesson ids
+    /// (e.g. a previous catalog generation) stay in storage but no longer inflate progress.
     var completedLessonCount: Int {
-        data.completedLessons.count
+        completedLessonCount(knownLessonIDs: MobileLearningCatalog.germanLessons.map(\.id))
+    }
+
+    func completedLessonCount(knownLessonIDs: some Sequence<String>) -> Int {
+        let known = Set(knownLessonIDs)
+        return data.completedLessons.filter { known.contains($0) }.count
     }
 
     var totalReviews: Int {

@@ -2,12 +2,12 @@
 
 ## Phase 1 — JSON foundation (same 14 lessons, new carrier)
 
-- [ ] Task 1: `Codable` on lesson models with content-oriented JSON keys via CodingKeys; item UUID ids generated post-decode; `schemaVersion` validation
-- [ ] Task 2: Extract current 14 lessons verbatim to `chatty-pal/Resources/german-lessons.json` (ids stay `de-g-*` in this phase); add to pbxproj Resources phase (3 entries)
-- [ ] Task 3: Loader in `MobileLearningCatalog` (static let, Debug assert / Release log+empty); delete hard-coded prose
-- [ ] Task 4: `voiceA`/`voiceB` lesson fields; `LearningLessonDetailView.conversationVoice(for:)` reads them; German lessons carry Vicki/Daniel in JSON
-- [ ] Task 5: Phase-1 tests: decode the CURRENT 14-lesson JSON from the BUILT BUNDLE (resource present, decodes, schemaVersion enforced; wrong-version -> empty catalog); `completedLessonCount` filters to active-catalog ids (+ new test). Final-catalog invariants (ids de-s-01..de-s-36, 36 lessons, speaker alternation, voiceA/voiceB both-or-none) are asserted in Task 10's final content test, not before.
-- [ ] Task 6: Reviewer gate 1 — diff review (loader safety, CodingKeys, pbxproj, test honesty). Commit
+- [x] Task 1: `Codable` on lesson models with content-oriented JSON keys via CodingKeys; item UUID ids generated post-decode; `schemaVersion` validation
+- [x] Task 2: Extract current 14 lessons verbatim to `chatty-pal/Resources/german-lessons.json` (ids stay `de-g-*` in this phase); add to pbxproj Resources phase (3 entries)
+- [x] Task 3: Loader in `MobileLearningCatalog` (static let, Debug assert / Release log+empty); delete hard-coded prose
+- [x] Task 4: `voiceA`/`voiceB` lesson fields; `LearningLessonDetailView.conversationVoice(for:)` reads them; German lessons carry Vicki/Daniel in JSON
+- [x] Task 5: Phase-1 tests: decode the CURRENT 14-lesson JSON from the BUILT BUNDLE (resource present, decodes, schemaVersion enforced; wrong-version -> empty catalog); `completedLessonCount` filters to active-catalog ids (+ new test). Final-catalog invariants (ids de-s-01..de-s-36, 36 lessons, speaker alternation, voiceA/voiceB both-or-none) are asserted in Task 10's final content test, not before.
+- [x] Task 6: Reviewer gate 1 — diff review (loader safety, CodingKeys, pbxproj, test honesty). Commit
 
 ## Phase 2-5 — Split 14 to 36 lessons (JSON content work, ~9 lessons per phase)
 

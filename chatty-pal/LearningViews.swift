@@ -190,10 +190,14 @@ private struct LearningLessonDetailView: View {
         LanguageConfig.all[lesson.languageCode]?.voice ?? LanguageConfig.default.voice
     }
 
-    /// Two distinct voices for the conversation example (German: Vicki = left speaker, Daniel = right speaker).
+    /// Two distinct voices for the conversation example: voiceA on even lines, voiceB on odd
+    /// (lesson content guarantees strictly alternating speakers). Lessons without voice fields
+    /// play both sides with the lesson voice.
     private func conversationVoice(for index: Int) -> String {
-        guard lesson.languageCode == "de" else { return lessonVoice }
-        return index % 2 == 0 ? "Vicki" : "Daniel"
+        if let voice = index % 2 == 0 ? lesson.voiceA : lesson.voiceB {
+            return voice
+        }
+        return lessonVoice
     }
 
     private var lessonSpeechLocale: String {

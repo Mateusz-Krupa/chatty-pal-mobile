@@ -54,6 +54,8 @@
 		AA0000000000000000000038 /* WordReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000037 /* WordReview.swift */; };
 		AA0000000000000000000040 /* WordReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000039 /* WordReviewView.swift */; };
 		AA0000000000000000000042 /* WordReviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000041 /* WordReviewTests.swift */; };
+		AA000000000000000000008E /* german-lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008D /* german-lessons.json */; };
+		AA0000000000000000000090 /* GermanLessonContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008F /* GermanLessonContentTests.swift */; };
 		AA0000000000000000000044 /* ShadowingScorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000043 /* ShadowingScorer.swift */; };
 		AA0000000000000000000046 /* ShadowingScorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000045 /* ShadowingScorerTests.swift */; };
 		AA0000000000000000000066 /* BotStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000065 /* BotStreamTests.swift */; };
@@ -135,6 +137,8 @@
 		AA0000000000000000000037 /* WordReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordReview.swift; sourceTree = "<group>"; };
 		AA0000000000000000000039 /* WordReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordReviewView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000041 /* WordReviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordReviewTests.swift; sourceTree = "<group>"; };
+		AA000000000000000000008D /* german-lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Resources/german-lessons.json"; sourceTree = "<group>"; };
+		AA000000000000000000008F /* GermanLessonContentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GermanLessonContentTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000043 /* ShadowingScorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowingScorer.swift; sourceTree = "<group>"; };
 		AA0000000000000000000045 /* ShadowingScorerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowingScorerTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000065 /* BotStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotStreamTests.swift; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 				AA0000000000000000000039 /* WordReviewView.swift */,
 				AA0000000000000000000043 /* ShadowingScorer.swift */,
 				AA0000000000000000000047 /* LearningStats.swift */,
+				AA000000000000000000008D /* german-lessons.json */,
 				AA0000000000000000000051 /* WAVFile.swift */,
 				AA0000000000000000000055 /* WhisperTranscriber.swift */,
 				AA0000000000000000000059 /* ListeningIndicator.swift */,
@@ -304,6 +309,7 @@
 				AA0000000000000000000033 /* ExamViewRenderTests.swift */,
 				AA0000000000000000000035 /* SpeechControllerRMSTests.swift */,
 				AA0000000000000000000041 /* WordReviewTests.swift */,
+				AA000000000000000000008F /* GermanLessonContentTests.swift */,
 				AA0000000000000000000045 /* ShadowingScorerTests.swift */,
 				AA0000000000000000000049 /* LearningStatsTests.swift */,
 				AA0000000000000000000053 /* WAVFileTests.swift */,
@@ -435,6 +441,7 @@
 				9E3837E62A0A447F003569D9 /* Preview Assets.xcassets in Resources */,
 				9E3837E32A0A447F003569D9 /* Assets.xcassets in Resources */,
 				AA000000000000000000008C /* PrivacyInfo.xcprivacy in Resources */,
+				AA000000000000000000008E /* german-lessons.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +531,7 @@
 				AA0000000000000000000034 /* ExamViewRenderTests.swift in Sources */,
 				AA0000000000000000000036 /* SpeechControllerRMSTests.swift in Sources */,
 				AA0000000000000000000042 /* WordReviewTests.swift in Sources */,
+				AA0000000000000000000090 /* GermanLessonContentTests.swift in Sources */,
 				AA0000000000000000000046 /* ShadowingScorerTests.swift in Sources */,
 				AA0000000000000000000050 /* LearningStatsTests.swift in Sources */,
 				AA0000000000000000000054 /* WAVFileTests.swift in Sources */,

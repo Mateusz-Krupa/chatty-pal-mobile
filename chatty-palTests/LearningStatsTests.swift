@@ -41,7 +41,7 @@ final class LearningStatsTests: XCTestCase {
         store.recordLessonPractice(lessonID: "de-a1-greetings")
         store.recordLessonPractice(lessonID: "de-a1-shopping")
 
-        XCTAssertEqual(store.completedLessonCount, 2)
+        XCTAssertEqual(store.completedLessonCount(knownLessonIDs: ["de-a1-greetings", "de-a1-shopping"]), 2)
         XCTAssertGreaterThanOrEqual(store.streak, 1)
     }
 
@@ -69,7 +69,7 @@ final class LearningStatsTests: XCTestCase {
         first.recordReviewGrade()
 
         let reloaded = LearningStatsStore(defaults: defaults)
-        XCTAssertEqual(reloaded.completedLessonCount, 1)
+        XCTAssertEqual(reloaded.completedLessonCount(knownLessonIDs: ["de-a1-restaurant"]), 1)
         XCTAssertEqual(reloaded.totalReviews, 1)
     }
 
@@ -103,10 +103,24 @@ final class LearningStatsTests: XCTestCase {
         // Legacy data migrates to the signed-in user on first load.
         withAuthUsername("alice") {
             let store = LearningStatsStore(defaults: defaults)
-            XCTAssertEqual(store.completedLessonCount, 1)
+            XCTAssertEqual(store.completedLessonCount(knownLessonIDs: ["de-a1-restaurant"]), 1)
             XCTAssertEqual(store.totalReviews, 3)
             XCTAssertNil(defaults.data(forKey: "learning.stats"))
         }
+    }
+
+    @MainActor
+    func testCompletedLessonCountIgnoresRetiredLessonIDs() {
+        let defaults = UserDefaults(suiteName: #function)!
+        defaults.removePersistentDomain(forName: #function)
+        let store = LearningStatsStore(defaults: defaults)
+
+        // The shipping catalog JSON must be loadable in the test host; de-g-01 is its first lesson.
+        XCTAssertFalse(MobileLearningCatalog.germanLessons.isEmpty)
+        store.recordLessonPractice(lessonID: MobileLearningCatalog.germanLessons[0].id)
+        store.recordLessonPractice(lessonID: "de-g-99")   // retired id, not in the active catalog
+
+        XCTAssertEqual(store.completedLessonCount, 1)
     }
 
     @MainActor
@@ -139,12 +153,12 @@ final class LearningStatsTests: XCTestCase {
         }
         withAuthUsername("alice") {
             let alice = LearningStatsStore(defaults: defaults)
-            XCTAssertEqual(alice.completedLessonCount, 1)
+            XCTAssertEqual(alice.completedLessonCount(knownLessonIDs: ["de-a1-greetings"]), 1)
         }
         // A later user does not inherit it twice.
         withAuthUsername("bob") {
             let bob = LearningStatsStore(defaults: defaults)
-            XCTAssertEqual(bob.completedLessonCount, 0)
+            XCTAssertEqual(bob.completedLessonCount(knownLessonIDs: ["de-a1-greetings"]), 0)
         }
     }
 
