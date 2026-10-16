@@ -66,6 +66,14 @@
 - w-questions from #14; dative articles + mir/dir from #25; aber/oder/sondern/denn from #31 (und is allowed freely as basic connective vocabulary; the old L10 dialogue line containing "aber" pre-dates the expansion and will be re-gated in its new home lesson).
 - Attributive adjective endings only from #35 (previously: predicative adjectives + the reviewed exception "ein gutes/eine kleine" demo in the adjective lesson itself).
 - Imperatives nowhere; pronouns mich/dich/ihn from #19.
+- Content conventions adopted at gate 2: lessons 1-3 (sounds, cognates) use ONLY labeled
+  sound samples and verbless chunks, never grammar-bearing sentences; high-frequency whole
+  phrases (Wie heißt du?, Ich bin ...) may appear as memorized fixed phrases, marked as such
+  in the phrase note, and are never drilled as productive constructions (productive
+  w-questions arrive in #14); the pointer frame das ist belongs to #8, earlier lessons point
+  with verbless chunks (Das Buch - neu.); #7 stays on the single X ist Y frame plus the
+  memorized Ich bin chunk, full sein paradigm in #8; drill register uses noun chunks
+  (Als Nächstes..., Hörbeispiel...), never imperative verbs.
 - Every dialogue: speakers strictly alternating, ≤2 speakers, natural coherence, faithful English; grammar within lessons ≤N.
 
 ## Workflow + risks

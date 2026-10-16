@@ -18,7 +18,7 @@ final class GermanLessonContentTests: XCTestCase {
     func testShippingJSONIsInBundleAndDecodes() throws {
         let file = try loadedFile()
         XCTAssertEqual(file.schemaVersion, MobileLearningCatalog.germanSchemaVersion)
-        XCTAssertEqual(file.lessons.count, 14)
+        XCTAssertEqual(file.lessons.count, 20)
     }
 
     func testCatalogMatchesShippingJSON() throws {
@@ -29,7 +29,8 @@ final class GermanLessonContentTests: XCTestCase {
 
     func testLessonStructureInvariants() throws {
         let lessons = try loadedFile().lessons
-        let expectedIDs = (1...14).map { String(format: "de-g-%02d", $0) }
+        let expectedIDs = (1...lessons.count).map { String(format: "de-s-%02d", $0) }
+        XCTAssertEqual(lessons.count, 20)
         XCTAssertEqual(lessons.map(\.id), expectedIDs, "lesson ids must be sequential")
 
         for (index, lesson) in lessons.enumerated() {
@@ -39,8 +40,8 @@ final class GermanLessonContentTests: XCTestCase {
             XCTAssertGreaterThanOrEqual(lesson.vocabulary.count, 5, context)
             XCTAssertLessThanOrEqual(lesson.vocabulary.count, 6, context)
             XCTAssertGreaterThanOrEqual(lesson.phrases.count, 7, context)
-            // The final lesson is a cumulative review and may carry more phrases.
-            let maxPhrases = index == lessons.count - 1 ? 13 : 11
+            // A2 lessons (currently the not-yet-split legacy material) may carry more phrases.
+            let maxPhrases = lesson.level == "A2" ? 13 : 11
             XCTAssertLessThanOrEqual(lesson.phrases.count, maxPhrases, context)
 
             XCTAssertGreaterThanOrEqual(lesson.conversation.count, 5, context)
