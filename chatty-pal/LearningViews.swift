@@ -180,11 +180,20 @@ private struct LearningLessonDetailView: View {
     @State private var audioDelegate = AudioPlaybackDelegate()
     @State private var playingText: String?
     @State private var audioError: String?
+    @State private var conversationRunID = UUID()
+    @State private var itemRunID = UUID()
+    @State private var isPlayingConversation = false
 
     private let pollyService = PollySpeechService()
 
     private var lessonVoice: String {
         LanguageConfig.all[lesson.languageCode]?.voice ?? LanguageConfig.default.voice
+    }
+
+    /// Two distinct voices for the conversation example (German: Vicki = left speaker, Daniel = right speaker).
+    private func conversationVoice(for index: Int) -> String {
+        guard lesson.languageCode == "de" else { return lessonVoice }
+        return index % 2 == 0 ? "Vicki" : "Daniel"
     }
 
     private var lessonSpeechLocale: String {
@@ -259,6 +268,27 @@ private struct LearningLessonDetailView: View {
 
                 InfoSectionCard(title: "Conversation Example", systemImage: "person.2.wave.2") {
                     VStack(spacing: 10) {
+                        HStack(spacing: 10) {
+                            if isPlayingConversation {
+                                Button {
+                                    cancelConversationPlayback()
+                                } label: {
+                                    Label("Stop", systemImage: "stop.circle.fill")
+                                        .font(.footnote.weight(.semibold))
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(.red)
+                            } else {
+                                Button {
+                                    playAllConversation()
+                                } label: {
+                                    Label("Play all", systemImage: "play.circle.fill")
+                                        .font(.footnote.weight(.semibold))
+                                }
+                                .buttonStyle(.borderedProminent)
+                            }
+                            Spacer()
+                        }
                         ForEach(Array(lesson.conversation.enumerated()), id: \.element.id) { index, line in
                             LearningConversationBubble(
                                 line: line,
@@ -307,8 +337,7 @@ private struct LearningLessonDetailView: View {
             WordReviewStore.shared.addLesson(lesson)
         }
         .onDisappear {
-            audioPlayer?.stop()
-            playingText = nil
+            cancelConversationPlayback()
         }
     }
 
@@ -342,19 +371,25 @@ private struct LearningLessonDetailView: View {
     private func playLessonText(_ text: String) {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
+        conversationRunID = UUID()
+        isPlayingConversation = false
         audioPlayer?.stop()
         audioError = nil
         playingText = trimmed
+        let runID = UUID()
+        itemRunID = runID
         Task {
             do {
                 let audioData = try await pollyService.synthesizeSpeech(text: trimmed, voiceId: lessonVoice)
                 await MainActor.run {
+                    guard itemRunID == runID else { return }
                     do {
                         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
                         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
                         try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
                         audioPlayer = try AVAudioPlayer(data: audioData)
                         audioDelegate.onFinish = {
+                            guard itemRunID == runID else { return }
                             playingText = nil
                         }
                         audioPlayer?.delegate = audioDelegate
@@ -367,11 +402,89 @@ private struct LearningLessonDetailView: View {
                 }
             } catch {
                 await MainActor.run {
+                    guard itemRunID == runID else { return }
                     playingText = nil
                     audioError = "Could not load lesson audio. Make sure the speech service is available."
                 }
             }
         }
+    }
+
+    private func cancelConversationPlayback() {
+        conversationRunID = UUID()
+        itemRunID = UUID()
+        isPlayingConversation = false
+        audioPlayer?.stop()
+        audioPlayer = nil
+        playingText = nil
+    }
+
+    /// Plays every conversation line in order, one speaker per voice, and stops when the run is cancelled.
+    private func playAllConversation() {
+        cancelConversationPlayback()
+        guard !lesson.conversation.isEmpty else { return }
+
+        let runID = UUID()
+        conversationRunID = runID
+        isPlayingConversation = true
+        audioError = nil
+
+        Task {
+            for (index, line) in lesson.conversation.enumerated() {
+                let text = line.mainContent.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !text.isEmpty, conversationRunID == runID else { continue }
+
+                let voice = conversationVoice(for: index)
+                var audioData: Data?
+                audioData = try? await pollyService.synthesizeSpeech(text: text, voiceId: voice)
+                if audioData == nil, voice != lessonVoice {
+                    audioData = try? await pollyService.synthesizeSpeech(text: text, voiceId: lessonVoice)
+                }
+
+                guard conversationRunID == runID else { return }
+                guard let audioData, let player = try? AVAudioPlayer(data: audioData) else {
+                    await MainActor.run {
+                        if conversationRunID == runID {
+                            isPlayingConversation = false
+                            playingText = nil
+                            audioError = "Could not load lesson audio. Make sure the speech service is available."
+                        }
+                    }
+                    return
+                }
+
+                await MainActor.run { playingText = line.mainContent }
+                await play(player)
+                guard conversationRunID == runID else { return }
+                try? await Task.sleep(for: .milliseconds(350))
+            }
+
+            await MainActor.run {
+                guard conversationRunID == runID else { return }
+                isPlayingConversation = false
+                playingText = nil
+            }
+        }
+    }
+
+    /// Plays one clip and waits for it to finish. Exits promptly if the player is stopped elsewhere.
+    private func play(_ player: AVAudioPlayer) async {
+        configurePlaybackSession()
+        player.prepareToPlay()
+        player.play()
+        audioPlayer = player
+        let duration = player.duration
+        var waited = 0.0
+        while player.isPlaying, waited < duration + 2.0 {
+            try? await Task.sleep(for: .milliseconds(120))
+            waited += 0.12
+        }
+    }
+
+    private func configurePlaybackSession() {
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+        try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
     }
 }
 
