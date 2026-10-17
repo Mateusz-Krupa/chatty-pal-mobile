@@ -1307,8 +1307,8 @@
         },
         {
           "speaker": "Lena",
-          "text": "Mein Hund, dein Kaffee - weg.",
-          "translation": "My dog, your coffee - gone."
+          "text": "Oh nein. Mein Kaffee ist weg.",
+          "translation": "Oh no. My coffee is gone."
         },
         {
           "speaker": "Jonas",
@@ -2127,8 +2127,8 @@
         },
         {
           "speaker": "Jonas",
-          "text": "Meinen Kaffee? Ich hole ihn sofort!",
-          "translation": "My coffee? I am fetching him right now!"
+          "text": "Deinen Kaffee? Ich hole ihn sofort!",
+          "translation": "Your coffee? I am fetching him right now!"
         },
         {
           "speaker": "Lena",
@@ -2367,8 +2367,8 @@
         },
         {
           "speaker": "Lena",
-          "text": "Alt wie du? Ein Klassiker!",
-          "translation": "Old like you? A classic!"
+          "text": "Alt wie der Tisch? Ein Klassiker!",
+          "translation": "Old like the table? A classic!"
         },
         {
           "speaker": "Jonas",
@@ -2946,8 +2946,8 @@
         },
         {
           "speaker": "Lena",
-          "text": "Krank? Und ich hatte Kaffee!",
-          "translation": "Sick? And I had coffee!"
+          "text": "Krank? Das tut mir leid. Und ich hatte Kaffee!",
+          "translation": "Sick? I am sorry to hear that. And I had coffee!"
         },
         {
           "speaker": "Jonas",
@@ -3316,13 +3316,13 @@
         },
         {
           "speaker": "Lena",
-          "text": "Nein - heute bleibe ich hier. Und? Zu mir?",
-          "translation": "No - today I stay here. And? To my place?"
+          "text": "Nein, ich bleibe heute hier. Kommst du zum Lernen zu mir?",
+          "translation": "No, I am staying here today. Are you coming to my place to study?"
         },
         {
           "speaker": "Jonas",
-          "text": "Gern. Aus dem Kurs - direkt zu dir.",
-          "translation": "Gladly. From the course - straight to your place."
+          "text": "Aus dem Kurs - direkt zu dir zum Lernen.",
+          "translation": "From the course - straight to your place to study."
         },
         {
           "speaker": "Lena",
@@ -4060,8 +4060,8 @@
         },
         {
           "speaker": "Lena",
-          "text": "Ein schönes Zimmer braucht schöne Freunde. Danke.",
-          "translation": "A beautiful room needs beautiful friends. Thanks."
+          "text": "Ein schönes Zimmer braucht gute Freunde. Danke.",
+          "translation": "A beautiful room needs good friends. Thanks."
         }
       ],
       "description": "Adjectives finally get their uniforms. One set of endings, chosen by article and gender - and suddenly you describe everything.",
