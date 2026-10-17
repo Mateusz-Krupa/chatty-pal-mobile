@@ -10,7 +10,7 @@
         {
           "speaker": "Jonas",
           "text": "Vasser ... vunder ... varum.",
-          "translation": "Reading attempts: Wasser, wonder, warum."
+          "translation": "Reading attempts: Wasser, Wunder, warum."
         },
         {
           "speaker": "Lena",
@@ -50,7 +50,7 @@
       "level": "A1",
       "phrases": [
         {
-          "text": "Wasser, wonder, warum.",
+          "text": "Wasser, Wunder, warum.",
           "translation": "Sound sample: the German w is almost always a v-sound."
         },
         {
@@ -78,7 +78,7 @@
           "translation": "Sound sample: ss and ß are both a sharp s."
         }
       ],
-      "practicePrompt": "Practice German consonant pronunciation with me. Use ONLY the sound samples from this lesson (word lists like 'Wasser, wonder, warum'), never invented sentences. Ask me to read each sample out loud, then give feedback in English on specific consonant sounds: w, z, tz, sch, sp, st, both ch sounds, and ß. Keep everything very simple at A1 level.",
+      "practicePrompt": "Practice German consonant pronunciation with me. Use ONLY the sound samples from this lesson (word lists like 'Wasser, Wunder, warum'), never invented sentences. Ask me to read each sample out loud, then give feedback in English on specific consonant sounds: w, z, tz, sch, sp, st, both ch sounds, and ß. Keep everything very simple at A1 level.",
       "title": "Consonants: Read Them Right",
       "topic": "Pronunciation: consonants",
       "vocabulary": [
