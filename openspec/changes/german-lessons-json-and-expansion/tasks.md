@@ -20,5 +20,5 @@ Every content-phase reviewer gate checks explicitly: (a) cumulative wall per des
 
 ## Phase 6 — Close out
 
-- [ ] Task 11: Final overall reviewer (>= 4.5/5.0) on full diff; full build + test suite
+- [x] Task 11: Final overall reviewer (>= 4.5/5.0) on full diff; full build + test suite
 - [ ] Task 12: Archive OpenSpec change; push branch only after explicit user approval
