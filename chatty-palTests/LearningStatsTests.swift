@@ -115,7 +115,7 @@ final class LearningStatsTests: XCTestCase {
         defaults.removePersistentDomain(forName: #function)
         let store = LearningStatsStore(defaults: defaults)
 
-        // The shipping catalog JSON must be loadable in the test host; de-g-01 is its first lesson.
+        // The shipping catalog JSON must be loadable in the test host; the first shipping lesson id is its first lesson.
         XCTAssertFalse(MobileLearningCatalog.germanLessons.isEmpty)
         store.recordLessonPractice(lessonID: MobileLearningCatalog.germanLessons[0].id)
         store.recordLessonPractice(lessonID: "de-g-99")   // retired id, not in the active catalog

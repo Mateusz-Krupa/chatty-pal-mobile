@@ -9,8 +9,8 @@
         },
         {
           "speaker": "Jonas",
-          "text": "Vasser ... vann ... vegen.",
-          "translation": "Reading attempts: Wasser ... wann ... wegen."
+          "text": "Vasser ... vunder ... varum.",
+          "translation": "Reading attempts: Wasser, wonder, warum."
         },
         {
           "speaker": "Lena",
@@ -50,7 +50,7 @@
       "level": "A1",
       "phrases": [
         {
-          "text": "Wasser, wann, warum.",
+          "text": "Wasser, wonder, warum.",
           "translation": "Sound sample: the German w is almost always a v-sound."
         },
         {
@@ -78,7 +78,7 @@
           "translation": "Sound sample: ss and ß are both a sharp s."
         }
       ],
-      "practicePrompt": "Practice German consonant pronunciation with me. Use ONLY the sound samples from this lesson (word lists like 'Wasser, wann, warum'), never invented sentences. Ask me to read each sample out loud, then give feedback in English on specific consonant sounds: w, z, tz, sch, sp, st, both ch sounds, and ß. Keep everything very simple at A1 level.",
+      "practicePrompt": "Practice German consonant pronunciation with me. Use ONLY the sound samples from this lesson (word lists like 'Wasser, wonder, warum'), never invented sentences. Ask me to read each sample out loud, then give feedback in English on specific consonant sounds: w, z, tz, sch, sp, st, both ch sounds, and ß. Keep everything very simple at A1 level.",
       "title": "Consonants: Read Them Right",
       "topic": "Pronunciation: consonants",
       "vocabulary": [
@@ -3172,6 +3172,1104 @@
           "text": "das Wort",
           "translation": "word",
           "usage": "'Ich kenne das Wort nicht.' - the survival phrase of this whole course."
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Ich verstehe das nicht. Hilfst du mir?",
+          "translation": "I do not understand this. Will you help me?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Natürlich. Was verstehst du nicht?",
+          "translation": "Of course. What do you not understand?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Der ganze Dativ! Meine Schwester sagte: Die Übungen gefallen dir bald.",
+          "translation": "The whole dative! My sister said: you will like the exercises soon."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Sie hat recht. Morgen erkläre ich dir alles!",
+          "translation": "She is right. Tomorrow I will explain everything to you!"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Du erklärst gut - danke dir!",
+          "translation": "You explain well - thank you!"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Du schaffst das! Der Kurs ist für dich.",
+          "translation": "You can do it! The course is for you."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Und mir gefällt schon jetzt: Morgen. Immer morgen.",
+          "translation": "And what I already like: tomorrow. Always tomorrow."
+        }
+      ],
+      "description": "A club of useful verbs that always take 'to whom' - and the most polite ones in the language.",
+      "goals": [
+        "Use helfen, gefallen, gehören, danken with mir/dir/ihm/ihr.",
+        "Say what you like with the 'pleases me' pattern: Das gefällt mir.",
+        "Taste-test with schmecken: Der Kaffee schmeckt gut."
+      ],
+      "id": "de-s-28",
+      "intro": "Some verbs demand the dative all by themselves: helfen (ich helfe dir), gefallen (das gefällt mir - the thing pleases me), gehören (das gehört mir - it belongs to me), danken (ich danke dir) and schmecken (Der Kaffee schmeckt gut - the coffee passes judgment). With these verbs the person is never the object of the action - they are the experiencer, living the effect. Say 'Das gefällt mir' and Germans smile: you have learned the politeness verb.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Ich helfe dir.",
+          "translation": "I will help you. (helfen + dative)"
+        },
+        {
+          "text": "Hilfst du mir?",
+          "translation": "Will you help me?"
+        },
+        {
+          "text": "Der Kurs gefällt mir.",
+          "translation": "I like the course. (literally: the course pleases me)"
+        },
+        {
+          "text": "Das Buch gehört mir.",
+          "translation": "The book belongs to me."
+        },
+        {
+          "text": "Ich danke dir.",
+          "translation": "I thank you."
+        },
+        {
+          "text": "Der Kaffee schmeckt gut.",
+          "translation": "The coffee tastes good."
+        },
+        {
+          "text": "Gefällt dir die Stadt?",
+          "translation": "Do you like the city? (does the city please you)"
+        },
+        {
+          "text": "Wir helfen ihm.",
+          "translation": "We will help him."
+        }
+      ],
+      "practicePrompt": "Play the polite course scene with me: make me help (helfen + dir/mir), like things (Das gefällt mir), own things (Das gehört mir) and thank you (Ich danke dir). Use only the dative person forms mir/dir/ihm/ihr. Correct only the dative after these verbs.",
+      "title": "Friends of the Dative: helfen, gefallen, gehören",
+      "topic": "Dative verbs",
+      "vocabulary": [
+        {
+          "text": "helfen",
+          "translation": "to help",
+          "usage": "Always + dative: 'Ich helfe dir.' Not mich!"
+        },
+        {
+          "text": "gefallen",
+          "translation": "to please, to like",
+          "usage": "'Das gefällt mir.' - the German way to say I like it."
+        },
+        {
+          "text": "gehören",
+          "translation": "to belong to",
+          "usage": "Always + dative: 'Das gehört mir.'"
+        },
+        {
+          "text": "danken",
+          "translation": "to thank",
+          "usage": "'Ich danke dir.' - the formal cousin of Danke."
+        },
+        {
+          "text": "schmecken",
+          "translation": "to taste",
+          "usage": "'Es schmeckt gut.' - the restaurant verdict. The food is the subject."
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Wie kommst du hierher? Mit dem Bus?",
+          "translation": "How do you get here? By bus?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Nein - zu Fuß! Ich wohne bei meiner Schwester.",
+          "translation": "No - on foot! I live at my sister's place."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Zu Fuß? Sehr gesund. Ich fahre immer mit dem Bus.",
+          "translation": "On foot? Very healthy. I always go by bus."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Und nach dem Kurs? Zu dir?",
+          "translation": "And after the course? To your place?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Nein - heute bleibe ich hier. Und? Zu mir?",
+          "translation": "No - today I stay here. And? To my place?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Gern. Aus dem Kurs - direkt zu dir.",
+          "translation": "Gladly. From the course - straight to your place."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Und der Kaffee? Von mir!",
+          "translation": "And the coffee? From me!"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Bei dir schmeckt er - immer!",
+          "translation": "At your place it always tastes great."
+        }
+      ],
+      "description": "Six prepositions with one demand: whatever follows them wears the dative. Together they run transport, time and friendship.",
+      "goals": [
+        "Say how you travel: mit dem Bus, mit der Bahn.",
+        "Use zu with places: zum Bahnhof (zu + dem), zur Arbeit (zu + der).",
+        "Place people, origin and time with bei, aus and nach: bei dir, aus Berlin, nach dem Kurs."
+      ],
+      "id": "de-s-29",
+      "intro": "mit (with/by), zu (to), nach (after, to cities), von (from, of), bei (at someone's, near) and aus (out of, from countries) - six going-out-and-about prepositions, all dative, always: mit dem Bus, zur Arbeit, nach dem Kurs, von meiner Schwester, bei dir. Memorize the club with a rhythm - mit, zu, nach, von, bei, aus - and every 'how do you get there' question solves itself.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Er fährt mit dem Bus.",
+          "translation": "He goes by bus. (mit + dative)"
+        },
+        {
+          "text": "Wir gehen zum Bahnhof.",
+          "translation": "We are going to the train station. (zum = zu + dem)"
+        },
+        {
+          "text": "Sie geht zur Arbeit.",
+          "translation": "She goes to work. (zur = zu + der)"
+        },
+        {
+          "text": "Nach dem Kurs trinke ich Kaffee.",
+          "translation": "After the course I drink coffee."
+        },
+        {
+          "text": "Das Geschenk ist von meiner Schwester.",
+          "translation": "The gift is from my sister."
+        },
+        {
+          "text": "Bist du heute bei dir?",
+          "translation": "Are you at your place today?"
+        },
+        {
+          "text": "Ich komme aus Berlin.",
+          "translation": "I come from Berlin. (aus - the origin preposition)"
+        },
+        {
+          "text": "Mit dir - immer gern.",
+          "translation": "With you - always gladly."
+        }
+      ],
+      "practicePrompt": "Run the logistics of friendship with me: ask how I travel (mit + dative), where I go (zum/zur), what follows the course (nach dem Kurs), who something comes from (von), where someone is (bei), and where someone comes from (aus). Keep everything in the dative. Correct only the preposition + dative combinations.",
+      "title": "The Dative Club: mit, zu, nach, von, bei, aus",
+      "topic": "Dative prepositions",
+      "vocabulary": [
+        {
+          "text": "mit",
+          "translation": "with; by (transport)",
+          "usage": "Always dative: 'mit dem Bus', 'mit der Bahn', 'mit dir'."
+        },
+        {
+          "text": "zu",
+          "translation": "to",
+          "usage": "Contracts with the articles: zum Bahnhof, zur Arbeit. With people it works too: 'Ich komme zu dir.'"
+        },
+        {
+          "text": "nach",
+          "translation": "after; to (cities, countries)",
+          "usage": "'nach dem Kurs' - after; 'Ich fahre nach Berlin' - to cities."
+        },
+        {
+          "text": "von",
+          "translation": "from; of",
+          "usage": "Dative: 'von meiner Schwester'. Also drops 'the': 'ein Freund von mir'."
+        },
+        {
+          "text": "bei",
+          "translation": "at someone's; near",
+          "usage": "'bei dir' - at your place; 'bei dem' becomes beim."
+        },
+        {
+          "text": "aus",
+          "translation": "out of; from (countries)",
+          "usage": "'Ich komme aus Deutschland.' - the origin twin of von."
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Was willst du nach dem Kurs machen?",
+          "translation": "What do you want to do after the course?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich will nur Kaffee trinken. Und du?",
+          "translation": "I just want to drink coffee. And you?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Ich muss arbeiten. Ich kann später kommen.",
+          "translation": "I have to work. I can come later."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Dann trinken wir um acht. Kennst du ein Café?",
+          "translation": "Then we will have a drink at eight."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Ja! Die Eule. Klein - fein.",
+          "translation": "Yes! The Owl. Small - fine."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Müssen wir reservieren?",
+          "translation": "Do we have to reserve?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Nein, kein Problem. Acht Uhr - die Eule.",
+          "translation": "No, no problem. Eight o'clock - the Owl."
+        }
+      ],
+      "description": "The three modal verbs - ability, duty, desire. The trick: two verbs in one sentence, and the second one waits at the end, in its full form.",
+      "goals": [
+        "Conjugate können, müssen, wollen (note: ich = er form).",
+        "Send the second verb to the end: Ich will Deutsch lernen.",
+        "Ask about ability and make requests: Kannst du ...?"
+      ],
+      "id": "de-s-30",
+      "intro": "Modals are mood setters: ich kann (I can), ich muss (I must), ich will (I want to). Two rules make them easy. One: ich and er look identical - ich kann, er kann, no ending. Two: the real verb escapes to the end of the sentence in its full form: Ich muss heute arbeiten. If you can say 'Kannst du mir helfen?', you can already get by in Germany.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Ich kann schwimmen.",
+          "translation": "I can swim."
+        },
+        {
+          "text": "Kannst du mir helfen?",
+          "translation": "Can you help me?"
+        },
+        {
+          "text": "Er muss arbeiten.",
+          "translation": "He has to work."
+        },
+        {
+          "text": "Ich will Deutsch lernen.",
+          "translation": "I want to learn German."
+        },
+        {
+          "text": "Was willst du machen?",
+          "translation": "What do you want to do?"
+        },
+        {
+          "text": "Müssen wir heute zahlen?",
+          "translation": "Do we have to pay today?"
+        },
+        {
+          "text": "Wir können kommen - Tom nicht.",
+          "translation": "We can come - Tom cannot."
+        },
+        {
+          "text": "Du musst nicht suchen - ich habe den Schlüssel!",
+          "translation": "You do not have to search - I have the key!"
+        }
+      ],
+      "practicePrompt": "Make plans with me in German: ask what I want, must and can do (was willst du? was musst du? was kannst du?), and answer with the second verb at the end. ich and er modal forms are the same - drill that too. Correct only the modal forms and the verb-at-the-end rule.",
+      "title": "Can Do: können, müssen, wollen",
+      "topic": "Modal verbs",
+      "vocabulary": [
+        {
+          "text": "können",
+          "translation": "can, to be able",
+          "usage": "ich kann, du kannst, er kann - the ability modal."
+        },
+        {
+          "text": "müssen",
+          "translation": "must, to have to",
+          "usage": "ich muss, du musst, er muss - the duty modal. nicht müssen = you do not have to."
+        },
+        {
+          "text": "wollen",
+          "translation": "to want (strongly)",
+          "usage": "ich will, du willst, er will - wants with fire."
+        },
+        {
+          "text": "zahlen",
+          "translation": "to pay",
+          "usage": "'Müssen wir zahlen?' - the café fear."
+        },
+        {
+          "text": "suchen",
+          "translation": "to look for",
+          "usage": "'Du musst nicht suchen - hier!'"
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Lernst du auch samstags?",
+          "translation": "Do you study on Saturdays too?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ja - und zwar gern!",
+          "translation": "Yes - and gladly!"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Ich lerne nicht mehr, sondern ich lese. Bücher, Kataloge, Speisekarten.",
+          "translation": "I no longer study, I read. Books, catalogs, menus."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Speisekarten? Warum?",
+          "translation": "Menus? Why?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Denn ich lese gern hungrig.",
+          "translation": "Because I like reading when I am hungry."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Sehr wahr. Und nach dem Lesen? Kaffee oder Tee?",
+          "translation": "Very true. And after reading? Coffee or tea?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Kaffee - aber ohne Eile.",
+          "translation": "Coffee - but without hurry."
+        }
+      ],
+      "description": "Five small words that turn sentences into conversations - and none of them steals the verb's second place.",
+      "goals": [
+        "Connect two sentences with und, aber, denn.",
+        "Offer choices with oder - and correct no's with sondern.",
+        "Keep verb-second order after every one of the five."
+      ],
+      "id": "de-s-31",
+      "intro": "und (and), aber (but), oder (or), sondern (but rather), denn (because) are position-neutral: after them, the verb keeps its normal second place - ich lerne, denn ich WILL arbeiten. Not 'denn ich arbeiten will' - that belongs to a later league. Sondern is the picky one: it only comes after a no, to correct it: kein Kaffee, sondern Tee. Say these five often enough and your German stops sounding like telegram.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Ich lerne Deutsch und Jonas lernt auch.",
+          "translation": "I learn German and Jonas learns too."
+        },
+        {
+          "text": "Kaffee oder Tee?",
+          "translation": "Coffee or tea?"
+        },
+        {
+          "text": "Ich trinke keinen Kaffee, sondern Tee.",
+          "translation": "I do not drink coffee, but tea instead. (sondern corrects a no)"
+        },
+        {
+          "text": "Der Kurs ist klein, aber fein.",
+          "translation": "The course is small but fine."
+        },
+        {
+          "text": "Ich lerne Deutsch, denn ich will in Berlin arbeiten.",
+          "translation": "I learn German because I want to work in Berlin."
+        },
+        {
+          "text": "Du kommst - oder nicht?",
+          "translation": "You are coming - or not?"
+        },
+        {
+          "text": "Nicht kalt, sondern warm, bitte.",
+          "translation": "Not cold, but warm, please."
+        },
+        {
+          "text": "Wir trinken Kaffee, aber Tom zahlt nicht.",
+          "translation": "We drink coffee, but Tom does not pay."
+        }
+      ],
+      "practicePrompt": "Chat with me and make every reply a two-part sentence: connect our ideas with und, contrast with aber, offer choices with oder, correct my no's with sondern, justify with denn. The verb stays second on both sides - that is the drill. Correct only the connectors and word order after them.",
+      "title": "Glue Words: und, aber, oder, sondern, denn",
+      "topic": "Conjunctions",
+      "vocabulary": [
+        {
+          "text": "und",
+          "translation": "and",
+          "usage": "The workhorse. Verb keeps second place on both sides."
+        },
+        {
+          "text": "aber",
+          "translation": "but",
+          "usage": "No order change: 'Der Hund ist klein, aber schnell.'"
+        },
+        {
+          "text": "oder",
+          "translation": "or",
+          "usage": "Questions love it: 'Kaffee oder Tee?'"
+        },
+        {
+          "text": "sondern",
+          "translation": "but rather",
+          "usage": "Only after a no: 'kein X, sondern Y.'"
+        },
+        {
+          "text": "denn",
+          "translation": "because",
+          "usage": "Because the easy way - no word-order circus: 'denn ich lerne gern.'"
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Was hast du gestern gemacht?",
+          "translation": "What did you do yesterday?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich habe den ganzen Tag gelernt.",
+          "translation": "I studied the whole day."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Nur das? Aber gestern war das Wetter schön!",
+          "translation": "Only that? But yesterday the weather was nice!"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich weiß. Ich war arbeiten und habe den ganzen Tag gelernt.",
+          "translation": "I know. I was at work and studied the whole day."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Und jetzt?",
+          "translation": "And now?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Jetzt habe ich frei. Ich habe einen Kuchen gekauft!",
+          "translation": "Now I am free. I bought a cake!"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Einen Kuchen? Was ist los?",
+          "translation": "A cake? What is going on?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich habe heute viel gelernt - jetzt habe ich gute Laune!",
+          "translation": "I learned a lot today - now I am in a good mood!"
+        }
+      ],
+      "description": "Forget the story past - Germans talk about yesterday like this: one helping verb up front, the real verb tucked in at the end with ge-.",
+      "goals": [
+        "Form the participle: ge- + stem + -t.",
+        "Put haben second and the participle last: Ich habe den ganzen Tag gearbeitet.",
+        "Use common participles: gegessen, getrunken, gesprochen, gehört."
+      ],
+      "id": "de-s-32",
+      "intro": "This is the past tense of conversation: Ich habe gestern gelernt, Was hast du gemacht? The recipe: haben in second place + all the other verbs waiting at the end, the last one wearing ge-: ge + lern + t. Regular verbs make easy participles (gemacht, gekauft, gelernt); a few stars join irregularly (gegessen, getrunken, gesprochen) - take them as friends you meet early. The story-past of lesson 23? That is for books and news.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Ich habe Deutsch gelernt.",
+          "translation": "I studied German."
+        },
+        {
+          "text": "Was hast du gemacht?",
+          "translation": "What did you do?"
+        },
+        {
+          "text": "Sie hat den ganzen Tag gearbeitet.",
+          "translation": "She worked the whole day."
+        },
+        {
+          "text": "Wir haben zwei Stunden gewartet.",
+          "translation": "We waited two hours."
+        },
+        {
+          "text": "Ich habe die Frage nicht gehört.",
+          "translation": "I did not hear the question."
+        },
+        {
+          "text": "Wir haben gut gegessen.",
+          "translation": "We ate well. (irregular: gegessen)"
+        },
+        {
+          "text": "Hast du schon getrunken?",
+          "translation": "Have you had something to drink already?"
+        },
+        {
+          "text": "Er hat sehr gut gesprochen.",
+          "translation": "He spoke very well."
+        },
+        {
+          "text": "Der Kurs hat eine Stunde gedauert.",
+          "translation": "The course lasted one hour."
+        }
+      ],
+      "practicePrompt": "Compare yesterday stories with me: ask 'Was hast du gemacht?' and have me answer with haben + participle (gelernt, gekauft, gegessen, gesprochen...). A few -te forms from the book past are fair too. Correct only the Perfekt recipe: haben second, participle last.",
+      "title": "The Spoken Past: ich habe Kaffee gekauft",
+      "topic": "Perfekt with haben",
+      "vocabulary": [
+        {
+          "text": "gemacht",
+          "translation": "done, made",
+          "usage": "ge + mach + t. The participle model."
+        },
+        {
+          "text": "gelernt",
+          "translation": "learned",
+          "usage": "ge + lern + t."
+        },
+        {
+          "text": "gesucht",
+          "translation": "searched for",
+          "usage": "ge + such + t. A regular participle."
+        },
+        {
+          "text": "gesagt",
+          "translation": "said",
+          "usage": "sagen becomes gesagt - no umlaut, no surprise."
+        },
+        {
+          "text": "bezahlt",
+          "translation": "paid",
+          "usage": "A common participle to learn whole: bezahlen → bezahlt."
+        },
+        {
+          "text": "gewartet",
+          "translation": "waited",
+          "usage": "'Wir haben zwei Stunden gewartet.' - patience, expressed."
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Ich habe eine Frage: Wo bist du geboren?",
+          "translation": "I have a question: where were you born?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich bin in Krakau geboren.",
+          "translation": "I was born in Krakow."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Und - nach Deutschland? Wie?",
+          "translation": "And - Germany? How?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Mit dem Zug.",
+          "translation": "By train."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Und der erste Tag? Was hast du gemacht?",
+          "translation": "And the first day? What did you do?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich bin viel gelaufen und ich habe Pizza gegessen. Ich war müde - sehr glücklich.",
+          "translation": "I walked a lot and ate pizza. I was tired - very happy."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Siehst du? Eine ganze Lebensgeschichte - in zwei Hilfsverben.",
+          "translation": "See? A whole life story - in two helper verbs."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Und weiter? Wir bleiben - wir fahren - wir kommen!",
+          "translation": "And further? We stay - we go - we come!"
+        }
+      ],
+      "description": "Verbs that move or change take sein, not haben. I have come - not I have had come. The moment you hear it, it clicks.",
+      "goals": [
+        "Use sein + participle with kommen, gehen, fahren, laufen, bleiben.",
+        "Tell where you went and how you traveled yesterday.",
+        "Keep the participle last - only the helper verb changed."
+      ],
+      "id": "de-s-33",
+      "intro": "A small club of common verbs forms its past with bin/bist/ist: kommen, gehen, fahren, laufen and bleiben; geboren also uses sein. Ich bin nach Hause gegangen, Er ist mit dem Zug gefahren. Most other verbs use haben - so you only need to remember the club, and it is a club you use constantly. Watch the participle stay at the end: the recipe does not change, only the helper.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Ich bin nach Hause gegangen.",
+          "translation": "I went home. (gehen takes sein)"
+        },
+        {
+          "text": "Bist du mit dem Zug gefahren?",
+          "translation": "Did you go by train?"
+        },
+        {
+          "text": "Wir sind gekommen!",
+          "translation": "We have arrived!"
+        },
+        {
+          "text": "Er ist viel gelaufen.",
+          "translation": "He ran a lot. (laufen takes sein)"
+        },
+        {
+          "text": "Ich bin zu Hause geblieben.",
+          "translation": "I stayed at home. (bleiben takes sein)"
+        },
+        {
+          "text": "Sie ist nach Berlin gefahren.",
+          "translation": "She went to Berlin."
+        },
+        {
+          "text": "Wo bist du geboren?",
+          "translation": "Where were you born? (geboren takes sein)"
+        },
+        {
+          "text": "Seid ihr schnell gekommen?",
+          "translation": "Did you come quickly? (plural ihr)"
+        }
+      ],
+      "practicePrompt": "Interview each other's life story with the sein-club: ask where I was born, where I went and how I traveled (bin gegangen/gefahren/gekommen/geblieben/gelaufen). Most other common actions use haben - gegessen, gekauft. Correct only the helper-verb choice and the participles.",
+      "title": "Movement Has Its Own Past: bin gekommen",
+      "topic": "Perfekt with sein",
+      "vocabulary": [
+        {
+          "text": "gekommen",
+          "translation": "come",
+          "usage": "Always sein: 'Ich bin gekommen.'"
+        },
+        {
+          "text": "gegangen",
+          "translation": "gone, walked",
+          "usage": "sein + gegangen: 'Ich bin nach Hause gegangen.'"
+        },
+        {
+          "text": "gefahren",
+          "translation": "gone by vehicle, driven",
+          "usage": "sein + gefahren: 'Ich bin mit dem Zug gefahren.'"
+        },
+        {
+          "text": "geblieben",
+          "translation": "stayed",
+          "usage": "sein + geblieben: 'Ich bin zu Hause geblieben.'"
+        },
+        {
+          "text": "gelaufen",
+          "translation": "run",
+          "usage": "sein + gelaufen: 'Ich bin viel gelaufen.'"
+        },
+        {
+          "text": "geboren",
+          "translation": "born",
+          "usage": "'Ich bin in Berlin geboren.' - every passport question."
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Wie früh stehst du normalerweise auf?",
+          "translation": "How early do you normally get up?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich wache um sechs auf - aber ich stehe erst um sieben auf.",
+          "translation": "I wake at six - but I only get up at seven."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Früh! Ich brauche zuerst meinen Kaffee.",
+          "translation": "Early! I first need my coffee."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ich kaufe Brot ein, und du machst den Kaffee?",
+          "translation": "I get the groceries and you make the coffee?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Abgemacht. Bringst du auch Äpfel mit?",
+          "translation": "Deal. Will you bring apples too?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Die Äpfel sind noch gut!",
+          "translation": "The apples are still good!"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Dann bringen wir keine Äpfel mit.",
+          "translation": "Then we will not bring any apples."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Gut. Der Kurs fängt gleich an!",
+          "translation": "Good. The course starts soon!"
+        }
+      ],
+      "description": "German verbs can unscrew their own prefix and send it to the end of the sentence. Aufstehen becomes: ich stehe um sieben Uhr auf.",
+      "goals": [
+        "Put the prefix at the end: Ich stehe um sieben Uhr auf.",
+        "Use aufstehen, einkaufen, anfangen, anrufen, mitbringen, fernsehen.",
+        "Recognize the non-separables: bezahlen, verstehen stay in one piece."
+      ],
+      "id": "de-s-34",
+      "intro": "aufstehen (to get up) splits in a main clause: Ich stehe um sieben auf. einkaufen (to shop groceries): Wir kaufen samstags ein. anfangen (to begin): Der Film fängt um acht an. The prefix detaches and waits at the very end - like the participle does, German keeps its right edge busy. And a small secret: verbs with be- and ver- (bezahlen, verstehen) NEVER split - you have been saying bezahlt correctly since lesson 32 without knowing it.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Ich stehe um sieben Uhr auf.",
+          "translation": "I get up at seven o'clock."
+        },
+        {
+          "text": "Wie früh stehst du auf?",
+          "translation": "How early do you get up?"
+        },
+        {
+          "text": "Wir kaufen samstags ein.",
+          "translation": "We do the grocery shopping on Saturdays."
+        },
+        {
+          "text": "Der Kurs fängt um acht an.",
+          "translation": "The course starts at eight. (anfangen: fängt ... an)"
+        },
+        {
+          "text": "Ich rufe dich später an.",
+          "translation": "I will call you later."
+        },
+        {
+          "text": "Bringst du Kuchen mit?",
+          "translation": "Are you bringing cake along?"
+        },
+        {
+          "text": "Ich sehe gern fern.",
+          "translation": "I like watching TV."
+        },
+        {
+          "text": "Er bezahlt den Kaffee - immer.",
+          "translation": "He pays for the coffee - always. (be- never separates)"
+        }
+      ],
+      "practicePrompt": "Run the morning-and-evening routine with me using separable verbs: ask how early I get up (Wie früh stehst du auf?), what we shop (kaufen wir ... ein?), who calls (rufst du ... an?), what we bring (bringst du ... mit?). The be- and ver- verbs stay whole - no splitting bezahlen. Correct only the prefix placement.",
+      "title": "Verbs with Detachable Parts: stehe ... auf",
+      "topic": "Separable verbs",
+      "vocabulary": [
+        {
+          "text": "aufstehen",
+          "translation": "to get up",
+          "usage": "Separable: 'Ich stehe um sieben auf.'"
+        },
+        {
+          "text": "einkaufen",
+          "translation": "to go grocery shopping",
+          "usage": "'Wir kaufen ein.' - buying, the weekly way."
+        },
+        {
+          "text": "anfangen",
+          "translation": "to begin",
+          "usage": "'Der Film fängt an.' - and note the a becomes ä, lesson 15."
+        },
+        {
+          "text": "anrufen",
+          "translation": "to call (phone)",
+          "usage": "'Ich rufe dich an.' - the verb that knows telephones."
+        },
+        {
+          "text": "fernsehen",
+          "translation": "to watch TV",
+          "usage": "'Ich sehe fern.' - literally: seeing from afar."
+        },
+        {
+          "text": "mitbringen",
+          "translation": "to bring along",
+          "usage": "'Bringst du Kuchen mit?' - the party verb."
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Wie gefällt dir mein neues Zimmer?",
+          "translation": "How do you like my new room?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Das neue Zimmer ist hell! Und der alte Tisch? Neu?",
+          "translation": "The new room is bright! And the old table? New?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Der alte Tisch ist nicht mehr alt - er ist neu.",
+          "translation": "The old table is not old anymore - it is new."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Neu? Den alten Tisch?",
+          "translation": "New? The old table?"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Ja! Ein großer Tisch - für kleine Hunde.",
+          "translation": "Yes! A big table - for small dogs."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Und der kleine Hund? Der schläft - immer.",
+          "translation": "And the little dog? He sleeps - always."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Ein schönes Zimmer braucht schöne Freunde. Danke.",
+          "translation": "A beautiful room needs beautiful friends. Thanks."
+        }
+      ],
+      "description": "Adjectives finally get their uniforms. One set of endings, chosen by article and gender - and suddenly you describe everything.",
+      "goals": [
+        "Use adjective endings after ein/kein/mein: ein großer Tisch, eine neue Lampe, ein großes Buch.",
+        "Use -e after der/die/das in nominative singular, and -en after den in accusative: der große Tisch, den alten Tisch.",
+        "Describe objects you own with the right article + ending + gender."
+      ],
+      "id": "de-s-35",
+      "intro": "When an adjective stands before a noun, it wears an ending - and the article decides which one. After ein/kein/mein, the adjective often carries the gender signal: ein großer Tisch (der - the big carries the -er!), eine neue Lampe, ein großes Buch. After der/die/das, the article carries more information: der große Tisch, die neue Lampe, das neue Buch; accusative masculine still takes -en: den alten Tisch. Two rows - the ein-family row and the der-family row - and description opens completely: mein alter Computer, einen heißen Kaffee.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Ich habe ein großes Zimmer.",
+          "translation": "I have a big room."
+        },
+        {
+          "text": "Der kleine Hund schläft.",
+          "translation": "The little dog is sleeping."
+        },
+        {
+          "text": "Ich trinke einen heißen Kaffee.",
+          "translation": "I am drinking a hot coffee."
+        },
+        {
+          "text": "Sie kauft eine neue Tasche.",
+          "translation": "She is buying a new bag."
+        },
+        {
+          "text": "Mein alter Computer ist kaputt.",
+          "translation": "My old computer is broken."
+        },
+        {
+          "text": "Das neue Buch ist gut.",
+          "translation": "The new book is good."
+        },
+        {
+          "text": "Ein kalter Tag - und ein warmer Kaffee.",
+          "translation": "A cold day - and a warm coffee."
+        },
+        {
+          "text": "Die alten Bücher gehören mir.",
+          "translation": "The old books belong to me."
+        }
+      ],
+      "practicePrompt": "Describe our things with me: give me a noun with its article and an adjective (groß, neu, alt, kalt, heiß) and make me use the right ending after ein/kein/mein and after der/die/das. Use the things you own: der Tisch, die Lampe, das Buch, der Hund. Correct only the adjective endings.",
+      "title": "Dressing Up Words: ein großes Zimmer",
+      "topic": "Adjective endings",
+      "vocabulary": [
+        {
+          "text": "groß",
+          "translation": "big, tall",
+          "usage": "ein großer Tisch - with ein, the adjective wears the gender ending."
+        },
+        {
+          "text": "neu",
+          "translation": "new",
+          "usage": "eine neue Tasche, das neue Buch."
+        },
+        {
+          "text": "alt",
+          "translation": "old",
+          "usage": "mein alter Computer - and jung is its twin."
+        },
+        {
+          "text": "kaputt",
+          "translation": "broken",
+          "usage": "'Mein Handy ist kaputt.' - said while smiling."
+        },
+        {
+          "text": "heiß",
+          "translation": "hot",
+          "usage": "einen heißen Kaffee -ß stays ß after diphthongs."
+        },
+        {
+          "text": "kalt",
+          "translation": "cold",
+          "usage": "ein kalter Tag - the weather adjective you already know."
+        }
+      ],
+      "voiceA": "Vicki",
+      "voiceB": "Daniel"
+    },
+    {
+      "conversation": [
+        {
+          "speaker": "Lena",
+          "text": "Und, Jonas - wie spät ist es?",
+          "translation": "So, Jonas - what time is it?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Halb acht! Der Kurs beginnt bald - keine Sorge.",
+          "translation": "7:30! The course starts soon - no worries."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Keine Sorge? Ich bin nervös! Ich bin 1990 geboren - oder?",
+          "translation": "No worries? I am nervous! I was born in 1990 - right?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Ja - 1990. Ich bin jünger: 1994.",
+          "translation": "Yes - 1990. I am younger: 1994."
+        },
+        {
+          "speaker": "Lena",
+          "text": "Und dein Geburtstag? Am wievielten?",
+          "translation": "And your birthday? On the how-many-th?"
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Am ersten Mai. Ich liebe den Mai!",
+          "translation": "On May the first. I love May!"
+        },
+        {
+          "speaker": "Lena",
+          "text": "Unsere Geschichte, unsere Zahlen, unser Kurs - alles hier.",
+          "translation": "Our story, our numbers, our course - everything is here."
+        },
+        {
+          "speaker": "Jonas",
+          "text": "Und morgen? Morgen - Deutsch. Immer Deutsch!",
+          "translation": "And tomorrow? Tomorrow - German. Always German!"
+        }
+      ],
+      "description": "Numbers grow up: the first, the fifth, the fifteenth. Plus halb neun means 8:30. And then - the graduation lap: your whole life in German.",
+      "goals": [
+        "Say dates: am ersten Mai, im Mai, 1994.",
+        "Tell the time: Es ist halb neun, um acht Uhr.",
+        "Tell your whole story - both pasts, modals, the lot."
+      ],
+      "id": "de-s-36",
+      "intro": "Ordinals are numbers wearing medals: der erste, der zweite, der dritte - and with them, dates: am ersten Mai (am + dative + ordinal - everything you know in a trench coat). Birthdays: Ich bin 1994 geboren, mein Geburtstag ist im Mai. Clock: halb neun is 8:30 - German counts toward the next hour. Then the final lap: your story in two pasts, modal dreams and dative friends - everything from lesson one to thirty-five.",
+      "languageCode": "de",
+      "level": "A2",
+      "phrases": [
+        {
+          "text": "Mein Geburtstag ist am ersten Mai.",
+          "translation": "My birthday is on May the first. (am + dative + ordinal)"
+        },
+        {
+          "text": "Er ist der erste Student im Kurs.",
+          "translation": "He is the first student in the course."
+        },
+        {
+          "text": "Der dritte Tag? Der war gut.",
+          "translation": "The third day? That one was good."
+        },
+        {
+          "text": "Ich bin 1994 geboren.",
+          "translation": "I was born in 1994."
+        },
+        {
+          "text": "Mein Geburtstag ist im Mai.",
+          "translation": "My birthday is in May."
+        },
+        {
+          "text": "Der Kurs beginnt um acht Uhr.",
+          "translation": "The course starts at eight o'clock. (beginnen: non-separable!)"
+        },
+        {
+          "text": "Es ist halb neun.",
+          "translation": "It is 8:30. (German counts toward the next hour)"
+        },
+        {
+          "text": "Wie spät ist es?",
+          "translation": "What time is it? (literally: how late is it)"
+        },
+        {
+          "text": "Letztes Jahr bin ich nach Deutschland gekommen.",
+          "translation": "Last year I came to Germany."
+        }
+      ],
+      "practicePrompt": "Graduation lap: interview me in German about my life - birthday (am ...), birth year (Ich bin ... geboren), what I did last year (Perfekt with haben or sein), where I went, what I must/want to do, what is important to me (dative!). Ask the time too: wie spät ist es?, halb ...? Correct everything - this is the final exam and there are no secrets anymore.",
+      "title": "Your Story: Dates, Clock Time and Everything",
+      "topic": "Dates and time",
+      "vocabulary": [
+        {
+          "text": "der erste",
+          "translation": "the first",
+          "usage": "Ordinals: der erste, der zweite, der dritte, der zehnte - dates use them."
+        },
+        {
+          "text": "zweite",
+          "translation": "second",
+          "usage": "der zweite Mai - and the fifteenth? der fünfzehnte. Dates: am zweiten Mai."
+        },
+        {
+          "text": "der Mai",
+          "translation": "May",
+          "usage": "Months are masculine: der Mai, der Juni. Birthday: 'im Mai' - im = in + dem."
+        },
+        {
+          "text": "die Uhr",
+          "translation": "o'clock; clock, watch",
+          "usage": "um acht Uhr. The word that tells time twice."
+        },
+        {
+          "text": "spät",
+          "translation": "late",
+          "usage": "'Wie spät ist es?' - the time question. früh is known."
+        },
+        {
+          "text": "beginnen",
+          "translation": "to begin",
+          "usage": "Non-separable like bezahlen: 'Der Kurs beginnt um acht.'"
         }
       ],
       "voiceA": "Vicki",
