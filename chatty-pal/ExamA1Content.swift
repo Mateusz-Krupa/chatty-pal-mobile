@@ -42,7 +42,7 @@ private let vocabularyUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-voc-zahlen-d3", speaker: "Vicki", german: "Das ist zu teuer. Haben Sie eine billigere?", english: "That is too expensive. Do you have a cheaper one?")
         ],
         exercises: [
-            ExamExercise(id: "a1-voc-zahlen-e1", kind: .gapFill, question: "Die Jacke ___ zwanzig Euro.", options: ["kostet", "ist", "hat", "bin"], correctIndex: 0, explanation: "Use \"kosten\" for prices: Die Jacke kostet zwanzig Euro."),
+            ExamExercise(id: "a1-voc-zahlen-e1", kind: .gapFill, question: "Die Jacke ___ zwanzig Euro.", options: ["kostet", "kosten", "hat", "bin"], correctIndex: 0, explanation: "Use \"kosten\" for prices: Die Jacke kostet zwanzig Euro."),
             ExamExercise(id: "a1-voc-zahlen-e2", kind: .multipleChoice, question: "Zehn plus zwanzig ist ...", options: ["drei", "dreißig", "fünfzig"], correctIndex: 1, explanation: "10 + 20 = 30 (dreißig)."),
             ExamExercise(id: "a1-voc-zahlen-e3", kind: .multipleChoice, question: "Which word means \"cheap\"?", options: ["teuer", "billig", "groß"], correctIndex: 1, explanation: "\"billig\" = cheap; \"teuer\" = expensive."),
             ExamExercise(id: "a1-voc-zahlen-e4", kind: .gapFill, question: "Das Hemd kostet fünf Euro ___ fünfzig.", options: ["und", "oder", "mit"], correctIndex: 0, explanation: "German uses \"und\" for decimals: fünf Euro und fünfzig."),
@@ -81,7 +81,7 @@ private let vocabularyUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-voc-familie-d4", speaker: "Daniel", german: "Sie wohnen in einer kleinen Stadt in Polen.", english: "They live in a small town in Poland.")
         ],
         exercises: [
-            ExamExercise(id: "a1-voc-familie-e1", kind: .gapFill, question: "Mein ___ ist Studentin.", options: ["Bruder", "Onkel", "Schwester", "Vater"], correctIndex: 2, explanation: "\"Studentin\" is feminine, so it is meine Schwester (sister)."),
+            ExamExercise(id: "a1-voc-familie-e1", kind: .gapFill, question: "Meine ___ ist Studentin.", options: ["Bruder", "Onkel", "Schwester", "Vater"], correctIndex: 2, explanation: "\"Studentin\" is feminine, so it is meine Schwester (sister). \"die Schwester\" takes \"meine\", not \"mein\"."),
             ExamExercise(id: "a1-voc-familie-e2", kind: .multipleChoice, question: "What is \"die Großmutter\"?", options: ["grandfather", "grandmother", "aunt"], correctIndex: 1, explanation: "die Großmutter = grandmother; der Großvater = grandfather."),
             ExamExercise(id: "a1-voc-familie-e3", kind: .multipleChoice, question: "What is the plural of \"das Kind\"?", options: ["die Kinder", "die Kinds", "die Kindes"], correctIndex: 0, explanation: "das Kind → die Kinder (irregular plural)."),
             ExamExercise(id: "a1-voc-familie-e4", kind: .multipleChoice, question: "Wer ist \"der Onkel\"?", options: ["der Bruder der Mutter", "der Vater", "der Sohn"], correctIndex: 0, explanation: "der Onkel = the uncle (mother's brother)."),
@@ -293,9 +293,9 @@ private let vocabularyUnits: [ExamUnit] = [
         exercises: [
             ExamExercise(id: "a1-voc-stadt-e1", kind: .multipleChoice, question: "What does \"links\" mean?", options: ["right", "left", "straight ahead"], correctIndex: 1, explanation: "links = left; rechts = right."),
             ExamExercise(id: "a1-voc-stadt-e2", kind: .multipleChoice, question: "\"an der Ecke\" means:", options: ["in the middle", "around the corner", "on the bridge"], correctIndex: 1, explanation: "die Ecke = corner."),
-            ExamExercise(id: "a1-voc-stadt-e3", kind: .gapFill, question: "Die Post ist ___ dem Park.", options: ["neben", "unter", "über", "hinter"], correctIndex: 0, explanation: "neben = next to. \"Die Post ist neben dem Park.\""),
+            ExamExercise(id: "a1-voc-stadt-e3", kind: .gapFill, question: "Die Post ist ___ dem Park. (The post office is next to the park.)", options: ["neben", "unter", "über", "hinter"], correctIndex: 0, explanation: "neben = next to. \"Die Post ist neben dem Park.\""),
             ExamExercise(id: "a1-voc-stadt-e4", kind: .gapFill, question: "Gehen Sie geradeaus, dann ___.", options: ["lang", "links", "weit", "alt"], correctIndex: 1, explanation: "Only \"links\" (left) is a direction you can follow after going straight."),
-            ExamExercise(id: "a1-voc-stadt-e5", kind: .multipleChoice, question: "Which building is \"die Bank\"?", options: ["the bench", "the bank", "the boat"], correctIndex: 1, explanation: "die Bank = bank (money); the bench = die Bank is a trick — in German a bench is often \"der Stuhl\" or \"die Parkbank\".")
+            ExamExercise(id: "a1-voc-stadt-e5", kind: .multipleChoice, question: "Which building is \"die Bank\"?", options: ["the bench", "the bank", "the boat"], correctIndex: 1, explanation: "die Bank (Geldinstitut) is a building. Note: \"die Bank\" can also mean a sitting bench (Parkbank), but that is not a building; das Boot = boat.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -585,7 +585,7 @@ private let vocabularyUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-voc-telefon-d4", speaker: "Daniel", german: "Ja, super! Ich rufe dich morgen an und wir vereinbaren alles.", english: "Yes, great! I will call you tomorrow and we will arrange everything.")
         ],
         exercises: [
-            ExamExercise(id: "a1-voc-telefon-e1", kind: .gapFill, question: "Ich ___ meine Mutter an.", options: ["rufe", "lege", "schreibe", "sende"], correctIndex: 0, explanation: "The fixed phrase is \"jemanden anrufen\" (to call someone)."),
+            ExamExercise(id: "a1-voc-telefon-e1", kind: .gapFill, question: "Ich ___ meine Mutter an. (I am calling my mother)", options: ["rufe", "mache", "gehe", "fahre"], correctIndex: 0, explanation: "The fixed phrase is \"jemanden anrufen\" (to call someone)."),
             ExamExercise(id: "a1-voc-telefon-e2", kind: .multipleChoice, question: "What do you say at the start of a call?", options: ["Hallo, ist Tom da?", "Gute Besserung!", "Bis bald!"], correctIndex: 0, explanation: "\"Hallo, ist Tom da?\" = Hello, is Tom there?"),
             ExamExercise(id: "a1-voc-telefon-e3", kind: .gapFill, question: "Können wir uns am Samstag ___?", options: ["treffen", "bestellen", "bezahlen", "einkaufen"], correctIndex: 0, explanation: "sich treffen = to meet."),
             ExamExercise(id: "a1-voc-telefon-e4", kind: .multipleChoice, question: "\"auflegen\" means:", options: ["to answer", "to hang up", "to dial"], correctIndex: 1, explanation: "auflegen = to hang up the phone."),
@@ -619,11 +619,11 @@ private let grammarUnits: [ExamUnit] = [
         ],
         dialogue: [],
         exercises: [
-            ExamExercise(id: "a1-gram-sein-haben-e1", kind: .gapFill, question: "___ ich Student.", options: ["Bin", "Bist", "Ist", "Seid"], correctIndex: 0, explanation: "ich → bin. \"Ich bin Student.\""),
+            ExamExercise(id: "a1-gram-sein-haben-e1", kind: .gapFill, question: "Ich ___ Student.", options: ["bin", "bist", "ist", "seid"], correctIndex: 0, explanation: "ich → bin. \"Ich bin Student.\" (Aussagesatz: Das Verb steht an Position 2.)"),
             ExamExercise(id: "a1-gram-sein-haben-e2", kind: .gapFill, question: "Meine Mutter ___ Lehrerin.", options: ["bin", "bist", "ist", "seid"], correctIndex: 2, explanation: "sie (Mutter) → ist."),
             ExamExercise(id: "a1-gram-sein-haben-e3", kind: .gapFill, question: "Ich ___ einen Bruder.", options: ["habe", "hast", "hat", "bist"], correctIndex: 0, explanation: "ich → habe."),
             ExamExercise(id: "a1-gram-sein-haben-e4", kind: .gapFill, question: "Wir ___ zwei Katzen.", options: ["haben", "hast", "hat", "habe"], correctIndex: 0, explanation: "wir → haben."),
-            ExamExercise(id: "a1-gram-sein-haben-e5", kind: .gapFill, question: "Wie ___ du?", options: ["bist", "heiße", "hast", "bin"], correctIndex: 0, explanation: "How are you? → Wie bist du? (informal)")
+            ExamExercise(id: "a1-gram-sein-haben-e5", kind: .gapFill, question: "Wo ___ du?", options: ["bist", "heiße", "hast", "bin"], correctIndex: 0, explanation: "Where are you? → Wo bist du? (du → bist)")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -659,7 +659,7 @@ private let grammarUnits: [ExamUnit] = [
             ExamExercise(id: "a1-gram-fragen-e1", kind: .gapFill, question: "___ wohnst du?", options: ["Wo", "Was", "Warum", "Wie"], correctIndex: 0, explanation: "wo = where. \"Wo wohnst du?\""),
             ExamExercise(id: "a1-gram-fragen-e2", kind: .gapFill, question: "Du sprichst Deutsch. — ___ Deutsch?", options: ["Sprichst du", "Du sprichst", "Sprechen du", "Spricht du"], correctIndex: 0, explanation: "Yes/No question: the verb comes first (inversion)."),
             ExamExercise(id: "a1-gram-fragen-e3", kind: .multipleChoice, question: "How do you ask for someone's name?", options: ["Wie heißt du?", "Wo wohnst du?", "Was machst du?"], correctIndex: 0, explanation: "heißen = to be called."),
-            ExamExercise(id: "a1-gram-fragen-e4", kind: .gapFill, question: "___ ist das?", options: ["Was", "Wo", "Wann", "Wer"], correctIndex: 0, explanation: "was = what. \"Was ist das?\""),
+            ExamExercise(id: "a1-gram-fragen-e4", kind: .gapFill, question: "___ ist das? (What is that?)", options: ["Was", "Wo", "Wann", "Wer"], correctIndex: 0, explanation: "was = what. \"Was ist das?\""),
             ExamExercise(id: "a1-gram-fragen-e5", kind: .multipleChoice, question: "What does \"warum\" mean?", options: ["when", "why", "how"], correctIndex: 1, explanation: "warum = why; when = wann; how = wie."),
             ExamExercise(id: "a1-gram-fragen-e6", kind: .gapFill, question: "Wie ___ du?", options: ["heißt", "wohnst", "hast", "sagst"], correctIndex: 0, explanation: "Wie heißt du? = What is your name?"),
             ExamExercise(id: "a1-gram-fragen-e7", kind: .multipleChoice, question: "How do you ask \"How much does it cost?\"", options: ["Wie viel kostet das?", "Warum kostet das?", "Wo kostet das?"], correctIndex: 0, explanation: "wie viel = how much (for prices).")
@@ -672,7 +672,7 @@ private let grammarUnits: [ExamUnit] = [
         section: .reading,
         title: "Negation: nicht und kein",
         subtitle: "How to say \"no\" and \"not\" in German",
-        text: "\"kein\" negates nouns (with articles): \"Ich habe keine Zeit.\" \"nicht\" negates adjectives, verbs and adverbs: \"Das ist nicht teuer.\" \"Er spricht nicht Deutsch.\" \"nie\" = never, \"nur\" = only, \"auch ... nicht\" = ... either / not at all.",
+        text: "\"kein\" negates nouns that appear without an article or with \"ein/eine\": \"Ich habe keine Zeit.\" \"nicht\" negates adjectives, verbs and adverbs: \"Das ist nicht teuer.\" \"Er wohnt nicht hier.\" \"nie\" = never, \"nur\" = only, \"auch ... nicht\" = ... either / not at all.",
         vocabulary: [
             ExamVocabularyItem(id: "a1-gram-negation-1", german: "kein", english: "no, not a (masc./neut.)", example: "Ich habe kein Auto.", exampleEnglish: "I don't have a car."),
             ExamVocabularyItem(id: "a1-gram-negation-2", german: "keine", english: "no, not a (fem./plural)", example: "Sie hat keine Zeit.", exampleEnglish: "She has no time."),
@@ -696,9 +696,9 @@ private let grammarUnits: [ExamUnit] = [
             ExamExercise(id: "a1-gram-negation-e1", kind: .gapFill, question: "Ich habe ___ Auto.", options: ["kein", "nicht", "nie", "nur"], correctIndex: 0, explanation: "Nouns are negated with kein: Ich habe kein Auto."),
             ExamExercise(id: "a1-gram-negation-e2", kind: .gapFill, question: "Das ist ___ teuer.", options: ["nicht", "kein", "keine", "nie"], correctIndex: 0, explanation: "Adjectives are negated with nicht: Das ist nicht teuer."),
             ExamExercise(id: "a1-gram-negation-e3", kind: .multipleChoice, question: "Which sentence is correct?", options: ["Ich habe kein Zeit.", "Ich habe keine Zeit.", "Ich habe nicht Zeit."], correctIndex: 1, explanation: "die Zeit is feminine → keine."),
-            ExamExercise(id: "a1-gram-negation-e4", kind: .gapFill, question: "Ich rauche ___.", options: ["nie", "heute", "morgen", "gern"], correctIndex: 0, explanation: "nie = never. \"Ich rauche nie.\""),
+            ExamExercise(id: "a1-gram-negation-e4", kind: .gapFill, question: "Ich rauche ___. (never)", options: ["nie", "heute", "morgen", "gern"], correctIndex: 0, explanation: "nie = never. \"Ich rauche nie.\""),
             ExamExercise(id: "a1-gram-negation-e5", kind: .multipleChoice, question: "What does \"nur\" mean?", options: ["never", "only", "also"], correctIndex: 1, explanation: "nur = only; never = nie; also = auch."),
-            ExamExercise(id: "a1-gram-negation-e6", kind: .gapFill, question: "Er spricht ___ Deutsch.", options: ["nicht", "kein", "keine", "nie"], correctIndex: 0, explanation: "Verbs are negated with nicht: Er spricht nicht Deutsch.")
+            ExamExercise(id: "a1-gram-negation-e6", kind: .gapFill, question: "Er spricht ___ Deutsch.", options: ["kein", "keine", "nein", "nichts"], correctIndex: 0, explanation: "Deutsch is a noun without an article → negated with kein: Er spricht kein Deutsch. (keine/nein/nichts do not fit grammatically)")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -844,7 +844,7 @@ private let grammarUnits: [ExamUnit] = [
         exercises: [
             ExamExercise(id: "a1-gram-zeiten-e1", kind: .gapFill, question: "Ich ___ gestern Pizza gegessen.", options: ["habe", "bin", "hat", "hast"], correctIndex: 0, explanation: "With essen we use haben: Ich habe ... gegessen."),
             ExamExercise(id: "a1-gram-zeiten-e2", kind: .gapFill, question: "Er ___ zum Arzt gegangen.", options: ["ist", "hat", "sind", "haben"], correctIndex: 0, explanation: "Movement verbs (gehen) use sein: Er ist ... gegangen."),
-            ExamExercise(id: "a1-gram-zeiten-e3", kind: .multipleChoice, question: "What is the Partizip II of \"essen\"?", options: ["gessest", "gegessen", "geessen"], correctIndex: 1, explanation: "essen → gegessen (reduplicated prefix ge-ge-)."),
+            ExamExercise(id: "a1-gram-zeiten-e3", kind: .multipleChoice, question: "What is the Partizip II of \"essen\"?", options: ["gessest", "gegessen", "geessen"], correctIndex: 1, explanation: "essen → gegessen (irregular: ge- + -essen, with -g-)."),
             ExamExercise(id: "a1-gram-zeiten-e4", kind: .gapFill, question: "Ich habe Deutsch ___.", options: ["gelernt", "lernen", "lernte", "lerne"], correctIndex: 0, explanation: "Perfekt: haben + Partizip II (gelernt) at the end."),
             ExamExercise(id: "a1-gram-zeiten-e5", kind: .multipleChoice, question: "Which sentence is in the past (Perfekt)?", options: ["Ich lerne Deutsch.", "Ich habe Deutsch gelernt.", "Ich lerne morgen Deutsch."], correctIndex: 1, explanation: "haben + Partizip II = past tense."),
             ExamExercise(id: "a1-gram-zeiten-e6", kind: .gapFill, question: "Morgen ___ ich nach Berlin. (future plan)", options: ["fahre", "fahren", "fuhr", "gefahren"], correctIndex: 0, explanation: "For near future we often use present tense + time word: Morgen fahre ich ...")
@@ -916,9 +916,9 @@ private let grammarUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-gram-trennbar-d4", speaker: "Daniel", german: "Ich fahre um 18 Uhr nach Hause. Dann ruhe ich mich aus.", english: "I go home at 6. Then I rest.")
         ],
         exercises: [
-            ExamExercise(id: "a1-gram-trennbar-e1", kind: .gapFill, question: "Ich ___ um 7 Uhr ___.", options: ["stehe ... auf", "aufstehe", "stehe auf um", "auf stehe"], correctIndex: 0, explanation: "The prefix goes to the end: Ich stehe ... auf."),
+            ExamExercise(id: "a1-gram-trennbar-e1", kind: .gapFill, question: "Ich ___ um 7 Uhr auf.", options: ["stehe", "steht", "stehen", "aufstehe"], correctIndex: 0, explanation: "ich → stehe; the separable prefix \"auf\" goes to the end: Ich stehe um 7 Uhr auf."),
             ExamExercise(id: "a1-gram-trennbar-e2", kind: .gapFill, question: "Ruf mich bitte ___!", options: ["an", "aus", "ab", "auf"], correctIndex: 0, explanation: "anrufen: Ruf mich an!"),
-            ExamExercise(id: "a1-gram-trennbar-e3", kind: .multipleChoice, question: "How is \"nach Hause fahren\" with \"er\"?", options: ["er fahrt nach Hause", "er fährt nach Hause", "er nach Hause fährt"], correctIndex: 1, explanation: "er + fährt + nach Hause (prefix stays at the end as part of the phrase)."),
+            ExamExercise(id: "a1-gram-trennbar-e3", kind: .multipleChoice, question: "How is \"nach Hause fahren\" with \"er\"?", options: ["er fahrt nach Hause", "er fährt nach Hause", "er nach Hause fährt"], correctIndex: 1, explanation: "ich fahre → er fährt (Vokalwechsel); \"nach Hause\" is a direction phrase, not a separable prefix."),
             ExamExercise(id: "a1-gram-trennbar-e4", kind: .gapFill, question: "Wir ___ uns um 18 Uhr.", options: ["treffen", "sagen", "machen", "geben"], correctIndex: 0, explanation: "sich treffen = to meet: Wir treffen uns ..."),
             ExamExercise(id: "a1-gram-trennbar-e5", kind: .multipleChoice, question: "In \"Ich kaufe ein\", where does the prefix go?", options: ["the beginning", "the end of the sentence", "position 2"], correctIndex: 1, explanation: "Separable prefix → end of the sentence.")
         ],
@@ -1023,7 +1023,7 @@ private let readingUnits: [ExamUnit] = [
             ExamExercise(id: "a1-read-anzeige-e2", kind: .multipleChoice, question: "Was hat die Wohnung NICHT?", options: ["einen Balkon", "ein Bad", "eine Garage"], correctIndex: 2, explanation: "The ad mentions a balcony and a bathroom, but no garage."),
             ExamExercise(id: "a1-read-anzeige-e3", kind: .multipleChoice, question: "Wie hoch ist die Miete?", options: ["650 Euro", "700 Euro", "750 Euro"], correctIndex: 2, explanation: "\"Die Miete ist 750 Euro.\""),
             ExamExercise(id: "a1-read-anzeige-e4", kind: .multipleChoice, question: "Wann ist die Besichtigung?", options: ["Samstag, 14 Uhr", "Sonntag, 10 Uhr", "Freitag, 12 Uhr"], correctIndex: 0, explanation: "The viewing is on Saturday at 14:00."),
-            ExamExercise(id: "a1-read-anzeige-e5", kind: .multipleChoice, question: "Was gibt es in der Nähe der Wohnung?", options: ["eine U-Bahn-Station und ein Supermarkt", "ein Krankenhaus und eine Schule", "ein Park und ein Bahnhof"], correctIndex: 0, explanation: "\"In der Nähe sind eine U-Bahn-Station und ein Supermarkt.\"")
+            ExamExercise(id: "a1-read-anzeige-e5", kind: .multipleChoice, question: "Was gibt es in der Nähe der Wohnung?", options: ["eine U-Bahn-Station und einen Supermarkt", "ein Krankenhaus und eine Schule", "ein Park und ein Bahnhof"], correctIndex: 0, explanation: "\"In der Nähe sind eine U-Bahn-Station und ein Supermarkt.\" (nach \"es gibt\": Akkusativ → einen Supermarkt)")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1049,7 +1049,7 @@ private let readingUnits: [ExamUnit] = [
         dialogue: [],
         exercises: [
             ExamExercise(id: "a1-read-mail-e1", kind: .multipleChoice, question: "Wie alt wird Tom?", options: ["24", "25", "26"], correctIndex: 1, explanation: "\"Ich bin dann 25 Jahre alt!\""),
-            ExamExercise(id: "a1-read-mail-e2", kind: .multipleChoice, question: "Wo ist die Feier?", options: ["in der Hauptstraße", "in der Gaststätte \"Zur Sonne\"", "im Park"], correctIndex: 1, explanation: "The party is in the Gaststätte (pub) \"Zur Sonne\" (which is in the Hauptstraße)."),
+            ExamExercise(id: "a1-read-mail-e2", kind: .multipleChoice, question: "Wo ist die Feier?", options: ["im Schwimmbad", "in der Gaststätte \"Zur Sonne\"", "im Park"], correctIndex: 1, explanation: "\"Ich feiere in der Gaststätte \"Zur Sonne\" in der Hauptstraße.\""),
             ExamExercise(id: "a1-read-mail-e3", kind: .multipleChoice, question: "Um wie viel Uhr beginnt die Feier?", options: ["um 15 Uhr", "um 19 Uhr", "um 24 Uhr"], correctIndex: 1, explanation: "\"Die Feier beginnt um 19 Uhr.\""),
             ExamExercise(id: "a1-read-mail-e4", kind: .multipleChoice, question: "Was gibt es bei der Feier?", options: ["Kuchen und Getränke", "Pizza und Kaffee", "Suppe und Schnitzel"], correctIndex: 0, explanation: "\"Es gibt Kuchen und Getränke.\""),
             ExamExercise(id: "a1-read-mail-e5", kind: .multipleChoice, question: "Wann ist der Geburtstag?", options: ["am Samstag, den 15. Mai", "am Freitag, den 14. Mai", "am Sonntag, den 16. Mai"], correctIndex: 0, explanation: "\"am Samstag, den 15. Mai, habe ich Geburtstag.\"")
@@ -1160,7 +1160,7 @@ private let readingUnits: [ExamUnit] = [
         Öffnungszeiten: Dienstag bis Freitag 10–18 Uhr, Samstag und Sonntag 11–17 Uhr, Montag geschlossen.
         Eintritt: Erwachsene 8 Euro, Studenten 4 Euro, Kinder unter 12 Jahren frei.
         Die Führung beginnt jeden Tag um 14 Uhr. Dauer: 1 Stunde.
-        Im Museum gibt es eine kleine Café. Dort gibt es Kaffee, Tee und Kuchen.
+        Im Museum gibt es ein kleines Café. Dort gibt es Kaffee, Tee und Kuchen.
         """,
         vocabulary: [
             ExamVocabularyItem(id: "a1-read-museum-1", german: "die Öffnungszeiten", english: "opening hours", example: "Die Öffnungszeiten sind von 10 bis 18 Uhr.", exampleEnglish: "The opening hours are from 10 to 6."),
@@ -1281,8 +1281,8 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-telefon-e1", kind: .listening, question: "Wen möchte die Frau anrufen?", options: ["den Arzt", "das Hotel", "die Schule"], correctIndex: 0, explanation: "You hear: \"Guten Tag, hier ist Anna Weber. Ich möchte einen Termin beim Arzt machen.\"", spokenText: "Guten Tag, hier ist Anna Weber. Ich möchte einen Termin beim Arzt machen."),
             ExamExercise(id: "a1-list-telefon-e2", kind: .listening, question: "Warum ruft sie an?", options: ["Weil sie Fieber hat", "Weil ihr Zahn wehtut", "Weil sie ein Rezept braucht"], correctIndex: 1, explanation: "You hear: \"Mein Zahn tut sehr weh.\"", spokenText: "Mein Zahn tut sehr weh."),
             ExamExercise(id: "a1-list-telefon-e3", kind: .listening, question: "Wann ist der Termin?", options: ["morgen um 10 Uhr", "übermorgen um 14 Uhr", "am Freitag um 9 Uhr"], correctIndex: 2, explanation: "You hear: \"Am Donnerstag ist keine Zeit frei. Aber am Freitag um 9 Uhr kann ich Sie nehmen.\"", spokenText: "Am Donnerstag ist keine Zeit frei. Aber am Freitag um 9 Uhr kann ich Sie nehmen."),
-            ExamExercise(id: "a1-list-telefon-e4", kind: .listening, question: "Was muss die Frau noch sagen?", options: ["Ihren Namen", "Ihre Adresse", "Ihre Versicherungsnummer"], correctIndex: 0, explanation: "You hear: \"Wie heißt Sie bitte? — Anna Weber.\"", spokenText: "Wie heißt Sie bitte? — Anna Weber."),
-            ExamExercise(id: "a1-list-telefon-e5", kind: .listening, question: "Auf welchen Tag verschieben sie den Termin?", options: ["Mittwoch", "Donnerstag", "Freitag"], correctIndex: 1, explanation: "You hear: \"Können wir den Termin auf Donnerstag verschieben? — Ja, das passt mir.\"", spokenText: "Können wir den Termin auf Donnerstag verschieben? — Ja, das passt mir.")
+            ExamExercise(id: "a1-list-telefon-e4", kind: .listening, question: "Was muss die Frau noch sagen?", options: ["Ihren Namen", "Ihre Adresse", "Ihre Versicherungsnummer"], correctIndex: 0, explanation: "You hear: \"Wie heißen Sie bitte? — Anna Weber.\"", spokenText: "Wie heißen Sie bitte? — Anna Weber."),
+            ExamExercise(id: "a1-list-telefon-e5", kind: .listening, question: "Auf welchen Tag verschieben sie den Termin?", options: ["Mittwoch", "Montag", "Freitag"], correctIndex: 1, explanation: "You hear: \"Können wir den Termin auf Montag verschieben? — Ja, das passt mir.\"", spokenText: "Können wir den Termin auf Montag verschieben? — Ja, das passt mir.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1307,7 +1307,7 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-veranstaltung-e1", kind: .listening, question: "Wann ist das Konzert?", options: ["am Freitag", "am Samstag", "am Sonntag"], correctIndex: 1, explanation: "You hear: \"Am Samstag, den 20. Juni, ist das Konzert.\"", spokenText: "Sehr geehrte Gäste! Am Samstag, den 20. Juni, ist das Konzert im Kulturhaus."),
             ExamExercise(id: "a1-list-veranstaltung-e2", kind: .listening, question: "Um wie viel Uhr beginnt das Konzert?", options: ["um 18 Uhr", "um 19 Uhr", "um 20 Uhr"], correctIndex: 1, explanation: "You hear: \"Der Einlass ist um 18 Uhr, das Konzert beginnt um 19 Uhr.\"", spokenText: "Der Einlass ist um 18 Uhr, das Konzert beginnt um 19 Uhr."),
             ExamExercise(id: "a1-list-veranstaltung-e3", kind: .listening, question: "Wie viel kostet das Ticket?", options: ["15 Euro", "20 Euro", "25 Euro"], correctIndex: 1, explanation: "You hear: \"Die Tickets kosten zwanzig Euro. Mit Studentenausweis: fünfzehn Euro.\"", spokenText: "Die Tickets kosten zwanzig Euro. Mit Studentenausweis: fünfzehn Euro."),
-            ExamExercise(id: "a1-list-veranstaltung-e4", kind: .listening, question: "Wo kann man Tickets kaufen?", options: ["an der Tür", "im Internet", "beim Supermarkt"], correctIndex: 0, explanation: "You hear: \"Die Tickets gibt es an der Tür und im Internet.\"", spokenText: "Die Tickets gibt es an der Tür und im Internet."),
+            ExamExercise(id: "a1-list-veranstaltung-e4", kind: .listening, question: "Wo kann man Tickets kaufen?", options: ["an der Tür", "im Internet", "beim Supermarkt"], correctIndex: 0, explanation: "You hear: \"Die Tickets gibt es nur an der Tür.\"", spokenText: "Die Tickets gibt es nur an der Tür."),
             ExamExercise(id: "a1-list-veranstaltung-e5", kind: .listening, question: "Wann beginnt das Konzert?", options: ["18 Uhr", "19 Uhr", "20 Uhr"], correctIndex: 1, explanation: "You hear: \"Das Konzert beginnt um neunzehn Uhr. Der Einlass ist ab achtzehn Uhr.\"", spokenText: "Das Konzert beginnt um neunzehn Uhr. Der Einlass ist ab achtzehn Uhr.")
         ],
         speakingScenario: nil,
@@ -1334,7 +1334,7 @@ private let listeningUnits: [ExamUnit] = [
             ExamExercise(id: "a1-list-hotel-e2", kind: .listening, question: "Wie viele Nächte bleibt der Gast?", options: ["zwei", "drei", "fünf"], correctIndex: 1, explanation: "You hear: \"Sie bleiben drei Nächte, bis Freitag.\"", spokenText: "Sehr gut. Sie bleiben drei Nächte, bis Freitag."),
             ExamExercise(id: "a1-list-hotel-e3", kind: .listening, question: "Wo ist das Zimmer?", options: ["im zweiten Stock", "im dritten Stock", "im Erdgeschoss"], correctIndex: 1, explanation: "You hear: \"Ihr Zimmer ist im dritten Stock, Zimmer 312.\"", spokenText: "Ihr Zimmer ist im dritten Stock, Zimmer 312."),
             ExamExercise(id: "a1-list-hotel-e4", kind: .listening, question: "Wann ist das Frühstück?", options: ["von 6 bis 9 Uhr", "von 7 bis 10 Uhr", "von 8 bis 11 Uhr"], correctIndex: 1, explanation: "You hear: \"Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss.\"", spokenText: "Das Frühstück gibt es von 7 bis 10 Uhr im Erdgeschoss."),
-            ExamExercise(id: "a1-list-hotel-e5", kind: .listening, question: "Wo ist das Zimmer?", options: ["im dritten Stock", "im vierten Stock", "im fünften Stock"], correctIndex: 1, explanation: "You hear: \"Ihr Zimmer ist im vierten Stock.\"", spokenText: "Ihr Zimmer ist im vierten Stock.")
+            ExamExercise(id: "a1-list-hotel-e5", kind: .listening, question: "Wie ist die Zimmernummer?", options: ["Zimmer 315", "Zimmer 312", "Zimmer 451"], correctIndex: 1, explanation: "You hear: \"Ihr Zimmer ist im dritten Stock, Zimmer 312.\"", spokenText: "Ihr Zimmer ist im dritten Stock, Zimmer 312.")
         ],
         speakingScenario: nil,
         writingPrompt: nil
@@ -1374,7 +1374,7 @@ private let speakingUnits: [ExamUnit] = [
         id: "a1-spr-personen",
         section: .speaking,
         title: "Personen vorstellen",
-        subtitle: "Introduce family and friends — Teil 1",
+        subtitle: "Family and friends — practice related to Teil 1 (Vorstellung)",
         text: nil,
         vocabulary: [
             ExamVocabularyItem(id: "a1-spr-personen-1", german: "das ist ...", english: "this is ...", example: "Das ist mein Bruder.", exampleEnglish: "This is my brother."),
@@ -1395,14 +1395,14 @@ private let speakingUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-spr-personen-d4", speaker: "You", german: "Er ist Ingenieur. Er wohnt und arbeitet in Hamburg.", english: "He is an engineer. He lives and works in Hamburg.")
         ],
         exercises: [],
-        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 1 (Personen). Ask the candidate to talk about their family and one friend, one step at a time: (1) Erzählen Sie etwas über Ihre Familie. Haben Sie Geschwister? (2) Was macht Ihr Bruder / Ihre Schwester? Wo wohnt er / sie? (3) Erzählen Sie etwas über Ihre Eltern. Wo wohnen sie? (4) Haben Sie gute Freunde? Was macht Ihr / Ihre beste Freund / Freundin? Give short follow-up questions (Was macht er/sie? Wie alt ist er/sie?) and brief encouraging feedback. If the candidate is stuck, offer a simple prompt like \"Ist er/sie verheiratet?\" After all questions, give two sentences of short, friendly feedback on the German.",
+        speakingScenario: "You are a practice partner for Sprechen Teil 1 (Sich vorstellen); talking about family and friends is extra practice on the same topic, not an official Teil 1 keyword list. Ask the candidate to talk about their family and one friend, one step at a time: (1) Erzählen Sie etwas über Ihre Familie. Haben Sie Geschwister? (2) Was macht Ihr Bruder / Ihre Schwester? Wo wohnt er / sie? (3) Erzählen Sie etwas über Ihre Eltern. Wo wohnen sie? (4) Haben Sie gute Freunde? Was macht Ihr / Ihre beste Freund / Freundin? Give short follow-up questions (Was macht er/sie? Wie alt ist er/sie?) and brief encouraging feedback. If the candidate is stuck, offer a simple prompt like \"Ist er/sie verheiratet?\" After all questions, give two sentences of short, friendly feedback on the German.",
         writingPrompt: nil
     ),
     ExamUnit(
         id: "a1-spr-bild",
         section: .speaking,
         title: "Ein Bild beschreiben",
-        subtitle: "Describe a picture — Teil 2",
+        subtitle: "Describe a picture — general speaking practice",
         text: "Das Bild zeigt eine Familie im Garten. Die Mutter sitzt auf einer Bank und liest ein Buch. Der Vater steht neben dem Tisch und macht ein Glas Orangensaft. Das Kind spielt mit dem Ball. Auf dem Tisch gibt es Brot, Käse und einen Kuchen. Das Wetter ist schön, die Sonne scheint.",
         vocabulary: [
             ExamVocabularyItem(id: "a1-spr-bild-1", german: "der Garten", english: "garden", example: "Wir sitzen im Garten.", exampleEnglish: "We are sitting in the garden."),
@@ -1423,20 +1423,20 @@ private let speakingUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-spr-bild-d4", speaker: "You", german: "Das Kind spielt mit dem Ball. Das Wetter ist schön, die Sonne scheint.", english: "The child is playing with the ball. The weather is nice, the sun is shining.")
         ],
         exercises: [],
-        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 2 (Bild beschreiben). Show the candidate a picture of a family in a garden (describe: mother reading on a bench, father making juice at a table, child playing with a ball, bread/cheese/cake on the table, sunny weather). Ask: (1) Was sehen Sie auf dem Bild? (2) Wo sind die Personen? (3) Was macht jede Person? (4) Was gibt es auf dem Tisch? (5) Wie ist das Wetter? Accept short answers and gently expand: \"Sagen Sie das in einem ganzen Satz.\" If the candidate is stuck, offer word prompts: die Bank, der Ball, der Tisch, die Sonne. After the description, give two or three short, friendly feedback sentences.",
+        speakingScenario: "This is general speaking practice — picture description is not part of Start Deutsch 1. You are a supportive conversation partner. Show the candidate a picture of a family in a garden (describe: mother reading on a bench, father making juice at a table, child playing with a ball, bread/cheese/cake on the table, sunny weather). Ask: (1) Was sehen Sie auf dem Bild? (2) Wo sind die Personen? (3) Was macht jede Person? (4) Was gibt es auf dem Tisch? (5) Wie ist das Wetter? Accept short answers and gently expand: \"Sagen Sie das in einem ganzen Satz.\" If the candidate is stuck, offer word prompts: die Bank, der Ball, der Tisch, die Sonne. After the description, give two or three short, friendly feedback sentences.",
         writingPrompt: nil
     ),
     ExamUnit(
         id: "a1-spr-telefon",
         section: .speaking,
         title: "Telefon: einen Termin machen",
-        subtitle: "Phone call to arrange an appointment — Teil 3",
+        subtitle: "Phone call to arrange an appointment — daily-life practice",
         text: nil,
         vocabulary: [
             ExamVocabularyItem(id: "a1-spr-telefon-1", german: "anrufen", english: "to call (phone)", example: "Ich rufe Sie morgen an.", exampleEnglish: "I will call you tomorrow."),
             ExamVocabularyItem(id: "a1-spr-telefon-2", german: "der Termin (die Termine)", english: "appointment", example: "Ich brauche einen Termin.", exampleEnglish: "I need an appointment."),
             ExamVocabularyItem(id: "a1-spr-telefon-3", german: "passt Ihnen ...?", english: "does ... suit you?", example: "Passt Ihnen Freitag?", exampleEnglish: "Does Friday suit you?"),
-            ExamVocabularyItem(id: "a1-spr-telefon-4", german: "die Durchsage", english: "voicemail, message", example: "Ich habe Ihre Durchsage bekommen.", exampleEnglish: "I got your voicemail.")
+            ExamVocabularyItem(id: "a1-spr-telefon-4", german: "die Nachricht (die Nachrichten)", english: "message", example: "Ich habe Ihre Nachricht bekommen.", exampleEnglish: "I got your message.")
         ],
         phrases: [
             ExamPhrase(id: "a1-spr-telefon-p1", german: "Hallo, sprechen Sie mit Frau Müller?", english: "Hello, am I speaking with Ms. Müller?"),
@@ -1453,14 +1453,14 @@ private let speakingUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-spr-telefon-d6", speaker: "You", german: "Danke, auf Wiederhören!", english: "Thank you, goodbye!")
         ],
         exercises: [],
-        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Telefon). Play the role of a caller who wants to make an appointment (at the doctor, hairdresser, or office). Start: \"Hallo, sprechen Sie mit ...?\" The candidate must: (1) greet and ask who is calling, (2) find out why the person calls, (3) propose a time and confirm the appointment, (4) end the call politely. If the candidate does not understand, they must ask \"Wiederholen Sie das bitte?\" or \"Wie heißt das?\" Keep sentences short. At the end, give two sentences of friendly feedback.",
+        speakingScenario: "You are a friendly conversation partner for daily-life practice (not an official exam part; closest is Sprechen Teil 3: making requests and reacting). Play the role of a caller who wants to make an appointment (at the doctor, hairdresser, or office). Start: \"Hallo, sprechen Sie mit ...?\" The candidate must: (1) greet and ask who is calling, (2) find out why the person calls, (3) propose a time and confirm the appointment, (4) end the call politely. If the candidate does not understand, they must ask \"Wiederholen Sie das bitte?\" or \"Wie heißt das?\" Keep sentences short. At the end, give two sentences of friendly feedback.",
         writingPrompt: nil
     ),
     ExamUnit(
         id: "a1-spr-restaurant",
         section: .speaking,
         title: "Im Restaurant",
-        subtitle: "Order food and ask for the bill — Teil 3",
+        subtitle: "Order food and ask for the bill — daily-life practice",
         text: nil,
         vocabulary: [
             ExamVocabularyItem(id: "a1-spr-restaurant-1", german: "die Speisekarte", english: "menu", example: "Können Sie mir die Speisekarte geben?", exampleEnglish: "Can you give me the menu?"),
@@ -1483,14 +1483,14 @@ private let speakingUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-spr-restaurant-d6", speaker: "You", german: "Hier, bitte. Es hat mir sehr gut geschmeckt. Auf Wiedersehen!", english: "Here, please. It was very tasty. Goodbye!")
         ],
         exercises: [],
-        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Restaurant). Play the role of a waiter. The candidate is a guest. Lead the conversation step by step: (1) greet the guest and ask what they would like to drink, (2) ask about the order (Vorspeise, Hauptgericht), (3) serve the food and ask if it was tasty, (4) take the order for the bill and say the total. The candidate must order politely (Ich hätte gern ..., bitte) and pay. If stuck, offer prompts: die Speisekarte, die Suppe, die Rechnung. At the end, give two sentences of friendly feedback.",
+        speakingScenario: "You are a friendly conversation partner for daily-life practice (not an official exam part; closest is Sprechen Teil 3: making requests and reacting). Play the role of a waiter. The candidate is a guest. Lead the conversation step by step: (1) greet the guest and ask what they would like to drink, (2) ask about the order (Vorspeise, Hauptgericht), (3) serve the food and ask if it was tasty, (4) take the order for the bill and say the total. The candidate must order politely (Ich hätte gern ..., bitte) and pay. If stuck, offer prompts: die Speisekarte, die Suppe, die Rechnung. At the end, give two sentences of friendly feedback.",
         writingPrompt: nil
     ),
     ExamUnit(
         id: "a1-spr-arzt",
         section: .speaking,
         title: "Beim Arzt",
-        subtitle: "At the doctor's surgery — Teil 3",
+        subtitle: "At the doctor's surgery — daily-life practice",
         text: nil,
         vocabulary: [
             ExamVocabularyItem(id: "a1-spr-arzt-1", german: "der Kopf / der Zahn / der Magen", english: "the head / the tooth / the stomach", example: "Mein Kopf tut weh.", exampleEnglish: "My head hurts."),
@@ -1508,19 +1508,19 @@ private let speakingUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-spr-arzt-d1", speaker: "Examiner", german: "Guten Tag. Was haben Sie?", english: "Hello. What is wrong?"),
             ExamDialogueLine(id: "a1-spr-arzt-d2", speaker: "You", german: "Guten Tag, Herr Doktor. Mein Zahn tut sehr weh.", english: "Hello, Doctor. My tooth hurts a lot."),
             ExamDialogueLine(id: "a1-spr-arzt-d3", speaker: "Examiner", german: "Seit wann? Haben Sie auch Fieber?", english: "How long? Do you also have a fever?"),
-            ExamDialogueLine(id: "a1-spr-arzt-d4", speaker: "You", german: "Seit zwei Tage. Nein, ich habe kein Fieber.", english: "Since two days. No, I don't have a fever."),
+            ExamDialogueLine(id: "a1-spr-arzt-d4", speaker: "You", german: "Seit zwei Tagen. Nein, ich habe kein Fieber.", english: "Since two days. No, I don't have a fever."),
             ExamDialogueLine(id: "a1-spr-arzt-d5", speaker: "Examiner", german: "Hier, das ist ein Rezept. Zweimal täglich eine Tablette. Besserung!", english: "Here, this is a prescription. One tablet twice a day. Get well soon!"),
             ExamDialogueLine(id: "a1-spr-arzt-d6", speaker: "You", german: "Vielen Dank, Herr Doktor. Auf Wiedersehen!", english: "Thank you very much, Doctor. Goodbye!")
         ],
         exercises: [],
-        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Arzt). Play the role of the doctor. The candidate is a patient. Lead the conversation: (1) Guten Tag. Was haben Sie? (2) Ask follow-ups: Seit wann? Haben Sie Fieber? Tut was anderes weh? (3) Give a simple diagnosis and advice (viel Wasser trinken, im Bett bleiben). (4) Hand over a prescription: \"Hier, das ist ein Rezept. Zweimal täglich eine Tablette.\" The candidate must describe the problem, answer questions, ask for a prescription if needed, and thank the doctor. If stuck, offer prompts: der Kopf, der Magen, Fieber, das Rezept. At the end, give two sentences of friendly feedback.",
+        speakingScenario: "You are a friendly conversation partner for daily-life practice (not an official exam part; closest is Sprechen Teil 3: making requests and reacting). Play the role of the doctor. The candidate is a patient. Lead the conversation: (1) Guten Tag. Was haben Sie? (2) Ask follow-ups: Seit wann? Haben Sie Fieber? Tut was anderes weh? (3) Give a simple diagnosis and advice (viel Wasser trinken, im Bett bleiben). (4) Hand over a prescription: \"Hier, das ist ein Rezept. Zweimal täglich eine Tablette.\" The candidate must describe the problem, answer questions, ask for a prescription if needed, and thank the doctor. If stuck, offer prompts: der Kopf, der Magen, Fieber, das Rezept. At the end, give two sentences of friendly feedback.",
         writingPrompt: nil
     ),
     ExamUnit(
         id: "a1-spr-einkaufen",
         section: .speaking,
         title: "Einkaufen: im Shop",
-        subtitle: "Buy clothes and ask about price and return — Teil 3",
+        subtitle: "Buy clothes and ask about price and return — daily-life practice",
         text: nil,
         vocabulary: [
             ExamVocabularyItem(id: "a1-spr-einkaufen-1", german: "anprobieren", english: "to try on", example: "Kann ich das anprobieren?", exampleEnglish: "Can I try this on?"),
@@ -1543,14 +1543,14 @@ private let speakingUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-spr-einkaufen-d6", speaker: "You", german: "Mit Karte, bitte. Vielen Dank, auf Wiedersehen!", english: "By card, please. Thank you, goodbye!")
         ],
         exercises: [],
-        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Situation: Einkaufen). Play the role of a shop assistant. The candidate wants to buy a piece of clothing. Lead the conversation: (1) Kann ich Ihnen helfen? What are they looking for? (2) Ask about size and color and offer to try it on. (3) State the price and ask how to pay. (4) The candidate may ask about returns: Kann ich das zurückgeben? Keep sentences short. If stuck, offer prompts: das Hemd, Größe M, blau, 25 Euro, mit Karte. At the end, give two sentences of friendly feedback.",
+        speakingScenario: "You are a friendly conversation partner for daily-life practice (not an official exam part; closest is Sprechen Teil 3: making requests and reacting). Play the role of a shop assistant. The candidate wants to buy a piece of clothing. Lead the conversation: (1) Kann ich Ihnen helfen? What are they looking for? (2) Ask about size and color and offer to try it on. (3) State the price and ask how to pay. (4) The candidate may ask about returns: Kann ich das zurückgeben? Keep sentences short. If stuck, offer prompts: das Hemd, Größe M, blau, 25 Euro, mit Karte. At the end, give two sentences of friendly feedback.",
         writingPrompt: nil
     ),
     ExamUnit(
         id: "a1-spr-praesentation",
         section: .speaking,
         title: "Kurz vorstellen: ein Hobby",
-        subtitle: "Short presentation with examiner questions — Teil 4",
+        subtitle: "Short presentation practice (general speaking, not an exam part)",
         text: nil,
         vocabulary: [
             ExamVocabularyItem(id: "a1-spr-praesentation-1", german: "am Wochenende", english: "on the weekend", example: "Am Wochenende spiele ich Tennis.", exampleEnglish: "On the weekend I play tennis."),
@@ -1569,7 +1569,7 @@ private let speakingUnits: [ExamUnit] = [
             ExamDialogueLine(id: "a1-spr-praesentation-d3", speaker: "You", german: "Ich mag Fußball, weil mir das Spaß macht und ich sportlich bin. Vielen Dank. Haben Sie Fragen?", english: "I like football because I enjoy it and I am sporty. Thank you. Do you have any questions?")
         ],
         exercises: [],
-        speakingScenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 4 (Kurzvortrag). Ask the candidate to give a very short presentation (5-7 sentences) about one of: a hobby, a family member, a favourite city, or a recent trip. Give the topic and the three guiding points (Was? Wie oft? Warum?). After the short talk, ask two simple follow-up questions (Warum? Wie oft? Mit wem?). Listen for 5-7 connected sentences using weil/deshalb/am Wochenende/seit. Then give two or three sentences of friendly, specific feedback on content and language.",
+        speakingScenario: "This is general speaking practice, not an official exam part. Ask the candidate to give a very short presentation (5-7 sentences) about one of: a hobby, a family member, a favourite city, or a recent trip. Give the topic and the three guiding points (Was? Wie oft? Warum?). After the short talk, ask two simple follow-up questions (Warum? Wie oft? Mit wem?). Listen for 5-7 connected sentences using weil/deshalb/am Wochenende/seit. Then give two or three sentences of friendly, specific feedback on content and language.",
         writingPrompt: nil
     )
 ]
@@ -1607,7 +1607,7 @@ private let writingUnits: [ExamUnit] = [
             ExamVocabularyItem(id: "a1-schreib-bewerbung-1", german: "die Bewerbung", english: "job application", example: "Ich schreibe eine Bewerbung.", exampleEnglish: "I am writing a job application."),
             ExamVocabularyItem(id: "a1-schreib-bewerbung-2", german: "der Job / die Stelle", english: "the job / position", example: "Ich suche einen Job im Café.", exampleEnglish: "I am looking for a job in a café."),
             ExamVocabularyItem(id: "a1-schreib-bewerbung-3", german: "die Erfahrung", english: "experience", example: "Ich habe Erfahrung mit Kunden.", exampleEnglish: "I have experience with customers."),
-            ExamVocabularyItem(id: "a1-schreib-bewerbung-4", german: "das Anschreiben", english: "cover letter", example: "Im Anschreiben stehe meine Daten.", exampleEnglish: "My details are in the cover letter.")
+            ExamVocabularyItem(id: "a1-schreib-bewerbung-4", german: "das Anschreiben", english: "cover letter", example: "Im Anschreiben stehen meine Daten.", exampleEnglish: "My details are in the cover letter.")
         ],
         phrases: [
             ExamPhrase(id: "a1-schreib-bewerbung-p1", german: "Sehr geehrte Damen und Herren,", english: "Dear Sir or Madam,"),

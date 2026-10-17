@@ -136,7 +136,9 @@ final class ExamCampaignFlowTests: XCTestCase {
 
     // MARK: - Speaking lifecycle
 
-    func testCampaignSpeakingContractAndAutoOpening() async {
+    // Covers the exam bot contract and the static opening text; the view's .task
+    // auto-open trigger itself is not exercised here (rename from the misleading name).
+    func testCampaignSpeakingExamContractAndOpeningText() async {
         let lesson = ExamCampaignCatalog.lesson(id: "l3-speaking-introduce")!
         let task = lesson.speaking!
         let bot = FlowCapturingBot()
@@ -204,7 +206,9 @@ final class ExamCampaignFlowTests: XCTestCase {
         let defaults = UserDefaults(suiteName: suiteName)!
         defer { defaults.removePersistentDomain(forName: suiteName) }
         let store = WordReviewStore(defaults: defaults)
-        let lesson = ExamCampaignCatalog.allLessons.first { !$0.vocabulary.isEmpty && !$0.phrases.isEmpty }!
+        guard let lesson = ExamCampaignCatalog.allLessons.first(where: { !$0.vocabulary.isEmpty && !$0.phrases.isEmpty }) else {
+            return XCTFail("no campaign lesson carries vocabulary and phrases")
+        }
 
         let source = "campaign:\(lesson.id)"
         for item in lesson.vocabulary {
@@ -254,8 +258,12 @@ final class ExamCampaignFlowTests: XCTestCase {
         try? await Task.sleep(for: .milliseconds(200))
 
         XCTAssertNil(bot.lastExam)
-        let call = bot.messageCalls.first { $0.message == "How are you?" }!
-        let userContents = call.messages.filter { $0.role == "user" }.map(\.content)
-        XCTAssertEqual(userContents, ["Hi!"], "non-exam chat keeps the previous learner turn in history")
+        guard let call = bot.messageCalls.first(where: { $0.message == "How are you?" }) else {
+            return XCTFail("second send was not captured by the bot")
+        }
+        XCTAssertEqual(call.messages.filter { $0.role == "user" }.map(\.content), ["Hi!"],
+                       "non-exam chat keeps the previous learner turn in history")
+        XCTAssertTrue(call.messages.contains { $0.role == "assistant" && $0.content == "Gut gemacht!" },
+                      "full history means the assistant reply is sent back too, not only user turns")
     }
 }

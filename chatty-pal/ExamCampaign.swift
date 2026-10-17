@@ -204,15 +204,98 @@ struct MissionResult: Hashable {
 }
 
 enum MissionStars {
-    /// 3 stars: everything correct and the speaking and writing tasks done.
-    /// 2 stars: at least 60% correct.
-    /// 1 star: at least 30% correct.
-    static func stars(correct: Int, total: Int, spoke: Bool, wrote: Bool) -> Int {
-        guard total > 0 else { return 0 }
-        if correct >= total, spoke, wrote { return 3 }
-        if correct * 10 >= total * 6 { return 2 }
-        if correct * 10 >= total * 3 { return 1 }
+    /// Honest stars: the denominator counts only activities actually present in the lesson.
+    /// 3 stars: every exercise correct and every present productive task done.
+    /// 2 stars: at least 60% of the present activities achieved.
+    /// 1 star: at least 30% achieved.
+    /// A lesson with no activities at all can never earn stars.
+    static func stars(correct: Int, totalExercises: Int, spoke: Bool, hasSpeakingTask: Bool,
+                      wrote: Bool, hasWritingTask: Bool) -> Int {
+        let required = totalExercises + (hasSpeakingTask ? 1 : 0) + (hasWritingTask ? 1 : 0)
+        guard required > 0 else { return 0 }
+        // Evidence for an activity the lesson does not contain must not inflate the stars.
+        let achieved = min(max(correct, 0), totalExercises)
+            + ((hasSpeakingTask && spoke) ? 1 : 0)
+            + ((hasWritingTask && wrote) ? 1 : 0)
+        if achieved >= required { return 3 }
+        if achieved * 10 >= required * 6 { return 2 }
+        if achieved * 10 >= required * 3 { return 1 }
         return 0
+    }
+}
+
+/// Completion rules outside SwiftUI: an activity counts only when there is evidence for it.
+/// Merely walking through the screens must never complete a lesson, checkpoint or final test.
+enum MissionCompletion {
+    /// A lesson completes when every declared exercise was checked with at least 80% correct,
+    /// and every present productive task (speaking/writing) has real evidence.
+    static func canCompleteLesson(lesson: CampaignLesson, correct: Int, checkedCount: Int,
+                                  spoke: Bool, wrote: Bool) -> Bool {
+        let total = lesson.exercises.count + lesson.readingExercises.count
+        let hasActivity = total > 0 || lesson.speaking != nil || lesson.writingPrompt != nil
+        guard hasActivity else { return false }
+        if total > 0 {
+            guard checkedCount >= total else { return false }
+            guard correct * 10 >= total * 8 else { return false }
+        }
+        if lesson.speaking != nil && !spoke { return false }
+        if lesson.writingPrompt != nil && !wrote { return false }
+        return true
+    }
+
+    /// A checkpoint passes only when every declared exercise was answered and checked
+    /// (the declared list is the denominator), with at least 60% correct.
+    static func canCompleteCheckpoint(_ checkpoint: CampaignCheckpoint, correct: Int, checkedCount: Int) -> Bool {
+        let total = checkpoint.exerciseIDs.count
+        guard total > 0, checkedCount >= total else { return false }
+        return correct * 10 >= total * 6
+    }
+
+    /// The mixed practice test finishes only with all quiz questions answered and checked,
+    /// at least 60% correct, and real completion records for its writing and speaking lessons.
+    static func canCompleteFinalExam(_ exam: CampaignFinalExam, correct: Int, checkedCount: Int,
+                                     isLessonComplete: (String) -> Bool) -> Bool {
+        let total = exam.exerciseIDs.count
+        guard total > 0, checkedCount >= total, correct * 10 >= total * 6 else { return false }
+        guard exam.writingLessonIDs.allSatisfy(isLessonComplete) else { return false }
+        guard exam.speakingLessonIDs.allSatisfy(isLessonComplete) else { return false }
+        return true
+    }
+}
+
+// MARK: - Exercise presentation groups
+
+/// A render block: one reading passage with its own questions, or exercises without a
+/// passage source. Views must render groups, never a flat exercise list, so a reading
+/// question never appears without the text it is about (task 2.2).
+struct ExerciseGroup: Hashable, Identifiable {
+    let id: String
+    let passage: ReadingPassage?
+    let exercises: [ExamExercise]
+}
+
+enum ExerciseGrouping {
+    /// Keeps catalog order; consecutive questions of the same passage form one group.
+    static func groups(for exercises: [ExamExercise]) -> [ExerciseGroup] {
+        var groups: [ExerciseGroup] = []
+        var currentPassage: ReadingPassage?
+        var current: [ExamExercise] = []
+        func flush() {
+            guard !current.isEmpty else { return }
+            let id = (currentPassage?.id ?? "plain") + "-" + current[0].id
+            groups.append(ExerciseGroup(id: id, passage: currentPassage, exercises: current))
+            current = []
+        }
+        for exercise in exercises {
+            let source = ExamCampaignCatalog.passageSourceByExerciseID[exercise.id]
+            if source?.id != currentPassage?.id {
+                flush()
+                currentPassage = source
+            }
+            current.append(exercise)
+        }
+        flush()
+        return groups
     }
 }
 
@@ -242,21 +325,80 @@ enum ExamCampaignCatalog {
         allLessons.first { $0.legacyUnitIDs.contains(legacyID) }
     }
 
+    /// Single source of truth for exercise lookup: the shipped content catalog.
+    /// Checkpoints and the final exam resolve through this index, so validation and
+    /// runtime agree on exactly the same ID space (task 2.3).
+    static let exerciseIndex: [String: ExamExercise] = {
+        var index: [String: ExamExercise] = [:]
+        for exercise in ExamA1Catalog.allExercises() {
+            if index[exercise.id] == nil {
+                index[exercise.id] = exercise
+            }
+        }
+        return index
+    }()
+
     static func exercise(id: String) -> ExamExercise? {
-        allLessons
-            .flatMap { $0.exercises + $0.readingExercises }
-            .first { $0.id == id }
+        exerciseIndex[id]
+    }
+
+    /// IDs that neither the content catalog nor the campaign lessons can resolve.
+    static func unresolvedExerciseIDs(_ ids: [String]) -> [String] {
+        ids.filter { exerciseIndex[$0] == nil }
+    }
+
+    /// The reading source each question belongs to, so every rendered question keeps
+    /// its passage — in lessons, checkpoints and the practice test alike.
+    static let passageSourceByExerciseID: [String: ReadingPassage] = {
+        var index: [String: ReadingPassage] = [:]
+        for lesson in allLessons {
+            for passage in lesson.readingPassages {
+                for question in passage.questions where index[question.id] == nil {
+                    index[question.id] = passage
+                }
+            }
+        }
+        return index
+    }()
+
+    /// Resolves declared IDs and *reports* the missing ones instead of silently dropping them.
+    /// Callers must surface `unresolvedIDs` as a content error and block completion.
+    struct ExerciseResolution {
+        let exercises: [ExamExercise]
+        let unresolvedIDs: [String]
+        var isComplete: Bool { unresolvedIDs.isEmpty }
+    }
+
+    static func resolveExercises(_ ids: [String]) -> ExerciseResolution {
+        var exercises: [ExamExercise] = []
+        var unresolved: [String] = []
+        for id in ids {
+            if let exercise = exerciseIndex[id] {
+                exercises.append(exercise)
+            } else {
+                unresolved.append(id)
+            }
+        }
+        return ExerciseResolution(exercises: exercises, unresolvedIDs: unresolved)
+    }
+
+    static func checkpointResolution(_ checkpoint: CampaignCheckpoint) -> ExerciseResolution {
+        resolveExercises(checkpoint.exerciseIDs)
+    }
+
+    static func finalExamResolution(_ exam: CampaignFinalExam) -> ExerciseResolution {
+        resolveExercises(exam.exerciseIDs)
     }
 
     static func checkpointExercises(_ checkpoint: CampaignCheckpoint) -> [ExamExercise] {
-        checkpoint.exerciseIDs.compactMap { exercise(id: $0) }
+        checkpointResolution(checkpoint).exercises
     }
 
     static func finalExamExercises(_ exam: CampaignFinalExam) -> [ExamExercise] {
-        exam.exerciseIDs.compactMap { exercise(id: $0) }
+        finalExamResolution(exam).exercises
     }
 
-    // MARK: Ordering and unlock rules
+// MARK: Ordering and unlock rules
 
     /// Flat, ordered list of all nodes across zones.
     static var orderedNodes: [(zone: CampaignZone, node: CampaignNode)] {
@@ -341,14 +483,24 @@ enum ExamCampaignValidation {
             }
         }
 
-        // Exercise IDs referenced by checkpoints and final exam must exist in the legacy catalog.
-        let knownExerciseIDs = Set(ExamA1Catalog.units.flatMap { $0.exercises }.map(\.id))
+        // Exercise IDs referenced by checkpoints and the final exam must resolve through the
+        // same index the runtime uses — validation and gameplay can no longer disagree.
         for checkpoint in ExamCampaignCatalog.allCheckpoints {
-            for id in checkpoint.exerciseIDs where !knownExerciseIDs.contains(id) {
+            for id in ExamCampaignCatalog.unresolvedExerciseIDs(checkpoint.exerciseIDs) {
                 issues.append(Issue(severity: "error", message: "checkpoint \(checkpoint.id) references unknown exercise \(id)"))
             }
-            for id in checkpoint.speakingLessonIDs where ExamCampaignCatalog.lesson(id: id) == nil {
-                issues.append(Issue(severity: "error", message: "checkpoint \(checkpoint.id) references unknown speaking lesson \(id)"))
+            for id in checkpoint.speakingLessonIDs where ExamCampaignCatalog.lesson(id: id)?.speaking == nil {
+                issues.append(Issue(severity: "error", message: "checkpoint \(checkpoint.id) references lesson \(id) without a speaking task"))
+            }
+        }
+
+        // Every reading unit a lesson declares must actually be attached as a passage;
+        // a silent drop (e.g. a builder bug) is an error, not an empty list.
+        for lesson in ExamCampaignCatalog.allLessons {
+            for unitID in lesson.legacyUnitIDs where unitID.hasPrefix("a1-read-") {
+                if !lesson.readingPassages.contains(where: { $0.id == unitID }) {
+                    issues.append(Issue(severity: "error", message: "lesson \(lesson.id) declares reading unit \(unitID) but attaches no passage for it"))
+                }
             }
         }
         for lesson in ExamCampaignCatalog.allLessons {
@@ -367,7 +519,7 @@ enum ExamCampaignValidation {
             }
         }
         if let exam = ExamCampaignCatalog.finalExam {
-            for id in exam.exerciseIDs where !knownExerciseIDs.contains(id) {
+            for id in ExamCampaignCatalog.unresolvedExerciseIDs(exam.exerciseIDs) {
                 issues.append(Issue(severity: "error", message: "final exam references unknown exercise \(id)"))
             }
             for id in exam.writingLessonIDs where ExamCampaignCatalog.lesson(id: id)?.writingPrompt == nil {

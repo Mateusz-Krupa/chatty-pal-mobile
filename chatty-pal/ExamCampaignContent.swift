@@ -27,9 +27,9 @@ enum ExamCampaignContent {
     }
 
     private static func passages(_ unitIDs: [String], titles: [String] = []) -> [ReadingPassage] {
-        zip(unitIDs, titles).compactMap { unitID, title in
-            if title.isEmpty { return passage(unitID) }
-            return passage(unitID, title: title)
+        assert(titles.isEmpty || titles.count == unitIDs.count, "passages titles must match the number of unit ids")
+        return unitIDs.enumerated().compactMap { index, unitID in
+            passage(unitID, title: titles.isEmpty ? nil : titles[index])
         }
     }
 
@@ -105,7 +105,7 @@ enum ExamCampaignContent {
                     missionLabel: "Oral exam — Teil 1",
                     stages: [
                         ("Sich vorstellen", "Run the Goethe A1 oral exam Teil 1 (Vorstellung): greet the candidate, ask for name, origin, city and job or studies, then hobbies. Keep questions one at a time and A1 simple."),
-                        ("Über die Familie sprechen", "Run the Goethe A1 oral exam Teil 1 (Personen): ask the candidate about their family and one friend, with simple follow-up questions about age, job and city.")
+                        ("Über die Familie sprechen", "Teil 1 style warm-up about people: ask the candidate about their family and one friend, with simple follow-up questions about age, job and city. Family topics are extra practice, not an official Teil 1 keyword list.")
                     ],
                     scenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 1 (Vorstellung). Greet the candidate, introduce yourself briefly, then ask one by one: (1) Wie heißen Sie? (2) Woher kommen Sie? (3) Wo wohnen Sie jetzt? (4) Was ist Ihr Beruf? / Was studieren Sie? (5) Was sind Ihre Hobbys? React briefly and encouragingly after each answer, then ask the next question. After all questions, give two or three sentences of short, friendly feedback on the candidate's German."
                 ),
@@ -158,7 +158,7 @@ enum ExamCampaignContent {
                 grammarPoints: [grammar("a1-gram-zeiten")],
                 phrases: phrases("a1-voc-zeit"),
                 dialogue: dialogue("a1-voc-zeit"),
-                exercises: exercises("a1-voc-zeit"),
+                exercises: exercises("a1-voc-zeit") + exercises("a1-gram-zeiten"),
                 legacyUnitIDs: ["a1-voc-zeit", "a1-gram-zeiten"]
             )),
             .lesson(CampaignLesson(
@@ -260,7 +260,7 @@ enum ExamCampaignContent {
                 grammarPoints: [grammar("a1-gram-trennbar")],
                 phrases: phrases("a1-voc-telefon"),
                 dialogue: dialogue("a1-voc-telefon"),
-                exercises: exercises("a1-voc-telefon") + exercises("a1-list-telefon"),
+                exercises: exercises("a1-voc-telefon") + exercises("a1-list-telefon") + exercises("a1-gram-trennbar"),
                 legacyUnitIDs: ["a1-voc-telefon", "a1-gram-trennbar", "a1-list-telefon"]
             )),
             .lesson(CampaignLesson(
@@ -275,12 +275,12 @@ enum ExamCampaignContent {
                 exercises: exercises("a1-voc-gesundheit"),
                 speaking: speaking(
                     id: "sp2-services",
-                    missionLabel: "Oral exam — Teil 3",
+                    missionLabel: "Sprechen practice: appointment and doctor",
                     stages: [
-                        ("Telefon: Termin machen", "Run a Teil 3 style task: the candidate calls a doctor's office to make an appointment. You are the office. Ask for the reason, offer times, confirm the appointment."),
-                        ("Beim Arzt", "Run a Teil 3 style task: the candidate is at the doctor. You ask about symptoms, how long, and what they did so far. Keep it simple and encouraging.")
+                        ("Telefon: Termin machen", "Role-play a daily-life situation (general practice, not an official exam part): the candidate calls a doctor's office to make an appointment. You are the office. Ask for the reason, offer times, confirm the appointment."),
+                        ("Beim Arzt", "Role-play a daily-life situation (general practice): the candidate is at the doctor. You ask about symptoms, how long, and what they did so far. Keep it simple and encouraging.")
                     ],
-                    scenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Planung). Conduct a short appointment call with the candidate: a toothache, calling the doctor, choosing a day and time. Then a brief scene at the surgery. Keep all language at A1 level and give one or two sentences of feedback at the end."
+                    scenario: "You are a friendly conversation partner for daily-life speaking practice, not an official Goethe exam part. Conduct a short appointment call with the candidate: a toothache, calling the doctor, choosing a day and time. Then a brief scene at the surgery. Keep all language at A1 level and give one or two sentences of feedback at the end."
                 ),
                 legacyUnitIDs: ["a1-voc-gesundheit", "a1-spr-arzt"]
             )),
@@ -295,11 +295,11 @@ enum ExamCampaignContent {
                 dialogue: dialogue("a1-spr-einkaufen"),
                 speaking: speaking(
                     id: "sp3-shop",
-                    missionLabel: "Oral exam — Teil 3",
+                    missionLabel: "Sprechen practice: shopping",
                     stages: [
-                        ("Im Shop", "Run a Teil 3 style task: the candidate wants to buy a jacket in a shop. You are the shop assistant. Ask what they want, offer a size and a price, ask how they pay. Then a short return or exchange question at the end.")
+                        ("Im Shop", "Role-play a daily-life situation (general practice, not an official exam part): the candidate wants to buy a jacket in a shop. You are the shop assistant. Ask what they want, offer a size and a price, ask how they pay. Then a short return or exchange question at the end.")
                     ],
-                    scenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 3 (Planung). Conduct a shop conversation: the candidate wants to buy a jacket. Ask what they want, offer sizes and prices, ask how they pay, and finish with a return question. Keep language at A1 level."
+                    scenario: "You are a friendly conversation partner for daily-life shopping practice, not an official Goethe exam part. Conduct a shop conversation: the candidate wants to buy a jacket. Ask what they want, offer sizes and prices, ask how they pay, and finish with a return question. Keep language at A1 level."
                 ),
                 legacyUnitIDs: ["a1-spr-einkaufen"]
             )),
@@ -370,7 +370,7 @@ enum ExamCampaignContent {
                 title: "Lesen: Anzeigen und Angebote",
                 goal: "You can read an ad and a travel offer and answer questions.",
                 vocabulary: vocab("a1-read-anzeige"),
-                readingPassages: passages(["a1-read-anzeige"]),
+                readingPassages: passages(["a1-read-anzeige", "a1-read-reise"]),
                 legacyUnitIDs: ["a1-read-anzeige", "a1-read-reise"]
             )),
             .lesson(CampaignLesson(
@@ -419,12 +419,12 @@ enum ExamCampaignContent {
                 dialogue: dialogue("a1-spr-bild"),
                 speaking: speaking(
                     id: "sp4-picture",
-                    missionLabel: "Oral exam — Teil 2",
+                    missionLabel: "Sprechen practice: picture and short presentation",
                     stages: [
-                        ("Ein Bild beschreiben", "Run a Teil 2 style task: describe a simple picture (two people in a city) and answer follow-up questions about it. Then the candidate asks one or two questions and you answer."),
-                        ("Kurz vorstellen", "Run a Teil 2/4 style task: the candidate gives a short one-minute presentation about a hobby. You listen, then ask one or two follow-up questions.")
+                        ("Ein Bild beschreiben", "General speaking practice (picture description is not part of Start Deutsch 1): describe a simple picture (two people in a city) and answer follow-up questions about it. Then the candidate asks one or two questions and you answer."),
+                        ("Kurz vorstellen", "General speaking practice (a presentation task is not part of Start Deutsch 1): the candidate gives a short one-minute presentation about a hobby. You listen, then ask one or two follow-up questions.")
                     ],
-                    scenario: "You are the examiner for the Goethe-Zertifikat A1 oral exam, Teil 2. First: the candidate describes a picture (two people, a city street, a shop) and you ask two follow-up questions; then the candidate asks you two questions about the picture. Second: the candidate gives a very short presentation about a hobby and you ask two simple follow-up questions. Keep language at A1 level and give brief friendly feedback."
+                    scenario: "You are a conversation partner for general speaking practice. This is not an official Goethe exam part and will not be presented as one. First: the candidate describes a picture (two people, a city street, a shop) and you ask two follow-up questions; then the candidate asks you two questions about the picture. Second: the candidate gives a very short presentation about a hobby and you ask two simple follow-up questions. Keep language at A1 level and give brief friendly feedback."
                 ),
                 legacyUnitIDs: ["a1-spr-bild", "a1-spr-praesentation"]
             )),
@@ -483,12 +483,12 @@ enum ExamCampaignContent {
         id: "z6-final-prep",
         order: 6,
         title: "Final Preparation",
-        goal: "Put everything together and take the full mock exam.",
+        goal: "Put everything together and finish the mixed practice test.",
         nodes: [
             .finalExam(CampaignFinalExam(
                 id: "final-mock-exam",
-                title: "Full Goethe A1 Mock Exam",
-                description: "A mixed, exam-style test of reading, listening, writing and speaking. This is practice, not an official Goethe score.",
+                title: "A1 Practice Test: Mixed Skills",
+                description: "A mixed practice test of quiz, writing and speaking tasks. The official exam also tests form filling, true/false reading, once-heard announcements and a group oral part — this practice test does not cover those. This is practice, not an official Goethe score.",
                 requiredZoneIDs: ["z1-first-contact", "z2-everyday-life", "z3-shopping-services", "z4-travel-city", "z5-exam-skills"],
                 exerciseIDs: [
                     "a1-read-formular-e2",

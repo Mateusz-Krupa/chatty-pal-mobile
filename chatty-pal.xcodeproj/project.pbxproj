@@ -82,6 +82,7 @@
 		AA0000000000000000000084 /* ExamCampaignTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000083 /* ExamCampaignTests.swift */; };
 		AA0000000000000000000086 /* ExamConversationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000085 /* ExamConversationTests.swift */; };
 		AA000000000000000000008A /* ExamCampaignFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* ExamCampaignFlowTests.swift */; };
+		AA0000000000000000000092 /* ExamStorageFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* ExamStorageFixtures.swift */; };
 		AA0000000000000000000088 /* ExamCampaignViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* ExamCampaignViews.swift */; };
 /* End PBXBuildFile section */
 
@@ -166,6 +167,7 @@
 		AA0000000000000000000083 /* ExamCampaignTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000085 /* ExamConversationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamConversationTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000089 /* ExamCampaignFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignFlowTests.swift; sourceTree = "<group>"; };
+		AA0000000000000000000091 /* ExamStorageFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStorageFixtures.swift; sourceTree = "<group>"; };
 		AA0000000000000000000087 /* ExamCampaignViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignViews.swift; sourceTree = "<group>"; };
 		AA0000000000000000000013 /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
 		AA0000000000000000000015 /* LoginPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPanel.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				AA0000000000000000000083 /* ExamCampaignTests.swift */,
 				AA0000000000000000000085 /* ExamConversationTests.swift */,
 				AA0000000000000000000089 /* ExamCampaignFlowTests.swift */,
+				AA0000000000000000000091 /* ExamStorageFixtures.swift */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				AA0000000000000000000084 /* ExamCampaignTests.swift in Sources */,
 				AA0000000000000000000086 /* ExamConversationTests.swift in Sources */,
 				AA000000000000000000008A /* ExamCampaignFlowTests.swift in Sources */,
+				AA0000000000000000000092 /* ExamStorageFixtures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

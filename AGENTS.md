@@ -30,7 +30,7 @@ Run build after every code change; run tests after functional phases. Commit per
 
 NOT a synchronized group — every new file needs 4 manual entries:
 `PBXBuildFile`, `PBXFileReference`, group `children`, `PBXSourcesBuildPhase`.
-Existing IDs are hex `AA0000000000000000000001`–`AA0000000000000000000030`; next free: `AA0000000000000000000031`.
+Existing IDs are hex `AA0000000000000000000001`–`AA0000000000000000000092`; next free: `AA0000000000000000000093` (always re-verify with `grep -o 'AA0*' project.pbxproj | sort -u | tail -1` before allocating).
 
 ## Swift 6.2 pitfalls
 

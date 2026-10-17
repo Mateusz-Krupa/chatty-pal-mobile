@@ -52,7 +52,7 @@ struct ExamCampaignHomeView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Goethe-Zertifikat A1")
                 .font(.system(size: 28, weight: .semibold))
-            Text("Follow the campaign: finish missions, pass checkpoints, take the final mock exam.")
+            Text("Follow the campaign: finish missions, pass checkpoints, and finish the mixed practice test.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -305,7 +305,6 @@ struct ExamCampaignMissionView: View {
     @State private var checked: Set<String> = []
     @State private var spoke = false
     @State private var wrote = false
-    @State private var recordedStars = 0
 
     init(lesson: CampaignLesson) {
         self.lesson = lesson
@@ -320,9 +319,20 @@ struct ExamCampaignMissionView: View {
         allExercises.filter { checked.contains($0.id) && selected[$0.id] == $0.correctIndex }.count
     }
 
+    private var checkedCount: Int {
+        allExercises.filter { checked.contains($0.id) }.count
+    }
+
     private var result: MissionResult {
         MissionResult(
-            stars: MissionStars.stars(correct: correctCount, total: allExercises.count, spoke: spoke, wrote: wrote),
+            stars: MissionStars.stars(
+                correct: correctCount,
+                totalExercises: allExercises.count,
+                spoke: spoke,
+                hasSpeakingTask: lesson.speaking != nil,
+                wrote: wrote,
+                hasWritingTask: lesson.writingPrompt != nil
+            ),
             correctCount: correctCount,
             exerciseCount: allExercises.count,
             completedSpeaking: spoke,
@@ -434,7 +444,28 @@ struct ExamCampaignMissionView: View {
     }
 
     private var isCompleteCandidate: Bool {
-        allExercises.isEmpty || correctCount * 10 >= allExercises.count * 8
+        MissionCompletion.canCompleteLesson(lesson: lesson, correct: correctCount,
+                                            checkedCount: checkedCount, spoke: spoke, wrote: wrote)
+    }
+
+    /// What still blocks completion, phrased as evidence expectations (not screen visits).
+    private var completionHint: String {
+        var missing: [String] = []
+        let total = allExercises.count
+        if total > 0 {
+            if checkedCount < total {
+                missing.append("Answer and check all \(total) exercises (\(checkedCount) checked)")
+            } else if correctCount * 10 < total * 8 {
+                missing.append("Reach 80% correct (now \(correctCount)/\(total))")
+            }
+        }
+        if lesson.speaking != nil && !spoke {
+            missing.append("Finish the speaking task with at least one spoken or typed answer")
+        }
+        if lesson.writingPrompt != nil && !wrote {
+            missing.append("Submit your writing and get feedback")
+        }
+        return missing.joined(separator: " · ")
     }
 
     private func advance() {
@@ -443,16 +474,14 @@ struct ExamCampaignMissionView: View {
                 checked.insert(exercise.id)
             }
         }
-        if isLastStep {
-            recordedStars = result.stars
-        }
+        // Outcome renders `result` live, so the stars shown before saving are always the
+        // same values `completeMission()` records — no stale intermediate state.
         withAnimation { stepIndex = min(stepIndex + 1, plan.steps.count - 1) }
     }
 
     private func completeMission() {
         guard isCompleteCandidate else { return }
         let outcome = result
-        recordedStars = outcome.stars
         progress.record(outcome, for: lesson.id)
         addWordsToReview()
         dismiss()
@@ -589,29 +618,33 @@ struct ExamCampaignMissionView: View {
         }
     }
 
+    private var exerciseNumbers: [String: Int] {
+        var numbers: [String: Int] = [:]
+        for (index, exercise) in allExercises.enumerated() {
+            numbers[exercise.id] = index + 1
+        }
+        return numbers
+    }
+
     private var exercises: some View {
         VStack(alignment: .leading, spacing: 14) {
-            if currentStep == .examTask {
-                ForEach(lesson.readingPassages) { passage in
-                    card(title: "Lesen — \(passage.title)") {
-                        Text(passage.text)
-                            .font(.body)
-                            .lineSpacing(4)
-                    }
-                }
-            }
             card(title: "Übungen — \(correctCount) / \(allExercises.count) correct") {
                 VStack(spacing: 14) {
-                    ForEach(Array(allExercises.enumerated()), id: \.element.id) { index, exercise in
-                        CampaignExerciseCard(
-                            exercise: exercise,
-                            number: index + 1,
-                            selection: selected[exercise.id],
-                            isChecked: checked.contains(exercise.id),
-                            onSelect: { optionIndex in
-                                selected[exercise.id] = optionIndex
-                            }
-                        )
+                    ForEach(ExerciseGrouping.groups(for: allExercises)) { group in
+                        if let passage = group.passage {
+                            CampaignPassageHeader(passage: passage)
+                        }
+                        ForEach(group.exercises) { exercise in
+                            CampaignExerciseCard(
+                                exercise: exercise,
+                                number: exerciseNumbers[exercise.id] ?? 0,
+                                selection: selected[exercise.id],
+                                isChecked: checked.contains(exercise.id),
+                                onSelect: { optionIndex in
+                                    selected[exercise.id] = optionIndex
+                                }
+                            )
+                        }
                     }
 
                     Button {
@@ -669,12 +702,12 @@ struct ExamCampaignMissionView: View {
                     .font(.title3.weight(.semibold))
                 HStack(spacing: 6) {
                     ForEach(0..<3, id: \.self) { index in
-                        Image(systemName: index < recordedStars ? "star.fill" : "star")
+                        Image(systemName: index < result.stars ? "star.fill" : "star")
                             .font(.title2)
-                            .foregroundStyle(index < recordedStars ? Color.orange : ChattyTheme.hairline)
+                            .foregroundStyle(index < result.stars ? Color.orange : ChattyTheme.hairline)
                     }
                 }
-                .accessibilityLabel("\(recordedStars) of 3 stars")
+                .accessibilityLabel("\(result.stars) of 3 stars")
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 8)
@@ -700,7 +733,7 @@ struct ExamCampaignMissionView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.top, 6)
                     } else {
-                        Text("Reach at least 80% correct answers to complete this mission. Retry the wrong answers and replay.")
+                        Text(completionHint)
                             .font(.footnote)
                             .foregroundStyle(Color.orange)
                             .padding(.top, 6)
@@ -768,12 +801,32 @@ struct ExamCampaignCheckpointView: View {
     @State private var selected: [String: Int] = [:]
     @State private var checked: Set<String> = []
 
+    private var resolution: ExamCampaignCatalog.ExerciseResolution {
+        ExamCampaignCatalog.checkpointResolution(checkpoint)
+    }
+
     private var exercises: [ExamExercise] {
-        ExamCampaignCatalog.checkpointExercises(checkpoint)
+        resolution.exercises
+    }
+
+    private var exerciseNumbers: [String: Int] {
+        var numbers: [String: Int] = [:]
+        for (index, exercise) in exercises.enumerated() {
+            numbers[exercise.id] = index + 1
+        }
+        return numbers
     }
 
     private var correctCount: Int {
         exercises.filter { checked.contains($0.id) && selected[$0.id] == $0.correctIndex }.count
+    }
+
+    private var checkedCount: Int {
+        exercises.filter { checked.contains($0.id) }.count
+    }
+
+    private var canPass: Bool {
+        MissionCompletion.canCompleteCheckpoint(checkpoint, correct: correctCount, checkedCount: checkedCount)
     }
 
     var body: some View {
@@ -785,22 +838,36 @@ struct ExamCampaignCheckpointView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                if !resolution.isComplete {
+                    Label("Content error: \(resolution.unresolvedIDs.joined(separator: ", ")) cannot be loaded. This checkpoint cannot be passed until the content is fixed.", systemImage: "exclamationmark.triangle.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(Color.red.opacity(0.08), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+
                 if exercises.isEmpty {
                     Text("No checkpoint questions available yet.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 } else {
                     VStack(spacing: 14) {
-                        ForEach(Array(exercises.enumerated()), id: \.element.id) { index, exercise in
-                            CampaignExerciseCard(
-                                exercise: exercise,
-                                number: index + 1,
-                                selection: selected[exercise.id],
-                                isChecked: checked.contains(exercise.id),
-                                onSelect: { optionIndex in
-                                    selected[exercise.id] = optionIndex
-                                }
-                            )
+                        ForEach(ExerciseGrouping.groups(for: exercises)) { group in
+                            if let passage = group.passage {
+                                CampaignPassageHeader(passage: passage)
+                            }
+                            ForEach(group.exercises) { exercise in
+                                CampaignExerciseCard(
+                                    exercise: exercise,
+                                    number: exerciseNumbers[exercise.id] ?? 0,
+                                    selection: selected[exercise.id],
+                                    isChecked: checked.contains(exercise.id),
+                                    onSelect: { optionIndex in
+                                        selected[exercise.id] = optionIndex
+                                    }
+                                )
+                            }
                         }
 
                         Button {
@@ -855,9 +922,15 @@ struct ExamCampaignCheckpointView: View {
                                 .padding(.vertical, 10)
                         }
                         .buttonStyle(.borderedProminent)
-                        .disabled(!checked.isEmpty && correctCount * 10 < exercises.count * 6)
-                        .accessibilityHint("Requires at least 60 percent correct.")
+                        .disabled(!canPass)
+                        .accessibilityHint("Requires answering and checking every question with at least 60 percent correct.")
                     }
+                }
+
+                if !progress.isComplete(checkpoint.id) && !canPass {
+                    Text("Answer and check all \(checkpoint.exerciseIDs.count) questions, then score at least 60% to pass. Checked: \(checkedCount)/\(checkpoint.exerciseIDs.count).")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
             }
             .padding(16)
@@ -870,7 +943,7 @@ struct ExamCampaignCheckpointView: View {
 
 
 
-// MARK: - Final mock exam
+// MARK: - Final practice test
 
 struct ExamCampaignFinalExamView: View {
     let exam: CampaignFinalExam
@@ -878,12 +951,33 @@ struct ExamCampaignFinalExamView: View {
     @State private var selected: [String: Int] = [:]
     @State private var checked: Set<String> = []
 
+    private var resolution: ExamCampaignCatalog.ExerciseResolution {
+        ExamCampaignCatalog.finalExamResolution(exam)
+    }
+
     private var exercises: [ExamExercise] {
-        ExamCampaignCatalog.finalExamExercises(exam)
+        resolution.exercises
+    }
+
+    private var exerciseNumbers: [String: Int] {
+        var numbers: [String: Int] = [:]
+        for (index, exercise) in exercises.enumerated() {
+            numbers[exercise.id] = index + 1
+        }
+        return numbers
     }
 
     private var correctCount: Int {
         exercises.filter { checked.contains($0.id) && selected[$0.id] == $0.correctIndex }.count
+    }
+
+    private var checkedCount: Int {
+        exercises.filter { checked.contains($0.id) }.count
+    }
+
+    private var canFinish: Bool {
+        MissionCompletion.canCompleteFinalExam(exam, correct: correctCount, checkedCount: checkedCount,
+                                               isLessonComplete: { progress.isComplete($0) })
     }
 
     private struct SkillScore {
@@ -936,17 +1030,31 @@ struct ExamCampaignFinalExamView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
+                if !resolution.isComplete {
+                    Label("Content error: \(resolution.unresolvedIDs.joined(separator: ", ")) cannot be loaded. This practice test cannot be finished until the content is fixed.", systemImage: "exclamationmark.triangle.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(Color.red.opacity(0.08), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+
                 VStack(spacing: 14) {
-                    ForEach(Array(exercises.enumerated()), id: \.element.id) { index, exercise in
-                        CampaignExerciseCard(
-                            exercise: exercise,
-                            number: index + 1,
-                            selection: selected[exercise.id],
-                            isChecked: checked.contains(exercise.id),
-                            onSelect: { optionIndex in
-                                selected[exercise.id] = optionIndex
-                            }
-                        )
+                    ForEach(ExerciseGrouping.groups(for: exercises)) { group in
+                        if let passage = group.passage {
+                            CampaignPassageHeader(passage: passage)
+                        }
+                        ForEach(group.exercises) { exercise in
+                            CampaignExerciseCard(
+                                exercise: exercise,
+                                number: exerciseNumbers[exercise.id] ?? 0,
+                                selection: selected[exercise.id],
+                                isChecked: checked.contains(exercise.id),
+                                onSelect: { optionIndex in
+                                    selected[exercise.id] = optionIndex
+                                }
+                            )
+                        }
                     }
 
                     Button {
@@ -1032,12 +1140,19 @@ struct ExamCampaignFinalExamView: View {
                 Button {
                     progress.recordCheckpointComplete(exam.id)
                 } label: {
-                    Label(progress.isComplete(exam.id) ? "Mock exam done (replay)" : "Finish mock exam", systemImage: "trophy.fill")
+                    Label(progress.isComplete(exam.id) ? "Practice test done (replay)" : "Finish practice test", systemImage: "trophy.fill")
                         .font(.subheadline.weight(.semibold))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(!canFinish)
+
+                if !progress.isComplete(exam.id) && !canFinish {
+                    Text("To finish: answer and check all \(exam.exerciseIDs.count) quiz questions (min. 60% correct) and complete the linked writing and speaking lessons with real answers. Checked: \(checkedCount)/\(exam.exerciseIDs.count).")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
             }
             .padding(16)
         }
@@ -1048,6 +1163,27 @@ struct ExamCampaignFinalExamView: View {
 }
 
 // MARK: - Shared exam components
+
+/// The reading source a question block belongs to. Rendered directly above its
+/// questions and kept on screen while answers and explanations are reviewed.
+struct CampaignPassageHeader: View {
+    let passage: ReadingPassage
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Lesen — \(passage.title)")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Color.accentColor)
+            Text(passage.text)
+                .font(.body)
+                .lineSpacing(4)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(Color.accentColor.opacity(0.06), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+}
 
 struct CampaignExerciseCard: View {
     let exercise: ExamExercise
@@ -1420,7 +1556,10 @@ struct CampaignSpeakingView: View {
             if feedbackRequested {
                 Button("Close practice") {
                     engine.interrupt()
-                    onFinished()
+                    // Only real learner turns count as speaking evidence (task 2.4).
+                    if engine.messages.contains(where: { $0.role == .user }) {
+                        onFinished()
+                    }
                     dismiss()
                 }
                 .font(.footnote)
