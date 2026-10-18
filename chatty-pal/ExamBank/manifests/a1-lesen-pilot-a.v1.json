@@ -1,0 +1,115 @@
+{
+  "id": "a1-lesen-pilot-a",
+  "version": 1,
+  "purpose": "training",
+  "blueprintVersion": "goethe-a1-sd1",
+  "title": "Lesen Pilot A (Training, Draft)",
+  "description": "Erstes Lesen-Set für Pilot A (task 4.2). Alle Inhalte draft; humaner Review (4.8) steht aus.",
+  "entries": [
+    {
+      "taskId": "task-read-p1-einkauf",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 1,
+      "order": 1
+    },
+    {
+      "taskId": "task-read-p1-paket",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 1,
+      "order": 2
+    },
+    {
+      "taskId": "task-read-p1-waschraum",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 1,
+      "order": 3
+    },
+    {
+      "taskId": "task-read-p1-lena",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 1,
+      "order": 4
+    },
+    {
+      "taskId": "task-read-p1-meeting",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 1,
+      "order": 5
+    },
+    {
+      "taskId": "task-read-p2-wg-hund",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 2,
+      "order": 6
+    },
+    {
+      "taskId": "task-read-p2-wg-anruf",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 2,
+      "order": 7
+    },
+    {
+      "taskId": "task-read-p2-studio-preis",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 2,
+      "order": 8
+    },
+    {
+      "taskId": "task-read-p2-wg-kueche",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 2,
+      "order": 9
+    },
+    {
+      "taskId": "task-read-p2-studio-eine-person",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 2,
+      "order": 10
+    },
+    {
+      "taskId": "task-read-p3-prospekte",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 3,
+      "order": 11
+    },
+    {
+      "taskId": "task-read-p3-rasen",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 3,
+      "order": 12
+    },
+    {
+      "taskId": "task-read-p3-einfahrt",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 3,
+      "order": 13
+    },
+    {
+      "taskId": "task-read-p3-zeiten",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 3,
+      "order": 14
+    },
+    {
+      "taskId": "task-read-p3-handys",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 3,
+      "order": 15
+    }
+  ]
+}

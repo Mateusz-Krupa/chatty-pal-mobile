@@ -47,7 +47,9 @@ final class ExamBankTests: XCTestCase {
 
     func testBundledSnapshotDecodesAndValidatesClean() throws {
         let snapshot = try ExamBankLoader.load(folder: try appSnapshotFolder())
-        XCTAssertEqual(snapshot.bank.contentVersion, 1)
+        // Stage 4 lifted the bank to contentVersion 2 (pilot-A Lesen set); the
+        // test only pins that we run against the post-seed content.
+        XCTAssertGreaterThanOrEqual(snapshot.bank.contentVersion, 2)
         XCTAssertEqual(snapshot.bank.blueprintVersion, snapshot.blueprint.id)
         XCTAssertFalse(snapshot.bank.tasks.isEmpty)
         XCTAssertFalse(snapshot.manifests.isEmpty)
