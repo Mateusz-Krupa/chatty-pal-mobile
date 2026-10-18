@@ -1,0 +1,59 @@
+{
+  "id": "a1-sprechen-pilot-a",
+  "version": 1,
+  "purpose": "training",
+  "blueprintVersion": "goethe-a1-sd1",
+  "title": "Sprechen Pilot A (Training, Draft)",
+  "description": "Erstes Sprechen-Set für Pilot A (task 4.5): 1 Vorstellung, 3 Info Karten, 3 Bitten. Human review (4.8) pending.",
+  "entries": [
+    {
+      "taskId": "task-speak-p1-vorstellung-a",
+      "revision": 1,
+      "skill": "sprechen",
+      "part": 1,
+      "order": 1
+    },
+    {
+      "taskId": "task-speak-p2-bahn-fragen",
+      "revision": 1,
+      "skill": "sprechen",
+      "part": 2,
+      "order": 2
+    },
+    {
+      "taskId": "task-speak-p2-miete-fragen",
+      "revision": 1,
+      "skill": "sprechen",
+      "part": 2,
+      "order": 3
+    },
+    {
+      "taskId": "task-speak-p2-sprachen-fragen",
+      "revision": 1,
+      "skill": "sprechen",
+      "part": 2,
+      "order": 4
+    },
+    {
+      "taskId": "task-speak-p3-tasche-bitte",
+      "revision": 1,
+      "skill": "sprechen",
+      "part": 3,
+      "order": 5
+    },
+    {
+      "taskId": "task-speak-p3-karte-bitte",
+      "revision": 1,
+      "skill": "sprechen",
+      "part": 3,
+      "order": 6
+    },
+    {
+      "taskId": "task-speak-p3-foto-bitte",
+      "revision": 1,
+      "skill": "sprechen",
+      "part": 3,
+      "order": 7
+    }
+  ]
+}

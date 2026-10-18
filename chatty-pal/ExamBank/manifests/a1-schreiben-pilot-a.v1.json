@@ -1,0 +1,24 @@
+{
+  "id": "a1-schreiben-pilot-a",
+  "version": 1,
+  "purpose": "training",
+  "blueprintVersion": "goethe-a1-sd1",
+  "title": "Schreiben Pilot A (Training, Draft)",
+  "description": "Erstes Schreiben-Set für Pilot A (task 4.4). Human review (4.8) pending.",
+  "entries": [
+    {
+      "taskId": "task-write-p1-formular-kurs",
+      "revision": 1,
+      "skill": "schreiben",
+      "part": 1,
+      "order": 1
+    },
+    {
+      "taskId": "task-write-p2-nachricht-umzug",
+      "revision": 1,
+      "skill": "schreiben",
+      "part": 2,
+      "order": 2
+    }
+  ]
+}
