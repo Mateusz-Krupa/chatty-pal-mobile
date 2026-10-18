@@ -1,0 +1,115 @@
+{
+  "id": "a1-horen-pilot-a",
+  "version": 1,
+  "purpose": "training",
+  "blueprintVersion": "goethe-a1-sd1",
+  "title": "Hören Pilot A (Training, Draft)",
+  "description": "Erstes Hören-Set für Pilot A (task 4.3). Audio via Polly pending; human review (4.8) pending.",
+  "entries": [
+    {
+      "taskId": "task-list-p1-essen",
+      "revision": 1,
+      "skill": "horen",
+      "part": 1,
+      "order": 1
+    },
+    {
+      "taskId": "task-list-p1-treffen",
+      "revision": 1,
+      "skill": "horen",
+      "part": 1,
+      "order": 2
+    },
+    {
+      "taskId": "task-list-p1-jacke",
+      "revision": 1,
+      "skill": "horen",
+      "part": 1,
+      "order": 3
+    },
+    {
+      "taskId": "task-list-p1-milch",
+      "revision": 1,
+      "skill": "horen",
+      "part": 1,
+      "order": 4
+    },
+    {
+      "taskId": "task-list-p1-zug",
+      "revision": 1,
+      "skill": "horen",
+      "part": 1,
+      "order": 5
+    },
+    {
+      "taskId": "task-list-p1-hobby",
+      "revision": 1,
+      "skill": "horen",
+      "part": 1,
+      "order": 6
+    },
+    {
+      "taskId": "task-list-p2-mensa",
+      "revision": 1,
+      "skill": "horen",
+      "part": 2,
+      "order": 7
+    },
+    {
+      "taskId": "task-list-p2-muell",
+      "revision": 1,
+      "skill": "horen",
+      "part": 2,
+      "order": 8
+    },
+    {
+      "taskId": "task-list-p2-kurs",
+      "revision": 1,
+      "skill": "horen",
+      "part": 2,
+      "order": 9
+    },
+    {
+      "taskId": "task-list-p2-tasse",
+      "revision": 1,
+      "skill": "horen",
+      "part": 2,
+      "order": 10
+    },
+    {
+      "taskId": "task-list-p3-arzt",
+      "revision": 1,
+      "skill": "horen",
+      "part": 3,
+      "order": 11
+    },
+    {
+      "taskId": "task-list-p3-fund",
+      "revision": 1,
+      "skill": "horen",
+      "part": 3,
+      "order": 12
+    },
+    {
+      "taskId": "task-list-p3-pizza",
+      "revision": 1,
+      "skill": "horen",
+      "part": 3,
+      "order": 13
+    },
+    {
+      "taskId": "task-list-p3-heizung",
+      "revision": 1,
+      "skill": "horen",
+      "part": 3,
+      "order": 14
+    },
+    {
+      "taskId": "task-list-p3-kino",
+      "revision": 1,
+      "skill": "horen",
+      "part": 3,
+      "order": 15
+    }
+  ]
+}

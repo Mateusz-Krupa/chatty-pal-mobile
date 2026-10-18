@@ -1,9 +1,10 @@
 {
   "schema": 1,
-  "contentVersion": 2,
+  "contentVersion": 3,
   "blueprintVersion": "goethe-a1-sd1@1",
   "files": {
     "bank/a1-content.v2.json": "2871fe7f4924d04ef06336bd8fc6005cc27beff41307275834e7aac847da97e2",
+    "bank/a1-horen.v3.json": "5dbbe4208baaf65746a60cfa0d9d45e04c6b449762988f3dbaa81fd69e3c7589",
     "bank/a1-seed.v1.json": "bc563d3230c54d860443184d662435d0dd0c8c300b24d6b5ab885d54bf2e5c62",
     "blueprints/goethe-a1-sd1.v1.json": "db0df8ccba972d1630e90ef8edbff01e87a312d1dd58bc04ea97c302356f2c87",
     "fixtures/base-bank.json": "2c18ebd573163ebeb4565b14e67787961666496dbc422c9be9c0c0014b28ab4b",
@@ -40,6 +41,7 @@
     "fixtures/invalid/schema-too-few-options.json": "8924aa6cd775e3c583e271d87f3c8627ac615475ec470f5ef4790be0a6874ca2",
     "fixtures/invalid/slot-count-pair-bank.json": "d5c27bc01ab78bd4081e69b0a18ac33ac3f05d9284b8e3ba88179faef419197f",
     "fixtures/scoring-vectors.json": "632d574469798f08459fe9dc7c02232f3496efc43c5afa0e8e2b31be295abd08",
+    "manifests/a1-horen-pilot-a.v1.json": "7af8bdfe2b6ed2ee1735624a749c7ad76d2c58cb5003492e407ae11286b0ff5c",
     "manifests/a1-lesen-pilot-a.v1.json": "9940b76f72eb2f97039692a14ac5bd9daaf3783489814dfc120f18dc2bc05ed5",
     "manifests/seed-training-set.v1.json": "3a529ba18476ad0baa7ea65f21b19dfbeead15cf67d5de0bb52b304b6811fd95"
   }
