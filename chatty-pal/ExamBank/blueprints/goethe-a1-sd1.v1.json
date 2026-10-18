@@ -1,0 +1,61 @@
+{
+  "id": "goethe-a1-sd1",
+  "version": 1,
+  "name": "Goethe-Zertifikat A1: Start Deutsch 1 (Erwachsene)",
+  "officialSource": {
+    "url": "https://www.goethe.de/pro/relaunch/prf/en/Durchfuehrungsbestimmungen_A1_Start_Deutsch_1.pdf",
+    "documentDate": "2025-09-01",
+    "verifiedAt": "2026-10-17",
+    "note": "Durchfuehrungsbestimmungen sind die Quelle aller Parameter. Modellsatz-Seiten (bfu.goethe.de, Fusszeilen 2015/2021) dienten nur als Formatillustration. Kein Sprechanteil-Item pro Kandidist ist offiziell festgelegt; Teil 2/3 card counts sind app-definierte Sessiongroessen und werden im UI nicht als offizielle Regel angezeigt."
+  },
+  "conversion": {
+    "multiplier": 1.66,
+    "maxPoints": 100,
+    "passPoints": 60,
+    "requireAllParts": true,
+    "grades": [
+      { "from": 90, "to": 100, "label": "sehr gut" },
+      { "from": 80, "to": 89, "label": "gut" },
+      { "from": 70, "to": 79, "label": "befriedigend" },
+      { "from": 60, "to": 69, "label": "ausreichend" },
+      { "from": 0, "to": 59, "label": "nicht bestanden" }
+    ]
+  },
+  "skills": [
+    {
+      "skill": "horen",
+      "estimatedSeconds": 1200,
+      "parts": [
+        { "part": 1, "name": "Kurze Gespräche – Auswahl a/b/c, 2× hören", "taskTypes": ["listeningChoice"], "itemCount": 6, "maxPoints": 6, "pointsPerItem": 1, "playbacks": 2 },
+        { "part": 2, "name": "Durchsagen – Richtig/Falsch, 1× hören", "taskTypes": ["listeningTrueFalse"], "itemCount": 4, "maxPoints": 4, "pointsPerItem": 1, "playbacks": 1 },
+        { "part": 3, "name": "Telefon- und Sachinformationen – Auswahl a/b/c, 2× hören", "taskTypes": ["listeningChoice"], "itemCount": 5, "maxPoints": 5, "pointsPerItem": 1, "playbacks": 2 }
+      ]
+    },
+    {
+      "skill": "lesen",
+      "estimatedSeconds": 1500,
+      "parts": [
+        { "part": 1, "name": "Kurze Texte – Richtig/Falsch", "taskTypes": ["readingTrueFalse"], "itemCount": 5, "maxPoints": 5, "pointsPerItem": 1 },
+        { "part": 2, "name": "Wo finden Sie Informationen? – Auswahl a/b", "taskTypes": ["readingSourceMatch"], "itemCount": 5, "maxPoints": 5, "pointsPerItem": 1 },
+        { "part": 3, "name": "Zeichen und Kurzinformationen – Richtig/Falsch", "taskTypes": ["readingTrueFalse"], "itemCount": 5, "maxPoints": 5, "pointsPerItem": 1 }
+      ]
+    },
+    {
+      "skill": "schreiben",
+      "estimatedSeconds": 1200,
+      "parts": [
+        { "part": 1, "name": "Formular ausfüllen – 5 Felder, 1/0 je Feld", "taskTypes": ["formFill"], "itemCount": 1, "maxPoints": 5, "pointsPerItem": 1, "requiredSlots": 5 },
+        { "part": 2, "name": "Kurze Nachricht – 3 Punkte Inhalte, ~30 Wörter", "taskTypes": ["message"], "itemCount": 1, "maxPoints": 10, "pointsPerItem": null, "playbacks": null, "rubricRequired": true }
+      ]
+    },
+    {
+      "skill": "sprechen",
+      "estimatedSeconds": 900,
+      "parts": [
+        { "part": 1, "name": "Sich vorstellen – Stichwörter, Buchstabieren, Zahl", "taskTypes": ["speakingIntro"], "itemCount": 1, "maxPoints": 3, "pointsPerItem": null, "playbacks": null, "rubricRequired": true },
+        { "part": 2, "name": "Um Informationen bitten und geben – Handlungskarten", "taskTypes": ["speakingInfoCard"], "itemCount": 3, "maxPoints": 6, "pointsPerItem": null, "playbacks": null, "rubricRequired": true },
+        { "part": 3, "name": "Bitten formulieren und reagieren – Bildkarten", "taskTypes": ["speakingRequestCard"], "itemCount": 3, "maxPoints": 6, "pointsPerItem": null, "playbacks": null, "rubricRequired": true }
+      ]
+    }
+  ]
+}

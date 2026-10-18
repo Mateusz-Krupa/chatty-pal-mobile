@@ -1,0 +1,411 @@
+{
+  "seedVectors": [
+    {
+      "seed": "set-a",
+      "count": 4,
+      "expectedOrder": [
+        "task-candidate-1",
+        "task-candidate-5",
+        "task-candidate-3",
+        "task-candidate-2"
+      ]
+    },
+    {
+      "seed": "set-b",
+      "count": 4,
+      "expectedOrder": [
+        "task-candidate-7",
+        "task-candidate-5",
+        "task-candidate-8",
+        "task-candidate-2"
+      ]
+    },
+    {
+      "seed": "seed mit umlauts äöü",
+      "count": 4,
+      "expectedOrder": [
+        "task-candidate-4",
+        "task-candidate-7",
+        "task-candidate-2",
+        "task-candidate-8"
+      ]
+    }
+  ],
+  "shuffleVectors": [
+    {
+      "seed": "12345",
+      "expected": [
+        3,
+        0,
+        1,
+        5,
+        4,
+        6,
+        2,
+        7
+      ]
+    },
+    {
+      "seed": "987654321",
+      "expected": [
+        3,
+        5,
+        1,
+        2,
+        4,
+        6,
+        0,
+        7
+      ]
+    },
+    {
+      "seed": "1",
+      "expected": [
+        2,
+        1,
+        6,
+        7,
+        4,
+        3,
+        0,
+        5
+      ]
+    }
+  ],
+  "formCases": [
+    {
+      "rule": "text",
+      "raw": "Berger",
+      "accepted": "Berger",
+      "expectedMatch": true
+    },
+    {
+      "rule": "text",
+      "raw": "  BERGER. ",
+      "accepted": "Berger",
+      "expectedMatch": true
+    },
+    {
+      "rule": "text",
+      "raw": "Frau Berger",
+      "accepted": "Berger",
+      "expectedMatch": false
+    },
+    {
+      "rule": "text",
+      "raw": "gruesse",
+      "accepted": "Grüße",
+      "expectedMatch": true
+    },
+    {
+      "rule": "text",
+      "raw": "grusse",
+      "accepted": "Grüße",
+      "expectedMatch": false
+    },
+    {
+      "rule": "number",
+      "raw": "2",
+      "accepted": "2",
+      "expectedMatch": true
+    },
+    {
+      "rule": "number",
+      "raw": "zwei",
+      "accepted": "2",
+      "expectedMatch": true
+    },
+    {
+      "rule": "number",
+      "raw": "2 Personen",
+      "accepted": "2",
+      "expectedMatch": true
+    },
+    {
+      "rule": "number",
+      "raw": "3",
+      "accepted": "2",
+      "expectedMatch": false
+    },
+    {
+      "rule": "number",
+      "raw": "zwölf",
+      "accepted": "12",
+      "expectedMatch": true
+    },
+    {
+      "rule": "number",
+      "raw": "fünf",
+      "accepted": "5",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "12.07.2026",
+      "accepted": "12.07.2026",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "12.7.2026",
+      "accepted": "12.07.2026",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "12.7.26",
+      "accepted": "12.07.2026",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "12/07/2026",
+      "accepted": "12.07.2026",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "7.12.2026",
+      "accepted": "12.07.2026",
+      "expectedMatch": false
+    },
+    {
+      "rule": "choice",
+      "raw": "Bar",
+      "accepted": "bar",
+      "expectedMatch": true
+    },
+    {
+      "rule": "choice",
+      "raw": "Kreditkarte",
+      "accepted": "bar",
+      "expectedMatch": false
+    },
+    {
+      "rule": "text",
+      "raw": "Anna\tBerger",
+      "accepted": "Anna Berger",
+      "expectedMatch": true
+    },
+    {
+      "rule": "text",
+      "raw": "Anna\n\n  Berger",
+      "accepted": "Anna Berger",
+      "expectedMatch": true
+    },
+    {
+      "rule": "number",
+      "raw": "2\tPersonen",
+      "accepted": "2",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "12\t07\t2026",
+      "accepted": "12.07.2026",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "5.6.26",
+      "accepted": "05.06.2026",
+      "expectedMatch": true
+    },
+    {
+      "rule": "date",
+      "raw": "5.6.ab",
+      "accepted": "05.06.20ab",
+      "expectedMatch": false
+    },
+    {
+      "rule": "text",
+      "raw": "\t ",
+      "accepted": "",
+      "expectedMatch": true
+    }
+  ],
+  "sectionCases": [
+    {
+      "taskIds": [
+        "task-read-rtf-1",
+        "task-read-rtf-2",
+        "task-read-src-1"
+      ],
+      "answers": {
+        "task-read-rtf-1": "richtig"
+      },
+      "expected": {
+        "points": 1,
+        "maxPoints": 3,
+        "answered": 1,
+        "unansweredTaskIds": [
+          "task-read-rtf-2",
+          "task-read-src-1"
+        ]
+      }
+    },
+    {
+      "taskIds": [
+        "task-read-rtf-1",
+        "task-read-rtf-2"
+      ],
+      "answers": {
+        "task-read-rtf-1": "falsch",
+        "task-read-rtf-2": "falsch"
+      },
+      "expected": {
+        "points": 1,
+        "maxPoints": 2,
+        "answered": 2,
+        "unansweredTaskIds": []
+      }
+    },
+    {
+      "taskIds": [
+        "task-write-form-1"
+      ],
+      "answers": {
+        "task-write-form-1": {
+          "tag": "18.6.26",
+          "uhrzeit": "  "
+        }
+      },
+      "expected": {
+        "points": 1,
+        "maxPoints": 2,
+        "answered": 1,
+        "unansweredTaskIds": [
+          "task-write-form-1.uhrzeit"
+        ]
+      }
+    },
+    {
+      "taskIds": [
+        "task-write-form-1",
+        "task-read-rtf-1"
+      ],
+      "answers": {},
+      "expected": {
+        "points": 0,
+        "maxPoints": 3,
+        "answered": 0,
+        "unansweredTaskIds": [
+          "task-write-form-1.tag",
+          "task-write-form-1.uhrzeit",
+          "task-read-rtf-1"
+        ]
+      }
+    },
+    {
+      "taskIds": [
+        "task-read-rtf-1"
+      ],
+      "answers": {
+        "task-read-rtf-1": " \t "
+      },
+      "expected": {
+        "points": 0,
+        "maxPoints": 1,
+        "answered": 0,
+        "unansweredTaskIds": [
+          "task-read-rtf-1"
+        ]
+      }
+    }
+  ],
+  "rubricCases": [
+    {
+      "rubricId": "rubric-msg",
+      "selections": {
+        "inhalt": 1.5,
+        "kommunikativ": 0.5
+      },
+      "expectedTotal": 2
+    },
+    {
+      "rubricId": "rubric-msg",
+      "selections": {
+        "inhalt": 3,
+        "kommunikativ": 1
+      },
+      "expectedTotal": 4
+    },
+    {
+      "rubricId": "rubric-msg",
+      "selections": {
+        "inhalt": 2,
+        "kommunikativ": 0.5
+      },
+      "expectedTotal": null
+    },
+    {
+      "rubricId": "rubric-msg",
+      "selections": {
+        "inhalt": 1.5
+      },
+      "expectedTotal": null
+    }
+  ],
+  "transitionCases": [
+    {
+      "from": "draft",
+      "to": "inProgress",
+      "allowed": true
+    },
+    {
+      "from": "draft",
+      "to": "assessed",
+      "allowed": false
+    },
+    {
+      "from": "inProgress",
+      "to": "submitted",
+      "allowed": true
+    },
+    {
+      "from": "inProgress",
+      "to": "assessed",
+      "allowed": false
+    },
+    {
+      "from": "submitted",
+      "to": "awaitingAssessment",
+      "allowed": true
+    },
+    {
+      "from": "submitted",
+      "to": "assessed",
+      "allowed": true
+    },
+    {
+      "from": "submitted",
+      "to": "inProgress",
+      "allowed": false
+    },
+    {
+      "from": "awaitingAssessment",
+      "to": "assessed",
+      "allowed": true
+    },
+    {
+      "from": "awaitingAssessment",
+      "to": "inProgress",
+      "allowed": false
+    },
+    {
+      "from": "assessed",
+      "to": "invalidated",
+      "allowed": false
+    },
+    {
+      "from": "abandoned",
+      "to": "inProgress",
+      "allowed": false
+    },
+    {
+      "from": "invalidated",
+      "to": "draft",
+      "allowed": false
+    }
+  ]
+}

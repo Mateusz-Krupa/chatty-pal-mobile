@@ -1,0 +1,858 @@
+{
+  "contentVersion": 1,
+  "blueprintVersion": "goethe-a1-sd1",
+  "tasks": [
+    {
+      "id": "task-read-p1-rauchen",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "lesen",
+      "part": 1,
+      "taskType": "readingTrueFalse",
+      "topic": "zeichen-und-verbote",
+      "estimatedSeconds": 45,
+      "instructionDe": "Lesen Sie den Text. Prüfen Sie die Aussage: „Sie dürfen hier rauchen.“ Richtig oder falsch?",
+      "instructionTranslations": {
+        "en": "Read the text. Check the statement: “You are allowed to smoke here.” Right or wrong?",
+        "pl": "Przeczytaj tekst. Sprawdź stwierdzenie: „Sie dürfen hier rauchen.“ Prawda czy fałsz?"
+      },
+      "explanation": {
+        "en": "The text forbids smoking (\"Bitte rauchen Sie nicht.\"), so the statement is falsch. It says nothing about buying cigarettes.",
+        "pl": "Tekst zabrania palenia (\"Bitte rauchen Sie nicht.\"), więc stwierdzenie jest fałszywe. O kupowaniu papierosów nie ma mowy."
+      },
+      "assetIds": [
+        "txt-p1-rauchen"
+      ],
+      "answerKey": {
+        "type": "trueFalse",
+        "expected": "falsch"
+      },
+      "hints": [
+        {
+          "level": "translation",
+          "text": "The statement says you are allowed to smoke here."
+        }
+      ],
+      "errorTags": [
+        "sign-reading"
+      ],
+      "review": {
+        "status": "draft",
+        "note": "Acceptance sample from blueprint §3; language review pending (task 4.x)."
+      }
+    },
+    {
+      "id": "task-read-p1-besprechung",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "lesen",
+      "part": 1,
+      "taskType": "readingTrueFalse",
+      "topic": "alltag-termine",
+      "estimatedSeconds": 45,
+      "instructionDe": "Lesen Sie die Notiz. Prüfen Sie die Aussage: „Die Besprechung beginnt um 10 Uhr.“ Richtig oder falsch?",
+      "instructionTranslations": {
+        "en": "Read the note. Check the statement: “The meeting starts at 10.” Right or wrong?",
+        "pl": "Przeczytaj notatkę. Sprawdź stwierdzenie: „Die Besprechung beginnt um 10 Uhr.“ Prawda czy fałsz?"
+      },
+      "explanation": {
+        "en": "The note says the meeting is today at 10:00, so the statement is right."
+      },
+      "assetIds": [
+        "txt-p1-besprechung"
+      ],
+      "answerKey": {
+        "type": "trueFalse",
+        "expected": "richtig"
+      },
+      "hints": [],
+      "errorTags": [
+        "time"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-read-p2-bodensee",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "lesen",
+      "part": 2,
+      "taskType": "readingSourceMatch",
+      "topic": "informationsquellen",
+      "estimatedSeconds": 60,
+      "instructionDe": "Sie möchten mehr über den Bodensee erfahren. Wo finden Sie Informationen?",
+      "instructionTranslations": {
+        "en": "You want to learn more about Lake Constance. Where do you find information?"
+      },
+      "explanation": {
+        "en": "Only www.bodensee.de is about the lake; the other site is a hotel in Berlin."
+      },
+      "assetIds": [
+        "txt-web-bodensee",
+        "txt-web-hotel-berlin"
+      ],
+      "answerKey": {
+        "type": "singleChoice",
+        "options": [
+          {
+            "id": "a",
+            "label": "www.bodensee.de"
+          },
+          {
+            "id": "b",
+            "label": "www.hotel-zum-baer-berlin.de"
+          }
+        ],
+        "correctOptionId": "a"
+      },
+      "hints": [],
+      "errorTags": [
+        "source-matching"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-read-p2-fahrplan",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "lesen",
+      "part": 2,
+      "taskType": "readingSourceMatch",
+      "topic": "fahrplan",
+      "estimatedSeconds": 75,
+      "instructionDe": "Sie wollen vor 13 Uhr in Hamburg sein. Welcher Zug passt?",
+      "instructionTranslations": {
+        "en": "You want to arrive in Hamburg before 1 p.m. Which train fits?"
+      },
+      "explanation": {
+        "en": "ICE 101 arrives at 12:12, the RE arrives at 14:40. No calculation needed: just compare the arrival times."
+      },
+      "assetIds": [
+        "txt-fahrplan-ice",
+        "txt-fahrplan-re"
+      ],
+      "answerKey": {
+        "type": "singleChoice",
+        "options": [
+          {
+            "id": "a",
+            "label": "ICE 101"
+          },
+          {
+            "id": "b",
+            "label": "RE 4302"
+          }
+        ],
+        "correctOptionId": "a"
+      },
+      "hints": [],
+      "errorTags": [
+        "timetable"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-list-p1-hotel",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "horen",
+      "part": 1,
+      "taskType": "listeningChoice",
+      "topic": "wohnen-unterkunft",
+      "estimatedSeconds": 60,
+      "instructionDe": "Hören Sie zweimal. Was ist richtig?",
+      "instructionTranslations": {
+        "en": "Listen twice. Which answer is correct?"
+      },
+      "explanation": {
+        "en": "You hear: 'Ihr Zimmer ist im zweiten Stock, Zimmer 204.'"
+      },
+      "assetIds": [
+        "aud-p1-hotel"
+      ],
+      "answerKey": {
+        "type": "singleChoice",
+        "options": [
+          {
+            "id": "a",
+            "label": "im ersten Stock"
+          },
+          {
+            "id": "b",
+            "label": "im zweiten Stock"
+          },
+          {
+            "id": "c",
+            "label": "im Erdgeschoss"
+          }
+        ],
+        "correctOptionId": "b"
+      },
+      "hints": [],
+      "errorTags": [
+        "numbers",
+        "housing"
+      ],
+      "review": {
+        "status": "draft",
+        "note": "Audio file production is task 4.x; transcript drives scoring until then."
+      }
+    },
+    {
+      "id": "task-list-p1-kurs",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "horen",
+      "part": 1,
+      "taskType": "listeningChoice",
+      "topic": "lernen-zeitplan",
+      "estimatedSeconds": 60,
+      "instructionDe": "Hören Sie zweimal. Was ist richtig?",
+      "instructionTranslations": {
+        "en": "Listen twice. Which answer is correct?"
+      },
+      "explanation": {
+        "en": "You hear: 'Der Kurs beginnt am Montag, nicht am Dienstag.'"
+      },
+      "assetIds": [
+        "aud-p1-kurs"
+      ],
+      "answerKey": {
+        "type": "singleChoice",
+        "options": [
+          {
+            "id": "a",
+            "label": "am Montag"
+          },
+          {
+            "id": "b",
+            "label": "am Dienstag"
+          },
+          {
+            "id": "c",
+            "label": "am Mittwoch"
+          }
+        ],
+        "correctOptionId": "a"
+      },
+      "hints": [],
+      "errorTags": [
+        "days"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-list-p2-gleis",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "horen",
+      "part": 2,
+      "taskType": "listeningTrueFalse",
+      "topic": "unterwegs-bahn",
+      "estimatedSeconds": 50,
+      "instructionDe": "Sie hören die Durchsage einmal. Prüfen Sie die Aussage: „Der Zug nach München fährt heute von Gleis 5 ab.“ Richtig oder falsch?",
+      "instructionTranslations": {
+        "en": "You hear the announcement once. Check the statement: “The train to Munich leaves today from track 5.” Right or wrong?",
+        "pl": "Wysłuchasz zapowiedzi raz. Sprawdź stwierdzenie: „Der Zug nach München fährt heute von Gleis 5 ab.“ Prawda czy fałsz?"
+      },
+      "explanation": {
+        "en": "The announcement says the train leaves from track 5 today."
+      },
+      "assetIds": [
+        "aud-p2-durchsage-gleis"
+      ],
+      "answerKey": {
+        "type": "trueFalse",
+        "expected": "richtig"
+      },
+      "hints": [],
+      "errorTags": [
+        "announcement"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-list-p3-praxis",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "horen",
+      "part": 3,
+      "taskType": "listeningChoice",
+      "topic": "gesundheit-telefon",
+      "estimatedSeconds": 70,
+      "instructionDe": "Hören Sie zweimal. Was ist richtig?",
+      "instructionTranslations": {
+        "en": "Listen twice. Which answer is correct?"
+      },
+      "explanation": {
+        "en": "You hear: 'Die Praxis ist nur vormittags geöffnet, nachmittags ist geschlossen.'"
+      },
+      "assetIds": [
+        "aud-p3-praxis"
+      ],
+      "answerKey": {
+        "type": "singleChoice",
+        "options": [
+          {
+            "id": "a",
+            "label": "nur vormittags"
+          },
+          {
+            "id": "b",
+            "label": "nur nachmittags"
+          },
+          {
+            "id": "c",
+            "label": "den ganzen Tag"
+          }
+        ],
+        "correctOptionId": "a"
+      },
+      "hints": [],
+      "errorTags": [
+        "times"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-write-p1-formular-urlaub",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "schreiben",
+      "part": 1,
+      "taskType": "formFill",
+      "topic": "formular-urlaub",
+      "estimatedSeconds": 240,
+      "instructionDe": "Lesen Sie den Text. Füllen Sie das Formular aus.",
+      "instructionTranslations": {
+        "en": "Read the text. Complete the form."
+      },
+      "explanation": {
+        "en": "Each field is scored 1 or 0 after rule-based normalization (case, spacing, date separators, number format)."
+      },
+      "assetIds": [
+        "txt-formular-urlaub"
+      ],
+      "answerKey": {
+        "type": "formFields",
+        "fields": [
+          {
+            "slot": "name",
+            "label": "Name der erwachsenen Person",
+            "rule": "text",
+            "accepted": [
+              "Berger"
+            ]
+          },
+          {
+            "slot": "erwachsene",
+            "label": "Anzahl Erwachsene",
+            "rule": "number",
+            "accepted": [
+              "2"
+            ]
+          },
+          {
+            "slot": "kinder",
+            "label": "Anzahl Kinder",
+            "rule": "number",
+            "accepted": [
+              "1"
+            ]
+          },
+          {
+            "slot": "anreise",
+            "label": "Anreise (Tag.Monat.Jahr)",
+            "rule": "date",
+            "accepted": [
+              "12.07.2026"
+            ]
+          },
+          {
+            "slot": "zahlung",
+            "label": "Zahlung bar oder Kreditkarte",
+            "rule": "choice",
+            "accepted": [
+              "bar"
+            ]
+          }
+        ]
+      },
+      "hints": [],
+      "errorTags": [
+        "form",
+        "numbers",
+        "date"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-write-p2-nachricht-schule",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "schreiben",
+      "part": 2,
+      "taskType": "message",
+      "topic": "nachricht-behoerde",
+      "estimatedSeconds": 300,
+      "instructionDe": "Schreiben Sie eine kurze E-Mail an die Sprachschule. Schreiben Sie: Warum schreiben Sie? Bitten Sie um einen Kursplatz. Fragen Sie nach den Kosten. Schreiben Sie ungefähr 30 Wörter.",
+      "instructionTranslations": {
+        "en": "Write a short e-mail to the language school. Cover all three points and write about 30 words."
+      },
+      "explanation": {
+        "en": "Scored by the approved rubric: each content point plus communicative design. Word count is guidance, not a criterion."
+      },
+      "assetIds": [],
+      "answerKey": {
+        "type": "productive",
+        "rubricId": "rubric-schreiben-nachricht",
+        "contentPoints": [
+          "Grund des Schreibens nennen",
+          "um einen Kursplatz bitten",
+          "nach den Kosten fragen"
+        ],
+        "approxWords": 30
+      },
+      "modelAnswer": "Sehr geehrte Damen und Herren, ich möchte einen Deutschkurs A1 besuchen. Ich habe im September Urlaub. Können Sie mir einen Platz geben? Was kostet der Kurs bitte? Mit freundlichen Grüßen",
+      "hints": [
+        {
+          "level": "word",
+          "text": "Anrede: Sehr geehrte Damen und Herren — Gruß: Mit freundlichen Grüßen"
+        }
+      ],
+      "errorTags": [
+        "register",
+        "content-points"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-speak-p1-vorstellung",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "sprechen",
+      "part": 1,
+      "taskType": "speakingIntro",
+      "topic": "sich-vorstellen",
+      "estimatedSeconds": 150,
+      "instructionDe": "Stellen Sie sich vor. Sprechen Sie über Ihren Namen, Ihr Alter, Ihr Land, Ihren Wohnort, Ihre Sprachen, Ihren Beruf und Ihr Hobby. Buchstabieren Sie Ihren Namen und nennen Sie eine Zahl.",
+      "instructionTranslations": {
+        "en": "Introduce yourself using the prompts, spell your name and say a number."
+      },
+      "explanation": {
+        "en": "Teil 1 asks for all Stichwörter plus spelling and a number; pronunciation is not scored."
+      },
+      "assetIds": [],
+      "answerKey": {
+        "type": "productive",
+        "rubricId": "rubric-sprechen-teil1",
+        "requiredElements": [
+          "name",
+          "alter",
+          "land",
+          "wohnort",
+          "sprachen",
+          "beruf",
+          "hobby",
+          "buchstabieren",
+          "zahl"
+        ]
+      },
+      "hints": [],
+      "errorTags": [
+        "spelling",
+        "numbers"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-speak-p2-besprechung-fragen",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "sprechen",
+      "part": 2,
+      "taskType": "speakingInfoCard",
+      "topic": "informationen-austauschen",
+      "estimatedSeconds": 90,
+      "instructionDe": "Sie möchten wissen, wann die Besprechung beginnt. Fragen Sie Ihre Partnerin / Ihren Partner und antworten Sie auch auf ihre / seine Frage.",
+      "instructionTranslations": {
+        "en": "You want to know when the meeting starts. Ask your partner and also answer their question.",
+        "pl": "Chcesz wiedzieć, o której zaczyna się spotkanie. Zapytaj partnerkę / partnera i odpowiedz na jej / jego pytanie."
+      },
+      "explanation": {
+        "en": "Teil 2: the learner forms the question from the card Stichwort (it is not dictated) and must also answer the partner's question."
+      },
+      "assetIds": [
+        "card-p2-besprechung"
+      ],
+      "answerKey": {
+        "type": "productive",
+        "rubricId": "rubric-sprechen-teil2",
+        "requiredElements": [
+          "frage-selbst-formuliert",
+          "zeit-gefragt",
+          "antwort-auf-partnerfrage"
+        ]
+      },
+      "hints": [],
+      "errorTags": [
+        "question-form"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-speak-p3-fenster-bitte",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "sprechen",
+      "part": 3,
+      "taskType": "speakingRequestCard",
+      "topic": "bitten-und-reagieren",
+      "estimatedSeconds": 90,
+      "instructionDe": "Bitten Sie Ihre Partnerin / Ihren Partner, das Fenster zu schließen, und reagieren Sie auf die Antwort.",
+      "instructionTranslations": {
+        "en": "Ask your partner to close the window and react to the answer."
+      },
+      "explanation": {
+        "en": "Teil 3: a polite request based on the picture card, then a suitable reaction."
+      },
+      "assetIds": [
+        "card-p3-fenster"
+      ],
+      "answerKey": {
+        "type": "productive",
+        "rubricId": "rubric-sprechen-teil3",
+        "requiredElements": [
+          "bitte-formuliert",
+          "reaktion-angemessen"
+        ]
+      },
+      "hints": [],
+      "errorTags": [
+        "politeness"
+      ],
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-daily-einkaufen-markt",
+      "revision": 1,
+      "blueprintVersion": "goethe-a1-sd1",
+      "skill": "sprechen",
+      "part": null,
+      "taskType": "dailyPractice",
+      "topic": "einkaufen",
+      "estimatedSeconds": 180,
+      "instructionDe": "Spielen Sie einen Einkauf auf dem Markt: Preise fragen, Obst und Gemüse kaufen, bezahlen.",
+      "instructionTranslations": {
+        "en": "Role-play a market shopping trip: ask prices, buy fruit and vegetables, pay."
+      },
+      "explanation": {
+        "en": "Everyday practice only — this is not a Start Deutsch 1 exam part and never counts as exam evidence."
+      },
+      "assetIds": [],
+      "answerKey": null,
+      "hints": [],
+      "errorTags": [],
+      "review": {
+        "status": "draft"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "txt-p1-rauchen",
+      "kind": "text",
+      "title": "Zeichen",
+      "body": "Bitte rauchen Sie nicht.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorischer Text für diese Bank (2026)."
+      }
+    },
+    {
+      "id": "txt-p1-besprechung",
+      "kind": "text",
+      "title": "Notiz",
+      "body": "Besprechung heute um 10:00 Uhr im 2. Stock. Bitte kurz an der Rezeption melden.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorischer Text für diese Bank (2026)."
+      }
+    },
+    {
+      "id": "txt-web-bodensee",
+      "kind": "text",
+      "title": "Website 1",
+      "body": "www.bodensee.de — Urlaub am Bodensee: Ausflüge, Wandertipps und Wetter für den Bodensee.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorische Beispiel-Website (2026)."
+      }
+    },
+    {
+      "id": "txt-web-hotel-berlin",
+      "kind": "text",
+      "title": "Website 2",
+      "body": "www.hotel-zum-baer-berlin.de — Hotel im Zentrum von Berlin. Zimmer und Frühstück online buchen.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorische Beispiel-Website (2026)."
+      }
+    },
+    {
+      "id": "txt-fahrplan-ice",
+      "kind": "text",
+      "title": "Fahrplan 1",
+      "body": "ICE 101: München 8:12 → Hamburg 12:12 (direkt).",
+      "rights": {
+        "kind": "original",
+        "note": "Autorischer Beispiel-Fahrplan (2026)."
+      }
+    },
+    {
+      "id": "txt-fahrplan-re",
+      "kind": "text",
+      "title": "Fahrplan 2",
+      "body": "RE 4302: München 9:05 → Hamburg 14:40 (mit Umstieg).",
+      "rights": {
+        "kind": "original",
+        "note": "Autorischer Beispiel-Fahrplan (2026)."
+      }
+    },
+    {
+      "id": "txt-formular-urlaub",
+      "kind": "text",
+      "title": "Text zum Formular",
+      "body": "Familie Berger macht Urlaub im Ferienpark. Die Reisegruppe sind Frau Berger, ihr Mann und ihr Sohn – insgesamt zwei Erwachsene und ein Kind. Der Urlaub beginnt am 12. Juli 2026. Die Familie zahlt die Rechnung bar bei der Anreise.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorischer Text für diese Bank (2026)."
+      }
+    },
+    {
+      "id": "aud-p1-hotel",
+      "kind": "audio",
+      "title": "Am Hotelschalter",
+      "file": "audio/task-list-p1-hotel.mp3",
+      "durationMs": 8000,
+      "transcript": "Guten Tag, ich habe ein Zimmer reserviert. — Guten Tag, Ihr Zimmer ist im zweiten Stock, Zimmer 204.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorisches Skript; Aufnahme in Produktion (task 4.x)."
+      }
+    },
+    {
+      "id": "aud-p1-kurs",
+      "kind": "audio",
+      "title": "Kursanmeldung",
+      "file": "audio/task-list-p1-kurs.mp3",
+      "durationMs": 7000,
+      "transcript": "Wann beginnt der Deutschkurs? — Der Kurs beginnt am Montag, nicht am Dienstag.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorisches Skript; Aufnahme in Produktion (task 4.x)."
+      }
+    },
+    {
+      "id": "aud-p2-durchsage-gleis",
+      "kind": "audio",
+      "title": "Durchsage im Bahnhof",
+      "file": "audio/task-list-p2-gleis.mp3",
+      "durationMs": 8000,
+      "transcript": "Achtung! Der Zug nach München fährt heute von Gleis 5 ab, nicht von Gleis 3.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorisches Skript; Aufnahme in Produktion (task 4.x)."
+      }
+    },
+    {
+      "id": "aud-p3-praxis",
+      "kind": "audio",
+      "title": "Telefon: Arztpraxis",
+      "file": "audio/task-list-p3-praxis.mp3",
+      "durationMs": 9000,
+      "transcript": "Guten Tag, ist die Praxis jetzt noch offen? — Guten Tag, die Praxis ist nur vormittags geöffnet, nachmittags ist geschlossen.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorisches Skript; Aufnahme in Produktion (task 4.x)."
+      }
+    },
+    {
+      "id": "card-p2-besprechung",
+      "kind": "card",
+      "title": "Handlungskarte: Besprechung",
+      "prompt": "Zeit – Beginn der Besprechung: nachfragen und antworten",
+      "rights": {
+        "kind": "original",
+        "note": "Autorische Karte (2026)."
+      }
+    },
+    {
+      "id": "card-p3-fenster",
+      "kind": "card",
+      "title": "Bildkarte: offenes Fenster",
+      "prompt": "Ein offenes Fenster im kalten Zimmer. Eine Bitte formulieren und reagieren.",
+      "rights": {
+        "kind": "original",
+        "note": "Autorische Karte (2026)."
+      }
+    }
+  ],
+  "rubrics": [
+    {
+      "id": "rubric-schreiben-nachricht",
+      "version": 1,
+      "skill": "schreiben",
+      "part": 2,
+      "criteria": [
+        {
+          "id": "punkt-1",
+          "label": "Aufgabepunkt 1 erfüllt",
+          "permittedScores": [
+            0,
+            1.5,
+            3
+          ]
+        },
+        {
+          "id": "punkt-2",
+          "label": "Aufgabepunkt 2 erfüllt",
+          "permittedScores": [
+            0,
+            1.5,
+            3
+          ]
+        },
+        {
+          "id": "punkt-3",
+          "label": "Aufgabepunkt 3 erfüllt",
+          "permittedScores": [
+            0,
+            1.5,
+            3
+          ]
+        },
+        {
+          "id": "kommunikativ",
+          "label": "Kommunikative Gestaltung des Textes",
+          "permittedScores": [
+            0,
+            0.5,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rubric-sprechen-teil1",
+      "version": 1,
+      "skill": "sprechen",
+      "part": 1,
+      "criteria": [
+        {
+          "id": "angaben",
+          "label": "Angaben zu den Stichwörtern",
+          "permittedScores": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": "buchstabieren",
+          "label": "Wort buchstabieren",
+          "permittedScores": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": "zahl",
+          "label": "Zahl verstehen und nennen",
+          "permittedScores": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rubric-sprechen-teil2",
+      "version": 1,
+      "skill": "sprechen",
+      "part": 2,
+      "criteria": [
+        {
+          "id": "frage",
+          "label": "Frage zur Karte formuliert",
+          "permittedScores": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "antwort",
+          "label": "Auf Frage verständlich antworten",
+          "permittedScores": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rubric-sprechen-teil3",
+      "version": 1,
+      "skill": "sprechen",
+      "part": 3,
+      "criteria": [
+        {
+          "id": "bitte",
+          "label": "Bitte aus der Bildkarte formuliert",
+          "permittedScores": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "reaktion",
+          "label": "Angemessen reagiert",
+          "permittedScores": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    }
+  ],
+  "legacyAliases": []
+}

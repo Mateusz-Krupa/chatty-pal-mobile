@@ -1,0 +1,234 @@
+{
+  "contentVersion": 1,
+  "blueprintVersion": "test-sd1",
+  "tasks": [
+    {
+      "id": "task-read-rtf-1",
+      "revision": 1,
+      "blueprintVersion": "test-sd1",
+      "skill": "lesen",
+      "part": 1,
+      "taskType": "readingTrueFalse",
+      "topic": "fixture",
+      "estimatedSeconds": 60,
+      "instructionDe": "",
+      "assetIds": [
+        "txt-a"
+      ],
+      "answerKey": {
+        "type": "trueFalse",
+        "expected": "richtig"
+      },
+      "hints": [],
+      "errorTags": [],
+      "supportLevel": "none",
+      "status": "active",
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-read-rtf-2",
+      "revision": 1,
+      "blueprintVersion": "test-sd1",
+      "skill": "lesen",
+      "part": 1,
+      "taskType": "readingTrueFalse",
+      "topic": "fixture",
+      "estimatedSeconds": 60,
+      "instructionDe": "Lesen Sie den Text.",
+      "assetIds": [
+        "txt-b"
+      ],
+      "answerKey": {
+        "type": "trueFalse",
+        "expected": "falsch"
+      },
+      "hints": [],
+      "errorTags": [],
+      "supportLevel": "none",
+      "status": "active",
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-read-src-1",
+      "revision": 1,
+      "blueprintVersion": "test-sd1",
+      "skill": "lesen",
+      "part": 2,
+      "taskType": "readingSourceMatch",
+      "topic": "fixture",
+      "estimatedSeconds": 60,
+      "instructionDe": "Lesen Sie den Text.",
+      "assetIds": [
+        "txt-a",
+        "txt-b"
+      ],
+      "answerKey": {
+        "type": "singleChoice",
+        "options": [
+          {
+            "id": "a",
+            "label": "Hinweis"
+          },
+          {
+            "id": "b",
+            "label": "Zettel"
+          }
+        ],
+        "correctOptionId": "a"
+      },
+      "hints": [],
+      "errorTags": [],
+      "supportLevel": "none",
+      "status": "active",
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-write-form-1",
+      "revision": 1,
+      "blueprintVersion": "test-sd1",
+      "skill": "schreiben",
+      "part": 1,
+      "taskType": "formFill",
+      "topic": "fixture",
+      "estimatedSeconds": 60,
+      "instructionDe": "Lesen Sie den Text.",
+      "assetIds": [
+        "txt-a"
+      ],
+      "answerKey": {
+        "type": "formFields",
+        "fields": [
+          {
+            "slot": "tag",
+            "label": "Wann?",
+            "rule": "date",
+            "accepted": [
+              "18.06.2026"
+            ]
+          },
+          {
+            "slot": "uhrzeit",
+            "label": "Uhrzeit",
+            "rule": "text",
+            "accepted": [
+              "20 Uhr"
+            ]
+          }
+        ]
+      },
+      "hints": [],
+      "errorTags": [],
+      "supportLevel": "none",
+      "status": "active",
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-write-msg-1",
+      "revision": 1,
+      "blueprintVersion": "test-sd1",
+      "skill": "schreiben",
+      "part": 2,
+      "taskType": "message",
+      "topic": "fixture",
+      "estimatedSeconds": 60,
+      "instructionDe": "Lesen Sie den Text.",
+      "assetIds": [],
+      "answerKey": {
+        "type": "productive",
+        "rubricId": "rubric-msg",
+        "contentPoints": [
+          "a",
+          "b",
+          "c"
+        ],
+        "approxWords": 30
+      },
+      "hints": [],
+      "errorTags": [],
+      "supportLevel": "none",
+      "status": "active",
+      "review": {
+        "status": "draft"
+      }
+    },
+    {
+      "id": "task-daily-plaudern",
+      "revision": 1,
+      "blueprintVersion": "test-sd1",
+      "skill": "sprechen",
+      "part": null,
+      "taskType": "dailyPractice",
+      "topic": "fixture",
+      "estimatedSeconds": 60,
+      "instructionDe": "Lesen Sie den Text.",
+      "assetIds": [],
+      "answerKey": null,
+      "hints": [],
+      "errorTags": [],
+      "supportLevel": "none",
+      "status": "active",
+      "review": {
+        "status": "draft"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "txt-a",
+      "kind": "text",
+      "title": "Hinweis",
+      "body": "Der Park ist von 8 bis 20 Uhr geöffnet.",
+      "rights": {
+        "kind": "original",
+        "note": "fixture"
+      }
+    },
+    {
+      "id": "txt-b",
+      "kind": "text",
+      "title": "Zettel",
+      "body": "Müll bitte erst nach 18 Uhr hinausbringen.",
+      "rights": {
+        "kind": "original",
+        "note": "fixture"
+      }
+    }
+  ],
+  "rubrics": [
+    {
+      "id": "rubric-msg",
+      "version": 1,
+      "skill": "schreiben",
+      "part": 2,
+      "criteria": [
+        {
+          "id": "inhalt",
+          "label": "Inhalt",
+          "permittedScores": [
+            0,
+            1.5,
+            3
+          ]
+        },
+        {
+          "id": "kommunikativ",
+          "label": "Kommunikative Gestaltung",
+          "permittedScores": [
+            0,
+            0.5,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "legacyAliases": []
+}

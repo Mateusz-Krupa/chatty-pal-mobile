@@ -83,6 +83,12 @@
 		AA0000000000000000000086 /* ExamConversationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000085 /* ExamConversationTests.swift */; };
 		AA000000000000000000008A /* ExamCampaignFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* ExamCampaignFlowTests.swift */; };
 		AA0000000000000000000092 /* ExamStorageFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* ExamStorageFixtures.swift */; };
+		AA0000000000000000000094 /* ExamBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* ExamBank.swift */; };
+		AA0000000000000000000096 /* ExamBankValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000095 /* ExamBankValidation.swift */; };
+		AA0000000000000000000098 /* ExamBankRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000097 /* ExamBankRules.swift */; };
+		AA000000000000000000009A /* ExamBank in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000099 /* ExamBank */; };
+		AA000000000000000000009C /* ExamBankTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009B /* ExamBankTests.swift */; };
+		AA000000000000000000009E /* ExamBankFixtures in Resources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009D /* ExamBankFixtures */; };
 		AA0000000000000000000088 /* ExamCampaignViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* ExamCampaignViews.swift */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +174,12 @@
 		AA0000000000000000000085 /* ExamConversationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamConversationTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000089 /* ExamCampaignFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignFlowTests.swift; sourceTree = "<group>"; };
 		AA0000000000000000000091 /* ExamStorageFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStorageFixtures.swift; sourceTree = "<group>"; };
+		AA0000000000000000000093 /* ExamBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamBank.swift; sourceTree = "<group>"; };
+		AA0000000000000000000095 /* ExamBankValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamBankValidation.swift; sourceTree = "<group>"; };
+		AA0000000000000000000097 /* ExamBankRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamBankRules.swift; sourceTree = "<group>"; };
+		AA0000000000000000000099 /* ExamBank */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ExamBank; sourceTree = "<group>"; };
+		AA000000000000000000009B /* ExamBankTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamBankTests.swift; sourceTree = "<group>"; };
+		AA000000000000000000009D /* ExamBankFixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ExamBankFixtures; sourceTree = "<group>"; };
 		AA0000000000000000000087 /* ExamCampaignViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamCampaignViews.swift; sourceTree = "<group>"; };
 		AA0000000000000000000013 /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
 		AA0000000000000000000015 /* LoginPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPanel.swift; sourceTree = "<group>"; };
@@ -283,6 +295,10 @@
 				AA0000000000000000000076 /* ConversationViews.swift */,
 				AA0000000000000000000078 /* RolePlayViews.swift */,
 				AA000000000000000000007E /* ExamCampaign.swift */,
+				AA0000000000000000000093 /* ExamBank.swift */,
+				AA0000000000000000000095 /* ExamBankValidation.swift */,
+				AA0000000000000000000097 /* ExamBankRules.swift */,
+				AA0000000000000000000099 /* ExamBank */,
 				AA0000000000000000000087 /* ExamCampaignViews.swift */,
 				AA0000000000000000000080 /* ExamCampaignContent.swift */,
 				AA0000000000000000000081 /* ExamCampaignProgress.swift */,
@@ -324,6 +340,8 @@
 				AA0000000000000000000085 /* ExamConversationTests.swift */,
 				AA0000000000000000000089 /* ExamCampaignFlowTests.swift */,
 				AA0000000000000000000091 /* ExamStorageFixtures.swift */,
+				AA000000000000000000009B /* ExamBankTests.swift */,
+				AA000000000000000000009D /* ExamBankFixtures */,
 			);
 			path = "chatty-palTests";
 			sourceTree = "<group>";
@@ -441,6 +459,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA000000000000000000009A /* ExamBank in Resources */,
 				9E3837E62A0A447F003569D9 /* Preview Assets.xcassets in Resources */,
 				9E3837E32A0A447F003569D9 /* Assets.xcassets in Resources */,
 				AA000000000000000000008C /* PrivacyInfo.xcprivacy in Resources */,
@@ -452,6 +471,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA000000000000000000009E /* ExamBankFixtures in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +489,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA0000000000000000000094 /* ExamBank.swift in Sources */,
+				AA0000000000000000000096 /* ExamBankValidation.swift in Sources */,
+				AA0000000000000000000098 /* ExamBankRules.swift in Sources */,
 				9EB949D52F6073D6009EEF9A /* TeacherService.swift in Sources */,
 				9EB949D62F6073F8009EEF9A /* TranslationService.swift in Sources */,
 				9E3837E12A0A447E003569D9 /* ContentView.swift in Sources */,
@@ -525,6 +548,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA000000000000000000009C /* ExamBankTests.swift in Sources */,
 				9E3837F02A0A447F003569D9 /* chatty_palTests.swift in Sources */,
 				AA0000000000000000000004 /* TranscriptTrackerTests.swift in Sources */,
 				AA0000000000000000000008 /* LocalChatStoreTests.swift in Sources */,

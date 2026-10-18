@@ -1,0 +1,45 @@
+{
+  "id": "base-manifest",
+  "version": 1,
+  "purpose": "training",
+  "blueprintVersion": "test-sd1",
+  "title": "Base training set",
+  "description": "Valid fixture manifest",
+  "entries": [
+    {
+      "taskId": "task-read-rtf-1",
+      "revision": 2,
+      "skill": "lesen",
+      "part": 1,
+      "order": 1
+    },
+    {
+      "taskId": "task-read-rtf-2",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 1,
+      "order": 2
+    },
+    {
+      "taskId": "task-read-src-1",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 2,
+      "order": 3
+    },
+    {
+      "taskId": "task-write-form-1",
+      "revision": 1,
+      "skill": "schreiben",
+      "part": 1,
+      "order": 4
+    },
+    {
+      "taskId": "task-write-msg-1",
+      "revision": 1,
+      "skill": "schreiben",
+      "part": 2,
+      "order": 5
+    }
+  ]
+}

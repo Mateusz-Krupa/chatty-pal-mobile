@@ -1,0 +1,136 @@
+{
+  "blueprint": "base-blueprint.json",
+  "bank": "base-bank.json",
+  "manifest": "base-manifest.json",
+  "validExpectation": "validateSnapshot over these three files must report no issues",
+  "invalidBanks": [
+    {
+      "file": "invalid/invalid-unknown-option.json",
+      "code": "unknown-option"
+    },
+    {
+      "file": "invalid/invalid-missing-source.json",
+      "code": "missing-source"
+    },
+    {
+      "file": "invalid/invalid-key-type.json",
+      "code": "key-type-mismatch"
+    },
+    {
+      "file": "invalid/invalid-approval-evidence.json",
+      "code": "approval-without-evidence"
+    },
+    {
+      "file": "invalid/invalid-duplicate-id.json",
+      "code": "duplicate-id"
+    },
+    {
+      "file": "invalid/invalid-unknown-rubric.json",
+      "code": "unknown-rubric"
+    },
+    {
+      "file": "invalid/invalid-bad-id-prefix.json",
+      "code": "bad-id-prefix"
+    },
+    {
+      "file": "invalid/invalid-daily-practice-key.json",
+      "code": "unexpected-key"
+    },
+    {
+      "file": "invalid/invalid-unsorted-scores.json",
+      "code": "unsorted-scores"
+    },
+    {
+      "file": "invalid/invalid-duplicate-score.json",
+      "code": "duplicate-score"
+    },
+    {
+      "file": "invalid/invalid-unknown-asset.json",
+      "code": "unknown-asset"
+    },
+    {
+      "file": "invalid/invalid-duplicate-asset.json",
+      "code": "duplicate-asset"
+    },
+    {
+      "file": "invalid/invalid-rubric-skill-mismatch.json",
+      "code": "rubric-skill-mismatch"
+    },
+    {
+      "file": "invalid/invalid-duplicate-slot.json",
+      "code": "duplicate-slot"
+    },
+    {
+      "file": "invalid/invalid-duplicate-option-id.json",
+      "code": "duplicate-option-id"
+    },
+    {
+      "file": "invalid/invalid-multi-defect.json",
+      "code": "unknown-rubric",
+      "allCodes": [
+        "unknown-rubric",
+        "unknown-asset"
+      ]
+    }
+  ],
+  "invalidManifests": [
+    {
+      "file": "invalid/invalid-manifest-drift.json",
+      "pairBank": "base-bank.json",
+      "code": "revision-drift"
+    },
+    {
+      "file": "invalid/invalid-manifest-unknown-task.json",
+      "pairBank": "base-bank.json",
+      "code": "unknown-task"
+    },
+    {
+      "file": "invalid/invalid-manifest-retired.json",
+      "pairBank": "invalid/retired-pair-bank.json",
+      "code": "retired-task"
+    },
+    {
+      "file": "invalid/invalid-manifest-unapproved.json",
+      "pairBank": "base-bank.json",
+      "code": "unapproved-task"
+    },
+    {
+      "file": "invalid/invalid-manifest-duplicate-pin.json",
+      "pairBank": "base-bank.json",
+      "code": "duplicate-pin"
+    },
+    {
+      "file": "invalid/invalid-manifest-duplicate-order.json",
+      "pairBank": "base-bank.json",
+      "code": "duplicate-order"
+    },
+    {
+      "file": "invalid/invalid-manifest-coverage-gap.json",
+      "pairBank": "base-bank.json",
+      "code": "coverage-gap"
+    },
+    {
+      "file": "invalid/invalid-manifest-slot-count.json",
+      "pairBank": "invalid/slot-count-pair-bank.json",
+      "code": "slot-count"
+    }
+  ],
+  "invalidBanksStructural": [
+    {
+      "file": "invalid/schema-too-few-options.json",
+      "code": "too-few-options",
+      "expect": "schema"
+    },
+    {
+      "file": "invalid/schema-empty-field.json",
+      "code": "empty-field",
+      "expect": "schema"
+    },
+    {
+      "file": "invalid/schema-bad-revision.json",
+      "code": "bad-revision",
+      "expect": "schema"
+    }
+  ],
+  "note": "invalidBanks are schema-valid on Next and must raise the pinned code on all three platforms; invalidBanksStructural must FAIL the Zod schema on Next and raise the pinned code in the iOS and CMS validator copies. Entries may pin allCodes: the COMPLETE sorted issue-code set for that file (parity teeth, review round-2)."
+}

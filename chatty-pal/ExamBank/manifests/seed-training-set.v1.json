@@ -1,0 +1,18 @@
+{
+  "id": "seed-training-set",
+  "version": 1,
+  "purpose": "training",
+  "blueprintVersion": "goethe-a1-sd1",
+  "title": "Seed-Set: Formatbeispiele aller Aufgabentypen",
+  "description": "Internal seed set covering every task type once; training purpose so unapproved drafts can run. Full coverage manifests arrive with the reviewed bank (task 4.x).",
+  "entries": [
+    { "taskId": "task-read-p1-rauchen", "revision": 1, "skill": "lesen", "part": 1, "order": 1 },
+    { "taskId": "task-read-p2-bodensee", "revision": 1, "skill": "lesen", "part": 2, "order": 2 },
+    { "taskId": "task-list-p1-hotel", "revision": 1, "skill": "horen", "part": 1, "order": 3 },
+    { "taskId": "task-list-p2-gleis", "revision": 1, "skill": "horen", "part": 2, "order": 4 },
+    { "taskId": "task-write-p1-formular-urlaub", "revision": 1, "skill": "schreiben", "part": 1, "order": 5 },
+    { "taskId": "task-write-p2-nachricht-schule", "revision": 1, "skill": "schreiben", "part": 2, "order": 6 },
+    { "taskId": "task-speak-p1-vorstellung", "revision": 1, "skill": "sprechen", "part": 1, "order": 7 },
+    { "taskId": "task-daily-einkaufen-markt", "revision": 1, "skill": "sprechen", "part": null, "order": 8 }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "id": "test-sd1",
+  "version": 1,
+  "name": "Test blueprint (fixture)",
+  "officialSource": {
+    "url": "https://example.com/dzb.pdf",
+    "documentDate": "2025-09-01",
+    "verifiedAt": "2026-10-17"
+  },
+  "conversion": {
+    "multiplier": 1.66,
+    "maxPoints": 100,
+    "passPoints": 60,
+    "requireAllParts": true,
+    "grades": []
+  },
+  "skills": [
+    {
+      "skill": "lesen",
+      "estimatedSeconds": 300,
+      "parts": [
+        {
+          "part": 1,
+          "name": "Richtig/Falsch",
+          "taskTypes": [
+            "readingTrueFalse"
+          ],
+          "itemCount": 2,
+          "maxPoints": 2,
+          "pointsPerItem": 1,
+          "playbacks": null
+        },
+        {
+          "part": 2,
+          "name": "Wo finden Sie Informationen?",
+          "taskTypes": [
+            "readingSourceMatch"
+          ],
+          "itemCount": 1,
+          "maxPoints": 1,
+          "pointsPerItem": 1,
+          "playbacks": null
+        }
+      ]
+    },
+    {
+      "skill": "schreiben",
+      "estimatedSeconds": 300,
+      "parts": [
+        {
+          "part": 1,
+          "name": "Formular",
+          "taskTypes": [
+            "formFill"
+          ],
+          "itemCount": 1,
+          "maxPoints": 5,
+          "pointsPerItem": 1,
+          "playbacks": null,
+          "requiredSlots": 2
+        },
+        {
+          "part": 2,
+          "name": "Nachricht",
+          "taskTypes": [
+            "message"
+          ],
+          "itemCount": 1,
+          "maxPoints": 10,
+          "pointsPerItem": null,
+          "playbacks": null,
+          "rubricRequired": true
+        }
+      ]
+    }
+  ]
+}
