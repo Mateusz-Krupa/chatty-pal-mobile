@@ -1,0 +1,38 @@
+{
+  "id": "a1-diag-core",
+  "version": 1,
+  "purpose": "training",
+  "blueprintVersion": "goethe-a1-sd1",
+  "title": "Diagnose A1 (Kernset, Draft-Training)",
+  "description": "Kurze Diagnose je Grundformat (task 4.6). Draft-Inhalte laufen als training; purpose wechselt auf 'diagnostic' in v2 erst nach menschlicher Freigabe (4.8). Zeitbudget: hoeren/lesen <=3 min; schreiben deckt beide Basisformate ab (zusammen ~5,5 min) — Ausnahme bewusst, damit die Diagnose auch produktives Schreiben misst. Sprechen-Diagnose: offener Punkt der Pilotplanung (4.8), nicht Teil dieses Kerns.",
+  "entries": [
+    {
+      "taskId": "task-diag-list-p1-fahrkarte",
+      "revision": 1,
+      "skill": "horen",
+      "part": 1,
+      "order": 1
+    },
+    {
+      "taskId": "task-diag-read-p1-fan",
+      "revision": 1,
+      "skill": "lesen",
+      "part": 1,
+      "order": 2
+    },
+    {
+      "taskId": "task-diag-write-p1-paket",
+      "revision": 1,
+      "skill": "schreiben",
+      "part": 1,
+      "order": 3
+    },
+    {
+      "taskId": "task-diag-write-p2-zusage",
+      "revision": 1,
+      "skill": "schreiben",
+      "part": 2,
+      "order": 4
+    }
+  ]
+}
