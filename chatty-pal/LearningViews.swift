@@ -3,6 +3,7 @@ import SwiftUI
 
 struct LearningMaterialsHomeView: View {
     let onStartPractice: (LearningLesson) -> Void
+    @Environment(\.scenePhase) private var scenePhase
 
     private let studySteps = [
         "Pick a language and level",
@@ -76,6 +77,10 @@ struct LearningMaterialsHomeView: View {
         }
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Learn")
+        .task { await LearningProgressStore.shared.refresh() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { Task { await LearningProgressStore.shared.refresh() } }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(for: LearningMaterialsDestination.self) { destination in
             switch destination {
@@ -115,6 +120,7 @@ private struct GermanLearningLessonListView: View {
                     NavigationLink(value: LearningMaterialsDestination.lesson(lesson)) {
                         LearningLessonCard(lesson: lesson)
                     }
+                    .accessibilityIdentifier("learning.lesson.\(lesson.id)")
                     .buttonStyle(.plain)
                 }
             }
@@ -155,6 +161,10 @@ private struct LearningLessonCard: View {
             }
 
             HStack(spacing: 8) {
+                if LearningProgressStore.shared.lessons[lesson.id]?.isCompleted == true {
+                    Label("Completed", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                }
                 Image(systemName: "text.bubble")
                     .font(.caption)
                 Text("Phrases, vocabulary, dialogue, and practice CTA")
@@ -175,6 +185,8 @@ private struct LearningLessonCard: View {
 private struct LearningLessonDetailView: View {
     let lesson: LearningLesson
     let onStartPractice: (LearningLesson) -> Void
+    @State private var confirmReset = false
+    private var progress: LearningProgressStore { .shared }
 
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioDelegate = AudioPlaybackDelegate()
@@ -208,6 +220,7 @@ private struct LearningLessonDetailView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 18) {
                 lessonHero
+                progressControls
 
                 if let audioError {
                     Text(audioError)
@@ -250,10 +263,12 @@ private struct LearningLessonDetailView: View {
                         ForEach(lesson.phrases, id: \.self) { phrase in
                             ShadowingPhraseRow(
                                 phrase: phrase,
+                                lessonID: lesson.id,
                                 localeIdentifier: lessonSpeechLocale,
                                 languageCode: lesson.languageCode,
                                 onPlay: { playLessonText(phrase.mainContent) }
                             )
+                            .id("\(progress.sessionID)-\(progress.lessons[lesson.id]?.generation ?? 0)-\(phrase.id)")
                         }
                     }
                 }
@@ -319,7 +334,6 @@ private struct LearningLessonDetailView: View {
                             .background(Color.accentColor.opacity(0.10), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
 
                         Button {
-                            LearningStatsStore.shared.recordLessonPractice(lessonID: lesson.id)
                             onStartPractice(lesson)
                         } label: {
                             Text("Practice in Chatty Pal")
@@ -336,12 +350,59 @@ private struct LearningLessonDetailView: View {
         }
         .background(Color(.systemGroupedBackground))
         .navigationTitle(lesson.level)
+        .task { await progress.refresh() }
+        .confirmationDialog("Reset this lesson's progress?", isPresented: $confirmReset, titleVisibility: .visible) {
+            Button("Reset progress", role: .destructive) {
+                Task { await progress.setCompletion(lessonID: lesson.id, reset: true) }
+            }
+            .accessibilityIdentifier("learning.confirmReset")
+            Button("Cancel", role: .cancel) {}
+                .accessibilityIdentifier("learning.cancelReset")
+        } message: {
+            Text("This clears this lesson's completion and passed phrases. Your attempt history, other lessons, XP and language level stay unchanged.")
+        }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             WordReviewStore.shared.addLesson(lesson)
         }
         .onDisappear {
             cancelConversationPlayback()
+        }
+    }
+
+    private var progressControls: some View {
+        InfoSectionCard(title: "Your progress", systemImage: "checkmark.circle") {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("\(progress.lessons[lesson.id]?.passedCount ?? 0)/\(lesson.phrases.count) shadowing phrases passed")
+                Text("Shadowing scores compare recognized words, not accent or phonetic pronunciation.")
+                    .font(.caption).foregroundStyle(.secondary)
+                if !progress.isSignedIn {
+                    Text("Sign in from the menu to save progress to your account.")
+                        .font(.footnote)
+                } else {
+                    if progress.lessons[lesson.id]?.isCompleted == true {
+                        Label("Completed", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                        Text(progress.lessons[lesson.id]?.completionSource == "manual" ? "Marked as done" : "Shadowing passed")
+                            .font(.caption).foregroundStyle(.secondary)
+                        Button("Reset progress", role: .destructive) { confirmReset = true }
+                            .accessibilityIdentifier("learning.reset")
+                            .disabled(progress.isBusy || !progress.isReady || progress.hasPending(lessonID: lesson.id))
+                    } else {
+                        Button("Mark as done") {
+                            Task { await progress.setCompletion(lessonID: lesson.id, reset: false) }
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .accessibilityIdentifier("learning.complete")
+                        .disabled(progress.isBusy || !progress.isReady || progress.hasPending(lessonID: lesson.id))
+                    }
+                    if progress.isBusy { ProgressView("Syncing progress…") }
+                    if let error = progress.errors[lesson.id] ?? progress.message {
+                        Text(error).font(.caption).foregroundStyle(.orange)
+                    }
+                    Button("Reload / Retry save") { Task { await progress.refresh() } }
+                        .disabled(progress.isBusy)
+                }
+            }
         }
     }
 
@@ -494,6 +555,7 @@ private struct LearningLessonDetailView: View {
 
 private struct ShadowingPhraseRow: View {
     let phrase: LearningPhrase
+    let lessonID: String
     let localeIdentifier: String
     let languageCode: String
     let onPlay: () -> Void
@@ -507,6 +569,10 @@ private struct ShadowingPhraseRow: View {
     @State private var result: ShadowingScorer.Result?
     @State private var addedToReview = false
     @State private var speech: SpeechController?
+    @State private var recordingSession: UUID?
+    @State private var recordingGeneration: Int?
+    private var progress: LearningProgressStore { .shared }
+    private var saved: PhraseProgress? { progress.phrase(lessonID: lessonID, phraseID: phrase.id) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -518,6 +584,11 @@ private struct ShadowingPhraseRow: View {
                 }
                 Text(phrase.mainContent)
                     .font(.body.weight(.medium))
+                if saved?.passed == true {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .accessibilityLabel("Passed and saved")
+                }
                 Spacer()
                 Button {
                     toggleRecording()
@@ -526,6 +597,7 @@ private struct ShadowingPhraseRow: View {
                         .font(.system(size: 18))
                         .foregroundStyle(isRecording ? Color.red : Color.accentColor)
                 }
+                .disabled(isTranscribing || (progress.isSignedIn && !progress.isReady))
             }
             if let support = phrase.supportContent, !support.isEmpty {
                 Text(support)
@@ -561,9 +633,40 @@ private struct ShadowingPhraseRow: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            if let saved {
+                Text("Saved best: \(saved.bestScore)% · Last: \(saved.latestScore)%")
+                    .font(.caption)
+                    .foregroundStyle(saved.passed ? .green : .secondary)
+                Text("Last saved transcript: \(saved.transcript)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            if progress.hasPending(lessonID: lessonID, phraseID: phrase.id) {
+                if progress.isBusy {
+                    ProgressView("Saving…").font(.caption)
+                } else {
+                    Button("Not saved — Retry") { Task { await progress.refresh() } }
+                        .font(.caption)
+                }
+            } else if let error = progress.errors[lessonID] {
+                Text(error).font(.caption).foregroundStyle(.orange)
+            } else if saved != nil {
+                Label("Saved", systemImage: "checkmark.icloud").font(.caption).foregroundStyle(.secondary)
+            }
+            if !progress.isSignedIn {
+                Text("Sign in to save your progress. Scores compare recognized words, not accent.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
         }
         .padding(12)
         .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .onDisappear {
+            if isRecording {
+                _ = speech?.stopRecording()
+                isRecording = false
+                recordingSession = nil
+            }
+        }
     }
 
     private var scoreColor: Color {
@@ -584,9 +687,12 @@ private struct ShadowingPhraseRow: View {
             return
         }
         let controller = speech ?? SpeechController(localeIdentifier: localeIdentifier)
+        recordingSession = progress.sessionID
+        recordingGeneration = progress.lessons[lessonID]?.generation ?? 0
         speech = controller
         Task {
-            guard await controller.requestPermissions() else { return }
+            guard await controller.requestPermissions(), recordingSession == progress.sessionID,
+                  recordingGeneration == (progress.lessons[lessonID]?.generation ?? 0) else { return }
             controller.onTranscription = { text, _ in
                 Task { @MainActor in
                     liveTranscript = text
@@ -645,10 +751,14 @@ private struct ShadowingPhraseRow: View {
     }
 
     private func applyScore(to spoken: String) {
+        guard recordingSession == progress.sessionID,
+              recordingGeneration == (progress.lessons[lessonID]?.generation ?? 0) else { return }
         guard !spoken.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         let scored = ShadowingScorer.score(reference: phrase.mainContent, spoken: spoken)
         result = scored
         LearningStatsStore.shared.recordShadowingAttempt()
+        progress.enqueue(lessonID: lessonID, phraseID: phrase.id, transcript: spoken, score: scored.percent)
+        Task { await progress.refresh() }
         if scored.percent < 60, let english = phrase.supportContent, !english.isEmpty {
             WordReviewStore.shared.add(german: phrase.mainContent, english: english, source: "shadowing")
             addedToReview = true

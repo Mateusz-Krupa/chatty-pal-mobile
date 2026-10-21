@@ -51,31 +51,38 @@
       "phrases": [
         {
           "text": "Wasser, Wunder, warum.",
-          "translation": "Sound sample: the German w is almost always a v-sound."
+          "translation": "Sound sample: the German w is almost always a v-sound.",
+          "id": "p-237b227c309d20a3"
         },
         {
           "text": "Zahl, Platz, tanzen.",
-          "translation": "Sound sample: z and tz are both ts: 'tsahl', 'Plats'."
+          "translation": "Sound sample: z and tz are both ts: 'tsahl', 'Plats'.",
+          "id": "p-9b4067507778e5ec"
         },
         {
           "text": "Schnee, Schüler, spielen.",
-          "translation": "Sound sample: sch = sh; sp- at the start says 'shp'."
+          "translation": "Sound sample: sch = sh; sp- at the start says 'shp'.",
+          "id": "p-78592a854a9ba278"
         },
         {
           "text": "Stadt, Straße, Sport.",
-          "translation": "Sound sample: st- at the start says 'sht': 'shtadt'."
+          "translation": "Sound sample: st- at the start says 'sht': 'shtadt'.",
+          "id": "p-cbf095d85bd361cf"
         },
         {
           "text": "ich, Licht, Milch.",
-          "translation": "Sound sample: ch after i or e is a soft hissing sound."
+          "translation": "Sound sample: ch after i or e is a soft hissing sound.",
+          "id": "p-238bacaee817c283"
         },
         {
           "text": "Buch, auch, Nacht.",
-          "translation": "Sound sample: ch after a, o, u is the throat 'loch' sound."
+          "translation": "Sound sample: ch after a, o, u is the throat 'loch' sound.",
+          "id": "p-67511ff7f6547361"
         },
         {
           "text": "Straße, Fuß, groß.",
-          "translation": "Sound sample: ss and ß are both a sharp s."
+          "translation": "Sound sample: ss and ß are both a sharp s.",
+          "id": "p-b065a44d661365a8"
         }
       ],
       "practicePrompt": "Practice German consonant pronunciation with me. Use ONLY the sound samples from this lesson (word lists like 'Wasser, Wunder, warum'), never invented sentences. Ask me to read each sample out loud, then give feedback in English on specific consonant sounds: w, z, tz, sch, sp, st, both ch sounds, and ß. Keep everything very simple at A1 level.",
@@ -162,31 +169,38 @@
       "phrases": [
         {
           "text": "Nein, mein, klein.",
-          "translation": "Sound sample: in native words ei says 'eye'."
+          "translation": "Sound sample: in native words ei says 'eye'.",
+          "id": "p-f53c9c909503cd58"
         },
         {
           "text": "Liebe, die, Tür.",
-          "translation": "Sound sample: ie = long 'ee'; ü = 'ee' with rounded lips."
+          "translation": "Sound sample: ie = long 'ee'; ü = 'ee' with rounded lips.",
+          "id": "p-4b75797902ae3cf8"
         },
         {
           "text": "Deutsch, schön, Löwe.",
-          "translation": "Sound sample: eu = 'oy'; ö = 'e' with rounded lips."
+          "translation": "Sound sample: eu = 'oy'; ö = 'e' with rounded lips.",
+          "id": "p-56c7904553dfe30d"
         },
         {
           "text": "Staat - Stadt.",
-          "translation": "Sound sample: doubled aa = long; consonant cluster = short."
+          "translation": "Sound sample: doubled aa = long; consonant cluster = short.",
+          "id": "p-8dd9cab940698774"
         },
         {
           "text": "Käse, schön, grün, Mann.",
-          "translation": "Sound sample: the umlauts ä, ö, ü - next to the plain a."
+          "translation": "Sound sample: the umlauts ä, ö, ü - next to the plain a.",
+          "id": "p-f440058799d8f190"
         },
         {
           "text": "Kuchen, gut, Buch.",
-          "translation": "Sound sample: long u like 'Kuchen'; short u like 'put'."
+          "translation": "Sound sample: long u like 'Kuchen'; short u like 'put'.",
+          "id": "p-100d21a7b497d6e7"
         },
         {
           "text": "Tier, Brief, Papier.",
-          "translation": "Sound sample: ie is always long 'ee'."
+          "translation": "Sound sample: ie is always long 'ee'.",
+          "id": "p-90d1bf443b219071"
         }
       ],
       "practicePrompt": "Practice German vowel sounds with me. Use ONLY the samples from this lesson (Staat/Stadt, Nein, Liebe, Tier, Kuchen, Käse, Tür, schön, grün). Ask me which vowel is long or short and how ei, ie, eu, ä, ö, ü sound. Give feedback in English. Keep everything at A1 level.",
@@ -273,31 +287,38 @@
       "phrases": [
         {
           "text": "Computer, Hotel, Restaurant.",
-          "translation": "Sound samples: three words you already speak."
+          "translation": "Sound samples: three words you already speak.",
+          "id": "p-ac183a7dde606ae1"
         },
         {
           "text": "Bank, Park, Tank.",
-          "translation": "Sound samples: same or nearly same spelling as English."
+          "translation": "Sound samples: same or nearly same spelling as English.",
+          "id": "p-d5d1c0fb5bc0c5c9"
         },
         {
           "text": "Radio, Kino, Taxi.",
-          "translation": "Sound samples: Kino is 'cinema' - a free word."
+          "translation": "Sound samples: Kino is 'cinema' - a free word.",
+          "id": "p-ed5d5ae1f998da25"
         },
         {
           "text": "Musik, Sport, Quiz.",
-          "translation": "Sound sample: listen for the German stress - it can differ from English."
+          "translation": "Sound sample: listen for the German stress - it can differ from English.",
+          "id": "p-62dee95611aae85a"
         },
         {
           "text": "Mama, Papa, Oma.",
-          "translation": "Sound samples: family words are international; Oma is grandma."
+          "translation": "Sound samples: family words are international; Oma is grandma.",
+          "id": "p-579b57d4f89c9d42"
         },
         {
           "text": "Café, Bar, Club.",
-          "translation": "Sound samples: order these anywhere in Germany."
+          "translation": "Sound samples: order these anywhere in Germany.",
+          "id": "p-f691b33863861ce6"
         },
         {
           "text": "Kindergarten.",
-          "translation": "Sound sample: English borrowed this word from German."
+          "translation": "Sound sample: English borrowed this word from German.",
+          "id": "p-49426509b3c309a4"
         }
       ],
       "practicePrompt": "Quiz me on German words I already know from English (cognates). Say an English word like 'the computer', 'the bank', 'the cinema' and have me answer with the German word, then read a new cognate out loud using the sound rules. Correct only the pronunciation; do NOT test articles or sentences yet - those come in later lessons.",
@@ -384,35 +405,43 @@
       "phrases": [
         {
           "text": "Ich heiße Lena.",
-          "translation": "My name is Lena."
+          "translation": "My name is Lena.",
+          "id": "p-2a2b7cd4504fbc1a"
         },
         {
           "text": "Wie heißt du?",
-          "translation": "What is your name? (a fixed phrase - memorize it whole.)"
+          "translation": "What is your name? (a fixed phrase - memorize it whole.)",
+          "id": "p-2753e4860651be83"
         },
         {
           "text": "Du heißt Jonas.",
-          "translation": "Your name is Jonas."
+          "translation": "Your name is Jonas.",
+          "id": "p-117cef1e8cd02267"
         },
         {
           "text": "Der Hund heißt Bruno.",
-          "translation": "The dog's name is Bruno."
+          "translation": "The dog's name is Bruno.",
+          "id": "p-a7b4b641cf04ffc4"
         },
         {
           "text": "Der Tisch, der Hund, der Mann.",
-          "translation": "The table, the dog, the man. (all der)"
+          "translation": "The table, the dog, the man. (all der)",
+          "id": "p-21e97bb741718e37"
         },
         {
           "text": "Der Montag, der Samstag.",
-          "translation": "Monday, Saturday. (days of the week are der)"
+          "translation": "Monday, Saturday. (days of the week are der)",
+          "id": "p-3af8f405034fc0cf"
         },
         {
           "text": "Der Mann heißt Thomas.",
-          "translation": "The man's name is Thomas."
+          "translation": "The man's name is Thomas.",
+          "id": "p-91925641fd697e6d"
         },
         {
           "text": "Der Stuhl - kaputt.",
-          "translation": "The chair - broken. (fragment answers are fine in speech)"
+          "translation": "The chair - broken. (fragment answers are fine in speech)",
+          "id": "p-3a2270768b875608"
         }
       ],
       "practicePrompt": "Practice German masculine nouns and the name phrases with me. Say simple objects in English and ask me to answer with der + the German noun. Then rehearse the fixed exchange 'Wie heißt du?' - 'Ich heiße ...' without breaking it into parts. Correct only the article gender and the heißen forms.",
@@ -499,31 +528,38 @@
       "phrases": [
         {
           "text": "Die Lampe - an. Die Lampe - aus.",
-          "translation": "The lamp - on. The lamp - off. (verbless: perfectly normal German)"
+          "translation": "The lamp - on. The lamp - off. (verbless: perfectly normal German)",
+          "id": "p-c722ba436f56ae9b"
         },
         {
           "text": "Die Katze - schwarz.",
-          "translation": "The cat - black."
+          "translation": "The cat - black.",
+          "id": "p-d554571ddd0dc454"
         },
         {
           "text": "Die Zeitung - neu.",
-          "translation": "The newspaper - new. (ending -ung: always die)"
+          "translation": "The newspaper - new. (ending -ung: always die)",
+          "id": "p-07c773961cd90aaf"
         },
         {
           "text": "Freiheit - immer 'die': die Freiheit.",
-          "translation": "Freedom - always 'die': die Freiheit. (ending -heit)"
+          "translation": "Freedom - always 'die': die Freiheit. (ending -heit)",
+          "id": "p-0935f30e8521cd4c"
         },
         {
           "text": "Die Blume heißt 'Rose'.",
-          "translation": "The flower is called 'Rose'."
+          "translation": "The flower is called 'Rose'.",
+          "id": "p-c7cc99d685f75285"
         },
         {
           "text": "Die Sonne, der Mond.",
-          "translation": "The sun, the moon. (nature takes its own article)"
+          "translation": "The sun, the moon. (nature takes its own article)",
+          "id": "p-fe2549847f6fcf6d"
         },
         {
           "text": "Die Straße - lang.",
-          "translation": "The street - long."
+          "translation": "The street - long.",
+          "id": "p-532043364b3192a9"
         }
       ],
       "practicePrompt": "Practice German feminine nouns with me. Say English nouns - some plain (lamp, cat) and some whose German form ends in -ung or -heit (newspaper, freedom) - and ask me to answer with die + the German noun. Ask me why those endings are safe. Correct only the article and the ending rule.",
@@ -610,31 +646,38 @@
       "phrases": [
         {
           "text": "Das Buch - neu.",
-          "translation": "The book - new. (verbless fragment: normal German)"
+          "translation": "The book - new. (verbless fragment: normal German)",
+          "id": "p-21b48c5d1e119afa"
         },
         {
           "text": "Das Fenster - offen.",
-          "translation": "The window - open."
+          "translation": "The window - open.",
+          "id": "p-df55592c7c9bcb7a"
         },
         {
           "text": "Das Kind - klein.",
-          "translation": "The child - small."
+          "translation": "The child - small.",
+          "id": "p-d5b034fa33ef0d87"
         },
         {
           "text": "Anna? Das Mädchen - 'das'.",
-          "translation": "Anna? 'The girl' is das - grammar over nature."
+          "translation": "Anna? 'The girl' is das - grammar over nature.",
+          "id": "p-01a37b90e23a5646"
         },
         {
           "text": "Das Handy - neu.",
-          "translation": "The cell phone - new. (many international words take das)"
+          "translation": "The cell phone - new. (many international words take das)",
+          "id": "p-e9671568bfd2c141"
         },
         {
           "text": "Der Mond, die Sonne, das Kind.",
-          "translation": "The moon, the sun, the child. (each noun, its own article)"
+          "translation": "The moon, the sun, the child. (each noun, its own article)",
+          "id": "p-cc8d036560c08367"
         },
         {
           "text": "Das Zimmer - hell.",
-          "translation": "The room - bright."
+          "translation": "The room - bright.",
+          "id": "p-9dbde57a6afca1c1"
         }
       ],
       "practicePrompt": "Quiz me on German gender. Give me an English noun - sometimes one whose German form ends in -chen (girl), sometimes -ung or -heit (newspaper, freedom), sometimes plain - and ask me for the article and the rule behind it. Correct only the article choice and the ending rules.",
@@ -726,39 +769,48 @@
       "phrases": [
         {
           "text": "Ich bin Jonas.",
-          "translation": "I am Jonas. (one fixed phrase today - the full drill is Lesson 8.)"
+          "translation": "I am Jonas. (one fixed phrase today - the full drill is Lesson 8.)",
+          "id": "p-7c4de7d0c8cfc1b1"
         },
         {
           "text": "Er ist nett.",
-          "translation": "He is nice. (also 'it is nice' when the noun is der.)"
+          "translation": "He is nice. (also 'it is nice' when the noun is der.)",
+          "id": "p-5319dde59cbf2ed5"
         },
         {
           "text": "Sie ist Lehrerin.",
-          "translation": "She is a teacher. (also 'it is' for a die-noun.)"
+          "translation": "She is a teacher. (also 'it is' for a die-noun.)",
+          "id": "p-f541d27919ee50ac"
         },
         {
           "text": "Es ist kalt.",
-          "translation": "It is cold. (es without any noun behind it.)"
+          "translation": "It is cold. (es without any noun behind it.)",
+          "id": "p-2b28e37abada03b1"
         },
         {
           "text": "Der Tisch? Er ist alt.",
-          "translation": "The table? It is old. (er follows der.)"
+          "translation": "The table? It is old. (er follows der.)",
+          "id": "p-64ca350ddeb9c1f1"
         },
         {
           "text": "Die Katze? Sie ist schwarz.",
-          "translation": "The cat? It is black. (sie follows die.)"
+          "translation": "The cat? It is black. (sie follows die.)",
+          "id": "p-f17c1a0057d0209f"
         },
         {
           "text": "Das Kind? Es ist klein.",
-          "translation": "The child? It is small. (es follows das.)"
+          "translation": "The child? It is small. (es follows das.)",
+          "id": "p-704054417f076077"
         },
         {
           "text": "Herr Weiß? Er ist Student.",
-          "translation": "Mr. Weiß? He is a university student."
+          "translation": "Mr. Weiß? He is a university student.",
+          "id": "p-d572dcad7fb499ef"
         },
         {
           "text": "Wir, ihr, sie - komplett.",
-          "translation": "we, you all, they - the full set. (the matching verb forms come in Lesson 8)"
+          "translation": "we, you all, they - the full set. (the matching verb forms come in Lesson 8)",
+          "id": "p-09f3810c82b00aad"
         }
       ],
       "practicePrompt": "Play a meeting-new-people game with me: point at people and things using noun chunks with their article (der Hund, die Lampe, das Kind) and have me answer with the fixed frame 'Er/Sie/Es ist ...' or the memorized 'Ich bin ...'. Do not use question words yet - they are Lesson 14. Correct only the pronoun choice, especially er/sie/es for objects.",
@@ -850,43 +902,53 @@
       "phrases": [
         {
           "text": "Ich bin Jonas.",
-          "translation": "I am Jonas."
+          "translation": "I am Jonas.",
+          "id": "p-7c4de7d0c8cfc1b1"
         },
         {
           "text": "Du bist neu hier.",
-          "translation": "You are new here."
+          "translation": "You are new here.",
+          "id": "p-5e344f463a1dbdf1"
         },
         {
           "text": "Er ist müde.",
-          "translation": "He is tired."
+          "translation": "He is tired.",
+          "id": "p-dee8035b344231c5"
         },
         {
           "text": "Wir sind hier.",
-          "translation": "We are here."
+          "translation": "We are here.",
+          "id": "p-b934fe210b45f814"
         },
         {
           "text": "Seid ihr bereit?",
-          "translation": "Are you ready? (plural ihr)"
+          "translation": "Are you ready? (plural ihr)",
+          "id": "p-cc751c04be4d5723"
         },
         {
           "text": "Sie sind bereit.",
-          "translation": "They are ready. (small sie, many people)"
+          "translation": "They are ready. (small sie, many people)",
+          "id": "p-79ba4357623509bf"
         },
         {
           "text": "Bist du bereit?",
-          "translation": "Are you ready? (one person, du)"
+          "translation": "Are you ready? (one person, du)",
+          "id": "p-2d4775c0714b15d4"
         },
         {
           "text": "Das ist der Tisch.",
-          "translation": "That is the table. (das, the pointer)"
+          "translation": "That is the table. (das, the pointer)",
+          "id": "p-16625baedaaf7efd"
         },
         {
           "text": "Das bin ich.",
-          "translation": "That is me. (point at a photo)"
+          "translation": "That is me. (point at a photo)",
+          "id": "p-eae42ad470bde1e2"
         },
         {
           "text": "Ich bin fertig!",
-          "translation": "I am done!"
+          "translation": "I am done!",
+          "id": "p-4c97aad88a160d1d"
         }
       ],
       "practicePrompt": "Drill the verb sein with me: call out a subject (ich, du, der Hund, wir, ihr, sie alle) and ask me for the right sein form; then flip statements into questions (Bist du ...? Seid ihr ...?) and use the pointer das ('Das ist der Tisch', 'Das bin ich'). Correct only sein forms and the question flip.",
@@ -978,31 +1040,38 @@
       "phrases": [
         {
           "text": "Dieser Kurs ist super.",
-          "translation": "This course is great."
+          "translation": "This course is great.",
+          "id": "p-cefb1be275bb2ced"
         },
         {
           "text": "Diese Lampe ist schön.",
-          "translation": "This lamp is beautiful."
+          "translation": "This lamp is beautiful.",
+          "id": "p-2262610e67c9dfed"
         },
         {
           "text": "Dieses Buch ist neu.",
-          "translation": "This book is new."
+          "translation": "This book is new.",
+          "id": "p-749a4655ccc46f02"
         },
         {
           "text": "Dieser Hund heißt Bruno.",
-          "translation": "This dog's name is Bruno."
+          "translation": "This dog's name is Bruno.",
+          "id": "p-7db59c9c059a09d7"
         },
         {
           "text": "Der Stuhl? Dieser Stuhl ist neu.",
-          "translation": "The chair? This chair is new. (der = the, dieser = this one)"
+          "translation": "The chair? This chair is new. (der = the, dieser = this one)",
+          "id": "p-727c529ce959d4d6"
         },
         {
           "text": "Das Wort? Dieses Wort heißt 'alt'.",
-          "translation": "The word? This word is called 'old'."
+          "translation": "The word? This word is called 'old'.",
+          "id": "p-ea1cfc629be9a7fd"
         },
         {
           "text": "Diese Straße ist lang.",
-          "translation": "This street is long."
+          "translation": "This street is long.",
+          "id": "p-3bb5ab82f5c0574e"
         }
       ],
       "practicePrompt": "Play a pointing game with me: name an object with its article (der Stuhl, die Lampe, das Buch) and have me say a short statement 'Dieser/Diese/Dieses + noun + ist + adjective'. Keep every adjective after the verb - never an adjective directly before a noun. Correct only the dieser/diese/dieses choice.",
@@ -1089,35 +1158,43 @@
       "phrases": [
         {
           "text": "Ich habe Zeit.",
-          "translation": "I have time."
+          "translation": "I have time.",
+          "id": "p-444c1348f192144d"
         },
         {
           "text": "Hast du Zeit?",
-          "translation": "Do you have time?"
+          "translation": "Do you have time?",
+          "id": "p-7f12015643d17964"
         },
         {
           "text": "Er hat Hunger.",
-          "translation": "He is hungry. (literally: he has hunger)"
+          "translation": "He is hungry. (literally: he has hunger)",
+          "id": "p-e0cbf0624034775d"
         },
         {
           "text": "Wir haben Glück.",
-          "translation": "We are lucky. (literally: we have luck)"
+          "translation": "We are lucky. (literally: we have luck)",
+          "id": "p-8e2146e3eb9290c4"
         },
         {
           "text": "Habt ihr Durst?",
-          "translation": "Are you thirsty? (plural ihr)"
+          "translation": "Are you thirsty? (plural ihr)",
+          "id": "p-6fc3920aab12e85e"
         },
         {
           "text": "Du hast alles.",
-          "translation": "You have everything."
+          "translation": "You have everything.",
+          "id": "p-e2b4ccf90ffa9f7a"
         },
         {
           "text": "Bruno hat Hunger.",
-          "translation": "Bruno is hungry. (the dog from Lesson 4)"
+          "translation": "Bruno is hungry. (the dog from Lesson 4)",
+          "id": "p-fd6e7288d11d361e"
         },
         {
           "text": "Sie haben Zeit.",
-          "translation": "They have time."
+          "translation": "They have time.",
+          "id": "p-88d8472ba103ed50"
         }
       ],
       "practicePrompt": "Play my roommate: we are preparing a simple coffee break and check what we have. Ask me 'Hast du ...?' and let me answer with haben forms (ich habe, du hast, er hat...). Do not use a/no words or my/your words yet - those are the next two lessons. Correct only the haben forms.",
@@ -1209,35 +1286,43 @@
       "phrases": [
         {
           "text": "Das ist ein Buch.",
-          "translation": "That is a book."
+          "translation": "That is a book.",
+          "id": "p-b71ba810509465f2"
         },
         {
           "text": "Das ist eine Lampe.",
-          "translation": "That is a lamp."
+          "translation": "That is a lamp.",
+          "id": "p-3e72a9015101deee"
         },
         {
           "text": "Ich habe ein Handy.",
-          "translation": "I have a phone."
+          "translation": "I have a phone.",
+          "id": "p-86216e65813f56fc"
         },
         {
           "text": "Hast du eine Frage?",
-          "translation": "Do you have a question?"
+          "translation": "Do you have a question?",
+          "id": "p-8bd78b2f4452b0f7"
         },
         {
           "text": "Kein Problem!",
-          "translation": "No problem!"
+          "translation": "No problem!",
+          "id": "p-53c1362dc735ebe4"
         },
         {
           "text": "Ich habe keine Zeit.",
-          "translation": "I have no time."
+          "translation": "I have no time.",
+          "id": "p-c1f8558a8049815c"
         },
         {
           "text": "Er hat eine Katze.",
-          "translation": "He has a cat."
+          "translation": "He has a cat.",
+          "id": "p-8ef69840318d3060"
         },
         {
           "text": "Sie haben kein Brot.",
-          "translation": "They have no bread."
+          "translation": "They have no bread.",
+          "id": "p-5fb995b3bcecb116"
         }
       ],
       "practicePrompt": "Play a lost-and-found game with me: I say what I have or not-have using feminine and neuter nouns only. Ask me 'Hast du eine/ein ...?' and have me answer with eine/ein or keine/kein. Do not use masculine nouns or my/your words yet. Correct only the ein/kein pattern.",
@@ -1329,35 +1414,43 @@
       "phrases": [
         {
           "text": "Das ist mein Buch.",
-          "translation": "That is my book."
+          "translation": "That is my book.",
+          "id": "p-b88cfac323f780b0"
         },
         {
           "text": "Ist das deine Tasche?",
-          "translation": "Is that your bag?"
+          "translation": "Is that your bag?",
+          "id": "p-094c7a8f589c1b71"
         },
         {
           "text": "Nein, das ist nicht meine Tasche.",
-          "translation": "No, that is not my bag."
+          "translation": "No, that is not my bag.",
+          "id": "p-6dc304253cf7633e"
         },
         {
           "text": "Mein Handy ist hier.",
-          "translation": "My phone is here."
+          "translation": "My phone is here.",
+          "id": "p-eaa572a84c67d7d6"
         },
         {
           "text": "Dein Kaffee ist kalt.",
-          "translation": "Your coffee is cold."
+          "translation": "Your coffee is cold.",
+          "id": "p-4969ee85f9381521"
         },
         {
           "text": "Mein Brot ist hier.",
-          "translation": "My bread is here."
+          "translation": "My bread is here.",
+          "id": "p-2822c078f4013432"
         },
         {
           "text": "Bruno ist mein Hund.",
-          "translation": "Bruno is my dog."
+          "translation": "Bruno is my dog.",
+          "id": "p-6cab50f26c8496d8"
         },
         {
           "text": "Ist dein Schlüssel hier?",
-          "translation": "Is your key here?"
+          "translation": "Is your key here?",
+          "id": "p-6d992025c06e2d73"
         }
       ],
       "practicePrompt": "Practice possession with me: name an object (with its der/die/das) and ask whose it is, so I answer with mein/dein + noun and the right -e ending. Ask 'Ist das dein/deine ...?' and let me confirm or deny. Correct only the mein/dein endings.",
@@ -1444,35 +1537,43 @@
       "phrases": [
         {
           "text": "Ich lerne Deutsch.",
-          "translation": "I learn German."
+          "translation": "I learn German.",
+          "id": "p-9e8ddb9e87743d9b"
         },
         {
           "text": "Du lernst schnell.",
-          "translation": "You learn fast."
+          "translation": "You learn fast.",
+          "id": "p-0519025d554ee3dd"
         },
         {
           "text": "Er arbeitet in München.",
-          "translation": "He works in Munich."
+          "translation": "He works in Munich.",
+          "id": "p-10c25bb56deaada7"
         },
         {
           "text": "Sie wohnt in Berlin.",
-          "translation": "She lives in Berlin."
+          "translation": "She lives in Berlin.",
+          "id": "p-fa563ed2294fad8b"
         },
         {
           "text": "Wir machen Musik.",
-          "translation": "We make music."
+          "translation": "We make music.",
+          "id": "p-fb830b119b291b15"
         },
         {
           "text": "Ihr lernt zusammen.",
-          "translation": "You (plural) learn together."
+          "translation": "You (plural) learn together.",
+          "id": "p-3f6bfa793f9ef44d"
         },
         {
           "text": "Arbeiten Sie auch hier?",
-          "translation": "Do you (formal) work here too?"
+          "translation": "Do you (formal) work here too?",
+          "id": "p-caa6013f4a090bb4"
         },
         {
           "text": "Das Kind spielt.",
-          "translation": "The child is playing."
+          "translation": "The child is playing.",
+          "id": "p-c99a34f139be7519"
         }
       ],
       "practicePrompt": "Chat with me about learning, working and living in German. Ask verb-first yes/no questions (Lernst du ...? Arbeitest du ...?) and drill regular verb endings -e, -st, -t, -en. Keep plain word order - no was/wo questions yet, they come next lesson. Correct only verb endings and the formal Sie.",
@@ -1564,35 +1665,43 @@
       "phrases": [
         {
           "text": "Was machst du heute?",
-          "translation": "What are you doing today?"
+          "translation": "What are you doing today?",
+          "id": "p-91b3b84ee427473f"
         },
         {
           "text": "Wo wohnst du?",
-          "translation": "Where do you live?"
+          "translation": "Where do you live?",
+          "id": "p-f13f25a375359b4c"
         },
         {
           "text": "Wer ist das?",
-          "translation": "Who is that?"
+          "translation": "Who is that?",
+          "id": "p-2307ddf6671cdc36"
         },
         {
           "text": "Wie lernst du Deutsch?",
-          "translation": "How do you learn German?"
+          "translation": "How do you learn German?",
+          "id": "p-f21e5d7263a4b1e7"
         },
         {
           "text": "Wie heißt das?",
-          "translation": "What is that called?"
+          "translation": "What is that called?",
+          "id": "p-8b8e9ae8d173a9c0"
         },
         {
           "text": "Morgen lerne ich Deutsch.",
-          "translation": "Tomorrow I learn German. (verb second, subject flips)"
+          "translation": "Tomorrow I learn German. (verb second, subject flips)",
+          "id": "p-ab1b0ace6c4d3338"
         },
         {
           "text": "Heute arbeiten wir, morgen lernen wir.",
-          "translation": "Today we work, tomorrow we learn."
+          "translation": "Today we work, tomorrow we learn.",
+          "id": "p-54cfac425dbb4cf0"
         },
         {
           "text": "Was macht ihr?",
-          "translation": "What are you (plural) doing?"
+          "translation": "What are you (plural) doing?",
+          "id": "p-b431fbc037c994ab"
         }
       ],
       "practicePrompt": "Practice verb-second word order and w-questions with me: give me a time word (heute, morgen) and have me start a sentence with it, flipping the subject; then ask me open questions with was, wo, wer and wie about our course and city. Correct only the verb position and the question words.",
@@ -1684,35 +1793,43 @@
       "phrases": [
         {
           "text": "Ich fahre heute.",
-          "translation": "I am leaving today. (fahren: du fährst)"
+          "translation": "I am leaving today. (fahren: du fährst)",
+          "id": "p-5a314d41cd8db994"
         },
         {
           "text": "Fährst du Samstag?",
-          "translation": "Are you leaving Saturday?"
+          "translation": "Are you leaving Saturday?",
+          "id": "p-849c37c78931e18e"
         },
         {
           "text": "Du schläfst zu viel.",
-          "translation": "You sleep too much. (schlafen: du schläfst)"
+          "translation": "You sleep too much. (schlafen: du schläfst)",
+          "id": "p-845d9123891d9df0"
         },
         {
           "text": "Er schläft viel.",
-          "translation": "He sleeps a lot."
+          "translation": "He sleeps a lot.",
+          "id": "p-12811e51af867fbb"
         },
         {
           "text": "Ich trage meine Tasche.",
-          "translation": "I am carrying my bag. (tragen: du trägst)"
+          "translation": "I am carrying my bag. (tragen: du trägst)",
+          "id": "p-f908c1e5c937fc1f"
         },
         {
           "text": "Was trägst du?",
-          "translation": "What are you carrying?"
+          "translation": "What are you carrying?",
+          "id": "p-3d1404f8e6334e21"
         },
         {
           "text": "Wir fahren zusammen.",
-          "translation": "We travel together."
+          "translation": "We travel together.",
+          "id": "p-a31c3abf24045a83"
         },
         {
           "text": "Schläfst du jetzt?",
-          "translation": "Are you sleeping now?"
+          "translation": "Are you sleeping now?",
+          "id": "p-60a1f16b94bdd165"
         }
       ],
       "practicePrompt": "Talk with me in German about weekends, travel and sleep. Make me use the a→ä verbs fahren, schlafen, tragen after du and er/sie/es, and keep ich/wir forms clean. Correct only the vowel-changing forms.",
@@ -1799,35 +1916,43 @@
       "phrases": [
         {
           "text": "Ich spreche Deutsch.",
-          "translation": "I speak German."
+          "translation": "I speak German.",
+          "id": "p-58c7ba6fb8976038"
         },
         {
           "text": "Sprichst du auch Englisch?",
-          "translation": "Do you speak English too?"
+          "translation": "Do you speak English too?",
+          "id": "p-b7fd2067c08b116e"
         },
         {
           "text": "Er liest ein Buch.",
-          "translation": "He is reading a book. (lesen: du liest)"
+          "translation": "He is reading a book. (lesen: du liest)",
+          "id": "p-3b6c008631266625"
         },
         {
           "text": "Was liest du gern?",
-          "translation": "What do you like to read?"
+          "translation": "What do you like to read?",
+          "id": "p-591a16c92283ecea"
         },
         {
           "text": "Was isst du?",
-          "translation": "What are you eating? (essen: du isst)"
+          "translation": "What are you eating? (essen: du isst)",
+          "id": "p-7ca14091cf042b11"
         },
         {
           "text": "Du isst gern Kuchen.",
-          "translation": "You like eating cake."
+          "translation": "You like eating cake.",
+          "id": "p-4adbc5d3f4238f41"
         },
         {
           "text": "Nimmst du das?",
-          "translation": "Are you taking that? (nehmen: du nimmst)"
+          "translation": "Are you taking that? (nehmen: du nimmst)",
+          "id": "p-03804f8fa28cd53d"
         },
         {
           "text": "Wir essen Brot und Kuchen.",
-          "translation": "We are eating bread and cake."
+          "translation": "We are eating bread and cake.",
+          "id": "p-cdbb807b186ea2b3"
         }
       ],
       "practicePrompt": "Talk with me in German about food, reading and languages. Make me use the e-changing verbs sprechen, lesen, essen, nehmen in the du and er/sie/es forms. Help me place the magic word gern correctly. Correct only those verb forms.",
@@ -1914,35 +2039,43 @@
       "phrases": [
         {
           "text": "Es wird kalt.",
-          "translation": "It is getting cold."
+          "translation": "It is getting cold.",
+          "id": "p-800a351a320fa8ec"
         },
         {
           "text": "Ich werde müde.",
-          "translation": "I am getting tired."
+          "translation": "I am getting tired.",
+          "id": "p-b166ed1de2d381df"
         },
         {
           "text": "Wirst du auch müde?",
-          "translation": "Are you getting tired too?"
+          "translation": "Are you getting tired too?",
+          "id": "p-77c6a1434c8bb5be"
         },
         {
           "text": "Es wird dunkel.",
-          "translation": "It is getting dark."
+          "translation": "It is getting dark.",
+          "id": "p-bcf38945e8993e62"
         },
         {
           "text": "Es regnet.",
-          "translation": "It is raining."
+          "translation": "It is raining.",
+          "id": "p-55f6690b7acd6c66"
         },
         {
           "text": "Der Tag wird lang.",
-          "translation": "The day is getting long."
+          "translation": "The day is getting long.",
+          "id": "p-1bea7c3e3bf82951"
         },
         {
           "text": "Wir werden alle müde.",
-          "translation": "We are all getting tired."
+          "translation": "We are all getting tired.",
+          "id": "p-38f4a7d0d73df751"
         },
         {
           "text": "Der Kaffee wird kalt.",
-          "translation": "The coffee is getting cold."
+          "translation": "The coffee is getting cold.",
+          "id": "p-0b03570e5a6d0f56"
         }
       ],
       "practicePrompt": "Talk with me about weather, moods and changes in German. Ask me what is changing and how I am becoming, so I use werden (ich werde, du wirst, es wird) and the weather es: Es regnet, es wird kalt. Correct only werden forms and the impersonal es.",
@@ -2034,35 +2167,43 @@
       "phrases": [
         {
           "text": "Ich habe einen Bruder.",
-          "translation": "I have a brother. (ein → einen with masculine)"
+          "translation": "I have a brother. (ein → einen with masculine)",
+          "id": "p-b43a4934a2659a3e"
         },
         {
           "text": "Ich sehe den Mann dort.",
-          "translation": "I see the man over there."
+          "translation": "I see the man over there.",
+          "id": "p-fece6f1552c7a0c8"
         },
         {
           "text": "Suchst du deinen Schlüssel?",
-          "translation": "Are you looking for your key?"
+          "translation": "Are you looking for your key?",
+          "id": "p-ca211fd5d7f0a49b"
         },
         {
           "text": "Sie kauft ein Buch.",
-          "translation": "She is buying a book. (das - stays quiet)"
+          "translation": "She is buying a book. (das - stays quiet)",
+          "id": "p-0cc2285e3769dc9e"
         },
         {
           "text": "Wir brauchen den Kaffee.",
-          "translation": "We need the coffee."
+          "translation": "We need the coffee.",
+          "id": "p-a618484f7ed1e964"
         },
         {
           "text": "Du hast eine Katze.",
-          "translation": "You have a cat. (die - stays quiet)"
+          "translation": "You have a cat. (die - stays quiet)",
+          "id": "p-e4490fb0d38cf4fd"
         },
         {
           "text": "Ich nehme den Kuchen.",
-          "translation": "I am taking the cake."
+          "translation": "I am taking the cake.",
+          "id": "p-1cc7ad42b010ced9"
         },
         {
           "text": "Er kauft ein Handy.",
-          "translation": "He is buying a phone."
+          "translation": "He is buying a phone.",
+          "id": "p-8da76d9bd6a974b8"
         }
       ],
       "practicePrompt": "Play hide-and-seek with me in German: name things we lose, see, need or take, and make me say them in the accusative after verbs like sehen, brauchen, suchen, nehmen, haben - den, einen, meinen, deinen. Keep to masculine changes only; skip object pronouns like mich and dich, they come next lesson. Correct only the masculine accusative forms.",
@@ -2149,35 +2290,43 @@
       "phrases": [
         {
           "text": "Suchst du mich?",
-          "translation": "Are you looking for me?"
+          "translation": "Are you looking for me?",
+          "id": "p-1d54e47a58ac715e"
         },
         {
           "text": "Ja, ich sehe dich.",
-          "translation": "Yes, I see you."
+          "translation": "Yes, I see you.",
+          "id": "p-b23ad6e6b602b1ff"
         },
         {
           "text": "Der Mann? Ich sehe ihn.",
-          "translation": "The man? I see him. (der → ihn)"
+          "translation": "The man? I see him. (der → ihn)",
+          "id": "p-d6cfa583f66eee52"
         },
         {
           "text": "Die Katze? Ich liebe sie.",
-          "translation": "The cat? Everybody loves her. (die → sie)"
+          "translation": "The cat? Everybody loves her. (die → sie)",
+          "id": "p-32082de1816973fa"
         },
         {
           "text": "Das Buch? Ich habe es.",
-          "translation": "The book? I have it. (das → es)"
+          "translation": "The book? I have it. (das → es)",
+          "id": "p-449e8ea5ef55b170"
         },
         {
           "text": "Das Kind? Ich rufe es.",
-          "translation": "The child? I am calling it. (das → es)"
+          "translation": "The child? I am calling it. (das → es)",
+          "id": "p-f3b0b68dbc14bfd9"
         },
         {
           "text": "Bruno? Alle lieben ihn.",
-          "translation": "Bruno? Everybody loves him."
+          "translation": "Bruno? Everybody loves him.",
+          "id": "p-a337f5bc86a49dff"
         },
         {
           "text": "Ich hole dich später.",
-          "translation": "I will pick you up later."
+          "translation": "I will pick you up later.",
+          "id": "p-c570ac3798990e65"
         }
       ],
       "practicePrompt": "Play a hide-and-seek scene with me: ask where people and things are, and make me answer with mich, dich, ihn, sie or es after the verb. Keep to singular nouns. Correct only the accusative pronouns.",
@@ -2269,35 +2418,43 @@
       "phrases": [
         {
           "text": "Der Kaffee ist für dich.",
-          "translation": "The coffee is for you."
+          "translation": "The coffee is for you.",
+          "id": "p-81e752e5e01336cc"
         },
         {
           "text": "Für mich, bitte!",
-          "translation": "For me, please!"
+          "translation": "For me, please!",
+          "id": "p-4c10e01b98f7be4c"
         },
         {
           "text": "Kein Kaffee ohne Zucker.",
-          "translation": "No coffee without sugar."
+          "translation": "No coffee without sugar.",
+          "id": "p-9df1360466958224"
         },
         {
           "text": "Ich trinke Kaffee ohne Milch.",
-          "translation": "I drink coffee without milk."
+          "translation": "I drink coffee without milk.",
+          "id": "p-cebb921ea12b1c8e"
         },
         {
           "text": "Wer ist für den Kuchen?",
-          "translation": "Who is for the cake?"
+          "translation": "Who is for the cake?",
+          "id": "p-4dd6a6ec78831c8e"
         },
         {
           "text": "Ich bin gegen den Plan.",
-          "translation": "I am against the plan."
+          "translation": "I am against the plan.",
+          "id": "p-dbca911b8081bd7f"
         },
         {
           "text": "Das Geschenk ist für meinen Bruder.",
-          "translation": "The gift is for my brother."
+          "translation": "The gift is for my brother.",
+          "id": "p-fb99fc0ce818d335"
         },
         {
           "text": "Ohne Bruno ist es langweilig.",
-          "translation": "Without Bruno it is boring."
+          "translation": "Without Bruno it is boring.",
+          "id": "p-29f8b717ec0d8119"
         }
       ],
       "practicePrompt": "Order things and plans with me in German: who something is for (für + accusative), what it comes without (ohne + accusative), and whether we are for or against an idea (für/gegen + accusative). Correct only the preposition + accusative combinations.",
@@ -2389,35 +2546,43 @@
       "phrases": [
         {
           "text": "Das Buch und die Bücher.",
-          "translation": "The book and the books. (u becomes ü + -er)"
+          "translation": "The book and the books. (u becomes ü + -er)",
+          "id": "p-a75950ff0b4f78ff"
         },
         {
           "text": "Der Tisch und die Tische.",
-          "translation": "The table and the tables. (-e ending)"
+          "translation": "The table and the tables. (-e ending)",
+          "id": "p-2f89f24eb40e0c59"
         },
         {
           "text": "Die Lampe und die Lampen.",
-          "translation": "The lamp and the lamps. (the soft -n)"
+          "translation": "The lamp and the lamps. (the soft -n)",
+          "id": "p-da791e8fbe4e364a"
         },
         {
           "text": "Das Auto und die Autos.",
-          "translation": "The car and the cars. (-s for international words)"
+          "translation": "The car and the cars. (-s for international words)",
+          "id": "p-df6fb1f34469d26e"
         },
         {
           "text": "Das Kind und die Kinder.",
-          "translation": "The child and the children. (-er ending)"
+          "translation": "The child and the children. (-er ending)",
+          "id": "p-e3dc0324b9958984"
         },
         {
           "text": "Das Mädchen und die Mädchen - alles gleich!",
-          "translation": "The girl and the girls - the word stays the same!"
+          "translation": "The girl and the girls - the word stays the same!",
+          "id": "p-19f56a49a13b6dbe"
         },
         {
           "text": "Der Hund und die Hunde.",
-          "translation": "The dog and the dogs."
+          "translation": "The dog and the dogs.",
+          "id": "p-0657f9ef811163bb"
         },
         {
           "text": "Tische und Lampen - alles neu!",
-          "translation": "Tables and lamps - all new!"
+          "translation": "Tables and lamps - all new!",
+          "id": "p-017afe8f906d392f"
         }
       ],
       "practicePrompt": "Quiz plurals with me: give me a singular noun with its article, and make me produce the plural with the right pattern (-e, -er, -s, -n, the umlaut, or the -chen trick). Correct only the plural form and the die article.",
@@ -2504,35 +2669,43 @@
       "phrases": [
         {
           "text": "Wie alt bist du?",
-          "translation": "How old are you?"
+          "translation": "How old are you?",
+          "id": "p-4000ddf9f15272ec"
         },
         {
           "text": "Ich bin achtundzwanzig Jahre alt.",
-          "translation": "I am 28 years old. (one first, then ten)"
+          "translation": "I am 28 years old. (one first, then ten)",
+          "id": "p-ffa291e8fd0dbcb9"
         },
         {
           "text": "Mein Bruder ist dreißig.",
-          "translation": "My brother is 30."
+          "translation": "My brother is 30.",
+          "id": "p-23fbce8014bf2996"
         },
         {
           "text": "Ich habe zwei Brüder und eine Schwester.",
-          "translation": "I have two brothers and a sister."
+          "translation": "I have two brothers and a sister.",
+          "id": "p-922868ad3621ff88"
         },
         {
           "text": "sechs, sieben, acht, neun, zehn.",
-          "translation": "6, 7, 8, 9, 10. (sound sample - count along)"
+          "translation": "6, 7, 8, 9, 10. (sound sample - count along)",
+          "id": "p-39e6555c92f3bbd0"
         },
         {
           "text": "elf, zwölf - die zwei Rebellen.",
-          "translation": "11, 12 - the two rebels (irregular, learn whole)."
+          "translation": "11, 12 - the two rebels (irregular, learn whole).",
+          "id": "p-24038eaecd67e85f"
         },
         {
           "text": "zwanzig, dreißig, vierzig.",
-          "translation": "20, 30, 40 - the decade words."
+          "translation": "20, 30, 40 - the decade words.",
+          "id": "p-88a2919fc68fdee0"
         },
         {
           "text": "einundzwanzig - erst eins, dann zwanzig.",
-          "translation": "21 - first one, then twenty. The German way."
+          "translation": "21 - first one, then twenty. The German way.",
+          "id": "p-80ace6ddb289326f"
         }
       ],
       "practicePrompt": "Practice German numbers with me: I say numbers in English (up to 40, the teens and the decades) and you say them in German; ask me my age with 'Wie alt bist du?' and my family size with 'Wie viele ... hast du?'. Correct only the number words and the age sentence.",
@@ -2619,35 +2792,43 @@
       "phrases": [
         {
           "text": "Gestern lernte ich den ganzen Tag.",
-          "translation": "Yesterday I studied the whole day."
+          "translation": "Yesterday I studied the whole day.",
+          "id": "p-4a80ab2d022cdf39"
         },
         {
           "text": "Wir kauften einen Tisch.",
-          "translation": "We bought a table."
+          "translation": "We bought a table.",
+          "id": "p-b4801e2561330283"
         },
         {
           "text": "Er arbeitete in München.",
-          "translation": "He worked in Munich."
+          "translation": "He worked in Munich.",
+          "id": "p-0a57fe19d01ac9cb"
         },
         {
           "text": "Sie fragte: 'Wie heißt du?'",
-          "translation": "She asked: 'What is your name?'"
+          "translation": "She asked: 'What is your name?'",
+          "id": "p-da831849191f0843"
         },
         {
           "text": "Warum sagtest du das?",
-          "translation": "Why did you say that?"
+          "translation": "Why did you say that?",
+          "id": "p-41e0068c70373e47"
         },
         {
           "text": "Früher lernte ich allein.",
-          "translation": "I used to study alone. (früher = in the past)"
+          "translation": "I used to study alone. (früher = in the past)",
+          "id": "p-b090659934f98358"
         },
         {
           "text": "Ich sagte: 'Morgen.'",
-          "translation": "I said: 'Tomorrow.'"
+          "translation": "I said: 'Tomorrow.'",
+          "id": "p-48368244a43a54a3"
         },
         {
           "text": "Wir fragten und lernten - den ganzen Tag.",
-          "translation": "We asked and studied - the whole day."
+          "translation": "We asked and studied - the whole day.",
+          "id": "p-9bce745e7bb96f29"
         }
       ],
       "practicePrompt": "Remember yesterday with me: ask what I did, who said what, and what I did früher, so I answer in the -te past (lernte, sagte, fragte, kaufte, arbeitete). Only regular verbs - the famous irregular ones are the next lesson. Correct only the -te forms and the time words.",
@@ -2739,35 +2920,43 @@
       "phrases": [
         {
           "text": "Ich ging allein.",
-          "translation": "I went alone. (gehen → ging)"
+          "translation": "I went alone. (gehen → ging)",
+          "id": "p-42b009c58952c5b0"
         },
         {
           "text": "Er kam spät.",
-          "translation": "He came late. (kommen → kam)"
+          "translation": "He came late. (kommen → kam)",
+          "id": "p-8618b8501aba4f03"
         },
         {
           "text": "Kam sie auch?",
-          "translation": "Did she come too?"
+          "translation": "Did she come too?",
+          "id": "p-03732c56f983629a"
         },
         {
           "text": "Wir sahen einen Film.",
-          "translation": "We saw a film. (sehen → sah)"
+          "translation": "We saw a film. (sehen → sah)",
+          "id": "p-59d7421b6e5a792b"
         },
         {
           "text": "Was sahst du?",
-          "translation": "What did you see?"
+          "translation": "What did you see?",
+          "id": "p-9f8824d47fff6eb2"
         },
         {
           "text": "Ich kam und ging - sehr schnell.",
-          "translation": "I came and went - very fast."
+          "translation": "I came and went - very fast.",
+          "id": "p-039060d816dcded8"
         },
         {
           "text": "Alle sahen den Hund.",
-          "translation": "Everybody saw the dog."
+          "translation": "Everybody saw the dog.",
+          "id": "p-d1240587ba138c23"
         },
         {
           "text": "Gestern kam Anna.",
-          "translation": "Yesterday Anna came."
+          "translation": "Yesterday Anna came.",
+          "id": "p-0578a3bb111d06e0"
         }
       ],
       "practicePrompt": "Tell me small yesterday-stories with gehen, kommen and sehen in the past (ging, kam, sah): ask me who came, who went and what someone saw. Save war and hatte for lesson 26 - they are not yours yet. Correct only the three strong past forms.",
@@ -2859,39 +3048,48 @@
       "phrases": [
         {
           "text": "Ich gebe dir das Buch.",
-          "translation": "I give you the book. (dir = to you)"
+          "translation": "I give you the book. (dir = to you)",
+          "id": "p-b4c5e4f704a2eccf"
         },
         {
           "text": "Er gibt mir den Schlüssel.",
-          "translation": "He gives me the key."
+          "translation": "He gives me the key.",
+          "id": "p-be8689669130f678"
         },
         {
           "text": "Gibst du ihm das Geschenk?",
-          "translation": "Do you give him the gift? (ihm = to him)"
+          "translation": "Do you give him the gift? (ihm = to him)",
+          "id": "p-5f182fa7dd97de7f"
         },
         {
           "text": "Gibst du ihr das Geschenk?",
-          "translation": "Do you give her the gift? (ihr = to her)"
+          "translation": "Do you give her the gift? (ihr = to her)",
+          "id": "p-116a744f0284595e"
         },
         {
           "text": "Das ist mir wichtig.",
-          "translation": "That is important to me."
+          "translation": "That is important to me.",
+          "id": "p-27963d45dc3263b2"
         },
         {
           "text": "Der Kurs ist dem Mann wichtig.",
-          "translation": "The course is important to the man. (der → dem)"
+          "translation": "The course is important to the man. (der → dem)",
+          "id": "p-8c974dd34d68cadc"
         },
         {
           "text": "Die Bücher sind den Kindern wichtig.",
-          "translation": "The books are important to the children. (plural: den + -n)"
+          "translation": "The books are important to the children. (plural: den + -n)",
+          "id": "p-2aeff8f753737c1c"
         },
         {
           "text": "Wie geht es dir?",
-          "translation": "How are you? (literally: how goes it to you)"
+          "translation": "How are you? (literally: how goes it to you)",
+          "id": "p-603fd66fdedb0ee0"
         },
         {
           "text": "Und mir?",
-          "translation": "And (to) me?"
+          "translation": "And (to) me?",
+          "id": "p-d01e3bd20a625b5f"
         }
       ],
       "practicePrompt": "Practice the giver-and-receiver with me: give me things, then people (mir, dir, ihm, ihr), and say what is important to whom (Das ist mir/dir wichtig). Use geben and the dative articles dem/der/den+n. Object pronouns like mich/dich from lesson 19 are fair game too. Correct only the dative forms.",
@@ -2988,35 +3186,43 @@
       "phrases": [
         {
           "text": "Gestern war ich krank.",
-          "translation": "I was sick yesterday. (sein → war)"
+          "translation": "I was sick yesterday. (sein → war)",
+          "id": "p-891311f192efe0ea"
         },
         {
           "text": "Warst du krank?",
-          "translation": "Were you sick?"
+          "translation": "Were you sick?",
+          "id": "p-c7da0fccaa22529c"
         },
         {
           "text": "Wir hatten keine Zeit.",
-          "translation": "We had no time."
+          "translation": "We had no time.",
+          "id": "p-944568457415003f"
         },
         {
           "text": "Er hatte einen Hund.",
-          "translation": "He had a dog."
+          "translation": "He had a dog.",
+          "id": "p-8370613bb1562886"
         },
         {
           "text": "Es wurde kalt.",
-          "translation": "It got cold. (werden → wurde)"
+          "translation": "It got cold. (werden → wurde)",
+          "id": "p-7c694cb0d1ac26ab"
         },
         {
           "text": "Ich war müde - sehr müde.",
-          "translation": "I was tired - very tired."
+          "translation": "I was tired - very tired.",
+          "id": "p-f40e90d2965d50e1"
         },
         {
           "text": "Hattest du Zeit?",
-          "translation": "Did you have time?"
+          "translation": "Did you have time?",
+          "id": "p-008fd1a032925a85"
         },
         {
           "text": "Wir waren fertig - alle!",
-          "translation": "We were done - all of us!"
+          "translation": "We were done - all of us!",
+          "id": "p-a70b9c977c127171"
         }
       ],
       "practicePrompt": "Talk about yesterday with me using the big three: ask whether I was sick, what I had, and what changed around me (war, hatte, wurde). Regular -te verbs from the last lessons are fair game too. Correct only the war/hatte/wurde forms.",
@@ -3108,35 +3314,43 @@
       "phrases": [
         {
           "text": "Ich weiß es nicht.",
-          "translation": "I do not know (it)."
+          "translation": "I do not know (it).",
+          "id": "p-f4cf42c7ef393719"
         },
         {
           "text": "Weißt du das?",
-          "translation": "Do you know that?"
+          "translation": "Do you know that?",
+          "id": "p-a3d65f8f3f4ffc96"
         },
         {
           "text": "Er weiß alles.",
-          "translation": "He knows everything."
+          "translation": "He knows everything.",
+          "id": "p-f3505a0dfd433847"
         },
         {
           "text": "Kennst du Bruno?",
-          "translation": "Do you know Bruno? (a person)"
+          "translation": "Do you know Bruno? (a person)",
+          "id": "p-2270af25c9181609"
         },
         {
           "text": "Ja, ich kenne ihn.",
-          "translation": "Yes, I know him."
+          "translation": "Yes, I know him.",
+          "id": "p-8268909452d96879"
         },
         {
           "text": "Kennst du dieses Café?",
-          "translation": "Do you know this café?"
+          "translation": "Do you know this café?",
+          "id": "p-39a9c03e0983c779"
         },
         {
           "text": "Wir kennen die Stadt.",
-          "translation": "We know the city."
+          "translation": "We know the city.",
+          "id": "p-8836de2f6d029e34"
         },
         {
           "text": "Sie kennt meinen Bruder.",
-          "translation": "She knows my brother."
+          "translation": "She knows my brother.",
+          "id": "p-71a3fc5f32c52e8f"
         }
       ],
       "practicePrompt": "Play quiz master with me: fire facts and faces at me - for facts use wissen ('Weißt du das?'), for people, places and things kennen ('Kennst du Bruno?'). I answer with ich weiß / ich kenne. Correct only the wissen and kennen forms.",
@@ -3228,35 +3442,43 @@
       "phrases": [
         {
           "text": "Ich helfe dir.",
-          "translation": "I will help you. (helfen + dative)"
+          "translation": "I will help you. (helfen + dative)",
+          "id": "p-6892503ab703cfa4"
         },
         {
           "text": "Hilfst du mir?",
-          "translation": "Will you help me?"
+          "translation": "Will you help me?",
+          "id": "p-97717c71e38a455e"
         },
         {
           "text": "Der Kurs gefällt mir.",
-          "translation": "I like the course. (literally: the course pleases me)"
+          "translation": "I like the course. (literally: the course pleases me)",
+          "id": "p-92a7795c2d3cd64b"
         },
         {
           "text": "Das Buch gehört mir.",
-          "translation": "The book belongs to me."
+          "translation": "The book belongs to me.",
+          "id": "p-f75468acb9cc09cb"
         },
         {
           "text": "Ich danke dir.",
-          "translation": "I thank you."
+          "translation": "I thank you.",
+          "id": "p-35ec7e68c1103717"
         },
         {
           "text": "Der Kaffee schmeckt gut.",
-          "translation": "The coffee tastes good."
+          "translation": "The coffee tastes good.",
+          "id": "p-4100833c9588ebdf"
         },
         {
           "text": "Gefällt dir die Stadt?",
-          "translation": "Do you like the city? (does the city please you)"
+          "translation": "Do you like the city? (does the city please you)",
+          "id": "p-91cbd1f69bbe8a0c"
         },
         {
           "text": "Wir helfen ihm.",
-          "translation": "We will help him."
+          "translation": "We will help him.",
+          "id": "p-d7612985009fb2f5"
         }
       ],
       "practicePrompt": "Play the polite course scene with me: make me help (helfen + dir/mir), like things (Das gefällt mir), own things (Das gehört mir) and thank you (Ich danke dir). Use only the dative person forms mir/dir/ihm/ihr. Correct only the dative after these verbs.",
@@ -3348,35 +3570,43 @@
       "phrases": [
         {
           "text": "Er fährt mit dem Bus.",
-          "translation": "He goes by bus. (mit + dative)"
+          "translation": "He goes by bus. (mit + dative)",
+          "id": "p-199547cd063a91c2"
         },
         {
           "text": "Wir gehen zum Bahnhof.",
-          "translation": "We are going to the train station. (zum = zu + dem)"
+          "translation": "We are going to the train station. (zum = zu + dem)",
+          "id": "p-36925ea7b0175cf1"
         },
         {
           "text": "Sie geht zur Arbeit.",
-          "translation": "She goes to work. (zur = zu + der)"
+          "translation": "She goes to work. (zur = zu + der)",
+          "id": "p-d63b58628ab4432d"
         },
         {
           "text": "Nach dem Kurs trinke ich Kaffee.",
-          "translation": "After the course I drink coffee."
+          "translation": "After the course I drink coffee.",
+          "id": "p-0d07362406f31342"
         },
         {
           "text": "Das Geschenk ist von meiner Schwester.",
-          "translation": "The gift is from my sister."
+          "translation": "The gift is from my sister.",
+          "id": "p-544df5bbed940f28"
         },
         {
           "text": "Bist du heute bei dir?",
-          "translation": "Are you at your place today?"
+          "translation": "Are you at your place today?",
+          "id": "p-bf2d513b646385dd"
         },
         {
           "text": "Ich komme aus Berlin.",
-          "translation": "I come from Berlin. (aus - the origin preposition)"
+          "translation": "I come from Berlin. (aus - the origin preposition)",
+          "id": "p-a78fc121ea7d5200"
         },
         {
           "text": "Mit dir - immer gern.",
-          "translation": "With you - always gladly."
+          "translation": "With you - always gladly.",
+          "id": "p-cb61d985256db577"
         }
       ],
       "practicePrompt": "Run the logistics of friendship with me: ask how I travel (mit + dative), where I go (zum/zur), what follows the course (nach dem Kurs), who something comes from (von), where someone is (bei), and where someone comes from (aus). Keep everything in the dative. Correct only the preposition + dative combinations.",
@@ -3468,35 +3698,43 @@
       "phrases": [
         {
           "text": "Ich kann schwimmen.",
-          "translation": "I can swim."
+          "translation": "I can swim.",
+          "id": "p-8fa2b62ae1337800"
         },
         {
           "text": "Kannst du mir helfen?",
-          "translation": "Can you help me?"
+          "translation": "Can you help me?",
+          "id": "p-e68e7471a7fbbc6a"
         },
         {
           "text": "Er muss arbeiten.",
-          "translation": "He has to work."
+          "translation": "He has to work.",
+          "id": "p-e5ee72778d652486"
         },
         {
           "text": "Ich will Deutsch lernen.",
-          "translation": "I want to learn German."
+          "translation": "I want to learn German.",
+          "id": "p-08d65b6491150220"
         },
         {
           "text": "Was willst du machen?",
-          "translation": "What do you want to do?"
+          "translation": "What do you want to do?",
+          "id": "p-5bad07017832065f"
         },
         {
           "text": "Müssen wir heute zahlen?",
-          "translation": "Do we have to pay today?"
+          "translation": "Do we have to pay today?",
+          "id": "p-e526ed319b45eafe"
         },
         {
           "text": "Wir können kommen - Tom nicht.",
-          "translation": "We can come - Tom cannot."
+          "translation": "We can come - Tom cannot.",
+          "id": "p-a53abc4871d7ab49"
         },
         {
           "text": "Du musst nicht suchen - ich habe den Schlüssel!",
-          "translation": "You do not have to search - I have the key!"
+          "translation": "You do not have to search - I have the key!",
+          "id": "p-993e45e0fc1ccfab"
         }
       ],
       "practicePrompt": "Make plans with me in German: ask what I want, must and can do (was willst du? was musst du? was kannst du?), and answer with the second verb at the end. ich and er modal forms are the same - drill that too. Correct only the modal forms and the verb-at-the-end rule.",
@@ -3583,35 +3821,43 @@
       "phrases": [
         {
           "text": "Ich lerne Deutsch und Jonas lernt auch.",
-          "translation": "I learn German and Jonas learns too."
+          "translation": "I learn German and Jonas learns too.",
+          "id": "p-896dac426e788ef6"
         },
         {
           "text": "Kaffee oder Tee?",
-          "translation": "Coffee or tea?"
+          "translation": "Coffee or tea?",
+          "id": "p-38965f22aa186f37"
         },
         {
           "text": "Ich trinke keinen Kaffee, sondern Tee.",
-          "translation": "I do not drink coffee, but tea instead. (sondern corrects a no)"
+          "translation": "I do not drink coffee, but tea instead. (sondern corrects a no)",
+          "id": "p-935d8987397a6217"
         },
         {
           "text": "Der Kurs ist klein, aber fein.",
-          "translation": "The course is small but fine."
+          "translation": "The course is small but fine.",
+          "id": "p-a2783b6104c60689"
         },
         {
           "text": "Ich lerne Deutsch, denn ich will in Berlin arbeiten.",
-          "translation": "I learn German because I want to work in Berlin."
+          "translation": "I learn German because I want to work in Berlin.",
+          "id": "p-a40550cc699e3ffa"
         },
         {
           "text": "Du kommst - oder nicht?",
-          "translation": "You are coming - or not?"
+          "translation": "You are coming - or not?",
+          "id": "p-aa59b6b5e8c4d84f"
         },
         {
           "text": "Nicht kalt, sondern warm, bitte.",
-          "translation": "Not cold, but warm, please."
+          "translation": "Not cold, but warm, please.",
+          "id": "p-17660bf55557c61d"
         },
         {
           "text": "Wir trinken Kaffee, aber Tom zahlt nicht.",
-          "translation": "We drink coffee, but Tom does not pay."
+          "translation": "We drink coffee, but Tom does not pay.",
+          "id": "p-e2453f6cb455f3d5"
         }
       ],
       "practicePrompt": "Chat with me and make every reply a two-part sentence: connect our ideas with und, contrast with aber, offer choices with oder, correct my no's with sondern, justify with denn. The verb stays second on both sides - that is the drill. Correct only the connectors and word order after them.",
@@ -3703,39 +3949,48 @@
       "phrases": [
         {
           "text": "Ich habe Deutsch gelernt.",
-          "translation": "I studied German."
+          "translation": "I studied German.",
+          "id": "p-e00c6760ec28a7dc"
         },
         {
           "text": "Was hast du gemacht?",
-          "translation": "What did you do?"
+          "translation": "What did you do?",
+          "id": "p-b2bb2287e455ed9c"
         },
         {
           "text": "Sie hat den ganzen Tag gearbeitet.",
-          "translation": "She worked the whole day."
+          "translation": "She worked the whole day.",
+          "id": "p-331d52e162cdd3bd"
         },
         {
           "text": "Wir haben zwei Stunden gewartet.",
-          "translation": "We waited two hours."
+          "translation": "We waited two hours.",
+          "id": "p-cbf0dc7502c0bffe"
         },
         {
           "text": "Ich habe die Frage nicht gehört.",
-          "translation": "I did not hear the question."
+          "translation": "I did not hear the question.",
+          "id": "p-58967887d9c45644"
         },
         {
           "text": "Wir haben gut gegessen.",
-          "translation": "We ate well. (irregular: gegessen)"
+          "translation": "We ate well. (irregular: gegessen)",
+          "id": "p-8294180352a6efd3"
         },
         {
           "text": "Hast du schon getrunken?",
-          "translation": "Have you had something to drink already?"
+          "translation": "Have you had something to drink already?",
+          "id": "p-b41b0b676e42da4f"
         },
         {
           "text": "Er hat sehr gut gesprochen.",
-          "translation": "He spoke very well."
+          "translation": "He spoke very well.",
+          "id": "p-a127b1fc32cc06d1"
         },
         {
           "text": "Der Kurs hat eine Stunde gedauert.",
-          "translation": "The course lasted one hour."
+          "translation": "The course lasted one hour.",
+          "id": "p-beac1f08779e1329"
         }
       ],
       "practicePrompt": "Compare yesterday stories with me: ask 'Was hast du gemacht?' and have me answer with haben + participle (gelernt, gekauft, gegessen, gesprochen...). A few -te forms from the book past are fair too. Correct only the Perfekt recipe: haben second, participle last.",
@@ -3832,35 +4087,43 @@
       "phrases": [
         {
           "text": "Ich bin nach Hause gegangen.",
-          "translation": "I went home. (gehen takes sein)"
+          "translation": "I went home. (gehen takes sein)",
+          "id": "p-5d1a200254a3fcff"
         },
         {
           "text": "Bist du mit dem Zug gefahren?",
-          "translation": "Did you go by train?"
+          "translation": "Did you go by train?",
+          "id": "p-d2d3c552cd6395ce"
         },
         {
           "text": "Wir sind gekommen!",
-          "translation": "We have arrived!"
+          "translation": "We have arrived!",
+          "id": "p-10f415324643686b"
         },
         {
           "text": "Er ist viel gelaufen.",
-          "translation": "He ran a lot. (laufen takes sein)"
+          "translation": "He ran a lot. (laufen takes sein)",
+          "id": "p-2ca958ed133718fe"
         },
         {
           "text": "Ich bin zu Hause geblieben.",
-          "translation": "I stayed at home. (bleiben takes sein)"
+          "translation": "I stayed at home. (bleiben takes sein)",
+          "id": "p-3781b3293552a901"
         },
         {
           "text": "Sie ist nach Berlin gefahren.",
-          "translation": "She went to Berlin."
+          "translation": "She went to Berlin.",
+          "id": "p-7eb39bff7c94762d"
         },
         {
           "text": "Wo bist du geboren?",
-          "translation": "Where were you born? (geboren takes sein)"
+          "translation": "Where were you born? (geboren takes sein)",
+          "id": "p-1f8d489d3ff2af28"
         },
         {
           "text": "Seid ihr schnell gekommen?",
-          "translation": "Did you come quickly? (plural ihr)"
+          "translation": "Did you come quickly? (plural ihr)",
+          "id": "p-266e0e0470dca322"
         }
       ],
       "practicePrompt": "Interview each other's life story with the sein-club: ask where I was born, where I went and how I traveled (bin gegangen/gefahren/gekommen/geblieben/gelaufen). Most other common actions use haben - gegessen, gekauft. Correct only the helper-verb choice and the participles.",
@@ -3957,35 +4220,43 @@
       "phrases": [
         {
           "text": "Ich stehe um sieben Uhr auf.",
-          "translation": "I get up at seven o'clock."
+          "translation": "I get up at seven o'clock.",
+          "id": "p-fb8b8f1c94707687"
         },
         {
           "text": "Wie früh stehst du auf?",
-          "translation": "How early do you get up?"
+          "translation": "How early do you get up?",
+          "id": "p-0412294548959314"
         },
         {
           "text": "Wir kaufen samstags ein.",
-          "translation": "We do the grocery shopping on Saturdays."
+          "translation": "We do the grocery shopping on Saturdays.",
+          "id": "p-76b2769347cf9924"
         },
         {
           "text": "Der Kurs fängt um acht an.",
-          "translation": "The course starts at eight. (anfangen: fängt ... an)"
+          "translation": "The course starts at eight. (anfangen: fängt ... an)",
+          "id": "p-ddb4a978d8faa398"
         },
         {
           "text": "Ich rufe dich später an.",
-          "translation": "I will call you later."
+          "translation": "I will call you later.",
+          "id": "p-026f662593a30aa1"
         },
         {
           "text": "Bringst du Kuchen mit?",
-          "translation": "Are you bringing cake along?"
+          "translation": "Are you bringing cake along?",
+          "id": "p-142f4f37f29feca5"
         },
         {
           "text": "Ich sehe gern fern.",
-          "translation": "I like watching TV."
+          "translation": "I like watching TV.",
+          "id": "p-fa6fd41cdb48b3a3"
         },
         {
           "text": "Er bezahlt den Kaffee - immer.",
-          "translation": "He pays for the coffee - always. (be- never separates)"
+          "translation": "He pays for the coffee - always. (be- never separates)",
+          "id": "p-d206ede957be213b"
         }
       ],
       "practicePrompt": "Run the morning-and-evening routine with me using separable verbs: ask how early I get up (Wie früh stehst du auf?), what we shop (kaufen wir ... ein?), who calls (rufst du ... an?), what we bring (bringst du ... mit?). The be- and ver- verbs stay whole - no splitting bezahlen. Correct only the prefix placement.",
@@ -4077,35 +4348,43 @@
       "phrases": [
         {
           "text": "Ich habe ein großes Zimmer.",
-          "translation": "I have a big room."
+          "translation": "I have a big room.",
+          "id": "p-22be8e1426454c60"
         },
         {
           "text": "Der kleine Hund schläft.",
-          "translation": "The little dog is sleeping."
+          "translation": "The little dog is sleeping.",
+          "id": "p-0200c7e629ed58d3"
         },
         {
           "text": "Ich trinke einen heißen Kaffee.",
-          "translation": "I am drinking a hot coffee."
+          "translation": "I am drinking a hot coffee.",
+          "id": "p-c3bcb04c93578d84"
         },
         {
           "text": "Sie kauft eine neue Tasche.",
-          "translation": "She is buying a new bag."
+          "translation": "She is buying a new bag.",
+          "id": "p-0da12a88859fbcc8"
         },
         {
           "text": "Mein alter Computer ist kaputt.",
-          "translation": "My old computer is broken."
+          "translation": "My old computer is broken.",
+          "id": "p-c2006acb1a308551"
         },
         {
           "text": "Das neue Buch ist gut.",
-          "translation": "The new book is good."
+          "translation": "The new book is good.",
+          "id": "p-8fde962c3c8c38c4"
         },
         {
           "text": "Ein kalter Tag - und ein warmer Kaffee.",
-          "translation": "A cold day - and a warm coffee."
+          "translation": "A cold day - and a warm coffee.",
+          "id": "p-98827a6dac1ed287"
         },
         {
           "text": "Die alten Bücher gehören mir.",
-          "translation": "The old books belong to me."
+          "translation": "The old books belong to me.",
+          "id": "p-6b225fd81997f5e4"
         }
       ],
       "practicePrompt": "Describe our things with me: give me a noun with its article and an adjective (groß, neu, alt, kalt, heiß) and make me use the right ending after ein/kein/mein and after der/die/das. Use the things you own: der Tisch, die Lampe, das Buch, der Hund. Correct only the adjective endings.",
@@ -4202,39 +4481,48 @@
       "phrases": [
         {
           "text": "Mein Geburtstag ist am ersten Mai.",
-          "translation": "My birthday is on May the first. (am + dative + ordinal)"
+          "translation": "My birthday is on May the first. (am + dative + ordinal)",
+          "id": "p-732ec4601d22a01e"
         },
         {
           "text": "Er ist der erste Student im Kurs.",
-          "translation": "He is the first student in the course."
+          "translation": "He is the first student in the course.",
+          "id": "p-3714dda2be1b28a3"
         },
         {
           "text": "Der dritte Tag? Der war gut.",
-          "translation": "The third day? That one was good."
+          "translation": "The third day? That one was good.",
+          "id": "p-d9cb667088346f86"
         },
         {
           "text": "Ich bin 1994 geboren.",
-          "translation": "I was born in 1994."
+          "translation": "I was born in 1994.",
+          "id": "p-e1f091f632879958"
         },
         {
           "text": "Mein Geburtstag ist im Mai.",
-          "translation": "My birthday is in May."
+          "translation": "My birthday is in May.",
+          "id": "p-7ee2640a091ae8cd"
         },
         {
           "text": "Der Kurs beginnt um acht Uhr.",
-          "translation": "The course starts at eight o'clock. (beginnen: non-separable!)"
+          "translation": "The course starts at eight o'clock. (beginnen: non-separable!)",
+          "id": "p-bf4540b33e737bd8"
         },
         {
           "text": "Es ist halb neun.",
-          "translation": "It is 8:30. (German counts toward the next hour)"
+          "translation": "It is 8:30. (German counts toward the next hour)",
+          "id": "p-0aad71a55ba4d2e1"
         },
         {
           "text": "Wie spät ist es?",
-          "translation": "What time is it? (literally: how late is it)"
+          "translation": "What time is it? (literally: how late is it)",
+          "id": "p-71eea649b3249b03"
         },
         {
           "text": "Letztes Jahr bin ich nach Deutschland gekommen.",
-          "translation": "Last year I came to Germany."
+          "translation": "Last year I came to Germany.",
+          "id": "p-44828e4b10b93440"
         }
       ],
       "practicePrompt": "Graduation lap: interview me in German about my life - birthday (am ...), birth year (Ich bin ... geboren), what I did last year (Perfekt with haben or sein), where I went, what I must/want to do, what is important to me (dative!). Ask the time too: wie spät ist es?, halb ...? Correct everything - this is the final exam and there are no secrets anymore.",

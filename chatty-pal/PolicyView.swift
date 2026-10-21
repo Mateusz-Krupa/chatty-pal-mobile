@@ -74,6 +74,13 @@ struct PolicyView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                InfoSectionCard(title: "Learning Progress and Shadowing", systemImage: "checkmark.icloud") {
+                    Text("When you are signed in, we save your recognized shadowing text, word-match scores, attempt dates and lesson completion to your account so you can resume on another device. This progress feature does not retain raw audio. Unsaved attempts and a progress cache are also kept on your device, separately for each account. Reset progress clears the current lesson's completion but keeps past attempts. Unlike the general exercise retention described below, these learning-progress records are retained until your account or learning data is deleted. Account deletion removes these progress records and transcripts from our database; you can also request learning-data deletion by contacting us.")
+                        .font(.body)
+                        .lineSpacing(4)
+                        .foregroundStyle(.secondary)
+                }
+
                 InfoSectionCard(title: "Data Retention", systemImage: "clock") {
                     Text("We retain information related to your homework and exercises for a period of one year from the date of creation. This retention policy helps us maintain a relevant and efficient service, ensuring our conversational models remain up-to-date and effective.")
                         .font(.body)

@@ -5,11 +5,11 @@ TBD - created by archiving change learning-today-stats. Update Purpose after arc
 ## Requirements
 ### Requirement: Activity recording
 
-The app SHALL record learning activity locally: a lesson is counted once the learner starts practice from a lesson, a review is counted once the learner grades a word, a shadowing attempt is counted once the learner finishes a shadowing recording.
+The app SHALL record review and shadowing activity locally: a review is counted once the learner grades a word and a shadowing attempt is counted once the learner finishes a recording with recognized speech. Lesson completion SHALL be taken from confirmed account-backed learning progress, not from opening practice. Existing local XP SHALL be preserved without uploading legacy completion flags as passed shadowing.
 
 #### Scenario: Practice a lesson
 - **WHEN** the learner taps "Practice in Chatty Pal" in a lesson
-- **THEN** the lesson ID is added to the completed-lesson set and today is marked as an active day
+- **THEN** the app opens practice without marking the lesson completed solely because practice was opened
 
 #### Scenario: Grade a word
 - **WHEN** the learner grades a flashcard (Again/Good/Easy) in Word Review
@@ -41,7 +41,7 @@ The streak SHALL be the number of consecutive active days ending today; a today 
 
 ### Requirement: Today card on the home screen
 
-The chat home screen SHALL show a "Today" card displaying the current streak, the number of due review words, and the counts of practiced lessons and completed reviews. Tapping it SHALL navigate to Word Review.
+The chat home screen SHALL show a "Today" card displaying the current streak, the number of due review words, and the counts of server-confirmed completed lessons and completed reviews. Tapping it SHALL navigate to Word Review.
 
 #### Scenario: Card shows streak and due words
 - **WHEN** the learner opens the app with a 3-day streak and 5 due words
@@ -50,4 +50,3 @@ The chat home screen SHALL show a "Today" card displaying the current streak, th
 #### Scenario: Tap-through to review
 - **WHEN** the learner taps the Today card
 - **THEN** Word Review opens
-

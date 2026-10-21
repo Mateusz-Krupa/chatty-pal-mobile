@@ -30,6 +30,7 @@ struct ChatView: View {
     @AppStorage("authRole") private var authRole: String = ""
     @AppStorage("appEnvironment") private var appEnvironment: String = AppEnvironmentMode.production.rawValue
     @AppStorage("localWebBaseURL") private var localWebBaseURL: String = AppEnvironment.defaultLocalWebBaseURL
+    @AppStorage("localCMSAPIBaseURL") private var localCMSAPIBaseURL: String = AppEnvironment.defaultLocalCMSAPIBaseURL
 
     init() {
         let code = UserDefaults.standard.string(forKey: "langCode") ?? "de"
@@ -132,6 +133,7 @@ struct ChatView: View {
                         onNavigate: { engine.interrupt() },
                         onLogin: { isLoginPresented = true },
                         onLogout: {
+                            LearningProgressStore.shared.configure(jwt: "")
                             session.signOut()
                             authUsername = ""
                             authEmail = ""
@@ -197,6 +199,10 @@ struct ChatView: View {
             SettingsSheet()
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
+        }
+        .task(id: "\(session.jwt)|\(appEnvironment)|\(localCMSAPIBaseURL)|\(AuthService.backendURL.absoluteString)") {
+            LearningProgressStore.shared.configure(jwt: session.jwt)
+            await LearningProgressStore.shared.refresh()
         }
         .onAppear {
             applyCurrentPersona()
@@ -337,7 +343,7 @@ struct ChatView: View {
                     Spacer()
                 }
                 HStack(spacing: 14) {
-                    Label("\(stats.completedLessonCount) lessons", systemImage: "book.fill")
+                    Label("\(LearningProgressStore.shared.completedLessonCount) lessons", systemImage: "book.fill")
                     Label("\(stats.totalReviews) reviews", systemImage: "checkmark.circle.fill")
                     Label("\(recap.messages) msgs · \(recap.reviews) rev · \(recap.xp) XP", systemImage: "calendar")
                 }

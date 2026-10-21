@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        AA00000000000000000000A4 /* LearningProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A3 /* LearningProgressTests.swift */; };
+        AA00000000000000000000A0 /* LearningProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009F /* LearningProgress.swift */; };
+        AA00000000000000000000A2 /* LearningProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* LearningProgressStore.swift */; };
 		9E3837DF2A0A447E003569D9 /* chatty_palApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837DE2A0A447E003569D9 /* chatty_palApp.swift */; };
 		9E3837E12A0A447E003569D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3837E02A0A447E003569D9 /* ContentView.swift */; };
 		9E3837E32A0A447F003569D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E3837E22A0A447F003569D9 /* Assets.xcassets */; };
@@ -110,6 +113,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+        AA00000000000000000000A3 /* LearningProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningProgressTests.swift; sourceTree = "<group>"; };
+        AA000000000000000000009F /* LearningProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningProgress.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A1 /* LearningProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningProgressStore.swift; sourceTree = "<group>"; };
 		9E3837DB2A0A447E003569D9 /* chatty-pal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "chatty-pal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E3837DE2A0A447E003569D9 /* chatty_palApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatty_palApp.swift; sourceTree = "<group>"; };
 		9E3837E02A0A447E003569D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -283,6 +289,8 @@
 				AA0000000000000000000039 /* WordReviewView.swift */,
 				AA0000000000000000000043 /* ShadowingScorer.swift */,
 				AA0000000000000000000047 /* LearningStats.swift */,
+                AA000000000000000000009F /* LearningProgress.swift */,
+                AA00000000000000000000A1 /* LearningProgressStore.swift */,
 				AA000000000000000000008D /* german-lessons.json */,
 				AA0000000000000000000051 /* WAVFile.swift */,
 				AA0000000000000000000055 /* WhisperTranscriber.swift */,
@@ -330,6 +338,7 @@
 				AA000000000000000000008F /* GermanLessonContentTests.swift */,
 				AA0000000000000000000045 /* ShadowingScorerTests.swift */,
 				AA0000000000000000000049 /* LearningStatsTests.swift */,
+                AA00000000000000000000A3 /* LearningProgressTests.swift */,
 				AA0000000000000000000053 /* WAVFileTests.swift */,
 				AA0000000000000000000057 /* WhisperTranscriberTests.swift */,
 				AA0000000000000000000065 /* BotStreamTests.swift */,
@@ -518,6 +527,8 @@
 				AA0000000000000000000040 /* WordReviewView.swift in Sources */,
 				AA0000000000000000000044 /* ShadowingScorer.swift in Sources */,
 				AA0000000000000000000048 /* LearningStats.swift in Sources */,
+                AA00000000000000000000A0 /* LearningProgress.swift in Sources */,
+                AA00000000000000000000A2 /* LearningProgressStore.swift in Sources */,
 				AA0000000000000000000052 /* WAVFile.swift in Sources */,
 				AA0000000000000000000056 /* WhisperTranscriber.swift in Sources */,
 				AA0000000000000000000060 /* ListeningIndicator.swift in Sources */,
@@ -561,6 +572,7 @@
 				AA0000000000000000000090 /* GermanLessonContentTests.swift in Sources */,
 				AA0000000000000000000046 /* ShadowingScorerTests.swift in Sources */,
 				AA0000000000000000000050 /* LearningStatsTests.swift in Sources */,
+                AA00000000000000000000A4 /* LearningProgressTests.swift in Sources */,
 				AA0000000000000000000054 /* WAVFileTests.swift in Sources */,
 				AA0000000000000000000058 /* WhisperTranscriberTests.swift in Sources */,
 				AA0000000000000000000066 /* BotStreamTests.swift in Sources */,

@@ -4,11 +4,12 @@ import Foundation
 // JSON keys are content-oriented (text/translation); CodingKeys map them to these fields.
 
 struct LearningPhrase: Hashable, Identifiable, Codable {
-    let id = UUID()
+    let id: String
     let mainContent: String
     let supportContent: String?
 
     enum CodingKeys: String, CodingKey {
+        case id
         case mainContent = "text"
         case supportContent = "translation"
     }
@@ -68,6 +69,7 @@ struct GermanLessonFile: Codable {
 }
 
 enum MobileLearningCatalog {
+    static let progressRevision = "de-2026-10-v1"
     static let germanLessons: [LearningLesson] = loadGermanLessons()
 
     static let germanSchemaVersion = 1

@@ -81,3 +81,108 @@ final class chatty_palUITests: XCTestCase {
         #endif
     }
 }
+
+/// Opt-in real iOS → isolated local Strapi journey. Start the CMS fixture with --serve.
+/// Run with TEST_RUNNER_LEARNING_PROGRESS_E2E=1 and select this class only.
+final class LearningProgressLocalUITests: XCTestCase {
+    @MainActor
+    func testSavedPhraseManualCompletionReopenAndResetConfirmation() async throws {
+        guard ProcessInfo.processInfo.environment["LEARNING_PROGRESS_E2E"] == "1" else {
+            throw XCTSkip("Requires the isolated local CMS UI-test fixture on port 13491")
+        }
+        continueAfterFailure = false
+        let port = ProcessInfo.processInfo.environment["LEARNING_PROGRESS_TEST_PORT"] ?? "13491"
+        let base = "http://127.0.0.1:\(port)/api"
+        func api(_ path: String, method: String = "GET", body: [String: Any]? = nil, jwt: String? = nil) async throws -> [String: Any] {
+            var request = URLRequest(url: URL(string: base + path)!)
+            request.httpMethod = method
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            if let jwt { request.setValue("Bearer \(jwt)", forHTTPHeaderField: "Authorization") }
+            if let body { request.httpBody = try JSONSerialization.data(withJSONObject: body) }
+            let (data, response) = try await URLSession.shared.data(for: request)
+            XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+            return try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        }
+        let auth = try await api("/auth/local", method: "POST", body: [
+            "identifier": "learning-test@example.invalid", "password": "public-test-only-password"
+        ])
+        let jwt = try XCTUnwrap(auth["jwt"] as? String)
+        let revision = "de-2026-10-v1", lesson = "de-s-01", phrase = "p-237b227c309d20a3"
+        let list = try await api("/learning-progress?catalogRevision=\(revision)", jwt: jwt)
+        let existing = (list["progress"] as? [[String: Any]])?.first { $0["lessonId"] as? String == lesson }
+        let reset = try await api("/learning-progress/\(lesson)/reset", method: "POST", body: [
+            "catalogRevision": revision, "generation": existing?["generation"] as? Int ?? 0
+        ], jwt: jwt)
+        let generation = try XCTUnwrap(reset["generation"] as? Int)
+        _ = try await api("/learning-progress/\(lesson)/attempts", method: "POST", body: [
+            "catalogRevision": revision, "generation": generation, "phraseId": phrase,
+            "clientAttemptId": UUID().uuidString, "transcript": "Persisted UI test speech", "score": 95,
+            "scoringVersion": "word-match-v1"
+        ], jwt: jwt)
+
+        let app = XCUIApplication()
+        app.launchEnvironment["CMS_API_BASE_URL"] = base
+        app.launchEnvironment["BOT_BASE_URL"] = "http://127.0.0.1:\(port)"
+        app.launch()
+        defer { app.terminate() }
+        func menu() {
+            XCTAssertTrue(app.buttons["menuButton"].waitForExistence(timeout: 15))
+            app.buttons["menuButton"].tap()
+        }
+        menu()
+        if app.buttons["Logout"].exists {
+            app.buttons["Logout"].tap()
+            menu()
+        }
+        func signIn() throws {
+            app.buttons["Login"].tap()
+            let identifier = app.textFields["Username or email"]
+            XCTAssertTrue(identifier.waitForExistence(timeout: 5))
+            identifier.tap(); identifier.typeText("learning-test@example.invalid")
+            let password = app.secureTextFields["Password"]
+            password.tap(); password.typeText("public-test-only-password")
+            try XCTUnwrap(app.buttons.matching(identifier: "Login").allElementsBoundByIndex.last).tap()
+            XCTAssertTrue(identifier.waitForNonExistence(timeout: 15))
+        }
+        try signIn()
+
+        func openLesson() throws {
+            menu()
+            // Unsigned simulator builds need not retain Keychain entries across launch.
+            if app.buttons["Login"].exists { try signIn(); menu() }
+            app.buttons["Learning Materials"].tap()
+            let german = app.buttons["View German Lessons"]
+            for _ in 0..<5 where !german.isHittable { app.swipeUp() }
+            german.tap()
+            let card = app.buttons["learning.lesson.\(lesson)"]
+            XCTAssertTrue(card.waitForExistence(timeout: 5))
+            card.tap()
+        }
+        try openLesson()
+        let mark = app.buttons["learning.complete"]
+        XCTAssertTrue(mark.waitForExistence(timeout: 10))
+        for _ in 0..<3 where !mark.isHittable { app.swipeUp() }
+        XCTAssertTrue(app.staticTexts["1/7 shadowing phrases passed"].exists)
+        mark.tap()
+        let resetButton = app.buttons["learning.reset"]
+        XCTAssertTrue(resetButton.waitForExistence(timeout: 10))
+        app.terminate(); app.launch()
+        try openLesson()
+        XCTAssertTrue(resetButton.waitForExistence(timeout: 10), "Completion must survive app restart: \(app.debugDescription)")
+        for _ in 0..<3 where !resetButton.isHittable { app.swipeUp() }
+        resetButton.tap()
+        app.buttons["Cancel"].tap()
+        XCTAssertTrue(resetButton.exists, "Cancel must preserve completion")
+        resetButton.tap()
+        let confirm = app.buttons["learning.confirmReset"]
+        XCTAssertTrue(confirm.waitForExistence(timeout: 5), app.debugDescription)
+        confirm.tap()
+        XCTAssertTrue(mark.waitForExistence(timeout: 10), "Reset must clear completion: \(app.debugDescription)")
+        let finalList = try await api("/learning-progress?catalogRevision=\(revision)", jwt: jwt)
+        let final = try XCTUnwrap((finalList["progress"] as? [[String: Any]])?.first { $0["lessonId"] as? String == lesson })
+        XCTAssertTrue(final["completedAt"] is NSNull)
+        XCTAssertEqual((final["phrases"] as? [Any])?.count, 0)
+        let history = try await api("/learning-progress/\(lesson)/attempts?catalogRevision=\(revision)", jwt: jwt)
+        XCTAssertFalse((history["attempts"] as? [Any] ?? []).isEmpty, "Reset must retain attempt history")
+    }
+}

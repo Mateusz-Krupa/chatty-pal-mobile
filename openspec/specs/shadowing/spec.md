@@ -40,3 +40,24 @@ The shadowing scorer SHALL be a pure function that aligns reference words with s
 - **WHEN** the spoken transcript contains extra words not in the reference
 - **THEN** all reference words that are present are still reported matched
 
+### Requirement: Account-backed shadowing progress
+The app SHALL save signed-in learners' transcripts and word-match scores through the authenticated CMS API and restore server-confirmed phrase completion at 80 percent or higher. It MUST distinguish word matching from phonetic pronunciation assessment and immediate feedback from confirmed saved completion.
+
+#### Scenario: Reopen a passed phrase
+- **WHEN** a learner reopens a phrase with a saved score of at least 80 percent in the current reset generation
+- **THEN** the app SHALL show a green passed check, the best saved score and latest saved transcript
+
+#### Scenario: Failed save
+- **WHEN** the API cannot acknowledge an attempt
+- **THEN** the app SHALL retain the account-scoped pending attempt and show an explicit retry state without inventing a saved completion
+
+### Requirement: Manual lesson completion and reset
+The app SHALL provide Mark as done for an incomplete lesson and confirmed Reset progress for a completed lesson. Manual completion MUST NOT create phrase scores. Reset SHALL clear only current lesson completion and phrase passes while preserving server history, other lessons, XP and language level.
+
+#### Scenario: Manual completion
+- **WHEN** Mark as done is acknowledged by the server
+- **THEN** the lesson SHALL show green completion with a manual completion label
+
+#### Scenario: Reset confirmation
+- **WHEN** a learner confirms Reset progress and the server acknowledges the operation
+- **THEN** the lesson SHALL show incomplete current progress without restoring passes from old attempts
