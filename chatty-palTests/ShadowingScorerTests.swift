@@ -50,4 +50,35 @@ final class ShadowingScorerTests: XCTestCase {
     func testCleanWordsLowercasesAndStripsPunctuation() {
         XCTAssertEqual(ShadowingScorer.cleanWords("  Hallo,  wie   geht's? "), ["hallo", "wie", "geht's"])
     }
+
+    func testLetterCaseDoesNotAffectScoreOrWordMatches() {
+        let reference = "Ich möchte ein Wasser"
+        for spoken in ["ich möchte ein wasser", "ICH MÖCHTE EIN WASSER", "iCh MöChTe EiN wAsSeR"] {
+            for (expected, recognized) in [(reference, spoken), (spoken, reference)] {
+                XCTAssertEqual(ShadowingScorer.cleanWords(expected), ShadowingScorer.cleanWords(recognized))
+                let result = ShadowingScorer.score(reference: expected, spoken: recognized)
+                XCTAssertEqual(result.percent, 100)
+                XCTAssertTrue(result.words.allSatisfy(\.matched))
+            }
+        }
+    }
+
+    func testGermanSharpSCaseExpansionsMatchInBothDirections() {
+        for (reference, spoken) in [("Wie heißt die Straße", "WIE HEISST DIE STRASSE"),
+                                    ("WIE HEISST DIE STRASSE", "Wie heißt die Straße"),
+                                    ("ß", "SS"), ("ẞ", "ß")] {
+            XCTAssertEqual(ShadowingScorer.cleanWords(reference), ShadowingScorer.cleanWords(spoken))
+            let result = ShadowingScorer.score(reference: reference, spoken: spoken)
+            XCTAssertEqual(result.percent, 100)
+            XCTAssertTrue(result.words.allSatisfy(\.matched))
+        }
+    }
+
+    func testCaseFoldingPreservesUmlautsAndMeaningfulDifferences() {
+        XCTAssertEqual(ShadowingScorer.cleanWords("Ä Ö Ü"), ["ä", "ö", "ü"])
+        XCTAssertNotEqual(ShadowingScorer.cleanWords("schön"), ShadowingScorer.cleanWords("schon"))
+        let result = ShadowingScorer.score(reference: "BROT", spoken: "auto")
+        XCTAssertEqual(result.percent, 0)
+        XCTAssertFalse(result.words[0].matched)
+    }
 }

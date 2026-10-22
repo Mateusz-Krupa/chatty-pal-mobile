@@ -44,7 +44,9 @@ enum ShadowingScorer {
     }
 
     static func cleanWords(_ text: String) -> [String] {
-        let lowered = text.lowercased()
-        return lowered.split(whereSeparator: { !$0.isLetter && !$0.isNumber && $0 != "'" }).map(String.init)
+        // Speech has no letter case. Folding also equates German ß with SS,
+        // unlike lowercasing alone; umlauts remain meaningful.
+        let folded = text.folding(options: .caseInsensitive, locale: Locale(identifier: "de_DE"))
+        return folded.split(whereSeparator: { !$0.isLetter && !$0.isNumber && $0 != "'" }).map(String.init)
     }
 }
